@@ -14,7 +14,7 @@ summary: 打开每个货架电源以分配唯一的货架 ID，打开 AFX 控制
 安装机架硬件并连接数据计算节点后，应打开 DCN 和 AFX 存储系统的控制器节点（如果尚未打开）。
 
 .开始之前
-* 请确保您的盘架已通电，并且每个盘架都分配了唯一的盘架 ID。有关为 AFX 存储系统分配盘架 ID 的信息，请参见link:https://docs.netapp.com/us-en/ontap-afx/install-setup/power-on-hardware.html#step-1-power-on-the-shelf-and-assign-shelf-id["分配唯一货架 ID"^]。
+* 请确保您的盘架已通电，并且每个盘架都分配了唯一的盘架 ID。有关为 AFX 存储系统分配盘架 ID 的信息，请参见link:https://docs.netapp.com/us-en/ontap-afx/install-setup/power-on-hardware.html#step-1-power-on-the-shelf-and-assign-shelf-id["关于分配唯一货架 ID 的文档"^]。
 
 
 .步骤
@@ -57,4 +57,4 @@ image::../media/drw_affa1k_power_source_icon_ieops-1700.svg[电源连接图]
 
 
 .下一步是什么？
-开启数据计算节点后，您link:../install-setup/cluster-setup-afx.html["设置 ONTAP AIDE 集群"]。
+打开数据计算节点后，link:../install-setup/cluster-setup-afx.html["设置 ONTAP AIDE 集群"]。

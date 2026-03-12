@@ -765,11 +765,8 @@
   <block id="e5e09031843479ef9ef8cbbd4c2f404c" category="inline-link-macro">NetApp Hardware Universe</block>
   <block id="a28718801e1a1879bc4c740387a935cd" category="paragraph">这些程序显示了常见的配置。具体的布线取决于为您的存储系统订购的组件。有关全面的配置详细信息和插槽优先级，请参阅 <block ref="43b42c26c42f7c6fe4ef77f9f2ed17ff" category="inline-link-macro-rx"></block>。</block>
   <block id="b8813a31dec0580ca60c9211b8c31504" category="admonition">连接 Data Compute Node 时，无需关闭 AFX 1K 存储系统的电源。您可以将 Data Compute Node 添加到已打开电源并已配置的现有 AFX 1K 存储系统。</block>
-  <block id="8820ea58f8a7b9ba1f899988cc0bcc7e" category="inline-link-macro">安装您的 AFX 1K 存储系统</block>
-  <block id="e8286441186e192dd0417e0b90342681" category="list-text">您已安装现有的 AFX 1K 存储系统。有关安装 AFX 1K 存储系统的信息，请参阅<block ref="6c057105940736b02f364af6d84ea81d" category="inline-link-macro-rx"></block>。</block>
   <block id="794101c4551a5d464aba13561dbdfcb7" category="list-text">您已安装并配置了所需的网络交换机。有关将系统连接到网络交换机的信息，请联系网络管理员。</block>
   <block id="5438ae8fe0bf5d2f78280efdc18e8280" category="inline-link-macro">Data Compute Node 的布线要求</block>
-  <block id="bc6b8966de646d62999299467e207730" category="list-text">您已审阅 <block ref="df9ffd635bc8be93ab4198a9764d5fe7" category="inline-link-macro-rx"></block>。</block>
   <block id="3e600c5ae163106b94f797b8d37531bb" category="section-title">步骤 1：将 Data Compute Node 连接到主机网络</block>
   <block id="ba9743fa4e674359437383966cb93d3a" category="paragraph">您可以将 Data Compute Node 端口连接到主机网络。</block>
   <block id="118345fbcadb00655f06e4cd198e4f44" category="list-text">将以下 Data Compute Node 的端口 e4b 连接到以太网数据网络交换机 A：</block>
@@ -790,7 +787,6 @@
   <block id="4c3c38604eae6a6237406e7c21b17ea6" category="list-text">Data Compute Node 1，端口 e5a</block>
   <block id="75b404150b8831865d53a73c8d5e49df" category="list-text">Data Compute Node 2，端口 e5a</block>
   <block id="d8bdb0239e31e7049e331ec53560d174" category="inline-link-macro">开启您的 Data Compute Node</block>
-  <block id="b659b3546fb581caaec13f6634743878" category="paragraph">在您连接硬件电缆后，您<block ref="4a47b4628664a0cf522188fbb092ba40" category="inline-link-macro-rx"></block>。</block>
   <block id="1bea7bb4c3b67fb7e56873373a173ad4" category="summary">了解 Data Compute Node 的布线配置，包括 I/O 插槽使用情况、电缆类型以及主机和群集网络的连接要求。</block>
   <block id="32045bb6e9ec0592350b601a788ccdce" category="doc">AI Data Engine 数据计算节点布线要求</block>
   <block id="b0b66b711f4a262ccff9a731cc05cce3" category="paragraph">Data Compute Node 通过主机网络和集群网络连接与 AFX 1K 存储系统集成。查看部署的 I/O 插槽配置、电缆类型和连接要求。</block>
@@ -856,7 +852,6 @@
   <block id="1cd087a975856327df11de8c24727816" category="section-title">使用现有 AFX 集群设置 AIDE</block>
   <block id="79e5e9e993a32c1d24149a1ab99a00f6" category="paragraph">如果要向现有 AFX 存储系统添加数据计算节点群集，则需要配置 DCN 并完成 AIDE 群集的设置。</block>
   <block id="65f46507bff9980b186da251beea243f" category="section-title">向集群添加数据计算节点</block>
-  <block id="f9f4e6dfa867d6fadbee2179021982ce" category="paragraph">ONTAP 动态检测连接到群集网络的新数据计算节点，并将其显示在 System Manager 中。您可以<block ref="f31476c597e559edff10c8396ad56efe" category="inline-link-macro-rx"></block>。另请注意以下事项：</block>
   <block id="f2de9ca173c14a6166010437ea58db0b" category="list-text">数据计算节点必须物理连接到集群交换机。创建 AIDE 集群时，需要恰好三个 DCN。</block>
   <block id="e578c3ea135e2df360bd2b3c7d452efc" category="list-text">您必须具有足够的 IP 地址以用于 DCN 网络和其他必需的网络配置信息。</block>
   <block id="74d96a5c17230f851c945568863caad2" category="section-title">完成 AIDE 集群设置</block>
@@ -871,7 +866,6 @@
   <block id="0d1736e8e31a21d25526ed60ca4ed657" category="list-text">选择 *Configure network protocols*。</block>
   <block id="a6112a3104820ecf5363ca17a438fa2a" category="paragraph">您可以配置 Storage VM (SVM) 网络协议。</block>
   <block id="468cfff85725ad5f71c038767aa7d0e5" category="list-text">选择 *Update data compute software*。</block>
-  <block id="3a40cab041f6585c05ceabf8e362f05b" category="paragraph">如果数据计算软件映像可用于更新，则将启用此选项。选择它以启动数据计算软件更新页面。另请参阅<block ref="e966f8a237d0e9b99b99d834f5fe2ecd" category="inline-link-macro-rx"></block>。</block>
   <block id="a79f870ef92f37fc8b1c25bcf9b1ffa1" category="list-text">选择 *Configure data engine networking*。</block>
   <block id="67f2739e9e2d8cc78123cf3eeba619c7" category="paragraph">此选项显示配置 data engine 网络地址的页面。</block>
   <block id="0f18306a1d3f702e7592699af4f850f9" category="list-text">选择 *Create intercluster network interfaces*</block>
@@ -963,7 +957,6 @@
   <block id="a6d899f314cdd20df8f4d59aca478ae8" category="list-text">使用随附的安装螺钉将数据计算节点固定到机柜上。</block>
   <block id="353ccbfd0ab9b9e503d824a6bc057226" category="list-text">将挡板连接到数据计算节点的前面。</block>
   <block id="e30a01f520c71c74d7ceed0e849ca30b" category="inline-link-macro">为 AIDE 连接数据计算节点</block>
-  <block id="548ea28a443d143489f072c073df763d" category="paragraph">在安装数据计算节点后，您<block ref="3980b3517830ec2d777c7d0167886e44" category="inline-link-macro-rx"></block>。</block>
   <block id="082b4c909289f25bf292fbd1efc1725f" category="summary">您需要安装 NetApp 许可证才能访问 AI Data Engine (AIDE) 的全部功能。作为 ONTAP 群集管理员，您可以使用 ONTAP System Manager 执行许可证管理。</block>
   <block id="eda5245c7aa76877b2f41c80a9fe821c" category="doc">在您的 AFX 系统中安装 AIDE 许可证</block>
   <block id="bf59b5fa52e090d739b08baa38ea1640" category="section-title">准备许可 AI Data Engine</block>
@@ -998,8 +991,6 @@
   <block id="ee68e5b99222bbc29a480fcb0d1d6ee2" category="section-title">前提条件</block>
   <block id="366c56f2f6e54f4e282605b02803862d" category="paragraph">在安装 AIDE 数据计算节点之前，请确保您已：</block>
   <block id="f23b06a746ce876e177c6a6196286145" category="list-text">AFX 1K 存储系统。</block>
-  <block id="f15992b3ead5729a349b745d488997b1" category="inline-link-macro">安装您的 AFX 1K 存储系统</block>
-  <block id="ea0432abd4c39d4963886d922f4a17e8" category="admonition">有关安装 AFX 1K 存储系统的信息，请参见 <block ref="78aacef5a151b9b9cf2f4610d698d814" category="inline-link-macro-rx"></block>。</block>
   <block id="38342a608d29c610e381db6c1bfd532c" category="section-title">安装所需的设备</block>
   <block id="932c06f46d2aa01c36a955878a7a1d9e" category="paragraph">要安装 AIDE 的数据计算节点，需要以下设备和工具。</block>
   <block id="bb9d246c8ef7a2dd035f69ed095493f0" category="list-text">访问 Web 浏览器以配置数据计算节点</block>
@@ -1011,18 +1002,15 @@
   <block id="e58106606682bb10c46356b63c87aaf1" category="paragraph">数据计算节点很重。抬起和移动这些物品时要小心。</block>
   <block id="6c11ed3a4af8dc2f7b618d16248e7e04" category="section-title">数据计算节点权重</block>
   <block id="b5e179420712f0dce203796a6bae84ee" category="paragraph">移动或提升数据计算节点时，请采取必要的预防措施。</block>
-  <block id="903b6fc3c7c5a407b4c2c17bae1563d1" category="paragraph">数据计算节点的重量可达 46.3 磅（21Kg）。要提升数据计算节点，请使用两人或液压提升机。</block>
   <block id="db874eaa8bd23db025bd708dfdf02fbe" category="image-alt">DCN 提升重量</block>
   <block id="35c124f455f44a154eb3b514029ee58a" category="inline-link">安全信息和监管通知</block>
   <block id="fa81f583d8b6c7dcaf8e26a5fcf5de52" category="list-text"><block ref="fa81f583d8b6c7dcaf8e26a5fcf5de52" category="inline-link-rx"></block></block>
   <block id="d4719451e76be2b63cbc4379574f8af8" category="inline-link-macro">准备安装您的数据计算节点</block>
-  <block id="143d168057f2028bf6d721060afdf078" category="paragraph">在查看硬件要求后，您<block ref="36962d0c8289a56184a6c55f834a067a" category="inline-link-macro-rx"></block>。</block>
   <block id="c5c899a1a675cf6171f1b0bd26cf38ad" category="summary">开始安装和设置数据计算节点，并将其部署在 ONTAP 环境中。</block>
   <block id="b44e203a59265141b15d79992f218135" category="doc">AI Data Engine 数据计算节点的安装和设置工作流程</block>
   <block id="a3a99d6030b7bfab3e66259156e15dbd" category="paragraph">要安装和配置数据计算节点 (DCN)，您需要查看硬件要求，准备站点，安装硬件组件并连接电缆，打开系统电源，并设置 ONTAP 群集。</block>
   <block id="7ccd978bf0dbca0a0746f98d09b99f7f" category="inline-link-macro">查看硬件安装要求</block>
   <block id="6889512d643df7fa8ccfb7e52dd1181c" category="paragraph-title"><block ref="58f667aaf05f87159670e12bd9bc076b" category="inline-image-macro-rx" type="image"></block><block ref="90572de4b12061d10d3adbe91dd02ace" category="inline-link-macro-rx"></block></block>
-  <block id="0d42e01cf22c0d48df016d6dd401d5fb" category="paragraph">请确保已安装现有的 AFX 1K 存储系统，然后查看用于安装 AIDE 数据计算节点的硬件要求。有关安装 AFX 1K 存储系统的信息，请参阅 <block ref="78aacef5a151b9b9cf2f4610d698d814" category="inline-link-macro-rx"></block>。</block>
   <block id="2ef02acbcac74a2bf527975726a47ddc" category="inline-link-macro">准备安装数据计算节点</block>
   <block id="65b761c9b7abbbeca0b5bf69bc82d7a8" category="paragraph-title"><block ref="54f425ce8d89f4ed6b8a546561af5d60" category="inline-image-macro-rx" type="image"></block><block ref="57d90d9a41d093761f4dd9f6db8351e9" category="inline-link-macro-rx"></block></block>
   <block id="293f8966fffd4aff38846275cf9996a2" category="paragraph">要准备安装数据计算节点，需要准备好站点，检查环境和电气要求，并确保有足够的机柜空间。然后，打开设备的包装，将其内容与装箱单进行比较，并注册硬件以获得支持优势。</block>
@@ -1038,8 +1026,6 @@
   <block id="ed7af015953fb0bba840b619136b01eb" category="paragraph">安装机架硬件并连接数据计算节点后，应打开 DCN 和 AFX 存储系统的控制器节点（如果尚未打开）。</block>
   <block id="337e9239544f1891a09a6b9c13192533" category="summary">打开每个货架电源以分配唯一的货架 ID，打开 AFX 控制器节点电源，并固定电源线。</block>
   <block id="8496df6ee8387022613ddc89ce82f9e4" category="doc">为 AI Data Engine 启动数据计算节点</block>
-  <block id="1057231c34be7c7dcf91de71d37a517f" category="inline-link-macro">分配唯一货架 ID</block>
-  <block id="011c6c560c3e271e6d524a1540ce1096" category="list-text">请确保您的盘架已通电，并且每个盘架都分配了唯一的盘架 ID。有关为 AFX 存储系统分配盘架 ID 的信息，请参见<block ref="85c8f165944a927c5df36b5b24e42dc9" category="inline-link-macro-rx"></block>。</block>
   <block id="7be065122c5fefd188dd2adaea8fe718" category="paragraph">打开存储盘架并分配唯一 ID 后，打开 DCN 并打开存储控制器节点（如果尚未打开）。</block>
   <block id="33c36f62f977a295a9a93ec48a27223b" category="list-text">将笔记本电脑连接到串行控制台端口。这允许您在控制器通电时监控引导顺序。</block>
   <block id="943e3a7c8a0476b63130b5a3dfab2ef1" category="list-text">使用 N-8-1 将笔记本电脑上的串行控制台端口设置为 115,200 波特。</block>
@@ -1058,7 +1044,6 @@
   <block id="5555f21dba0c7288c23300a7fe87cd81" category="list-text">打开数据计算节点的电源。</block>
   <block id="be2a65d4275d3397392df6ca10446941" category="paragraph">您可能需要卸下挡板才能访问电源开关；如果是这样，请记得之后重新安装。</block>
   <block id="33ce156e9858d918c1b56d969811ebbc" category="inline-link-macro">设置 ONTAP AIDE 集群</block>
-  <block id="a8d567dd1cd4e4238f332d8762966093" category="paragraph">开启数据计算节点后，您<block ref="c209b4c41b8b8a46751e6876a5bec129" category="inline-link-macro-rx"></block>。</block>
   <block id="27c51e0dda139dd95822cad0516f7b35" category="summary">准备在您的 ONTAP 环境中安装 AI Data Engine 的数据计算节点并注册硬件以获得支持权益。</block>
   <block id="8d89efe9b46db5b5f9ec296c31e95ee1" category="doc">准备为 AI Data Engine 安装数据计算节点</block>
   <block id="091ec47f94f2994330da94cd9f2af30c" category="paragraph">通过准备好现场，打开箱子并将箱子的内容与装箱单进行比较，以及注册系统以获取支持权益，来准备安装 AI Data Engine 的数据计算节点。</block>
@@ -1105,7 +1090,6 @@
   <block id="89cc8de091278e0fb0686833ac6a7982" category="list-text">选择 *Systems* &gt; *Register Systems*。</block>
   <block id="616ce92e68107b272305803b0da3016e" category="list-text">输入存储系统的序列号和所需的详细信息。</block>
   <block id="2fbc2bdcd9b44345629827ee822cf2cf" category="paragraph">一旦 NetApp 批准您的注册后，您可以下载所需的软件。审批最多需要 24 小时。</block>
-  <block id="3c0af5d496c5c0d39fa007c51ceb1a85" category="paragraph">准备好安装数据计算节点后，即可开始使用 <block ref="8d80699d6ea91999991c5841195fdaf6" category="inline-link-macro-rx"></block>。</block>
   <block id="30d965eef5ba25c6b9998ae38270b43e" category="doc">法律声明</block>
   <block id="e9c44bbfd795a5d63d74c6a77afee70d" category="paragraph">法律声明提供对版权声明、商标、专利等信息的访问。</block>
   <block id="6016a2b341113bf496b719905398ecd2" category="section-title">版权</block>
@@ -1515,4 +1499,22 @@
   <block id="7ca842c6b654b62693e52f6658a337fa" category="sidebar">创建数据集合</block>
   <block id="e9a2a57c6909b784778f0034615bafa3" category="sidebar">设置工作区</block>
   <block id="e80a572e7316601bd6ae8dcc978dc856" category="sidebar">将用户分配到工作区</block>
+  <block id="7e785fd044c0f1b18cf25b7e49747bad" category="inline-link-macro">扩展计算集群</block>
+  <block id="5f4a186931a63bd4a5b14c29fd3dcac6" category="list-text"><block ref="5f4a186931a63bd4a5b14c29fd3dcac6" category="inline-link-macro-rx"></block></block>
+  <block id="4273a5563c77b16dd7aceb65bc5f6f2f" category="inline-link-macro">AFX 1K 存储系统安装文档</block>
+  <block id="4ceb33132ef84a10d64402a2b335ead9" category="list-text">您已安装现有的 AFX 1K 存储系统。有关安装 AFX 1K 存储系统的信息，请参阅<block ref="91d16f8c743942a64a4fe44197be45ff" category="inline-link-macro-rx"></block>。</block>
+  <block id="43f6c91d4f0fece739597247d400b63d" category="list-text">您已审阅 <block ref="877083cb49d1afa632b7262f7cb5fd0f" category="inline-link-macro-rx"></block>。</block>
+  <block id="9aa72e2af70f149b5322b3f74fef31d3" category="paragraph">在您连接硬件电缆后，<block ref="4a47b4628664a0cf522188fbb092ba40" category="inline-link-macro-rx"></block>。</block>
+  <block id="29fc22820f59383beae9b78e0f00c89d" category="inline-link-macro">将数据计算节点添加到您的 AIDE 集群</block>
+  <block id="6680ddbdb7b3311772658d225390c9f5" category="paragraph">ONTAP 动态检测连接到群集网络的新数据计算节点，并将其显示在 System Manager 中。您可以<block ref="92fd190eb6b33aabd845185d06fdf268" category="inline-link-macro-rx"></block>。另请注意以下事项：</block>
+  <block id="5a3b3f244ac6d468c9f9e9f1e563d414" category="paragraph">如果数据计算软件映像可用于更新，则将启用此选项。选择它以启动数据计算软件更新页面。有关更多信息，请参阅<block ref="e966f8a237d0e9b99b99d834f5fe2ecd" category="inline-link-macro-rx"></block>。</block>
+  <block id="1e52a91c8fc5152ade09d7e1b035671b" category="paragraph">安装数据计算节点后，<block ref="3980b3517830ec2d777c7d0167886e44" category="inline-link-macro-rx"></block>。</block>
+  <block id="5d0e4d9b7c9c24fb2e2354166df7e64f" category="admonition">有关安装 AFX 1K 存储系统的信息，请参阅<block ref="91d16f8c743942a64a4fe44197be45ff" category="inline-link-macro-rx"></block>。</block>
+  <block id="51196acef57fa4702b2c79616a51c70f" category="paragraph">数据计算节点的重量可达 46.3 磅 (21 kg)。要提升数据计算节点，请使用两人或液压提升机。</block>
+  <block id="fe49f456e4fe036b30f08f1261e31c76" category="paragraph">查看硬件要求后，<block ref="36962d0c8289a56184a6c55f834a067a" category="inline-link-macro-rx"></block>。</block>
+  <block id="ce0bc35e55364b06a87ee46623492fd8" category="paragraph">请确保已安装现有的 AFX 1K 存储系统，然后查看用于安装 AIDE 数据计算节点的硬件要求。有关安装 AFX 1K 存储系统的信息，请参阅<block ref="91d16f8c743942a64a4fe44197be45ff" category="inline-link-macro-rx"></block>。</block>
+  <block id="d1c8ae967ce186598cd98f11b54cf4ea" category="inline-link-macro">关于分配唯一货架 ID 的文档</block>
+  <block id="1d845d7fec926dc97ef9c9d1ae75fb4d" category="list-text">请确保您的盘架已通电，并且每个盘架都分配了唯一的盘架 ID。有关为 AFX 存储系统分配盘架 ID 的信息，请参见<block ref="2cb3ccd2ea21233c926cc907e5546ee0" category="inline-link-macro-rx"></block>。</block>
+  <block id="72b11f47a4c462a17235bf830cef5f4d" category="paragraph">打开数据计算节点后，<block ref="c209b4c41b8b8a46751e6876a5bec129" category="inline-link-macro-rx"></block>。</block>
+  <block id="69333c3b16c70d734803d338560b5f4b" category="paragraph">准备好安装数据计算节点后，<block ref="8d80699d6ea91999991c5841195fdaf6" category="inline-link-macro-rx"></block>。</block>
 </blocks>

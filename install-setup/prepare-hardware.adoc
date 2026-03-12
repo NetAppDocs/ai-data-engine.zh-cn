@@ -119,4 +119,4 @@ image::../media/drw_ssn_label.svg[系统序列号示例]
 
 
 .下一步是什么？
-准备好安装数据计算节点后，即可开始使用 link:deploy-hardware.html["安装 Data Compute Node"]。
+准备好安装数据计算节点后，link:deploy-hardware.html["安装 Data Compute Node"]。
