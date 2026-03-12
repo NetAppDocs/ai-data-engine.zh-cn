@@ -1,0 +1,63 @@
+---
+sidebar: sidebar 
+permalink: install-setup/install-setup-requirements.html 
+keywords: aide, ai, data engine, ai data engine, dcn, data compute node, afx, afx 1k, install, setup, requirements, cautions, 
+summary: 查看 AI Data Engine 数据计算节点所需的设备和提升预防措施。 
+---
+= AI Data Engine 数据计算节点的安装要求
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+查看 AI Data Engine 数据计算节点所需的设备和提升预防措施。
+
+
+
+== 前提条件
+
+在安装 AIDE 数据计算节点之前，请确保您已：
+
+* AFX 1K 存储系统。
++
+
+NOTE: 有关安装 AFX 1K 存储系统的信息，请参见 link:https://docs.netapp.com/us-en/ontap-afx/install-setup/install-setup-workflow.html["安装您的 AFX 1K 存储系统"^]。
+
+
+
+
+
+== 安装所需的设备
+
+要安装 AIDE 的数据计算节点，需要以下设备和工具。
+
+* 访问 Web 浏览器以配置数据计算节点
+* 静电放电 (ESD) 腕带
+* 手电筒
+* 带有 USB/串行连接的笔记本电脑或控制台
+* Phillips #2 螺丝刀
+
+
+
+
+== 起重注意事项
+
+数据计算节点很重。抬起和移动这些物品时要小心。
+
+
+
+=== 数据计算节点权重
+
+移动或提升数据计算节点时，请采取必要的预防措施。
+
+数据计算节点的重量可达 46.3 磅（21Kg）。要提升数据计算节点，请使用两人或液压提升机。
+
+image::../media/drw_compute_node_lifting_weight_ieops-2743.svg[DCN 提升重量]
+
+.相关信息
+* https://library.netapp.com/ecm/ecm_download_file/ECMP12475945["安全信息和监管通知"^]
+
+
+.下一步是什么？
+在查看硬件要求后，您link:prepare-hardware.html["准备安装您的数据计算节点"]。

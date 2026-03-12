@@ -1,0 +1,103 @@
+---
+sidebar: sidebar 
+permalink: administer/upgrades-aide-summary.html 
+keywords: update, firmware, system files, automatic updates, ai data engine, aide 
+summary: 了解需要保持最新的 AI Data Engine 系统的不同组件。 
+---
+= AI Data Engine 系统更新和兼容性
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+保持 AI Data Engine (AIDE) 系统组件的最新状态，以保持最佳性能和访问新功能。部署后、新软件或固件可用时、添加或替换节点时或定期进行功能更新时更新组件。
+
+
+
+== AIDE 系统组件
+
+AIDE 系统中有两个主要组件需要更新：ONTAP 软件和 AIDE 软件，其中包括 DCN 固件。
+
+
+
+=== ONTAP 软件
+
+ONTAP 是在 NetApp 存储系统上运行的操作系统，包括在 AIDE 部署中使用的系统。保持 ONTAP 为最新版本，以维护系统稳定性、安全性以及与 AIDE 组件的兼容性。AIDE 组件单独更新。
+
+
+
+=== AIDE 软件更新
+
+AIDE Console 软件和 DCN 固件更新作为单个软件包 (.tgz) 一起分发，不会嵌入到 ONTAP 映像中。更新可确保 AIDE 系统内硬件组件的正常运行，并提供新功能、性能改进和错误修复。
+
+
+
+== 了解更新流程
+
+AIDE 软件更新可通过 ONTAP System Manager 进行管理。
+
+AIDE 不支持 ONTAP 自动软件更新功能。您可以注册接收来自 link:https://mysupport.netapp.com/site/downloads["NetApp 支持站点下载"^] 的通知，但 AIDE 软件的所有更新都由管理员手动执行。
+
+发布类型和范围：
+
+* ONTAP 主要版本（9.x.x）和 AIDE 主要版本（9.x.x U0）引入了影响 ONTAP 集成的新功能、API 或更改。
+* ONTAP 修补程序版本 (9.x.x Px) 和 AIDE 更新版本 (9.x.x Ux) 包含不影响 ONTAP 集成的修复和更新。
+
+
+
+
+== 兼容性矩阵
+
+在计划更新时确保 ONTAP 和 AIDE 软件之间的兼容性。
+
+AIDE software 作为"U"版本发布。AIDE 主要版本是"U0"版本，后续次要版本将是"U1"及更高版本。
+
+
+
+=== ONTAP 和 AIDE 兼容性
+
+[cols="1,1"]
+|===
+| AIDE 发布 | 支持的 ONTAP 版本 
+
+
+| 9.18.1 U0 | 9.18.1 GA 和所有 9.18.1 Px 
+
+
+| 9.18.1 U1 及更高版本 | 9.18.1 GA 和所有 9.18.1 Px 
+|===
+[NOTE]
+====
+"Px" 表示主要版本中的所有 ONTAP 补丁版本（例如，9.18.1 P1、9.18.2 等）。
+
+====
+
+
+=== AIDE 升级路径
+
+以下示例使用假设的未来版本来显示从 AIDE 9.18.1 U0 和 9.18.1 U1 允许的升级和更新路径。
+
+[cols="25,25,50"]
+|===
+| 如果您当前的 AIDE 版本是… | 您的目标 AIDE 版本是… | 您的升级或更新路径是… 
+
+
+| 9.18.1 U0 | 9.18.1 U1 | 直接 
+
+
+| 9.18.1 U0 | 9.18.1 U3 | 直接（您可以在 9.18.1 中从任何 Ux 更新到任何以后的 Ux） 
+
+
+| 9.18.1 U1 | 9.18.1 U3 | 直接（您可以在 9.18.1 中从任何 Ux 更新到任何以后的 Ux） 
+|===
+
+
+== 还原限制
+
+AIDE 系统不支持 DCN 固件、AIDE 软件更新或 AFX 存储系统上的 ONTAP 的还原操作。安装更新或升级后，无法还原到以前的版本。请在更新或升级之前查看 <<兼容性矩阵,兼容性要求>>。
+
+.相关信息
+* https://docs.netapp.com/us-en/ontap-afx/administer/upgrade-ontap.html["升级 AFX 系统的 ONTAP 软件"^]
+* link:update-aide-firmware-software.html["更新 AIDE 软件"]
+

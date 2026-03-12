@@ -1,0 +1,52 @@
+---
+section: get-started
+title: 开始使用
+entries:
+- title: 了解您的 AI Data Engine 系统
+  entries:
+  - title: 了解 AIDE
+    url: "/get-started/learn-about.html"
+  - title: AIDE 架构
+    url: "/get-started/aide-architecture.html"
+  - title: 按角色划分的 AIDE 组件和职责
+    entries:
+    - title: AIDE 组件和角色
+      url: "/get-started/aide-components.html"
+    - title: AIDE 接口
+      url: "/get-started/aide-interfaces.html"
+    - title: 存储管理员和组件
+      url: "/get-started/aide-components-storage-admin.html"
+    - title: 数据工程师和数据科学家及组件
+      url: "/get-started/aide-components-data-users.html"
+- title: 快速入门
+  url: "/get-started/quick-start.html"
+- title: 安装 AIDE
+  entries:
+  - title: 安装要求
+    url: "/install-setup/aide-hardware-requirements.html"
+  - title: 安装您的 AFX 存储系统
+    url: "/install-setup/aide-afx-install.html"
+  - title: 安装您的数据计算节点
+    entries:
+    - title: 安装工作流
+      url: "/install-setup/install-workflow.html"
+    - title: 查看硬件要求
+      url: "/install-setup/install-setup-requirements.html"
+    - title: 准备安装
+      url: "/install-setup/prepare-hardware.html"
+    - title: 安装数据计算节点
+      url: "/install-setup/deploy-hardware.html"
+    - title: 查看布线要求
+      url: "/install-setup/cable-overview.html"
+    - title: 电缆硬件
+      url: "/install-setup/cable-hardware.html"
+    - title: 开启系统电源
+      url: "/install-setup/power-on-hardware.html"
+- title: 设置您的 AIDE 系统
+  entries:
+  - title: 使用 AFX 集群设置 AIDE
+    url: "/install-setup/cluster-setup-afx.html"
+  - title: 安装 AIDE 许可证
+    url: "/install-setup/install-license-task.html"
+  - title: 配置 OIDC 身份验证
+    url: "/install-setup/configure-oidc.html"

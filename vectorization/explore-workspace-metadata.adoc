@@ -1,0 +1,62 @@
+---
+sidebar: sidebar 
+permalink: vectorization/explore-workspace-metadata.html 
+keywords: aide, explore metadata, workspace, metadata catalog, ai data engine, data engineer, data scientist, search 
+summary: 作为数据工程师或数据科学家，使用 AI Data Engine Console 探索工作空间元数据，发现相关文件和对象，并准备用于数据收集的候选子集。 
+---
+= 在 AI Data Engine Console 中探索工作空间元数据
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+作为数据工程师或数据科学家，您在 AI Data Engine (AIDE) 中的首要任务是了解工作区中可用的数据。您可以使用 AIDE Console 查询元数据目录、搜索相关文件并识别要转换为数据集的数据子集。
+
+.开始之前
+* 您需要在 AI Data Engine Console 中拥有 _data engineer_ 或 _data scientist_ 权限，并可以访问至少一个工作区。
+* 存储管理员有：
++
+** 已在 ONTAP System Manager 中创建一个或多个工作区。
+** 已将您的用户或组访问权限分配给相关工作区。
+
+
+* 工作区的元数据提取已完成，工作区处于 `Ready`状态。
+* 已启用分类器，以便元数据包括分类标签（例如 PII 指标）。
+
+
+
+
+== 以数据工程师或数据科学家身份登录 AIDE Console
+
+.步骤
+. 在浏览器中，导航到 AIDE Console URL：
++
+`\https://<cluster_management_ip>/console`
+
+. 通过您组织的 OIDC 提供程序进行身份验证。
+. 确认您的角色被认可为数据工程师或数据科学家（例如，通过可用的工作区和数据收集操作）。有关详细信息，请参见 link:../get-started/aide-components-data-users.html["AIDE 角色文档"] 了解数据工程师和数据科学家如何使用 AIDE 组件。
+
+
+.结果
+您已登录 AIDE Console，仅查看已授予您访问权限的工作区。
+
+
+
+== 查看可访问的工作区
+
+.步骤
+. 在 AIDE Console 中，导航到 *Data Curator > Workspaces*。
+. 查看您可以访问的工作区列表。
+. 选择工作区以打开其详细信息。
+
+
+.结果
+现在，您可以看到存储管理员为您的项目提供的数据资源的工作区范围视图。
+
+
+
+== 下一步是什么？
+
+* link:create-data-collections.html["从工作区创建 RAG 数据集"]
+

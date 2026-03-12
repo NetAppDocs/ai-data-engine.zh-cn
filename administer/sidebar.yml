@@ -1,0 +1,24 @@
+---
+section: administer
+title: 管理和监控
+entries:
+- title: 监控集群进程
+  entries:
+  - title: 查看仪表板和集群状态
+    url: "/administer/view-dashboard.html"
+  - title: 查看见解
+    url: "/administer/view-insights.html"
+  - title: 查看事件、作业和审核日志
+    url: "/administer/view-events-log.html"
+- title: 管理工作区
+  url: "/administer/manage-workspace.html"
+- title: 升级和维护您的 AIDE 系统
+  entries:
+  - title: AIDE 系统更新和兼容性
+    url: "/administer/upgrades-aide-summary.html"
+  - title: 更新 AIDE 软件
+    url: "/administer/update-aide-firmware-software.html"
+  - title: 向 AIDE 集群添加节点
+    url: "/administer/dcn-add-node.html"
+  - title: 替换 AIDE 节点
+    url: "/administer/aide-node-replace.html"

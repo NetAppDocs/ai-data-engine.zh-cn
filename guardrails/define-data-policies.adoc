@@ -1,0 +1,177 @@
+---
+sidebar: sidebar 
+permalink: guardrails/define-data-policies.html 
+keywords: aide, policies, global exclusion, classifiers, guardrails, ai data engine, data governance 
+summary: 在 AI Data Engine Console 中定义全局数据策略，以控制哪些数据可以用于 AI，如何对其进行分类，以及在查询过程中如何实施 Data Guardrails。 
+---
+= 在 AI Data Engine 中为您的数据资产定义 Data Guardrails 策略
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+作为数据或平台所有者，您可以使用 AI Data Engine (AIDE) Console 来定义哪些数据属于 AI 的范围，哪些数据始终处于禁区，以及当该数据用于分类和检索增强生成 (RAG) 时适用哪些安全规则。
+
+使用这些过程在 AIDE Console 中定义这些策略，以便 ONTAP System Manager 可以对工作区中的所有数据实施这些策略。
+
+.开始之前
+* 您需要在 AI Data Engine Console (`\https://<cluster_management_ip>/console` 中具有_存储管理员_权限才能创建和管理全局策略。
+* 您有一个部署了健康数据计算节点的 AIDE 集群。
+* link:../install-setup/configure-oidc.html["OpenID Connect (OIDC)"] 已配置，并且您的 IdP 角色映射到允许数据策略管理的 AIDE 管理员角色。
+* 已安装 AI Data Engine software 许可证，以便启用 Data Guardrails 和推理功能。
+* 至少存在一个工作区，或者您已与管理员协调以了解将在工作区中使用哪些数据源（卷）。
+
+
+
+
+== 了解策略类型
+
+AIDE Console 公开了塑造数据资产的以下策略类型：
+
+* *分类器*：启用分类器以检测所有工作区的 PII、安全问题或其他模式。
+* *Classifier categories*：将分类器分为合规类别，用于组织和管理。
+* *Guardrail 政策*：检索或推断时适用的安全和编辑规则。
+
+
+您无法使用 ONTAP System Manager 创建或管理这些护栏策略。仅当存储管理员将它们应用于工作区时，它才会读取并强制执行它们。所有策略定义和维护都发生在 AIDE Console 中。
+
+
+
+== 启用分类器
+
+分类器分析元数据和内容以注释文件和对象（例如，检测 PII 或敏感类别）。在工作区数据上运行分类器之前，必须在 AIDE Console 中启用它们。
+
+.关于此任务
+分类器行为在 AIDE Console 中进行全局控制。所有启用的分类器都在每个工作区上运行。由于它们是全局应用的，因此无法为单个工作区启用或禁用它们。它们只能在全局范围内启用或禁用。
+
+.步骤
+. 在 AIDE Console 中，导航到 *Data Guardrails > Classifiers*。
+. 选择分类器类别以显示其包含的分类器。
+. 选中要启用的分类器的复选框，或选择所有行以批量启用分类器。
+. 选择 *启用*。
++
+
+TIP: 使用批量选择选项可一次启用多个分类器。每次启用分类器时，都会触发所有工作区的工作区刷新。为了最大限度地减少不必要的刷新，请一次启用多个分类器，而不是一次启用一个分类器。
+
+
+
+.结果
+所有新创建和现有的工作区在元数据处理期间运行启用的分类器。
+
+分类标记会写入元数据目录，并可供数据工程师在创建数据集合时进行筛选。
+
+
+
+== 管理分类器类别
+
+分类器按类别组织（例如"PII"或"财务数据"）。类别可帮助您对相关分类器进行分组，以便更轻松地管理和合规可见性。您可以使用 AIDE 提供的默认类别或创建自定义类别以满足您的合规要求。
+
+.步骤
+. 在 AIDE Console 中，导航到 *Data Guardrails > Classifiers*。
+. 查看现有分类器类别。分类分为两大类：
++
+** 内容或数据：检测文件中的特定类型的数据。
+** 文档：根据内容对文档类型进行分类。
+
+
+. 确定默认分类器子类别是否足够，或者您是否要创建自己的子类别。
++
+** 如果使用默认分类器子类别（例如 *General Privacy*）：
++
+... 在分类器类别中选择类别名称以显示关联的分类器。
+... 检查分类器列表。
+... 选择 *Add* 从可用分类器的完整列表中查找并添加未列出的分类器。
+
+
+** 如果要创建自定义类别，请选择 image:icon_add_white_bg.png["蓝色加号后跟单词 Add"]。
++
+... 添加唯一的名称、描述，并为类别分配可用的分类器。
+... 选择 *Add*
+
+
+
+
+. 要禁用类别中的分类器，请为分类器选择 image:icon_kabob_horizontal.png["三个水平蓝点"] 并选择 *禁用*。您还可以选择所有行以批量更改状态。
+
+
+.结果
+类别组织分类器以实现合规可见性。数据工程师可以在筛选和创建数据集合时使用分类标签。
+
+
+
+== 创建和管理 Data Guardrails 策略
+
+Guardrail 策略确定当分类器检测到敏感内容或当提示和检索结果违反内容规则时 AIDE 如何响应。
+
+典型的 Data Guardrails 行为包括：
+
+* 从检索到的代码段中隐藏或编辑 PII。
+* 阻止违反合规性规则的答案。
+* 记录或标记违规以进行审核。
+
+
+.关于此任务
+您只能在 AIDE Console 中创建和管理护栏策略。
+
+一次只能将 ONTAP System Manager 中的工作区与单个护栏策略相关联。
+
+.步骤
+. 在 AIDE Console 中，导航到 *Data Guardrails* > *Guardrail policies*。
+. 选择 *Add*。
+. 输入清楚描述范围的名称和描述（例如， `Customer PII redaction for support KB`）。
+. 配置激活 Data Guardrails 所需的数据分类器驱动条件：
++
+.. 定义 Data Guardrails 激活条件：
++
+... 为每个条件选择分类器类别或分类器类型。
+... 根据需要添加和定义其他条件。
+... 在 *Search* 中定义特定的搜索条件，然后选择 *Accept*。
+
+
+.. 定义 Data Guardrails 策略的操作，例如匿名化内容或从数据集合中阻止和删除文件。
+
+
+. 选择要应用 guardrail 的工作区。
+. 设置策略状态：
++
+** *Enabled*：立即激活策略。
+** *Test Mode*：允许您在激活策略之前验证策略的影响。
+** *已禁用*：保存 guardrail 但不强制执行。
+
+
+. 选择 *Add* 以保存策略并将其应用于工作区。
++
+
+TIP: 在启用严格执行之前，将 *Test Mode* 与试点工作区和非生产数据收集一起使用，以了解有多少响应将受到影响。
+
+
+
+.结果
+新 Data Guardrails 策略处于活动状态，并适用于选定工作区。
+
+
+
+== 策略如何与工作区交互
+
+定义策略后：
+
+* 存储管理员使用 ONTAP System Manager 创建工作区、选择数据容器和关联 Data Guardrails 策略。
+* 分类器根据您启用的内容在工作区内容上自动运行。
+* 附加到工作区的 Data Guardrails 会影响检索端点的行为。
+
+
+对于数据工程师和数据科学家：
+
+* 已按角色分配筛选可见数据资源（工作区和数据集合）。
+* 您查询的元数据（例如 PII 标签）由启用的分类器驱动。
+* 您的 RAG 管道接收的响应受工作区级别配置的 Data Guardrails 的限制。
+
+
+
+
+== 相关信息
+
+* link:../vectorization/view-data-collections.html["在 AI Data Engine 中查看数据收集"]
+* link:../vectorization/zero-to-rag.html["AI Data Engine 的数据到 RAG 快速入门"]
+

@@ -1,0 +1,171 @@
+---
+sidebar: sidebar 
+permalink: administer/view-dashboard.html 
+keywords: aide, aide system, dashboard, view dashboard, cluster status 
+summary: 在开始您的 AIDE 管理任务之前，首先访问 ONTAP System Manager。 
+---
+= 查看 AIDE 系统和集群状态
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+作为存储管理员，您可以使用 ONTAP System Manager 访问仪表板并显示集群状态。在开始您的 AIDE 管理任务或怀疑存在操作问题之前，这是一个很好的第一步。
+
+.开始之前
+* 您需要 _storage administrator_ 权限才能执行 AIDE ONTAP 相关的管理任务。
+
+
+
+
+== 从控制面板监控 AIDE 状况和容量
+
+. 使用集群管理地址连接到 ONTAP System Manager：
++
+`\https://$FQDN_OR_IP/`
+
+. 使用管理员帐户 Sign in。
+. 在左侧导航窗格中选择 *Dashboard*。
+. 查看 *Health* 图块：
++
+** 确认集群整体运行状况。
+** 验证 **Data compute nodes** 计数和状态。
+** 检查警报：
++
+*** DCN 节点问题或连接问题
+*** 错误的工作区或数据集（例如，集合发布失败）
+
+
+
+
+. 查看 *Capacity* 图块：
++
+** 记录集群总容量和已用容量。
+** 对于 AIDE 集群，请验证：
++
+*** AIDE 元数据和应用程序卷使用的容量（元数据 Storage VM）
+*** 工作区和数据集合使用的容量（如果可用）
+
+
+
+
+. （可选）查看 *Network* 和 *Performance* 磁贴，以了解可能影响 AIDE 工作负载的集群范围行为（例如，网络拥塞或保护延迟）。
+
+
+
+
+== 查看数据 DCN 运行状况和利用率
+
+. 在导航窗格中，选择 *Cluster*，然后选择 *Overview*。
+. 选择 *Data compute* 选项卡。
++
+此选项卡显示集群中的所有 DCN 节点，其中包含：
+
++
+** 节点名称、型号、序列号和软件版本
+** 总体节点状态
+** CPU 和内存利用率
+** GPU 利用率（如果存在 GPU）
+** 任何节点级错误指示器
+
+
+. 展开 DCN 节点以打开详细视图并检查：
++
+** 系统 CPU 和内存使用率
+** GPU 内存使用量
+** 报告的硬件或服务问题
+
+
+. 在 *集群 > 概述* 页面上选择 *布线*，以验证 DCN 节点已正确连接到集群交换机，并识别任何端口或链路问题。
+
+
+
+
+== 监控工作区和元数据占用空间
+
+. 在导航窗格中，选择 *Data engine*，然后选择 *Workspaces*。
+. 查看页面顶部的工作区摘要：
++
+** 工作区及其状态的计数（例如， `Processing`、 `Healthy`、 `Error`）。
+** 工作区总大小。
+** 所有工作区消耗的集群容量百分比。
+
+
+. 查看工作区网格：
++
+** 确认关键工作区显示 *Healthy* 状态。
+** 检查工作空间大小和容量消耗。
+** 查找处于  `Error` 或长期运行  `Processing` 状态的任何工作区。
+
+
+. 要查看特定工作区的详细信息，请选择其名称：
++
+** 在 *概览* 选项卡上，确认：
++
+*** 工作区状态和大小
+*** 包含的数据容器（卷）及其项目计数
+*** 每个数据源的上次更新时间
+
+
+** 在 *Data collections* 选项卡上，确认：
++
+*** 该工作区存在哪些数据集（数据集在 System Manager 中是只读的）
+*** 它们的状态、大小和最近更新时间
+
+
+** 在 *用户* 选项卡上，检查哪些 AI Data Engine Console 用户具有访问权限。
+
+
+
+
+
+
+== 监控元数据 Storage VM 和 AIDE 管理的保护
+
+. 在导航窗格中，选择 *Cluster*，然后选择 *Storage VMs*。
+. 找到带有子类型 `data-engine`（元数据 SVM）的 Storage VM：
++
+** 确认元数据 SVM 已联机。
+** （可选）打开其详细信息以查看以下项的计数：
++
+*** 卷
+*** 带类型的 LIF `Data compute network`（用于 DCN-ONTAP 通信）
+
+
+
+
+. 选择 *Protection*，然后选择 *Relationships* 以查看工作区中使用的远程数据源的保护：
++
+** 通过命名模式识别 AIDE 创建的 SnapMirror 关系：
++
+*** 目标卷： `<source_volume_name>_dest_<source_volume_UUID>`
+*** 政策： `<source_volume_name>_dest_aide_policy_<source_volume_UUID>`
+
+
+** 使用此视图可验证关系是否正常，以及延迟时间是否与工作区刷新预期保持一致。
+
+
+
+
+
+IMPORTANT: 请勿直接在 ONTAP 中修改元数据 Storage VM、AIDE 创建的 SnapMirror 关系或 AIDE 管理的快照（或其计划）。更改可能会中断 AIDE 版本历史记录。link:../administer/manage-workspace.html#edit-workspace-properties-and-refresh-schedule["调整工作区刷新设置"]如果需要调整刷新行为。
+
+
+
+== 查看与 AIDE 相关的警报和通知
+
+. 在导航窗格中，选择 *Events & Jobs*，然后选择 *System alerts*。
+. 查看与以下内容相关的任何活动警报：
++
+** DCN 节点健康或连接
+** 数据引擎网络问题
+** 工作区或数据收集错误
+** ONTAP 和 DCN 集群之间的软件版本不匹配
+
+
+. 根据需要，在 *Cluster > Settings > Notification management* 中配置通知目标（例如，email、syslog），以确保将与 AIDE 相关的警报转发到您的操作工具。
+
+
+.相关信息
+https://docs.netapp.com/us-en/ontap-afx/get-started/prepare-cluster-admin.html["准备管理 AFX 存储系统"^]

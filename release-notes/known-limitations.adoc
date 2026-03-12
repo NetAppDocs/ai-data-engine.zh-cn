@@ -1,0 +1,84 @@
+---
+sidebar: sidebar 
+permalink: release-notes/known-limitations.html 
+keywords: limitations, known issues, AI Data Engine, AIDE, metadata engine, ONTAP 9.18.1 
+summary: 已知限制可识别此版本产品不支持的平台、设备或功能，或无法与其正确互操作的平台、设备或功能。请仔细查看这些限制。 
+---
+= AI Data Engine 的已知限制
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+已知限制可识别此版本产品不支持的平台、设备或功能，或无法与其正确互操作的平台、设备或功能。请仔细查看这些限制。
+
+
+
+== AIDE 9.18.1 初始版本的已知限制
+
+这些限制适用于 Metadata Engine、数据计算节点和 AIDE 9.18.1 中的管理工作流。
+
+
+
+=== 计算节点需求与管理
+
+* **最低数据计算节点要求**
++
+AIDE 群集需要最少和最多 3 个数据计算节点 (DCN) 才能实现 Metadata Engine 功能。少于 3 个 DCN 的群集无法启用 Metadata Engine 功能。
+
+* **不支持使用 NetApp Console 添加 DCN 节点**
++
+DCN 节点升级和添加必须使用 ONTAP System Manager 执行，而不是通过 NetApp Console。
+
+
+
+
+
+=== 支持的数据源
+
+* **不支持 ONTAP S3 存储桶或 StorageGRID 作为数据源**
++
+仅支持 ONTAP 卷（本地或远程）作为工作区和元数据编目的数据源。在此版本中，ONTAP S3 存储桶和 StorageGRID 对象无法添加到工作区，也不会被 Metadata Engine 索引。
+
+* **不支持使用 FlexCache 卷创建工作区**
++
+无法将 FlexCache 卷作为数据源添加到工作区。
+
+
+
+
+
+=== 软件更新和还原限制
+
+* **仅针对 DCN 节点的手动软件更新**
++
+AIDE 9.18.1 不支持 DCN 群集的自动软件更新。DCN 节点软件只能通过从本地客户端上传映像来更新。不支持从外部服务器（HTTP/FTP）下载映像。
+
+* **无需还原 DCN 集群软件**
++
+DCN 集群软件无法还原到早期版本。仅允许升级到更高版本。
+
+* **AFX 存储集群无 ONTAP 还原**
++
+AFX 存储集群无法还原为较早的 ONTAP 版本。仅允许升级到更高版本。
+
+
+
+
+
+=== 工作空间生命周期和访问配置
+
+* **不对工作区进行软删除或还原**
++
+删除工作区是永久性的。没有恢复已删除工作区的选项。
+
+* **初始集群设置期间不支持 OIDC 配置**
++
+必须在使用 ONTAP System Manager 创建集群后执行 OIDC/OAuth 配置。
+
+
+
+.相关信息
+* link:whats-new.html["AI Data Engine 的新增功能"]
+

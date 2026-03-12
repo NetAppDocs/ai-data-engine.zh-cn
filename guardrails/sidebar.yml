@@ -1,0 +1,6 @@
+---
+section: guardrails
+title: 实施护栏
+entries:
+- title: 在 AIDE 中定义您的护栏策略
+  url: "/guardrails/define-data-policies.html"

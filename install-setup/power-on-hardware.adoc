@@ -1,0 +1,60 @@
+---
+sidebar: sidebar 
+permalink: install-setup/power-on-hardware.html 
+keywords: aide, ai, data engine, ai data engine dcn, data compute node, afx, afx 1k, power on, 
+summary: 打开每个货架电源以分配唯一的货架 ID，打开 AFX 控制器节点电源，并固定电源线。 
+---
+= 为 AI Data Engine 启动数据计算节点
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+安装机架硬件并连接数据计算节点后，应打开 DCN 和 AFX 存储系统的控制器节点（如果尚未打开）。
+
+.开始之前
+* 请确保您的盘架已通电，并且每个盘架都分配了唯一的盘架 ID。有关为 AFX 存储系统分配盘架 ID 的信息，请参见link:https://docs.netapp.com/us-en/ontap-afx/install-setup/power-on-hardware.html#step-1-power-on-the-shelf-and-assign-shelf-id["分配唯一货架 ID"^]。
+
+
+.步骤
+打开存储盘架并分配唯一 ID 后，打开 DCN 并打开存储控制器节点（如果尚未打开）。
+
+. 将笔记本电脑连接到串行控制台端口。这允许您在控制器通电时监控引导顺序。
++
+.. 使用 N-8-1 将笔记本电脑上的串行控制台端口设置为 115,200 波特。
++
+有关如何配置串行控制台端口的说明，请参见笔记本电脑的在线帮助。
+
+.. 将控制台电缆连接到笔记本电脑，并使用存储系统附带的控制台电缆连接控制器上的串行控制台端口。
+.. 将笔记本电脑连接到管理子网上的交换机。
++
+image::../media/drw_afx_1k_console_connection_ieops-2708.svg[Console 连接]
+
+
+
+
+
+. 使用管理子网上的地址为笔记本电脑分配 TCP/IP 地址。
+. 将电源线插入控制器电源，然后将其连接到不同电路上的电源。
++
+image::../media/drw_affa1k_power_source_icon_ieops-1700.svg[电源连接图]
+
++
+** 系统开始启动。初始启动可能需要长达 8 分钟的时间。
+** LED 指示灯闪烁，风扇启动，这表明控制器正在通电。
+** 启动时风扇可能会发出噪音，这是正常的。
+
+
+
+
+. 将电源线插入数据计算节点电源，然后将其连接到不同电路上的电源。
+. 使用每个电源上的固定装置固定电源线。
+. 打开数据计算节点的电源。
++
+您可能需要卸下挡板才能访问电源开关；如果是这样，请记得之后重新安装。
+
+
+
+.下一步是什么？
+开启数据计算节点后，您link:../install-setup/cluster-setup-afx.html["设置 ONTAP AIDE 集群"]。

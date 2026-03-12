@@ -1,0 +1,54 @@
+---
+sidebar: sidebar 
+permalink: vectorization/zero-to-rag.html 
+keywords: ai, data engine, aide, quick start, rag, retrieval augmented generation, data collection, workspace, data scientist, data engineer, storage admin 
+summary: '从新部署的 AI Data Engine (AIDE) 系统到使用工作区、数据收集和护栏的工作检索增强生成 (RAG) 端点。' 
+searchtitle: AI Data Engine 的数据到 RAG 快速入门 
+---
+= AI Data Engine 的数据到 RAG 快速入门
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+使用此工作流从新部署的 AI Data Engine (AIDE) 系统转到工作检索增强生成 (RAG) 端点。了解存储管理员、数据工程师和数据科学家如何使用 ONTAP System Manager 和 AIDE Console 进行协作。
+
+.开始之前
+* 您已安装数据计算节点 (DCN) 并将其添加到 ONTAP 集群。
+* 您已经安装并许可了用于矢量化和护栏的 AI Data Engine software。
+* 您已配置 link:../install-setup/configure-oidc.html["OpenID Connect (OIDC)"] 并映射了管理员、数据工程师和数据科学家角色。
+
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-1.png["一个"] 定义数据范围和治理
+[role="quick-margin-list"]
+作为存储管理员或安全管理员，您希望在 AIDE Console 和 ONTAP System Manager 中准备环境：
+
+* link:../workspaces/create-workspace.html["创建一个或多个工作区"]从本地和远程数据源。
+* link:../guardrails/define-data-policies.html["配置分类器和护栏策略"] 在 AIDE Console 中。
+* link:../workspaces/assign-users-to-workspace.html["为数据工程师和数据科学家分配工作区访问权限"]。
+
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-2.png["两个"] 探索工作区元数据
+[role="quick-margin-list"]
+作为数据工程师或数据科学家，您希望使用 AIDE Console 探索工作区元数据：
+
+* link:explore-workspace-metadata.html["探索工作区元数据"] 以了解可用内容。
+* 定义应为 RAG 提供数据的一个或多个逻辑子集（例如，支持文章、产品手册或匿名临床备注）。
+
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-3.png["三"] 创建和发布数据收集
+[role="quick-margin-list"]
+作为数据工程师或数据科学家，您希望将所选子集转换为 RAG 就绪集合：
+
+* link:create-data-collections.html["创建数据收集"]使用选定的过滤器从工作区。
+* link:create-data-collections.html#publish-a-data-collection["发布数据收集"] 并监控索引，直到它达到  `Ready` 状态。
+* 复制所选集合的检索端点 URI，并提供给数据科学家或应用程序开发人员。
+* link:view-data-collections.html["查看数据收集状态和向量占用空间"] 根据需要。
+
+
+.下一步是什么？
+* link:../guardrails/define-data-policies.html["在 AI Data Engine 中定义您的数据资产和护栏策略"]
+* link:explore-workspace-metadata.html["在 AI Data Engine Console 中探索工作空间元数据"]
+* link:create-data-collections.html["在 AI Data Engine Console 中创建数据集合"]
+

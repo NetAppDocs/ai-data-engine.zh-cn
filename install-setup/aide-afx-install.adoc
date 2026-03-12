@@ -1,0 +1,19 @@
+---
+sidebar: sidebar 
+permalink: install-setup/aide-afx-install.html 
+keywords: ai data engine, afx, afx 1k, install, hardware, storage system, data compute node, aide 
+summary: 安装 AFX 存储系统，作为部署 AI Data Engine 的第一步。AFX 系统提供 AIDE 部署所需的存储基础架构基础。 
+---
+= 为 AI Data Engine 安装 AFX 存储系统
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+安装 AFX 存储系统，作为部署 AI Data Engine 的第一步。AFX 存储系统提供存储基础设施基础，并且在安装 Data Compute Node 之前是必需的。
+
+按照 link:https://docs.netapp.com/us-en/ontap-afx/install-setup/install-setup-workflow.html["AFX 1K 安装文档"^] 安装 AFX 存储系统。
+
+.下一步
+完成 AFX 存储系统安装后，link:install-workflow.html["安装 Data Compute Node"]。

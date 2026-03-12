@@ -1,0 +1,118 @@
+---
+sidebar: sidebar 
+permalink: administer/dcn-add-node.html 
+keywords: aide, ai data engine, data compute node, dcn, add dcn, expand dcn cluster 
+summary:  
+---
+= 将数据计算节点添加到您的 AIDE 集群
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以在创建新的 AI Data Engine (AIDE) 集群或扩展现有集群时添加数据计算节点 (DCN)。工作流程包括使用 ONTAP System Manager 发现和配置节点。
+
+
+
+== 准备添加节点
+
+添加 DCN 节点时有几个注意事项。
+
+.创建新 AIDE 集群时
+新的 AIDE 集群需要恰好三个 DCN 节点。
+
+.硬件安装和可寻址性
+确保满足以下先决条件：
+
+* 新的 DCN 硬件安装在机架上，接通电源，并连接到集群交换机。
+* 您有一个可用于 DCN 到 ONTAP 后端子网的 IP 地址空间范围。
+* ONTAP 集群已初始化，可从集群管理 LIF 访问。
+
+
+.System Manager 凭据
+需要 _storage administrator_ 权限才能执行 AIDE 群集创建或扩展任务。
+
+.软件兼容性
+请查看以下文档，以确认您的 DCN 硬件和软件版本与 ONTAP 集群兼容：
+
+* link:../administer/upgrades-aide-summary.html["DCN 软件与 ONTAP 版本兼容"]。
+
+
+在节点添加操作期间，System Manager 将确认新节点运行与以下内容兼容的软件版本：
+
+* 如果这是第一个 DCN 加入，则为 ONTAP 集群有效版本 (ECV)。
+* 如果已存在 DCN，则为现有 DCN 集群版本。
+
+
+如果节点不兼容：
+
+* *添加*对话框中受影响的 DCN 旁边会显示错误。
+* 您必须首先将 DCN 软件（或 ONTAP，如适用）更新为兼容版本。
+
+
+
+
+== 添加数据计算节点
+
+在创建新 AIDE 群集或扩展现有群集时，您需要添加 DCN 节点。
+
+.步骤
+. 在 System Manager 中，选择导航窗格中的 *Dashboard*，然后选择 *Health* 卡。
+. 确认有要添加的节点，然后选择 *View details* 以显示此列表。
++
+该列表包含尚未属于 AIDE 集群的已发现节点
+
+. 或者，您可以选择 *Cluster* 和 *Overview* 以及 *Data compute* 选项卡来查看列表。
+. 在数据计算页面的底部，选择节点列表上方的 *添加* 。
+. 在*添加数据计算节点*对话框中，选择要添加的 DCN 节点。
++
+您可以选择在添加节点之前重命名单个节点。
+
+. 如果这是您第一次添加节点，并且不存在后端子网，请选择 *添加子网* 并提供：
++
+** 子网名称（供内部使用）
+** 子网地址和掩码
+** 此后端网络上 DCN 和 ONTAP 节点的 IP 地址范围
++
+System Manager 验证该范围包括要添加的所有 DCN 和集群中所有 ONTAP 节点的足够可用 IP 地址，以及用于 DCN 到 ONTAP 通信的其他集群级浮动 IP 地址。
+
+
+
+. 无论您是添加了后端子网还是它已经存在：
++
+.. 查看可用的 IP 地址。
+.. 如果需要，选择 *编辑子网* 并扩展 IP 范围。
++
+*** 您只能扩大范围。不支持缩小或更改子网。
+*** 更改子网或 IP 范围可能需要在 DCN 上重新创建底层 Kubernetes 集群，这可能需要几分钟的时间。
+
+
+
+
+. 可选择通过提供以下功能来配置 Data Engine 服务接口：
++
+** 服务 IP 地址
+** 网络掩码
+** 网关（如果您的环境需要）
++
+单个 IP 将在 DCN 之间进行负载平衡，并用作 AI Data Engine Console 和相关 API 的前端地址。
+
+
+
+. 查看选定节点、后端子网和 Data Engine 服务接口设置。
+. 选择 *添加* 并等待操作完成。System Manager 将执行以下操作：
++
+** 将所选节点添加到 DCN 集群
+** 配置后端网络并将节点加入基于 Kubernetes 的 DCN 集群
+** 更新 DCN 发现的内部元数据
+
+
+. 完成后，选择 *Cluster* 和 *Overview* 并确认：
++
+.. 在 *Data compute* 下，新 DCN 显示为集群的一部分
+.. 所有节点均为 *Healthy*
+.. 验证仪表板 *Health* 卡显示更新的节点计数
+
+
+

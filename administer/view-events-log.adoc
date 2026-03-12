@@ -1,0 +1,138 @@
+---
+sidebar: sidebar 
+permalink: administer/view-events-log.html 
+keywords: aide, aide system, events, audit log, jobs, activity 
+summary: 您可以查看 AIDE 生成的事件、作业和审计日志消息，以跟踪内部处理并诊断潜在问题。AIDE 系统可以配置为转发此信息以及其他相关数据，以进行额外的处理和存档。 
+---
+= 查看 AIDE 系统事件、作业和审核日志
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+作为存储管理员，您可以查看 AIDE 生成的事件、作业和审核日志消息，以跟踪内部处理并诊断潜在问题。AIDE 系统可以配置为转发此信息以及其他相关数据，以进行额外的处理和存档。
+
+.开始之前
+* 您需要 _storage administrator_ 权限才能执行 AIDE ONTAP 相关的管理任务。
+
+
+
+
+== 监控 AIDE 活动、事件和作业
+
+您可以使用集中式*Activity*视图来监控所有工作区中特定于 AIDE 的事件和作业，或查看个别工作区的活动。
+
+
+
+=== 查看集群范围的 AIDE 活动
+
+监控工作区操作，对元数据提取问题进行故障排除，并跟踪整个 AIDE 部署中的数据收集发布。
+
+. 在 ONTAP System Manager 中，在导航窗格中选择 *Data engine*，然后选择 *Activity*。
+. 选择 *Events* 选项卡：
++
+** 查看最近的 AIDE 特定事件，例如：
++
+*** 工作区创建、更新或删除
+*** 数据容器添加/删除操作
+*** 数据收集发布（如果存在）
+
+
+** 使用筛选器（按严重性、对象类型、工作区或时间范围）专注于活动或关键事件。
+
+
+. 选择要打开和查看的单个事件：
++
+** 说明和时间戳
+** 受影响的工作区、数据收集或数据源
+** 建议采取的措施（如有）
+
+
+. 选择 *Jobs* 选项卡：
++
+** 监控长期运行的作业，例如：
++
+*** 工作区的初始元数据提取
+*** 工作区刷新 / 目录更新作业
+*** 数据收集发布或刷新作业
+
+
+** 检查作业状态和进度。
+
+
+. 选择作业以打开 peek 视图并查看：
++
+** 开始和结束时间
+** 进度百分比和阶段（例如 *Scanning*、*Publishing*）
+** 受影响的工作区、数据收集或数据源
+** 失败作业的错误消息
+
+
+
+
+
+
+=== 查看工作区特定活动
+
+要对特定工作区进行故障排除，请打开工作区详细信息（*Data engine > Workspaces*，选择工作区），然后使用 *Activity* 选项卡：
+
+* 仅查看范围为该工作区的事件和作业。
+* 使用此视图可隔离单个工作区卡在  `Processing` 状态等问题。
+
+
+
+
+== 查看集群范围的事件
+
+查看事件消息，获取有价值的系统活动记录。每个事件都包括描述和唯一标识符以及建议的操作。
+
+. 在 ONTAP System Manager 中，选择 *Events & jobs*，然后选择 *Events*。
+. 查看并响应页面顶部的建议操作，例如启用自动更新。
+. 选择 *Events log* 选项卡以显示消息列表。
+. 选择一个事件消息以更详细地检查它，包括序列号、描述、事件和建议操作。
+. （可选）选择 *Active IQ 建议*选项卡并注册 Active IQ，以获取集群的详细风险信息。
+
+
+
+
+== 查看集群范围的作业
+
+查看 AIDE 集群上运行的所有作业，包括 AIDE 特定作业和常规 ONTAP 作业。
+
+. 在 ONTAP System Manager 中，选择 *Events & Jobs*，然后选择 *Jobs*。
+. 根据需要自定义显示以及搜索和下载作业信息。
+
+
+
+
+== 查看审核日志
+
+使用审核日志，根据 HTTP 等访问协议的使用情况，查看系统活动记录。
+
+. 在 ONTAP System Manager 中，选择 *Events & jobs*，然后选择 *Audit logs*。
+. 选择 *Settings* 以启用或禁用所跟踪的操作。
+
+
+
+
+== 管理通知
+
+配置通知目标以自动转发 AIDE 事件和审核日志。
+
+.步骤
+. 在 ONTAP System Manager 中，选择 *Cluster*，然后选择 *Settings*。
+. 导航到 *Notification management* 并选择 image:icon_kabob.gif["三个垂直蓝点"]。
+. 选择适当的操作以查看或配置 AIDE 使用的目标：
++
+.. 事件目标：选择 *View event destinations*
+.. 审核日志目标：选择 *View audit destinations*
+
+
+. 根据需要选择 *添加* ，并提供目的地信息。
+. 选择 *Save*。
+
+
+.相关信息
+* https://docs.netapp.com/us-en/ontap/event-performance-monitoring/index.html["ONTAP 事件、性能和运行状况监控"^]
+

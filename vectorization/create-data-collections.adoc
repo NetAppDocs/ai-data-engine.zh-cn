@@ -1,0 +1,134 @@
+---
+sidebar: sidebar 
+permalink: vectorization/create-data-collections.html 
+keywords: aide, create data collection, rag, data engineer, data scientist, embeddings, ai data engine, indexing 
+summary: '从 AI Data Engine Console 中的工作区元数据创建和发布数据集合，以支持检索增强生成 (RAG) 和其他 AI 工作负载。' 
+---
+= 在 AI Data Engine Console 中创建数据集合
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+数据收集是 AI Data Engine (AIDE) 中的核心 RAG 构建块。作为数据工程师或数据科学家，您可以定义哪些文件属于集合，配置嵌入和索引选项，并发布集合，以便应用程序可以通过检索端点查询它。
+
+您将在 AI Data Engine Console 中执行所有数据收集任务。
+
+.开始之前
+* 您需要在 AI Data Engine Console (`\https://<cluster_management_ip>/console` 中拥有 _data engineer_ 或 _data scientist_ 权限）。
+* 您可以访问至少一个已提取元数据且处于  `Ready` 状态的工作区。
+* 您已浏览了工作区元数据，并确定了定义有意义的数据子集的查询或筛选器。
+* 已安装 AI Data Engine software 许可证并启用推理功能。
+
+
+
+
+== 从工作区元数据创建数据收集
+
+.步骤
+. 导航到 *Data Curator > Workspaces*，然后选择包含目标数据的工作区。
+. 选择 *Add data collection*。
+. 在 *Create new data collection* 页面中，执行以下操作：
++
+.. 输入集合的名称和描述（例如， `Support_KB_RAG_EN`）。
+.. 选择集合是否应为：
++
+*** *Dynamic*：根据您定义的过滤标准，自动识别新文件并将其添加到数据集合中。这发生在工作区刷新期间。
+*** *静态*：您可以选择集合中包含的文件。如果数据集合处于 `draft`状态，则可以编辑文件。数据集合进入 `Published`状态后，无法编辑。
+
+
+
+
+. 指定源子集：
++
+.. 使用关键字和筛选器（文件类型、时间戳和其他属性）查找要包含的相关文件。
++
+
+NOTE: 您可以选择文件名以打开内容的预览窗口。
+
+
+
+. 将这些文件添加到数据集合中。
+. 选择 *Save* 以完成收集。
+
+
+.结果
+您已经定义了数据收集的范围，并向其中添加了所需的文件。当您发布收集时，AIDE 会生成嵌入并构建向量索引。
+
+
+TIP: 创建小而有针对性的集合（例如，每个用例或域），而不是单个"全部"集合。这提高了检索的相关性和可管理性。
+
+
+
+== 发布数据收集
+
+发布数据集，使其可由 AI 应用程序通过 RAG 检索端点进行查询。发布从所选文件生成矢量嵌入并将其编入索引以进行语义搜索。集合达到 `Ready`状态后，其端点可供数据科学家集成到笔记本、管道和 AI 应用程序中，以进行检索增强生成 (RAG) 和搜索。
+
+
+TIP: 对于大型集合，请考虑在非高峰时段安排初始发布和主要重新发布，以最大限度地减少资源争用。
+
+.步骤
+. 导航到 *Data Curator > Data collections*，然后选择数据收集的选项菜单（image:icon_kabob_horizontal.png["三个水平蓝点"]）。
+. 选择 *Publish*。
+. 选择默认或自定义优化配置。
+. 选择 *Publish* 以启动数据转换。
+. 在 AIDE Console 中，打开集合详细信息视图（*Data Curator > Data collections*）以获取状态更新。
+
+
+.结果
+集合达到  `Ready` 状态，可供下游应用程序和数据科学家使用。
+
+从 *Data Curator > 数据集合* 中，您可以选择 *复制 URI* 以获取使用 API 访问数据集合所需的信息。
+
+
+
+== 更新或删除数据收集
+
+随着时间的推移，您可能需要优化或淘汰数据集合。优化集合可能涉及调整筛选器以添加或删除文件、更改嵌入设置或更新集合描述。删除集合将永久删除它，并使其检索端点不可用。
+
+
+
+=== 更新数据收集
+
+您可以在数据集处于  `draft` 状态时对其进行更新。
+
+.步骤
+. 导航到 *Data Curator > 数据集合*。
+. 选择要修改的集合。
+. 选择 *Edit*。
+. 调整以下任意选项：
++
+** 名称和描述
+** 筛选器（路径、文件类型、分类标签）。
+** 嵌入和分块设置。
+
+
+. 保存更改。
+. 重新发布集合，使新定义和嵌入生效。
+
+
+.结果
+新的索引作业将使用更新的配置运行，完成后集合将返回到  `Ready` 状态。
+
+
+
+=== 删除集合
+
+删除集合是永久性的。在删除集合之前，请确保没有任何生产应用程序仍然依赖于集合的检索端点。
+
+.步骤
+. 导航到 *Data Curator > Data collections*，然后选择集合的选项菜单 (image:icon_kabob_horizontal.png["三个水平蓝点"])。
+. 选择 *Delete*。
+. 确认删除。
+
+
+.结果
+集合定义及其嵌入已从 AI Data Engine 中删除。删除集合后，尝试查询前一个检索终结点的应用程序将失败。
+
+
+
+== 下一步是什么？
+
+* link:view-data-collections.html["查看数据集合"]
+

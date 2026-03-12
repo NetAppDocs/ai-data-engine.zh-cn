@@ -1,0 +1,157 @@
+---
+sidebar: sidebar 
+permalink: install-setup/cable-overview.html 
+keywords: aide, ai data engine, cable, overview, cabling, hardware, switches, cluster network, host network, data compute nodes 
+summary: 了解 Data Compute Node 的布线配置，包括 I/O 插槽使用情况、电缆类型以及主机和群集网络的连接要求。 
+---
+= AI Data Engine 数据计算节点布线要求
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Data Compute Node 通过主机网络和集群网络连接与 AFX 1K 存储系统集成。查看部署的 I/O 插槽配置、电缆类型和连接要求。
+
+
+
+== 布线配置
+
+Data Compute Node 连接到与 AFX 1K 控制器节点相同的群集交换机，通过针对 AI 和机器学习工作负载优化的计算资源扩展您的存储系统。
+
+初始 AI Data Engine (AIDE) 配置支持至少三个 Data Compute Node。有关全面的配置详细信息和插槽优先级，请参阅link:https://hwu.netapp.com["NetApp Hardware Universe"^]。
+
+image::../media/drw_aide-dcn_back_slots_labeled_ieops-2646.svg[Data Compute Node 上的插槽编号]
+
+[cols="1,4"]
+|===
+
+
+ a| 
+image::../media/icon_round_1.png[标注编号 1]
+ a| 
+Data Compute Node 上未使用的插槽。
+
+
+
+ a| 
+image::../media/icon_round_2.png[标注编号 2]
+ a| 
+Data Compute Node 上未使用的插槽。
+
+
+
+ a| 
+image::../media/icon_round_3.png[标注编号 3]
+ a| 
+Data Compute Node 上的 GPU 插槽。
+
+
+
+ a| 
+image::../media/icon_round_4.png[标注编号 4]
+ a| 
+Data Compute Node 上的 I/O 插槽。
+
+
+
+ a| 
+image::../media/icon_round_5.png[标注编号 5]
+ a| 
+Data Compute Node 上的 I/O 插槽。
+
+|===
+
+
+== I/O 插槽配置
+
+Data Compute Node 使用与标准服务器配置不同的特定插槽编号方案。了解插槽布局对于正确布线至关重要。
+
+* *插槽 3*：保留用于 GPU（不可用于 I/O 布线）
+* *插槽 4 和 5*：用于网络连接的 I/O 插槽
++
+** 端口 a：集群网络连接
+** 端口 b：主机网络连接
+
+
+* *插槽 1 和 2*：未填充且无法使用
+
+
+
+
+== 网络连接
+
+Data Compute Node 需要两种类型的网络连接才能与 AFX 1K 存储系统集成。
+
+* *主机网络连接*
++
+主机网络连接提供对客户端数据的访问，并使 Data Compute Node 能够处理工作负载。每个 Data Compute Node 使用端口 e4b 和 e5b 进行到独立主机网络交换机的冗余连接。
+
++
+端口分配：
+
++
+** e4b：连接到主机网络交换机 A
+** e5b：连接到主机网络交换机 B
+
+
+* *集群网络连接*
++
+集群网络连接可实现存储集群内 Data Compute Node 与 AFX 1K 控制器节点之间的通信。每个 Data Compute Node 使用端口 e4a 和 e5a 进行到单独集群网络交换机的冗余连接。
+
++
+端口分配：
+
++
+** e4a：连接到集群网络交换机 A
+** e5a：连接到集群网络交换机 B
+
+
+
+
+
+
+== 支持的硬件组件
+
+Data Compute Node 需要特定的电缆和交换机，以确保与 AFX 1K 存储系统的正确连接和性能。
+
+[cols="2,3,6"]
+|===
+| *Data Compute Node* | *支持的交换机* | *支持的电缆* 
+
+
+ a| 
+数据计算节点（至少需要三个）
+ a| 
+* Cisco Nexus 9332D-GX2B（400GbE）
+* Cisco Nexus 9364D-GX2A（400GbE）
+
+ a| 
+* 400GbE QSFP-DD 分支到 4x100GbE QSFP56 电缆，用于连接到数据计算节点：
++
+** 100GbE 到数据计算节点集群网络端口（e4a、e5a）
+** 100GbE 到数据计算节点主机网络端口（e4b、e5b）
+
+
+* 用于管理连接的 RJ-45 电缆
+
+
+|===
+
+NOTE: 分支电缆从每个 400GbE 交换机端口提供四个 100GbE 连接。将 400GbE 端连接到交换机，将 100GbE 端连接到数据计算节点 I/O 端口。
+
+
+
+== 电缆方向
+
+将电缆连接到数据计算节点时，正确的电缆方向可确保可靠的连接。
+
+安装过程中的电缆图形显示箭头图标，指示将连接器插入端口时电缆连接器拉片的正确方向（向上或向下）。插入连接器时，您应该会感觉到连接器卡入到位。如果感觉不到，请将其移除并翻转，然后重试。
+
+image:../media/drw_cable_pull_tab_direction_ieops-1699.svg["电缆拉舌方向"]
+
+
+CAUTION: 将精致的连接器组件点击到位时，请小心处理。
+
+.下一步是什么？
+查看布线配置后，link:cable-hardware.html["连接硬件电缆"]针对您的数据计算节点。

@@ -1,0 +1,32 @@
+---
+sidebar: sidebar 
+permalink: get-started/aide-interfaces.html 
+keywords: aide, interfaces, ontap, architecture 
+summary: AIDE 提供了三个主要界面，用于用户交互和自动化。 
+---
+= AI Data Engine 接口
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+AI Data Engine (AIDE) 为用户交互和自动化提供了三个主要界面。每个角色（例如存储管理员、数据工程师和数据科学家）都会根据其特定任务和职责利用这些界面。
+
+
+
+== ONTAP System Manager
+
+ONTAP System Manager 是为存储管理员设计的基于 Web 的界面。它为集群设置、工作区管理、DCN 监控和附加护栏策略提供工作流。
+
+
+
+== AI Data Engine Console
+
+AI Data Engine Console 是数据工程师和数据科学家的专用界面。它使用户能够探索数据源、创建和管理数据集合、配置数据管道、应用分类器以及与护栏和矢量搜索功能进行交互。控制台提供高级工具，用于数据发现、管理以及与 AI/ML 工作流程的集成。
+
+
+
+== REST API
+
+AIDE 公开了用于自动化、集成和编程访问的 ONTAP REST API。API 支持集群设置、工作区和集合管理、元数据查询、矢量搜索和检索端点。

@@ -1,0 +1,167 @@
+---
+sidebar: sidebar 
+permalink: administer/manage-workspace.html 
+keywords: aide, ai data engine, workspaces, metadata engine, manage workspaces, add data containers, users 
+summary: 管理 AI Data Engine 工作区的生命周期，包括查看、编辑、添加数据容器、管理用户和删除工作区。 
+---
+= 管理 AI Data Engine 工作区
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+工作区是 AI Data Engine (AIDE) 用于构建和刷新特定项目或用例的元数据目录的一组数据源（卷）。作为存储管理员，您可以使用 ONTAP System Manager 监视工作区运行状况、调整配置、控制数据源、管理用户，并在不再需要工作区时删除工作区。
+
+.开始之前
+* 您需要 _storage administrator_ 权限来管理工作区。
+
+
+
+
+== 查看工作区状态
+
+查看工作区运行状况、容量使用情况和元数据状态，以确保 Metadata Engine 按预期运行，并且不会消耗意外资源。
+
+.步骤
+. 从 ONTAP System Manager 中，在导航窗格中选择 *Data engine > Workspaces*。
+. 查看页面顶端的摘要，了解工作区总数、整体工作区运行状况和容量使用情况。
+. 对于工作区特定信息，请选择工作区名称。在 *概览* 选项卡上确认：
++
+** 工作区状态和大小。
+** 工作区中包含的数据容器（卷）。
+** 每个数据源的项目计数和上次更新时间。
+** 任何工作区级别的警告。
+
+
++
+
+NOTE: 如果工作区或数据集合显示错误状态，请验证所有源卷均处于联机状态且可访问。
+
+. 选择 *Data collections* 选项卡以查看：
++
+** 与此工作区关联的所有数据集。
+** 状态（如  `Published` 或  `Error`）、大小和上次更新时间。
++
+
+NOTE: System Manager 对数据收集是只读的。数据工程师可以在 AI Data Engine Console 中创建和管理数据收集。
+
+
+
+. 选择 *Users* 选项卡以查看：
++
+** 有权访问此工作区的用户列表。
+
+
+. 选择 *Activity* 选项卡以仅查看与此工作区相关的事件和作业。
+
+
+
+
+== 编辑工作区属性和刷新计划
+
+您可以调整工作区的名称、描述、刷新间隔以及（如果已获得许可）其护栏策略。
+
+.步骤
+. 从 *Data engine > Workspaces* 中，选择工作区旁边的 image:icon_kabob.gif["三个垂直蓝点"] 并选择 *Edit*。
+. 编辑工作区属性：
++
+** 根据需要更新 *Name* 和 *Description*。
+** 在允许的范围内（小时和天）调整 *Refresh interval*（元数据更新频率）。
+** 如果安装了 AIDE 许可证，您可以选择 *Guardrail policy*。
+
+
+. 选择 *Save*。
+
+
+
+NOTE: 对刷新间隔或元数据处理的更改可能会影响为此工作区更新远程 SnapMirror 关系的频率。
+
+
+
+== 向现有工作区添加数据容器
+
+您可以添加其他已装入的卷（本地或来自对等远程集群），以便其元数据包含在工作区目录中。
+
+. 从 *Data engine > Workspaces* 中，执行以下操作之一：
++
+** 选择工作区旁边的 image:icon_kabob.gif["三个垂直蓝点"]，然后选择 *Add data containers*。
+** 打开工作区，选择 *Overview* 选项卡，然后在数据容器部分中选择 *Add*。
+
+
+. 在*将数据容器添加到工作区*对话框中：
++
+** 在 AIDE 集群上查找本地卷。
+** 扩展对等集群以选择远程卷（远程卷需要集群和 SVM 对等）。
+
+
++
+
+NOTE: 只能选择符合条件的在线卷，这些卷未被全局排除且尚未属于工作区。
+
+. 如果系统提示您进行远程卷映射：
++
+** 选择 AIDE 集群上的目标 Storage VM 以接收所选远程卷的 SnapMirror 目标。
+
+
+. 选择 *Add*。
+. 使用工作区 *Activity* 选项卡或 *Data engine > Activity* 跟踪元数据提取和新数据源的任何 SnapMirror 初始化。
+
+
+
+
+== 从工作区中删除数据容器
+
+当数据容器不再与工作区的目的相关时，或者如果要缩小该工作区的元数据管理范围，则可以删除该数据容器。删除数据容器会停止该卷的元数据刷新，并从元数据目录中删除其元数据。
+
+
+IMPORTANT: 请勿从 ONTAP 中删除已添加到工作区的源卷。如果删除卷，工作区将进入失败状态。在删除任何底层 ONTAP 卷之前，请务必先从工作区中删除数据容器。
+
+.步骤
+. 导航到 *Data engine > Workspaces*，然后选择包含此数据容器的工作区。
+. 在 *Overview* 选项卡上，找到要删除的数据容器。
+. 选择数据容器旁边的 *Remove*。
+. 查看确认对话框并选择 *Remove*。
+
+
+
+NOTE: 从工作区中删除数据容器不会删除底层 ONTAP 卷或其 SnapMirror 关系。它仅影响 AI Data Engine 中的元数据使用。
+
+
+
+== 管理工作区用户
+
+您可以授予或撤销数据工程师和数据科学家用户对工作区的访问权限。这些用户在您的身份提供程序 (OIDC) 中定义并映射到 ONTAP 角色。请参见 link:../workspaces/assign-users-to-workspace.html["将用户分配到工作区"] 文档以了解如何管理用户访问。
+
+
+
+== 删除工作区
+
+您可以删除工作区以删除工作区定义和相关的 AIDE 元数据。与工作区相关的任何数据集和矢量嵌入也将被删除。
+
+
+NOTE: 不会删除基础 ONTAP 数据（卷、SnapMirror 关系）。
+
+.步骤
+. 在 *Data engine > Workspaces* 中，执行以下操作之一：
++
+** 删除单个工作区，选择 image:icon_kabob.gif["三个垂直蓝点"] 并选择 *Delete*。
+** 删除多个工作区，选中工作区的复选框，然后选择 *Delete*。
+
+
+. 在确认对话框中，在继续之前查看操作的影响：
++
+** 工作区元数据已永久删除。
+** 与工作区关联的数据收集和嵌入将被永久删除。
+
+
++
+
+NOTE: 没有软删除或还原选项。
+
+. 选中复选框以确认您的理解，然后选择 *Delete*。
+
+
+.相关信息
+* link:../workspaces/assign-users-to-workspace.html["将用户分配到工作区"]
+

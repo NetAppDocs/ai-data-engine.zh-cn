@@ -1,0 +1,1518 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blocks>
+  <block id="d41d8cd98f00b204e9800998ecf8427e" category="summary"></block>
+  <block id="66de116688c3e1a5886489d429240312" category="doc">替换 AIDE 集群中的节点</block>
+  <block id="1439116cd7455e9bacd1edb4c494f0f8" category="paragraph">如果 AI Data Engine (AIDE) 集群中的数据计算节点 (DCN) 停止运行或由于硬件故障、升级或维护需要更换，则需要更换该节点。这确保了 AIDE 集群保持健康和运行。可以在不中断正在进行的服务的情况下执行该程序。</block>
+  <block id="0f6902c11864c7f6ea3e7e97543390ff" category="section-title">准备替换节点</block>
+  <block id="192d4730c4474133e43ad79a17bc2b0a" category="paragraph">在替换 AIDE 集群中的节点之前，需要考虑几个事项。</block>
+  <block id="3d0290aecf6f3d97cfe6bc8642514dfb" category="paragraph-title">System Manager 凭据</block>
+  <block id="214815a740557c20d025260617d488f6" category="paragraph">需要 _storage administrator_ 权限才能执行 AIDE 群集节点替换任务。</block>
+  <block id="e3e16bb73c0250a6a229fb457b4f957e" category="section-title">限制</block>
+  <block id="c236764b0a821599642d7a5689c7dec8" category="paragraph">替换 AIDE 集群中的节点时，应注意以下限制：</block>
+  <block id="3bc43fb96432ecb013dfd886119f4664" category="list-text">仅使用 CLI 和可选的 REST API 支持节点更换。</block>
+  <block id="4e26b1f941bd47e52b378d7507dbda9b" category="list-text">您无法使用 System Manager 执行节点替换。</block>
+  <block id="9d4fb3234a61399a47fa680576e7db64" category="list-text">新节点应与集群的软件版本相匹配；如果需要，ONTAP 将对其进行更新。</block>
+  <block id="7a55c6d554c7d9df5691428e162e9403" category="list-text">连接到集群网络时，不得打开故障节点，以避免 IP 地址冲突。</block>
+  <block id="5a2ebfb8baa378cfcfcba58bbb1380c2" category="section-title">要求</block>
+  <block id="d51d6441a5239b5c7a5c693501413e3c" category="paragraph">您需要具备以下条件：</block>
+  <block id="72204f16603b20fdcd16e8029239c5dc" category="list-text">新替换节点的序列号</block>
+  <block id="092765d695c7446ae9bf65a919335a50" category="section-title">替换 AIDE 集群中的 DCN 节点</block>
+  <block id="65ae0b449f70c37aa1e458ac05a74191" category="paragraph">您可以使用以下过程替换 AIDE 集群中的 DCN 节点。</block>
+  <block id="f3a29486bed19a90f2da6d007818b427" category="list-title">步骤</block>
+  <block id="43affa80e210e412d1308f105cd22a80" category="list-text">物理移除故障节点</block>
+  <block id="e10752bcb48ab25f3c5f386a5d190852" category="paragraph">关闭电源并断开节点与群集网络的连接。在更换过程中，请确保节点未在网络上启动。</block>
+  <block id="af1bebf3af0aee60029465df62b5ffae" category="list-text">使用以下命令从集群中删除失败的节点：</block>
+  <block id="c7f3c19a91bebd5c35d99d6c9b3aaf1e" category="paragraph"><block ref="7061fa3d3e17fada4ea6e5933990fc7a" prefix="" category="inline-code"></block></block>
+  <block id="f9da47cd9a8822c7038474601fd1ca03" category="paragraph">提供 &lt;node_name&gt; 值的实际名称。</block>
+  <block id="c11cc8d13c594521d6b70dec485b0ca3" category="list-text">将新节点物理连接到集群</block>
+  <block id="d8f46a56c81593bee277e3849ae489f0" category="paragraph">确保节点已接通电缆、已接通电源且可被发现。</block>
+  <block id="0e71e7a01216dc58b63c9e7d90a985c7" category="list-text">查看可发现和未配置的节点，以验证新节点是否在线：</block>
+  <block id="547db50b7d2b880e7ac0e7fba084f89d" category="paragraph"><block ref="720c3ab895e0d1a8a01fe7bcadc3a2a4" prefix="" category="inline-code"></block></block>
+  <block id="1aca92cd89aaba68535cf91c1af56c52" category="list-text">使用以下命令将该节点添加到群集中：</block>
+  <block id="b38dbd76b8e8896644bbbb7d12082ee0" category="paragraph"><block ref="8b2f8262a38fdc807f94838db2b726e4" prefix="" category="inline-code"></block></block>
+  <block id="003c675e01c50d37e8dd2f8c03bbf33a" category="paragraph">ONTAP 将为新节点分配 IP 地址。如果节点的软件版本与集群不匹配，ONTAP 将自动更新节点。</block>
+  <block id="0d1db780259414ed416bb18d8f2884c5" category="list-text">使用以下命令之一验证集群健康和节点集成：</block>
+  <block id="2c29fc530cfe763279549f3c96d6bfd9" category="paragraph"><block ref="c4d9420c1ffa71a3d1ac744ad11bdc73" prefix="" category="inline-code"></block></block>
+  <block id="4f68658a4be5c609c26250482ca46289" category="paragraph"><block ref="375993d1728d7a4bd8582b55beade244" prefix="" category="inline-code"></block></block>
+  <block id="321b71f6e14d9658b968c06d0b6a2eb2" category="doc">将数据计算节点添加到您的 AIDE 集群</block>
+  <block id="92b7cb4f44e975db2b9fd5f99307b795" category="paragraph">您可以在创建新的 AI Data Engine (AIDE) 集群或扩展现有集群时添加数据计算节点 (DCN)。工作流程包括使用 ONTAP System Manager 发现和配置节点。</block>
+  <block id="6ae5d153533cfb0dc185a63226f04b91" category="section-title">准备添加节点</block>
+  <block id="e401074e3e0e16c1f24faa361673e348" category="paragraph">添加 DCN 节点时有几个注意事项。</block>
+  <block id="0afd535ca205d91ce437c0bd3d49f39d" category="paragraph-title">创建新 AIDE 集群时</block>
+  <block id="0512d6d76c88119cb98aff170145dd70" category="paragraph">新的 AIDE 集群需要恰好三个 DCN 节点。</block>
+  <block id="a0570a462d14c01191b1fdae3e2ef53b" category="paragraph-title">硬件安装和可寻址性</block>
+  <block id="35b2712db7d90b7ac83004e4abd55cfb" category="paragraph">确保满足以下先决条件：</block>
+  <block id="3511c882bdf5e39ffbc5f1249e124614" category="list-text">新的 DCN 硬件安装在机架上，接通电源，并连接到集群交换机。</block>
+  <block id="7e9891fd152884b9435294e653ebd122" category="list-text">您有一个可用于 DCN 到 ONTAP 后端子网的 IP 地址空间范围。</block>
+  <block id="35b4a576960bf8edd3c0a4737d8ba875" category="list-text">ONTAP 集群已初始化，可从集群管理 LIF 访问。</block>
+  <block id="98eeeb122c8e6c8647365e5106d75b98" category="paragraph">需要 _storage administrator_ 权限才能执行 AIDE 群集创建或扩展任务。</block>
+  <block id="da132c60d8df0a4756d0a1e64618decf" category="paragraph-title">软件兼容性</block>
+  <block id="ee0ee5ef5bb8fdbfab412b81486a118f" category="paragraph">请查看以下文档，以确认您的 DCN 硬件和软件版本与 ONTAP 集群兼容：</block>
+  <block id="c63a7fe88a9c72a5a8f367aa19a58dfd" category="inline-link-macro">DCN 软件与 ONTAP 版本兼容</block>
+  <block id="6ab5ce36127a3ad3b1c181797093dbcd" category="list-text"><block ref="a3ec2811c5154a89fce215b158803b41" category="inline-link-macro-rx"></block>。</block>
+  <block id="120601c52c837d94ab708e3f7a257856" category="paragraph">在节点添加操作期间，System Manager 将确认新节点运行与以下内容兼容的软件版本：</block>
+  <block id="666bd68071e8e825921bc9e407690821" category="list-text">如果这是第一个 DCN 加入，则为 ONTAP 集群有效版本 (ECV)。</block>
+  <block id="842ddc47469ea5ac1ce44788c8cb89c7" category="list-text">如果已存在 DCN，则为现有 DCN 集群版本。</block>
+  <block id="2819e7b358737d8f27bd99b392d0a27f" category="paragraph">如果节点不兼容：</block>
+  <block id="b7da699c0281a433a9860028654e44f5" category="list-text">*添加*对话框中受影响的 DCN 旁边会显示错误。</block>
+  <block id="de8f8823836bd13a6461cb61b29498e3" category="list-text">您必须首先将 DCN 软件（或 ONTAP，如适用）更新为兼容版本。</block>
+  <block id="3d80b5adf4f2333ed4ebe831a808e0b8" category="section-title">添加数据计算节点</block>
+  <block id="36d644843980d3515beb3eda72b3c6ef" category="paragraph">在创建新 AIDE 群集或扩展现有群集时，您需要添加 DCN 节点。</block>
+  <block id="2aaa76759f32fb84bbc16f1e6ec34041" category="list-text">在 System Manager 中，选择导航窗格中的 *Dashboard*，然后选择 *Health* 卡。</block>
+  <block id="674fef43fb855635fd7c6bfd943e7355" category="list-text">确认有要添加的节点，然后选择 *View details* 以显示此列表。</block>
+  <block id="05e43bb2d4ce8a372a48a82110f426a0" category="paragraph">该列表包含尚未属于 AIDE 集群的已发现节点</block>
+  <block id="ecdbaa34fbc9fb255ba07e3b1bb111a1" category="list-text">或者，您可以选择 *Cluster* 和 *Overview* 以及 *Data compute* 选项卡来查看列表。</block>
+  <block id="3774dc65d14d1dd1d154bf667a1b53a7" category="list-text">在数据计算页面的底部，选择节点列表上方的 *添加* 。</block>
+  <block id="6d4bdcbe26a6b8a34ac177b73badbd8f" category="list-text">在*添加数据计算节点*对话框中，选择要添加的 DCN 节点。</block>
+  <block id="6921a089419f83ad8ce2b5bc5e0bb303" category="paragraph">您可以选择在添加节点之前重命名单个节点。</block>
+  <block id="a199a377affc1a90e950b6895c1c81c4" category="list-text">如果这是您第一次添加节点，并且不存在后端子网，请选择 *添加子网* 并提供：</block>
+  <block id="4da4496e950cbc01ebe2ab05b5a45e75" category="list-text">子网名称（供内部使用）</block>
+  <block id="de4216be0219346bb91ff19e3bdca003" category="list-text">子网地址和掩码</block>
+  <block id="d372f028dfe5b46243bbfc5b2b04b3bb" category="list-text">此后端网络上 DCN 和 ONTAP 节点的 IP 地址范围</block>
+  <block id="81cce1d27067d7b6323a98e980bc37f1" category="paragraph">System Manager 验证该范围包括要添加的所有 DCN 和集群中所有 ONTAP 节点的足够可用 IP 地址，以及用于 DCN 到 ONTAP 通信的其他集群级浮动 IP 地址。</block>
+  <block id="bfae2e896f147afef9a86f79c89cc548" category="list-text">无论您是添加了后端子网还是它已经存在：</block>
+  <block id="68b13b1f14d5a7301f404de8a4f146a9" category="list-text">查看可用的 IP 地址。</block>
+  <block id="9c393ec667e7bf4b5b2cabd8415b1e23" category="list-text">如果需要，选择 *编辑子网* 并扩展 IP 范围。</block>
+  <block id="8414ecbd6ba58174af2151618d11237c" category="list-text">您只能扩大范围。不支持缩小或更改子网。</block>
+  <block id="429527c1edd843478aa84034b693cff6" category="list-text">更改子网或 IP 范围可能需要在 DCN 上重新创建底层 Kubernetes 集群，这可能需要几分钟的时间。</block>
+  <block id="a2587506ae1e8450cf3f67b40cb13d17" category="list-text">可选择通过提供以下功能来配置 Data Engine 服务接口：</block>
+  <block id="837f44885a47130344e89624ea338e1a" category="list-text">服务 IP 地址</block>
+  <block id="a85b22fe65b9e8fef1530964d6b1e3ab" category="list-text">网络掩码</block>
+  <block id="a6118317a5b3ec929893d5eded2cacb6" category="list-text">网关（如果您的环境需要）</block>
+  <block id="a878feba8dfd8e4f3ad21fd1f740ef28" category="paragraph">单个 IP 将在 DCN 之间进行负载平衡，并用作 AI Data Engine Console 和相关 API 的前端地址。</block>
+  <block id="dd47cfdba73ab730de540e76dbeb177b" category="list-text">查看选定节点、后端子网和 Data Engine 服务接口设置。</block>
+  <block id="d28484c7289d42ee404b01f02091316b" category="list-text">选择 *添加* 并等待操作完成。System Manager 将执行以下操作：</block>
+  <block id="fa6cf81e3f469bf40c927fab14258d6b" category="list-text">将所选节点添加到 DCN 集群</block>
+  <block id="49482538a769dc0f4a878aa957f4d36c" category="list-text">配置后端网络并将节点加入基于 Kubernetes 的 DCN 集群</block>
+  <block id="4f83b5e5a29cf85ab5afd617500c2bd6" category="list-text">更新 DCN 发现的内部元数据</block>
+  <block id="83aa01713ad8a0cbd8a8c44bc52cccce" category="list-text">完成后，选择 *Cluster* 和 *Overview* 并确认：</block>
+  <block id="8bc7d41c451920d9ab5dd1f79ff6cc4a" category="list-text">在 *Data compute* 下，新 DCN 显示为集群的一部分</block>
+  <block id="d338c0060e35cc130211676be48ccef1" category="list-text">所有节点均为 *Healthy*</block>
+  <block id="222392401b4fd309c1218418c8a55370" category="list-text">验证仪表板 *Health* 卡显示更新的节点计数</block>
+  <block id="85bea57a59849a61aeccd3f447b77d5a" category="summary">管理 AI Data Engine 工作区的生命周期，包括查看、编辑、添加数据容器、管理用户和删除工作区。</block>
+  <block id="d0c387849275d5d33176e5d0f9afb259" category="doc">管理 AI Data Engine 工作区</block>
+  <block id="f58aae2af8703740ba0c3eef159c8bf6" category="paragraph">工作区是 AI Data Engine (AIDE) 用于构建和刷新特定项目或用例的元数据目录的一组数据源（卷）。作为存储管理员，您可以使用 ONTAP System Manager 监视工作区运行状况、调整配置、控制数据源、管理用户，并在不再需要工作区时删除工作区。</block>
+  <block id="135b308ed83c53f1516b7c754566d1c4" category="list-title">开始之前</block>
+  <block id="c1ee2e6caa96cd3d4e152cd8196e9746" category="list-text">您需要 _storage administrator_ 权限来管理工作区。</block>
+  <block id="4810f2b966117468fcefe3f2465157f2" category="section-title">查看工作区状态</block>
+  <block id="45683ec66b6dc7fd657acd2b5f0fd26e" category="paragraph">查看工作区运行状况、容量使用情况和元数据状态，以确保 Metadata Engine 按预期运行，并且不会消耗意外资源。</block>
+  <block id="c9f8fd7d9846bd15e1f9b4be493eeca6" category="list-text">从 ONTAP System Manager 中，在导航窗格中选择 *Data engine &gt; Workspaces*。</block>
+  <block id="0c6b4e072502c8ce42d7b551222d6ab9" category="list-text">查看页面顶端的摘要，了解工作区总数、整体工作区运行状况和容量使用情况。</block>
+  <block id="8f6df4665731d1dfb77be1588b69fcd0" category="list-text">对于工作区特定信息，请选择工作区名称。在 *概览* 选项卡上确认：</block>
+  <block id="a384b47ae2a73dda5d6a3698593ec575" category="list-text">工作区状态和大小。</block>
+  <block id="004882441870e1169afca65a43e463e1" category="list-text">工作区中包含的数据容器（卷）。</block>
+  <block id="498c8f7991fea1ca3b4dae329631f0bd" category="list-text">每个数据源的项目计数和上次更新时间。</block>
+  <block id="e2ff9cfbac9f547a4c5794ce9a3790d9" category="list-text">任何工作区级别的警告。</block>
+  <block id="eabc98ed17c663a51decc335292ed203" category="admonition">如果工作区或数据集合显示错误状态，请验证所有源卷均处于联机状态且可访问。</block>
+  <block id="b61c40a9f2b948351bca715f35727413" category="list-text">选择 *Data collections* 选项卡以查看：</block>
+  <block id="01552a8604f6068b1ed86262146da505" category="list-text">与此工作区关联的所有数据集。</block>
+  <block id="1d0f9d53a74f5287c0514289e185cecd" category="list-text">状态（如 <block ref="9b9d8a976b42e0bd66381797644943d5" prefix=" " category="inline-code"></block> 或 <block ref="902b0d55fddef6f8d651fe1035b7d4bd" prefix=" " category="inline-code"></block>）、大小和上次更新时间。</block>
+  <block id="09ea2582f0f7302dc861f3c644f22768" category="admonition">System Manager 对数据收集是只读的。数据工程师可以在 AI Data Engine Console 中创建和管理数据收集。</block>
+  <block id="41a3a834f86a0d8dab268860e350a773" category="list-text">选择 *Users* 选项卡以查看：</block>
+  <block id="48ab7bd750155f2572309045aa1f6cdc" category="list-text">有权访问此工作区的用户列表。</block>
+  <block id="2c6c0132c25980e77217833c848a6ba9" category="list-text">选择 *Activity* 选项卡以仅查看与此工作区相关的事件和作业。</block>
+  <block id="cdd88ef337c2157ce6c7ad3b9f73e59a" category="section-title">编辑工作区属性和刷新计划</block>
+  <block id="ed69d3fe995649e2facddb696c643327" category="paragraph">您可以调整工作区的名称、描述、刷新间隔以及（如果已获得许可）其护栏策略。</block>
+  <block id="f68a3e6f71e355a9835562cab8f0851b" category="inline-image-macro">三个垂直蓝点</block>
+  <block id="3204301ad58ffc1aec382b4c11ad3633" category="list-text">从 *Data engine &gt; Workspaces* 中，选择工作区旁边的 <block ref="c2bfb9c080f7666b2b95fa7dd1fddf25" category="inline-image-macro-rx" type="image"></block> 并选择 *Edit*。</block>
+  <block id="a79bfd368ce43867805a24126cc0a003" category="list-text">编辑工作区属性：</block>
+  <block id="171961cd91168dcd373fe6f7717b7cdc" category="list-text">根据需要更新 *Name* 和 *Description*。</block>
+  <block id="1f6da733ec0191f46d0598e7d4da64aa" category="list-text">在允许的范围内（小时和天）调整 *Refresh interval*（元数据更新频率）。</block>
+  <block id="0180b6f1441c3428810fd27fbc96415c" category="list-text">如果安装了 AIDE 许可证，您可以选择 *Guardrail policy*。</block>
+  <block id="10492389e94efdebbb66f7b0cd8a1324" category="list-text">选择 *Save*。</block>
+  <block id="af8b6a795d2484ee9819928f2792034f" category="admonition">对刷新间隔或元数据处理的更改可能会影响为此工作区更新远程 SnapMirror 关系的频率。</block>
+  <block id="ae19ba7cac609c5e9a6f33191e1e6561" category="section-title">向现有工作区添加数据容器</block>
+  <block id="e04dc9898cf2f3d2fcd4883bf0ae0d5f" category="paragraph">您可以添加其他已装入的卷（本地或来自对等远程集群），以便其元数据包含在工作区目录中。</block>
+  <block id="5332cfa3dbb29292e7bd472af979ff4f" category="list-text">从 *Data engine &gt; Workspaces* 中，执行以下操作之一：</block>
+  <block id="a005c5f91122c396b1d10b179f2b1913" category="list-text">选择工作区旁边的 <block ref="c2bfb9c080f7666b2b95fa7dd1fddf25" category="inline-image-macro-rx" type="image"></block>，然后选择 *Add data containers*。</block>
+  <block id="ce6762b27c603be642239bd202c3da9b" category="list-text">打开工作区，选择 *Overview* 选项卡，然后在数据容器部分中选择 *Add*。</block>
+  <block id="667214e377e1074a2241d7d040563f60" category="list-text">在*将数据容器添加到工作区*对话框中：</block>
+  <block id="7a05bf6410aacc57faf8aa9ae1fb0fa5" category="list-text">在 AIDE 集群上查找本地卷。</block>
+  <block id="e2a831f431cc830beaabbbd5f749e99f" category="list-text">扩展对等集群以选择远程卷（远程卷需要集群和 SVM 对等）。</block>
+  <block id="287353be4b257ed782b9ffda6d214dd4" category="admonition">只能选择符合条件的在线卷，这些卷未被全局排除且尚未属于工作区。</block>
+  <block id="d8dd3e17867915c4063f732b3e9d3532" category="list-text">如果系统提示您进行远程卷映射：</block>
+  <block id="9f6d37f15d08666db9a47b555b1388b3" category="list-text">选择 AIDE 集群上的目标 Storage VM 以接收所选远程卷的 SnapMirror 目标。</block>
+  <block id="fa12509cfb8e8ccded16e2a254e988c4" category="list-text">选择 *Add*。</block>
+  <block id="7f6c8f7774dd5f99d321b4bbfc03bc72" category="list-text">使用工作区 *Activity* 选项卡或 *Data engine &gt; Activity* 跟踪元数据提取和新数据源的任何 SnapMirror 初始化。</block>
+  <block id="8068dd167e2dffe9879ef5016adbf655" category="section-title">从工作区中删除数据容器</block>
+  <block id="51a308fd8c447f9bb2d77a10c0cf9560" category="paragraph">当数据容器不再与工作区的目的相关时，或者如果要缩小该工作区的元数据管理范围，则可以删除该数据容器。删除数据容器会停止该卷的元数据刷新，并从元数据目录中删除其元数据。</block>
+  <block id="7bed90e1309f57264724a496eb1183f4" category="admonition">请勿从 ONTAP 中删除已添加到工作区的源卷。如果删除卷，工作区将进入失败状态。在删除任何底层 ONTAP 卷之前，请务必先从工作区中删除数据容器。</block>
+  <block id="9e5b6932e00b75415b85f91aef21142e" category="list-text">导航到 *Data engine &gt; Workspaces*，然后选择包含此数据容器的工作区。</block>
+  <block id="6a0ae6e7f660af08b587359f8c6c3ff9" category="list-text">在 *Overview* 选项卡上，找到要删除的数据容器。</block>
+  <block id="5d876f21c6d12c852f8116ea86f0a224" category="list-text">选择数据容器旁边的 *Remove*。</block>
+  <block id="f95a238ccea08a2d64656e6ef9e5ed80" category="list-text">查看确认对话框并选择 *Remove*。</block>
+  <block id="6f060bcc072c7dbb3049d5f0b13417cf" category="admonition">从工作区中删除数据容器不会删除底层 ONTAP 卷或其 SnapMirror 关系。它仅影响 AI Data Engine 中的元数据使用。</block>
+  <block id="14faf70c1b68ce938a210fbd4e2c738e" category="section-title">管理工作区用户</block>
+  <block id="14d0d5a96ba30d0b87f6bdf294484d0f" category="inline-link-macro">将用户分配到工作区</block>
+  <block id="c24097182891c0e056f8a14e62944908" category="paragraph">您可以授予或撤销数据工程师和数据科学家用户对工作区的访问权限。这些用户在您的身份提供程序 (OIDC) 中定义并映射到 ONTAP 角色。请参见 <block ref="2236764a3167e38854fb33a58c0dabb2" category="inline-link-macro-rx"></block> 文档以了解如何管理用户访问。</block>
+  <block id="d54bbfccb32d7fd7b5b96b6da283e6a5" category="section-title">删除工作区</block>
+  <block id="7fffe054a8e4cdec58fac5f1b06cd78a" category="paragraph">您可以删除工作区以删除工作区定义和相关的 AIDE 元数据。与工作区相关的任何数据集和矢量嵌入也将被删除。</block>
+  <block id="968bd254b8afcb96ea68652d0cf2659f" category="admonition">不会删除基础 ONTAP 数据（卷、SnapMirror 关系）。</block>
+  <block id="0b6c30caf91633b437bd662494c1be06" category="list-text">在 *Data engine &gt; Workspaces* 中，执行以下操作之一：</block>
+  <block id="afb3f73bc89d0c5c61ace1ccb3f596fc" category="list-text">删除单个工作区，选择 <block ref="c2bfb9c080f7666b2b95fa7dd1fddf25" category="inline-image-macro-rx" type="image"></block> 并选择 *Delete*。</block>
+  <block id="a1e199fffce5163333c19ac7839e2daf" category="list-text">删除多个工作区，选中工作区的复选框，然后选择 *Delete*。</block>
+  <block id="63cda07c8c6987813768534be8581f22" category="list-text">在确认对话框中，在继续之前查看操作的影响：</block>
+  <block id="9b78d2445ed2fc6fe345f9b7ecef0f9d" category="list-text">工作区元数据已永久删除。</block>
+  <block id="e7e791b2a8048bc44adbd7f0ff1bc61c" category="list-text">与工作区关联的数据收集和嵌入将被永久删除。</block>
+  <block id="48344e6ed524816140b4216af61d360d" category="admonition">没有软删除或还原选项。</block>
+  <block id="5bce8ce533809684927a32e50c1ec3a7" category="list-text">选中复选框以确认您的理解，然后选择 *Delete*。</block>
+  <block id="30f60d67f457bb040dffde52197a54da" category="list-title">相关信息</block>
+  <block id="5ca1bfd4733d6669a5b1e35453fbb806" category="inline-link-macro">将用户分配到工作区</block>
+  <block id="8a2d5578304ff838b2d16c2260a8a058" category="list-text"><block ref="8a2d5578304ff838b2d16c2260a8a058" category="inline-link-macro-rx"></block></block>
+  <block id="9518a34615333e0202e1d3e1390beef4" category="summary">使用 ONTAP System Manager 的自动更新功能更新 DCN 固件和 AI Data Engine Console 软件，或手动进行更新。</block>
+  <block id="e02f628a488f5dc3f014f1e19aa1975f" category="doc">更新 AI Data Engine software</block>
+  <block id="bfb21e29ccced16c7f48cc7571de2243" category="paragraph">作为存储管理员，您可以使用 ONTAP System Manager 更新 AIDE 系统上的 AI Data Engine (AIDE) 软件、数据计算节点 (DCN) 固件和其他系统文件。</block>
+  <block id="e9acce0d3652d40c91f9bd7e814291c0" category="inline-link-macro">NetApp 支持站点下载</block>
+  <block id="8323648b6d3775590504c93c231333eb" category="paragraph">AIDE 不支持 ONTAP 自动软件更新功能。您可以注册接收来自 <block ref="f21f81fb3deef75901e58c9bf62616f0" category="inline-link-macro-rx"></block> 的通知，但 AIDE 软件的所有更新都由管理员手动执行。</block>
+  <block id="bbe48fb854ea022537208eeeff822f91" category="paragraph-title">关于此任务</block>
+  <block id="60fcb915f1faf7d11e161d9ddd250f22" category="paragraph">合并的 AI Data Engine software 包比典型的 ONTAP 更新包大得多（AIDE 包约为 40GB）。在更新 AIDE software 时，请规划更长的上传和安装时间。</block>
+  <block id="a9d24a721373c7790bee0d698ddef622" category="list-text">您需要 _storage administrator_ 权限才能更新 DCN 固件和 AI Data Engine software。</block>
+  <block id="c001b433a80d333fcd0cde041a28631f" category="list-text">您需要使用 NetApp 支持站点凭据才能使用活动帐户。</block>
+  <block id="eb781a58d0a8ebeb1438df7a8ba313fb" category="inline-link-macro">在规划更新时确保 ONTAP、DCN 固件和 AI Data Engine software 之间的兼容性</block>
+  <block id="7fb108e498bb250319232917b900eb83" category="list-text"><block ref="08a78e3589e18787ea92134d43eacfa7" category="inline-link-macro-rx"></block>。</block>
+  <block id="083257501c6eb702cda5481ff811e4ca" category="admonition">DCN 固件或 AI Data Engine software 更新不支持还原功能。安装更新后，无法还原到以前的版本。</block>
+  <block id="cec2da15f3d3c855dc2581cd97146a9e" category="inline-link">将组合的 DCN 固件和 AIDE 软件更新文件下载到本地客户端</block>
+  <block id="345d81ca03430362a62b4e2b463fec81" category="list-text"><block ref="20ff115eedebdbc3e04b1e122cd57516" category="inline-link-rx"></block>。</block>
+  <block id="ed04f321bbf710ec2bd85b4777efa273" category="list-text">在 System Manager 中，选择 *Cluster &gt; Settings &gt; Software updates*。</block>
+  <block id="09ef944219bc98d60bb63812176764b8" category="inline-image-macro">指向右侧的蓝色箭头</block>
+  <block id="c5c03b3ae8d72d0446652aa2d2efe4a7" category="list-text">在 *软件更新* 旁边，选择 <block ref="5f3155aaa1f70c7a47a7d47ad66cef2b" category="inline-image-macro-rx" type="image"></block>。</block>
+  <block id="d3137ef65f8d5b79f1f04dc966b5c6de" category="list-text">在 AI Data Engine 更新下，选择 *添加 AI Data Engine software 文件*，然后选择更新包。</block>
+  <block id="0355bd96356570e558ac582e112965f8" category="list-text">包上传完成后，选择 *更新* 开始在 DCN 节点上安装更新。</block>
+  <block id="09425222bdb4168ecc88c7df766d606e" category="admonition">DCN 节点更新正在进行时，AIDE Console 不可用或不可访问。</block>
+  <block id="8eea62084ca7e541d918e823422bd82e" category="paragraph-title">结果</block>
+  <block id="13ecc32f0ed2f0cff3724782ab1ede96" category="paragraph">DCN 使用 AI Data Engine software 进行更新，并为每个节点显示更新的版本。</block>
+  <block id="b559f60d492e5e3df9cd432ae3e16ecf" category="inline-link">升级 AFX 系统的 ONTAP 软件</block>
+  <block id="251c32e5b12aa520d318e816bc861f23" category="list-text"><block ref="251c32e5b12aa520d318e816bc861f23" category="inline-link-rx"></block></block>
+  <block id="05b3d516937d982224c25f96c66ccc1c" category="summary">了解需要保持最新的 AI Data Engine 系统的不同组件。</block>
+  <block id="6ce6c8b06c3aee1ab6bf9677eaadab24" category="doc">AI Data Engine 系统更新和兼容性</block>
+  <block id="60837671e62a6c51c26243f9f40a4f51" category="paragraph">保持 AI Data Engine (AIDE) 系统组件的最新状态，以保持最佳性能和访问新功能。部署后、新软件或固件可用时、添加或替换节点时或定期进行功能更新时更新组件。</block>
+  <block id="315386f50ca9eff06da5a152f80a0709" category="section-title">AIDE 系统组件</block>
+  <block id="82d4eca3619857760b50d53f35f08a90" category="paragraph">AIDE 系统中有两个主要组件需要更新：ONTAP 软件和 AIDE 软件，其中包括 DCN 固件。</block>
+  <block id="41f5102d5f17a492d52d867653bc3402" category="section-title">ONTAP 软件</block>
+  <block id="1f1a1271fb54673ad28cdc947feb4e74" category="paragraph">ONTAP 是在 NetApp 存储系统上运行的操作系统，包括在 AIDE 部署中使用的系统。保持 ONTAP 为最新版本，以维护系统稳定性、安全性以及与 AIDE 组件的兼容性。AIDE 组件单独更新。</block>
+  <block id="bcb5f733f1adb6d49e21131035e973ab" category="section-title">AIDE 软件更新</block>
+  <block id="f6d7f4d080a5cdfbde1ca2afe62d15b6" category="paragraph">AIDE Console 软件和 DCN 固件更新作为单个软件包 (.tgz) 一起分发，不会嵌入到 ONTAP 映像中。更新可确保 AIDE 系统内硬件组件的正常运行，并提供新功能、性能改进和错误修复。</block>
+  <block id="0a31736f60dd76c513b61196a00b88d6" category="section-title">了解更新流程</block>
+  <block id="319d9b005d239892cc2b564df5cba1e1" category="paragraph">AIDE 软件更新可通过 ONTAP System Manager 进行管理。</block>
+  <block id="1d07799f906ab75d186ca484e6fac46a" category="paragraph">发布类型和范围：</block>
+  <block id="02820103aa434f47df1e6032459d04d7" category="list-text">ONTAP 主要版本（9.x.x）和 AIDE 主要版本（9.x.x U0）引入了影响 ONTAP 集成的新功能、API 或更改。</block>
+  <block id="dbb222271ea093c78aeca68e3a9f2837" category="list-text">ONTAP 修补程序版本 (9.x.x Px) 和 AIDE 更新版本 (9.x.x Ux) 包含不影响 ONTAP 集成的修复和更新。</block>
+  <block id="c40a9ed4ca32a41abfe823a5591ab593" category="section-title">兼容性矩阵</block>
+  <block id="3aff4c208b1fe57e6b7d50faa86107ee" category="paragraph">在计划更新时确保 ONTAP 和 AIDE 软件之间的兼容性。</block>
+  <block id="83b5552fb5911c379734b63d82d04547" category="paragraph">AIDE software 作为"U"版本发布。AIDE 主要版本是"U0"版本，后续次要版本将是"U1"及更高版本。</block>
+  <block id="0a8261ac12ab162f2cb8a7ff2c0c2917" category="section-title">ONTAP 和 AIDE 兼容性</block>
+  <block id="07bd1c5d6519187df7481131b5f994d3" category="cell">AIDE 发布</block>
+  <block id="dcf4fd27b8dceecd77b2127bb7270258" category="cell">支持的 ONTAP 版本</block>
+  <block id="0faf11919e2d57059a1aeb8f99e3a852" category="cell">9.18.1 U0</block>
+  <block id="ce26eb948c24c32e87abcd86f1e08b67" category="cell">9.18.1 GA 和所有 9.18.1 Px</block>
+  <block id="4b99164937f5285b507d1cc4aa57dc78" category="cell">9.18.1 U1 及更高版本</block>
+  <block id="c8edbd10a1cefa33b5426f3caf51927b" category="paragraph">"Px" 表示主要版本中的所有 ONTAP 补丁版本（例如，9.18.1 P1、9.18.2 等）。</block>
+  <block id="c61715af31fb78022fc54f7938e42152" category="section-title">AIDE 升级路径</block>
+  <block id="4b243629427b1bb46c9cb93a56cc6414" category="paragraph">以下示例使用假设的未来版本来显示从 AIDE 9.18.1 U0 和 9.18.1 U1 允许的升级和更新路径。</block>
+  <block id="40c84643ebad16fbf17548baaafd1040" category="cell">如果您当前的 AIDE 版本是…</block>
+  <block id="1f2d57a8c4fbbe5fc8e3b0c57dddf4dd" category="cell">您的目标 AIDE 版本是…</block>
+  <block id="d6d759596e0eba5472d9b19d0ced7754" category="cell">您的升级或更新路径是…</block>
+  <block id="283ca8d4b834f564b72f0f555816803c" category="cell">9.18.1 U1</block>
+  <block id="fd1dd0c603be8170f9eae0be9f2f6afb" category="cell">直接</block>
+  <block id="fab78b96763d1052d2515db675734272" category="cell">9.18.1 U3</block>
+  <block id="e32e4b57cad1c9f5a8057724e32b4e74" category="cell">直接（您可以在 9.18.1 中从任何 Ux 更新到任何以后的 Ux）</block>
+  <block id="bc9337f62cc08a9589fd7554ed86a7ae" category="section-title">还原限制</block>
+  <block id="74bfdc300a94797f04e4f81bc4194296" category="inline-xref">兼容性要求</block>
+  <block id="7e2ed97ac83794924366eef95aafc892" category="paragraph">AIDE 系统不支持 DCN 固件、AIDE 软件更新或 AFX 存储系统上的 ONTAP 的还原操作。安装更新或升级后，无法还原到以前的版本。请在更新或升级之前查看 <block ref="637a49fa483e76645b836daf13808552" category="inline-xref-macro-rx"></block>。</block>
+  <block id="8d3cdbc9554ed2ac4cee54442c842426" category="inline-link-macro">更新 AIDE 软件</block>
+  <block id="f7c945632f485907e1eae694807bb6a3" category="list-text"><block ref="f7c945632f485907e1eae694807bb6a3" category="inline-link-macro-rx"></block></block>
+  <block id="298aa9a54140aa713f5b95a86823f269" category="summary">在开始您的 AIDE 管理任务之前，首先访问 ONTAP System Manager。</block>
+  <block id="4f757f61aaf059e31343194e28707e89" category="doc">查看 AIDE 系统和集群状态</block>
+  <block id="166e638923bfc550bd17e3fb3063d431" category="paragraph">作为存储管理员，您可以使用 ONTAP System Manager 访问仪表板并显示集群状态。在开始您的 AIDE 管理任务或怀疑存在操作问题之前，这是一个很好的第一步。</block>
+  <block id="b86f92dca61741af8ebb8cd2d325a014" category="list-text">您需要 _storage administrator_ 权限才能执行 AIDE ONTAP 相关的管理任务。</block>
+  <block id="7a5940318f16599afaf7c2ea7c9bb949" category="section-title">从控制面板监控 AIDE 状况和容量</block>
+  <block id="24d572186819f698393ea84d96f7ab54" category="list-text">使用集群管理地址连接到 ONTAP System Manager：</block>
+  <block id="8d6202ca8157dbbcfb4d14b2da02f0f8" category="paragraph"><block ref="6426e075e6403dfcfd214c2aa43e2904" prefix="" category="inline-code"></block></block>
+  <block id="e4f7223f32d97dbe424c4ce7d5042460" category="list-text">使用管理员帐户 Sign in。</block>
+  <block id="2f9d6a635fdc7f51d74a3e799a8944f2" category="list-text">在左侧导航窗格中选择 *Dashboard*。</block>
+  <block id="98312b2004ad324c4a7b1f044cd73283" category="list-text">查看 *Health* 图块：</block>
+  <block id="f499b1836f37281797cb1c873ca08513" category="list-text">确认集群整体运行状况。</block>
+  <block id="06f0ccdac13ffb58613bc8094cec135d" category="list-text">验证 **Data compute nodes** 计数和状态。</block>
+  <block id="4bed29f798111630300f714cd5c9fc1f" category="list-text">检查警报：</block>
+  <block id="dc47e6fe34376f2023037e3b6a315c78" category="list-text">DCN 节点问题或连接问题</block>
+  <block id="7562f12caa789240c7d274f75649e674" category="list-text">错误的工作区或数据集（例如，集合发布失败）</block>
+  <block id="a2b1ae6dc5be279dd74f3af8fd8ac14f" category="list-text">查看 *Capacity* 图块：</block>
+  <block id="57946b9a460e40c5c2a15d4c4c674f9e" category="list-text">记录集群总容量和已用容量。</block>
+  <block id="92073bf63b22ed9ebb4ae4f81ba0c90b" category="list-text">对于 AIDE 集群，请验证：</block>
+  <block id="95753e48bc89b8195184cf3fbeadb21e" category="list-text">AIDE 元数据和应用程序卷使用的容量（元数据 Storage VM）</block>
+  <block id="8a3caf77260c34ae7c66977b4c2bfac9" category="list-text">工作区和数据集合使用的容量（如果可用）</block>
+  <block id="a8f78b5a44c0921753c667310c3e9e8d" category="list-text">（可选）查看 *Network* 和 *Performance* 磁贴，以了解可能影响 AIDE 工作负载的集群范围行为（例如，网络拥塞或保护延迟）。</block>
+  <block id="a0d6f8dd3778f8c06c87c167d2521299" category="section-title">查看数据 DCN 运行状况和利用率</block>
+  <block id="693c6bbf05e8c49259d8e63dd61abac3" category="list-text">在导航窗格中，选择 *Cluster*，然后选择 *Overview*。</block>
+  <block id="0ca1942c92ad4e01099327a0bd25331a" category="list-text">选择 *Data compute* 选项卡。</block>
+  <block id="b73a125abdc0ab5f5c56ce6c143963d1" category="paragraph">此选项卡显示集群中的所有 DCN 节点，其中包含：</block>
+  <block id="75021f8a627fa6aad9542d2f00ae697e" category="list-text">节点名称、型号、序列号和软件版本</block>
+  <block id="d9d2e9383c74baf2c7b175027a4cb519" category="list-text">总体节点状态</block>
+  <block id="6b96bbf14fa51c6572f1e386c55b02bf" category="list-text">CPU 和内存利用率</block>
+  <block id="155d67160139b93a68eeec54509ad43f" category="list-text">GPU 利用率（如果存在 GPU）</block>
+  <block id="2f41b9d945d34cff5257d92b1822643a" category="list-text">任何节点级错误指示器</block>
+  <block id="6e35da8f640f417e02b3fd047d9524bc" category="list-text">展开 DCN 节点以打开详细视图并检查：</block>
+  <block id="2cd7c5fd3a2836b52f41920db1f935fb" category="list-text">系统 CPU 和内存使用率</block>
+  <block id="2e8830806f0b74696bf31d5f75443860" category="list-text">GPU 内存使用量</block>
+  <block id="6661b143f15158b68fc090658056aeda" category="list-text">报告的硬件或服务问题</block>
+  <block id="b99fecd261b7af9fd9bebe8b82b724aa" category="list-text">在 *集群 &gt; 概述* 页面上选择 *布线*，以验证 DCN 节点已正确连接到集群交换机，并识别任何端口或链路问题。</block>
+  <block id="b2cf41ffae49948aeb2fbb86d5bd0f60" category="section-title">监控工作区和元数据占用空间</block>
+  <block id="8dd3876952292f867740b4a42837c239" category="list-text">在导航窗格中，选择 *Data engine*，然后选择 *Workspaces*。</block>
+  <block id="d95a231f43e9bae545f61be9bcef20d7" category="list-text">查看页面顶部的工作区摘要：</block>
+  <block id="650f00611da64fe52ebc4f317d9318a0" category="list-text">工作区及其状态的计数（例如，<block ref="643562a9ae7099c8aabfdc93478db117" prefix=" " category="inline-code"></block>、<block ref="396d45b57c2fbe3318e7b93272a2686b" prefix=" " category="inline-code"></block>、<block ref="902b0d55fddef6f8d651fe1035b7d4bd" prefix=" " category="inline-code"></block>）。</block>
+  <block id="24b66730246cb13ea1a152bcbee0c00c" category="list-text">工作区总大小。</block>
+  <block id="401bbf273960e52b727a0740cefc795d" category="list-text">所有工作区消耗的集群容量百分比。</block>
+  <block id="ce86b6d1b9fe7d9759b00f879df24b13" category="list-text">查看工作区网格：</block>
+  <block id="64e9f7df72fee7ba8e9bb13345660f9d" category="list-text">确认关键工作区显示 *Healthy* 状态。</block>
+  <block id="0e5febf4d586b2b698a9775108813beb" category="list-text">检查工作空间大小和容量消耗。</block>
+  <block id="d75bc1c467a484aded8ceab2629d6e10" category="list-text">查找处于 <block ref="902b0d55fddef6f8d651fe1035b7d4bd" prefix=" " category="inline-code"></block> 或长期运行 <block ref="643562a9ae7099c8aabfdc93478db117" prefix=" " category="inline-code"></block> 状态的任何工作区。</block>
+  <block id="50098f8819a650b96730f30ea8cc8108" category="list-text">要查看特定工作区的详细信息，请选择其名称：</block>
+  <block id="17ecd708fa793a09e098454fd7fd2bd7" category="list-text">在 *概览* 选项卡上，确认：</block>
+  <block id="62c54ff53b3225cf8effa3710f51b849" category="list-text">工作区状态和大小</block>
+  <block id="a7ab56009d7a6bfa0cbeedebc7f99d4a" category="list-text">包含的数据容器（卷）及其项目计数</block>
+  <block id="dd94b2ca3883da8f1864b19fbcb8cce4" category="list-text">每个数据源的上次更新时间</block>
+  <block id="5b73bc950545a2dc50cbed3d3ebca8e4" category="list-text">在 *Data collections* 选项卡上，确认：</block>
+  <block id="5be3b48462144d25526abe168001774c" category="list-text">该工作区存在哪些数据集（数据集在 System Manager 中是只读的）</block>
+  <block id="b52425ad07c4dc694993f56c0fc982b3" category="list-text">它们的状态、大小和最近更新时间</block>
+  <block id="a8588aa6fff7a3a917476845f3260829" category="list-text">在 *用户* 选项卡上，检查哪些 AI Data Engine Console 用户具有访问权限。</block>
+  <block id="111bf23d5b405cee6248a8c40f3d1e73" category="section-title">监控元数据 Storage VM 和 AIDE 管理的保护</block>
+  <block id="7e2815d215d7d11b890778314a313eb0" category="list-text">在导航窗格中，选择 *Cluster*，然后选择 *Storage VMs*。</block>
+  <block id="73449cb613e41e191b1dde226ee694a0" category="list-text">找到带有子类型<block ref="d38635dc6a45447e1425453f8461347e" prefix=" " category="inline-code"></block>（元数据 SVM）的 Storage VM：</block>
+  <block id="163d2ece6c82df67910a1a7b4ae44652" category="list-text">确认元数据 SVM 已联机。</block>
+  <block id="df387406146cc8710f68a423c35c6857" category="list-text">（可选）打开其详细信息以查看以下项的计数：</block>
+  <block id="c6f01c78bfe0a0a495cb5d3ed77824a9" category="list-text">卷</block>
+  <block id="93e2cb27174dce9d27fdbf90efcf882f" category="list-text">带类型的 LIF<block ref="2553fb3a1be22d05c652add0bc4d1fdd" prefix=" " category="inline-code"></block>（用于 DCN-ONTAP 通信）</block>
+  <block id="d73b0130a08afad3fa1af1500908ad30" category="list-text">选择 *Protection*，然后选择 *Relationships* 以查看工作区中使用的远程数据源的保护：</block>
+  <block id="44fa0b6a02eff3c867e05ea3bc8480c7" category="list-text">通过命名模式识别 AIDE 创建的 SnapMirror 关系：</block>
+  <block id="8a7449c1d634a2c6d76064f71c177f1b" category="list-text">目标卷：<block ref="711937c12b45ec5988025f3c722a5868" prefix=" " category="inline-code"></block></block>
+  <block id="e3e66a906d79fc57c7660c0602532828" category="list-text">政策：<block ref="273969c5c9181cd6abc1df184ccf0c5c" prefix=" " category="inline-code"></block></block>
+  <block id="598a6da76e9e8403b9514743ab163cee" category="list-text">使用此视图可验证关系是否正常，以及延迟时间是否与工作区刷新预期保持一致。</block>
+  <block id="928dbec13b8659557998f42777662e6a" category="inline-link-macro">调整工作区刷新设置</block>
+  <block id="6099c74133ef66e626d39f9d43c15db4" category="admonition">请勿直接在 ONTAP 中修改元数据 Storage VM、AIDE 创建的 SnapMirror 关系或 AIDE 管理的快照（或其计划）。更改可能会中断 AIDE 版本历史记录。<block ref="e88d04f55556462c55404ccfd80ef19c" category="inline-link-macro-rx"></block>如果需要调整刷新行为。</block>
+  <block id="a0097f30bfe0188fd20aa69d2c2aa7cd" category="section-title">查看与 AIDE 相关的警报和通知</block>
+  <block id="c9d3b20d6094163e8f80c96017df5631" category="list-text">在导航窗格中，选择 *Events &amp; Jobs*，然后选择 *System alerts*。</block>
+  <block id="ce0f69f88e98ccce6309358d9b519bb3" category="list-text">查看与以下内容相关的任何活动警报：</block>
+  <block id="30eebb32d57801535782fb45e9832f34" category="list-text">DCN 节点健康或连接</block>
+  <block id="4850798264401a10a69079cb5f8348cd" category="list-text">数据引擎网络问题</block>
+  <block id="8020f3bdc535befefd8d869be875fefa" category="list-text">工作区或数据收集错误</block>
+  <block id="459c3222488032aecfd189994f73f4c9" category="list-text">ONTAP 和 DCN 集群之间的软件版本不匹配</block>
+  <block id="776c2bd4f2f75afa045e212d185d72ef" category="list-text">根据需要，在 *Cluster &gt; Settings &gt; Notification management* 中配置通知目标（例如，email、syslog），以确保将与 AIDE 相关的警报转发到您的操作工具。</block>
+  <block id="982e02e3abfea4e77a8d9e6cb357ccc0" category="inline-link">准备管理 AFX 存储系统</block>
+  <block id="0863e72ae4714133fd65e2e727594725" category="paragraph"><block ref="0863e72ae4714133fd65e2e727594725" category="inline-link-rx"></block></block>
+  <block id="a2af55f46cd91d904b6e8851e4a1217f" category="summary">您可以查看 AIDE 生成的事件、作业和审计日志消息，以跟踪内部处理并诊断潜在问题。AIDE 系统可以配置为转发此信息以及其他相关数据，以进行额外的处理和存档。</block>
+  <block id="0d8fc6982765664d9ae1cc586e632fce" category="doc">查看 AIDE 系统事件、作业和审核日志</block>
+  <block id="575db79b89a25c166696c9523125939c" category="paragraph">作为存储管理员，您可以查看 AIDE 生成的事件、作业和审核日志消息，以跟踪内部处理并诊断潜在问题。AIDE 系统可以配置为转发此信息以及其他相关数据，以进行额外的处理和存档。</block>
+  <block id="c75e6d3d5c6c5f35bd6faed0c998f49a" category="section-title">监控 AIDE 活动、事件和作业</block>
+  <block id="f1cd563afa2422a59c94157e51dfc33e" category="paragraph">您可以使用集中式*Activity*视图来监控所有工作区中特定于 AIDE 的事件和作业，或查看个别工作区的活动。</block>
+  <block id="0da75942b87520c0c7da80c2512947d3" category="section-title">查看集群范围的 AIDE 活动</block>
+  <block id="260fa1ff7e426fc52d9a1f77efff20b8" category="paragraph">监控工作区操作，对元数据提取问题进行故障排除，并跟踪整个 AIDE 部署中的数据收集发布。</block>
+  <block id="f263dc83bc1fa43c48e5c018c5ac02ee" category="list-text">在 ONTAP System Manager 中，在导航窗格中选择 *Data engine*，然后选择 *Activity*。</block>
+  <block id="79f9881d7bb0dc731e4d71c86bb315e4" category="list-text">选择 *Events* 选项卡：</block>
+  <block id="75fba1510e8d7f203a4be093db776573" category="list-text">查看最近的 AIDE 特定事件，例如：</block>
+  <block id="71d6038ead22f85b7a0ad207d4c2dec5" category="list-text">工作区创建、更新或删除</block>
+  <block id="4b151b53c78876537d81667b34a135a0" category="list-text">数据容器添加/删除操作</block>
+  <block id="bd47eb502a938a89e27dbf67589938b6" category="list-text">数据收集发布（如果存在）</block>
+  <block id="e1806f44a745d4b6ad07d522a67a45f3" category="list-text">使用筛选器（按严重性、对象类型、工作区或时间范围）专注于活动或关键事件。</block>
+  <block id="ce8df7bceb70d6f8519168be2616ffce" category="list-text">选择要打开和查看的单个事件：</block>
+  <block id="4c11278a82bf6f51da4f8dfb00892afd" category="list-text">说明和时间戳</block>
+  <block id="9f9616fa0cbbc0d05daea2cec8f24ad9" category="list-text">受影响的工作区、数据收集或数据源</block>
+  <block id="1b360a07cb2fe51c53e5f8fe1318c9f6" category="list-text">建议采取的措施（如有）</block>
+  <block id="366dc624fa168b8685d6e02465d4f105" category="list-text">选择 *Jobs* 选项卡：</block>
+  <block id="9b88e1a9096c57d57dc2ac373d780480" category="list-text">监控长期运行的作业，例如：</block>
+  <block id="6bc1599b5920859378faa85c90e2273a" category="list-text">工作区的初始元数据提取</block>
+  <block id="c412a82a8b6b84be83b894723e85f1bd" category="list-text">工作区刷新 / 目录更新作业</block>
+  <block id="01b6c78578661e6678ada1c86a3f4b8c" category="list-text">数据收集发布或刷新作业</block>
+  <block id="7bbd5e6e15e67b4883f1bd00efaad768" category="list-text">检查作业状态和进度。</block>
+  <block id="d6a2e2d9988a6fa8af8e098591dffa95" category="list-text">选择作业以打开 peek 视图并查看：</block>
+  <block id="217321a0f4c341e0761b41ac3f81b203" category="list-text">开始和结束时间</block>
+  <block id="ce0d7b3ffa99f41c053b0d7057668c51" category="list-text">进度百分比和阶段（例如 *Scanning*、*Publishing*）</block>
+  <block id="ba6de0eafae19cdeb85f40608abdc013" category="list-text">失败作业的错误消息</block>
+  <block id="9990dc7f160882edc9db94f7d4bb3cbd" category="section-title">查看工作区特定活动</block>
+  <block id="dfc90eeecac1fa2c4ad88e2180de03e2" category="paragraph">要对特定工作区进行故障排除，请打开工作区详细信息（*Data engine &gt; Workspaces*，选择工作区），然后使用 *Activity* 选项卡：</block>
+  <block id="82f4053104742a865f152eac0220dae7" category="list-text">仅查看范围为该工作区的事件和作业。</block>
+  <block id="806213265a09cedcf3b39921a00e4f61" category="list-text">使用此视图可隔离单个工作区卡在 <block ref="643562a9ae7099c8aabfdc93478db117" prefix=" " category="inline-code"></block> 状态等问题。</block>
+  <block id="7ce2d86bf8411ce0477c732c46e0d6be" category="section-title">查看集群范围的事件</block>
+  <block id="d10b58411667586a793c23f4001d8712" category="paragraph">查看事件消息，获取有价值的系统活动记录。每个事件都包括描述和唯一标识符以及建议的操作。</block>
+  <block id="d1f55e9e2a57dc328040a0ef553a2288" category="list-text">在 ONTAP System Manager 中，选择 *Events &amp; jobs*，然后选择 *Events*。</block>
+  <block id="4be5c1953534673e5779c572950ba587" category="list-text">查看并响应页面顶部的建议操作，例如启用自动更新。</block>
+  <block id="79088654782b0fa95897b9e242003688" category="list-text">选择 *Events log* 选项卡以显示消息列表。</block>
+  <block id="62ff4ea4c8140c9dc4f3b3dfa6613fa7" category="list-text">选择一个事件消息以更详细地检查它，包括序列号、描述、事件和建议操作。</block>
+  <block id="6bcfb396c1ce43fb7361ee9cbf84d7d4" category="list-text">（可选）选择 *Active IQ 建议*选项卡并注册 Active IQ，以获取集群的详细风险信息。</block>
+  <block id="3a9ae167253d2d710c83925bfe3c309e" category="section-title">查看集群范围的作业</block>
+  <block id="fc42bc0fbfcb877cb95e7414a0a34fbb" category="paragraph">查看 AIDE 集群上运行的所有作业，包括 AIDE 特定作业和常规 ONTAP 作业。</block>
+  <block id="7482089c472cf3a3f6af6f790933efb3" category="list-text">在 ONTAP System Manager 中，选择 *Events &amp; Jobs*，然后选择 *Jobs*。</block>
+  <block id="869e42effed2d05cd41f753687a3785d" category="list-text">根据需要自定义显示以及搜索和下载作业信息。</block>
+  <block id="f30b2b95b8159d570106297a6327ce78" category="section-title">查看审核日志</block>
+  <block id="bf1715732f9abb45bab9eb3318333576" category="paragraph">使用审核日志，根据 HTTP 等访问协议的使用情况，查看系统活动记录。</block>
+  <block id="d38efd031c374ec3840d38568d454214" category="list-text">在 ONTAP System Manager 中，选择 *Events &amp; jobs*，然后选择 *Audit logs*。</block>
+  <block id="a9a1e4a9a653ce2c5ae946526d0fc689" category="list-text">选择 *Settings* 以启用或禁用所跟踪的操作。</block>
+  <block id="1b799238211a6924f3bc70f0d21bb243" category="section-title">管理通知</block>
+  <block id="30b3ab0ba21d789e5afc781892756f68" category="paragraph">配置通知目标以自动转发 AIDE 事件和审核日志。</block>
+  <block id="06da4339d251b7318d510ba4fabef517" category="list-text">在 ONTAP System Manager 中，选择 *Cluster*，然后选择 *Settings*。</block>
+  <block id="44d48c8a0eb920ab0fb3c5f5d91b5347" category="list-text">导航到 *Notification management* 并选择 <block ref="c2bfb9c080f7666b2b95fa7dd1fddf25" category="inline-image-macro-rx" type="image"></block>。</block>
+  <block id="4f46ec372660a7b2a9c622f302d8b0b1" category="list-text">选择适当的操作以查看或配置 AIDE 使用的目标：</block>
+  <block id="d592f56157698be0579b7fb31d71f675" category="list-text">事件目标：选择 *View event destinations*</block>
+  <block id="dbbc6d5dd3b14045e69d889db42397f8" category="list-text">审核日志目标：选择 *View audit destinations*</block>
+  <block id="2d2522da6ed6d04f0741566687499eca" category="list-text">根据需要选择 *添加* ，并提供目的地信息。</block>
+  <block id="8505fbdc75289c59744757d2ea89ede9" category="inline-link">ONTAP 事件、性能和运行状况监控</block>
+  <block id="68d58707832c3c8d5f78484ef0d75df7" category="list-text"><block ref="68d58707832c3c8d5f78484ef0d75df7" category="inline-link-rx"></block></block>
+  <block id="33e4ff6ec88929a3f06195fae73ca7bc" category="summary">您可以使用 ONTAP System Manager 的 Insights 功能显示符合 NetApp 最佳实践的建议配置更新。这些更改可以优化 AIDE 集群的安全性和性能以及其他方面。</block>
+  <block id="ce2615d6b8a9eb359bb525ffe964efe4" category="doc">查看见解以优化您的 AIDE 系统</block>
+  <block id="ea6ebc5626c6ce3b772f8fbdfafd1428" category="paragraph">作为存储管理员，您可以使用 ONTAP System Manager 的 _Insights_ 功能显示符合 NetApp 最佳实践的建议配置更新。这些更改可以优化您的 AIDE 群集的安全性和性能。</block>
+  <block id="c74364673a60e8775445f2b1199452c4" category="paragraph">每个见解都会在页面上显示为单独的图块或卡片，您可以选择实施或取消。您还可以选择相关文档链接，以了解有关特定技术的更多信息。</block>
+  <block id="80d816cf7d322b17e77a91ebe5beb590" category="list-text">在 System Manager 中，选择 *Analysis*，然后选择 *Insights*。</block>
+  <block id="b667ea0097f8bd52ff6309e232fb3500" category="list-text">查看可用建议。</block>
+  <block id="01e12de62fa77fda2815719aed8ff892" category="paragraph-title">下一步</block>
+  <block id="d98d532f3c21f87fe74d41152561f94c" category="paragraph">执行任何建议的操作以实施配置最佳实践。</block>
+  <block id="0553973ebde3e116738c5a8e9f293bf6" category="summary">有关 NetApp AI Data Engine (AIDE) 的常见问题，涵盖产品概述、要求、用户类型、功能、集成和许可。</block>
+  <block id="dcaec67f8b6685884b28ce763c3b6b20" category="doc">NetApp AI Data Engine 常见问题解答</block>
+  <block id="23548737dde1ab00d6b9ff297b8940ba" category="paragraph">本常见问题解答涵盖了有关 NetApp AI Data Engine (AIDE) 的常见问题，包括其架构、部署、用户类型、技术功能、集成和许可。</block>
+  <block id="e16af38cdf36612fd89004df1147f502" category="section-title">AIDE 基础知识</block>
+  <block id="b469546f6a34c31fb70829332043de9c" category="paragraph-title">什么是 NetApp AI Data Engine (AIDE)？</block>
+  <block id="6d5473a972bb78c57dd823b2d13b5959" category="paragraph">NetApp AI Data Engine (AIDE) 是一种存储集成的 AI 数据服务，涵盖从发现和准备原始数据到为生成式 AI (GenAI)、Retrieval-Augmented Generation (RAG)、代理 AI 和 AI 工厂提供检索端点的整个 AI 生命周期。AIDE 自动同步和更改检测，为数据发现和管理提供所选数据的统一、最新视图。</block>
+  <block id="bcbd42901b0d1709412b09e60cb311d2" category="paragraph-title">AIDE 的工作原理是什么？</block>
+  <block id="ab7358a97294499b31048a4c19749a4e" category="paragraph">AIDE 直接与 NetApp ONTAP 存储系统集成，通过自动更改检测和同步，创建整个 NetApp 数据集的全局结构化视图。AIDE 通过压缩和重复数据删除、策略驱动的 Data Guardrails 以及与 AI 工具的集成提供实时矢量化。</block>
+  <block id="a683e08316b5058f64b39c3493b125b8" category="section-title">用户和角色</block>
+  <block id="ca984887811699744a64ad07859951a3" category="paragraph-title">谁在使用 AI Data Engine？</block>
+  <block id="d7c04ae4d435507faa4e97e4df14a224" category="paragraph">AIDE 的主要用户包括：</block>
+  <block id="b72c88ed5981c8fd8cc65c9fe7927c4a" category="list-text">*ONTAP 存储管理员*：管理基础设施、AI 特定的存储需求、安全性和合规性。</block>
+  <block id="5c2ae98ad1e40a74b12fd94e84c9e813" category="list-text">*数据工程师*：管理跨环境的数据移动、准备和集成。</block>
+  <block id="93e6ad830e575a3c09f448139d7224b0" category="list-text">*数据科学家*：准备和转换相关数据以供 AI 使用。</block>
+  <block id="322bfeea734ffa8f496e620aa02c6e61" category="section-title">要求和部署</block>
+  <block id="52f6347d590b8d00607fffaca9d0c543" category="paragraph-title">需要哪些硬件？</block>
+  <block id="549cb6224af75ddcdb7ce94e86158b88" category="paragraph">AIDE 需要 AFX 系统进行部署（包括 AFX 控制器、磁盘架和网络交换机），但可以使用 SnapMirror 和集群对等从运行 ONTAP 9 的集群中使用集群数据。AIDE 部署至少需要四个 AFX 控制器节点，以确保高可用性和性能。</block>
+  <block id="cbd7fa21f4c2d41c66443b81f3876515" category="paragraph">AIDE 在 NetApp 数据计算节点 (DCN) 上运行。需要三个 DCN。DCN 托管 AIDE 软件，其中包括 Metadata Engine、Data Sync、Data Curator 和 Data Guardrails。</block>
+  <block id="9be98320959b7992a0b060a4c32d659a" category="paragraph-title">我可以使用自己的 DCN 吗？</block>
+  <block id="ddfbc20c7693841db1d63372ecab8fb2" category="paragraph">否。DCN 是 NetApp 提供的数据计算硬件节点，是 AI Data Engine 的唯一部署机制。</block>
+  <block id="3490cc73a81bcba770b3c5a4c211dcf2" category="paragraph-title">最少需要多少个 DCN？</block>
+  <block id="80fc50e599be70cac540cd391fb7b257" category="paragraph">需要恰好三个 DCN。</block>
+  <block id="1f19d2ae87e7c1d00cc63bba40607278" category="paragraph-title">哪些操作系统在 DCN 上运行？</block>
+  <block id="bd0afd1696abea0be5bca30c7f8918ac" category="paragraph">DCN 运行一个由 NetApp 提供的带有 AIDE 的软件堆栈。</block>
+  <block id="88f88720912d4b4065c19daa0af7276e" category="paragraph-title">可以在没有 AFX 的情况下部署 AIDE 吗？</block>
+  <block id="f9d52ed75bab8e621bf8f63844cc6de6" category="paragraph">不需要。AIDE 需要 AFX 才能部署。AIDE 使用 Trident 消耗 AFX 卷用于内部存储（持久卷）。为 AIDE 提供存储的 AFX 集群可以与 ONTAP 9 系统或集群对等。它使用集群对等和 SnapMirror 将数据从远程 ONTAP 集群同步到 AFX 系统。</block>
+  <block id="e338ec0e615b20182a66174dd990eca8" category="section-title">管理和接口</block>
+  <block id="c75720461417e1189af4ce1795375317" category="paragraph-title">AIDE Console 是 NetApp Console 的一部分还是单独的界面？</block>
+  <block id="9fad911c798d8ab6bedc33e9ef2f6f2d" category="paragraph">AIDE Console 是在 DCN 上运行的独立管理界面。您可以使用 AIDE Console 管理 AIDE 服务，例如 Data Guardrails 和 Data Curator。您还可以使用 ONTAP System Manager 来监控 AIDE 集群。</block>
+  <block id="4db209ccc03e09b2b9a0a108532ff7a4" category="section-title">特性和功能</block>
+  <block id="c9ebed9dc1d01da2c6c8a7a30b386da3" category="paragraph-title">AIDE 的主要功能是什么？</block>
+  <block id="6a9256caea45c1710a871c37b969b749" category="paragraph">AIDE 有四个主要功能：</block>
+  <block id="1dcad9443ae8987b7175c4cdf8acb9f9" category="list-title">Metadata Engine</block>
+  <block id="68c56d73ccd138a054d6925075f69324" category="list-text">自动生成数据的结构化、最新的交互式视图。</block>
+  <block id="fe4059a2f19a9261ab43b392fe3865dd" category="list-text">适用于存储在 ONTAP 上的数据。</block>
+  <block id="b3f21f956eb46d062b17ebcf805194aa" category="list-text">使数据从业人员能够与存储管理员协作以查找和理解数据。</block>
+  <block id="f39cc1ad38456a250d2ecff909ca1f89" category="list-text">API 查询元数据以提供功能，同时减少存储系统上的 NFS 流量负载。</block>
+  <block id="d88366d798323acb5017c48c642cb0d3" category="list-text">元数据提取和编目功能专为 AIDE 构建，可连续工作，并利用快照等 ONTAP 功能。</block>
+  <block id="107ffcaaf1d8f39173f5060b5c3415f7" category="list-title">数据同步</block>
+  <block id="3b7c47b274db00398393f7c5175acd48" category="list-text">无需人工干预，即可在源数据更改时自动维护数据更新。</block>
+  <block id="f9d4d049753eebb261c6ab7bf7617f64" category="list-text">管理员以天或小时为单位定义数据刷新间隔。</block>
+  <block id="2a923e6bac7ca1d440133599ab34b95c" category="list-text">提供增量数据移动和跨数据同步，以消除 AI 数据的冗余副本。</block>
+  <block id="2c9da0732e9cbf11870234e5126b8bea" category="list-title">Data Guardrails</block>
+  <block id="a257f2a57cd54a9ca3e39810b124d202" category="list-text">在整个 AI 生命周期中自动识别和保护敏感数据。可通过 AI Data Engine Console 访问。</block>
+  <block id="2bb98fadbdeba299b62ea0addc88d8c5" category="list-text">持续扫描、分类和归类数据。</block>
+  <block id="5d5a3e7178c950777361e06d70f360f9" category="list-text">识别敏感数据（如 PII）和风险。</block>
+  <block id="7c9c543326d0111f7808537be3ef562e" category="list-text">促进根据公司和监管标准制定自动处理敏感数据的策略。</block>
+  <block id="7ee098564f0de7a43a19184252fa5242" category="list-text">提供自动敏感信息编辑以实现数据保护。</block>
+  <block id="d926648aeeda3526b1597571e849012e" category="list-text">根据需要限制对敏感文件的访问。</block>
+  <block id="d50933386c514440e2143e4e73ef1f8c" category="list-title">Data Curator</block>
+  <block id="c925aecc2cddbde3d38a4034cde70676" category="list-text">允许数据科学家跨存储搜索相关数据。</block>
+  <block id="9f77ec9cd8434c671c49a637f777c163" category="list-text">使用 AFX 卷上的现有数据创建精选数据集。</block>
+  <block id="7617bca994b92197c97673b752854f3b" category="list-text">在存储层生成矢量嵌入，以减少数据膨胀并提高性能。</block>
+  <block id="ac54d1971be2403ae4af54acf6363025" category="list-text">通过矢量语义搜索和重新排名为 AI 应用程序提供检索端点。</block>
+  <block id="66b505840f88faf9b545db57474ea72d" category="section-title">集成和互操作性</block>
+  <block id="2ed8b46517f0deec81c0bc5c83e1d3b8" category="paragraph-title">AIDE 是否支持跨多个 ONTAP 集群的联合元数据？</block>
+  <block id="c924f7a5d190ea5b353a55e71850d3c3" category="paragraph">AIDE 可以使用 SnapMirror 和集群对等连接到多个 ONTAP 集群，从而实现集中式元数据可见性。</block>
+  <block id="76fdbe0b4075b518e26fc96f0d364ddd" category="paragraph-title">元数据存储在哪里？</block>
+  <block id="9e6bd225293ed21da0ceb7ed29c84477" category="paragraph">AIDE 使用 AFX 提供的持久卷在连接的 AFX 集群上存储元数据。DCN 使用本地存储进行内部操作。</block>
+  <block id="422b6e863fd5cfc83df63ff28cc2d8d6" category="paragraph-title">AIDE Metadata Engine 对数据进行分类吗？</block>
+  <block id="c914a17bc294f7d544aa6382452e633c" category="paragraph">否。Metadata Engine 对文件系统元数据进行编目，并提供查询此编目元数据的 API。</block>
+  <block id="541a1691ca1907ab37bccbce44aad1c9" category="paragraph-title">支持哪些数据源？</block>
+  <block id="ab9707100f7fd9d7d60ca073386e4418" category="paragraph">AIDE 支持 ONTAP 卷（本地或远程）作为数据源。远程 ONTAP 集群必须运行 ONTAP 9 并通过集群对等和 SnapMirror 连接。</block>
+  <block id="55fc056e2d90d856ddc50c727f7ec280" category="paragraph">AIDE 9.18.1 中不支持 ONTAP S3 存储桶和 StorageGRID 对象作为数据源。</block>
+  <block id="887662445bff5eaeae1ba1ffc247d810" category="paragraph-title">AIDE 可以处理哪些类型的文件进行分类、矢量化和语义搜索？</block>
+  <block id="5f07a806459cdf86bd13c154271b9686" category="paragraph">AIDE 支持多种文件类型，包括 PDF、DOCX、PPTX、TXT 和具有 OCR 功能的图像文件。</block>
+  <block id="6d12622c4a4b463f56dfbbdde4f0f1a8" category="paragraph-title">AIDE 支持非英语数据的分类吗？</block>
+  <block id="d3ed8665be60bb769d6315978e450213" category="paragraph">AIDE 仅支持英语数据。</block>
+  <block id="53499b8c0993130d9170ae4089023573" category="paragraph-title">AIDE 支持哪些集成？</block>
+  <block id="38a8e79db1ca2a38612170b293dd8386" category="paragraph">AIDE 提供可通过直接 API 调用或通过 Model Context Protocol (MCP) 服务器访问的 RAG API 端点。这支持与代理 AI 框架和工具的集成。</block>
+  <block id="ce2dc9a009c26ed0cd2c054e36b777b8" category="section-title">部署和许可</block>
+  <block id="b4a9978aafad6e908942607b42c67c48" category="paragraph-title">有哪些部署选项？</block>
+  <block id="7668258d6445149dcb4e857e16c75382" category="paragraph">AIDE 在具有 DCN 的 AFX 基础设施上本地部署。它直接与 NetApp ONTAP AFX 安装集成。</block>
+  <block id="206b8ef89b995a35baa18e571cf229d7" category="paragraph-title">AIDE 如何获得许可？</block>
+  <block id="36b77f6370282413189c9cd72328709f" category="paragraph">AIDE 需要软件许可证才能运行 Data Guardrails 和 Data Curator。</block>
+  <block id="ff6e03a3e8d090da19f2704f9f13cf4b" category="paragraph">如果您只需要 Metadata Engine，则所有 AFX 系统都包含的 ONTAP One 许可证提供仅 Metadata Engine 功能的权限。</block>
+  <block id="8de9a9ef0a9b00a51c40985b9f544ed0" category="inline-link-macro">在 ONTAP System Manager 中安装 AIDE 许可证</block>
+  <block id="26e6f7da97810a245681e32d74d8b1cc" category="list-text"><block ref="26e6f7da97810a245681e32d74d8b1cc" category="inline-link-macro-rx"></block></block>
+  <block id="9f2970003a74d1647fadeaee29370306" category="inline-link-macro">了解 AIDE 架构和组件</block>
+  <block id="12259c7760c298ee312730fffda3e226" category="list-text"><block ref="12259c7760c298ee312730fffda3e226" category="inline-link-macro-rx"></block></block>
+  <block id="070dc6f3ae5e1335b578ef15e4341d33" category="summary">AIDE 基于可扩展的容错架构构建，将存储和计算分离，为 AI 工作负载提供高性能和灵活性。</block>
+  <block id="abb2753fee0210c75705619ab94e6ceb" category="doc">AI Data Engine 架构</block>
+  <block id="ff33f3d250bf1c214d487036a93cec89" category="section-title">物理组件</block>
+  <block id="b3db71d514f4905832d146dbcccba100" category="image-alt">AI Data Engine 架构图</block>
+  <block id="57cc525a07cc7c16dd90e9648357d90b" category="section-title">AFX 控制器节点</block>
+  <block id="d7931207f5aebd43c8fbb8c5a737c7c3" category="paragraph">AFX 控制器节点运行专为支持 AFX 环境要求而设计的 ONTAP 软件的专用个性。客户端通过多种协议访问节点，包括 NFS 和 SMB。每个节点都有存储的完整视图，可以根据客户端请求访问存储。节点具有非易失性内存的状态，以保留关键状态信息，并包括特定于目标工作负载的其他增强功能。</block>
+  <block id="e1ca518a057fd8686a92d14568b203ea" category="paragraph">AIDE 部署至少需要四个 AFX 控制器节点，以确保高可用性和高性能。</block>
+  <block id="0c95741c9d82ef69d857e178a1311d33" category="section-title">数据计算节点</block>
+  <block id="829aa801941a9d417a4c0fbc9f6e4126" category="paragraph">数据计算节点 (DCN) 是基于 Linux 的服务器，具有高 CPU、RAM 和 GPU 资源，专门用于 AI 数据处理任务。它们托管特定于 AI 的服务，如元数据编目、矢量搜索和嵌入管道。</block>
+  <block id="296dd863c6977e92157f322ca3c6b44e" category="paragraph">AIDE 部署需要恰好 _三个_ DCN。</block>
+  <block id="8a7496cff468c9b4afd051f8a1e95ed7" category="section-title">集群/存储交换机</block>
+  <block id="bf6c19c590febc13c317ef7f04d2e63b" category="paragraph">冗余的高速（100GbE 或更高）交换机连接 ONTAP 和 DCN，实现低延迟数据传输和高可用性。</block>
+  <block id="2817c308965584631c0d98d1640317ca" category="section-title">存储架</block>
+  <block id="ca54fd348437e6a465fcaa0ab8efcd8e" category="paragraph">配备高密度 SSD 的 NVMe-oF 盘架可提供超低延迟和冗余，支持 PB 级存储。</block>
+  <block id="a5fa5746370b608090b994a97b49e98b" category="section-title">网络连接</block>
+  <block id="852b632addafc43771825b32d39c9a92" category="paragraph">所有 DCN 和 ONTAP 存储节点均通过冗余高速群集交换机（最低 100GbE）连接。该架构将计算和存储资源分开，允许每个资源独立扩展，并优化性能和资源利用率。</block>
+  <block id="d88d8fd5a9d604d8b355a4a5b02370aa" category="paragraph">DCN 和 ONTAP 节点之间的网络使用集群交换机上的专用 VLAN 和 IPspaces 进行隔离。这可确保所有通信（如数据访问、管理 API 和内部服务流量）保持安全、高效，并且不会干扰其他网络操作。</block>
+  <block id="8abff22eba3e39b89f049a833383dee5" category="section-title">AI Data Engine 主要功能</block>
+  <block id="6eabe76d65811072c729acaa48eba920" category="paragraph">AI Data Engine (AIDE) 的主要功能协同工作，以实现 AI 数据生命周期的自动化、安全和加速。每个功能都实现为一组在 DCN 上运行的微服务，与 ONTAP 存储集成，并通过 REST API 和管理接口公开。</block>
+  <block id="4f4565f2c049e00d65b85af1bd9fc4ba" category="paragraph">Metadata Engine 会自动生成 NetApp 数据资源的结构化、最新的交互式视图。</block>
+  <block id="463f26057429e774d47a01a180e59a71" category="paragraph-title">许可和访问</block>
+  <block id="3b4ab3516568157269aefcf09a73786f" category="paragraph">Metadata Engine 包含在基本 ONTAP One 许可证中，可在 AIDE 安装时使用。</block>
+  <block id="c457fe5911b97d8e6bb0e0dcce12a3d8" category="paragraph">您可以通过 ONTAP System Manager 访问它。</block>
+  <block id="82ec2cd6fda87713f588da75c3b1d0ed" category="list-title">功能</block>
+  <block id="dd9c53b1e24ec855bb1831373078b20c" category="list-text">编录所有数据源的元数据，包括本地存储在 AFX 集群上的卷和从远程 ONTAP 集群同步的卷。</block>
+  <block id="dd73b07c2a0f48269497132f27d1af17" category="list-text">自动提取元数据，并在导入或更改数据时填充目录。</block>
+  <block id="4c391f13d7b12ffa24c1f324cf053c9f" category="list-text">提供用于查询元数据的 REST API 访问，允许数据从业人员和存储管理员发现、分类和理解数据。</block>
+  <block id="71d1d5b170b4065d3170b764cb6ed870" category="list-text">从数据路径卸载元数据查询，从而减少存储系统上的 NFS 流量负载。</block>
+  <block id="7521c606bbb262d4406920ae0f227482" category="list-text">支持具有索引和搜索功能的大型元数据记录。</block>
+  <block id="a261e17515b5e7c6f4ac45586180ccf5" category="list-text">与工作区和数据收集抽象集成，以实施访问控制和治理。</block>
+  <block id="eb1d2c1ae9218b81f27583f8febe5b0b" category="paragraph">Data Sync 是一种自动后台服务，可确保元数据目录和数据集保持最新并与基础数据源保持一致，即使在源数据发生变化时也是如此。</block>
+  <block id="c72559d5f5f29792246a89c44d4048c5" category="paragraph">基本 ONTAP One 许可证不包含 Data Sync 功能，需要单独的 AIDE 许可证。</block>
+  <block id="48c7a7721f4589379290f5fbbe788089" category="list-text">使用策略驱动的 SnapMirror 复制同步来自远程或本地 ONTAP 集群的数据。来自远程集群的数据被复制到本地 AFX 集群以进行 AIDE 处理。</block>
+  <block id="1789309552c1c2cc5573fd091e47b530" category="list-text">基于检测到的更改进行增量更新，仅传播已修改的数据。</block>
+  <block id="296d6abc76dc8666f2ce23a492687f4a" category="list-text">提供安全的增量数据移动和跨数据资产的同步。</block>
+  <block id="2333fef30d66acccc63e49346be7b1bd" category="list-text">使用每个工作区可配置的刷新率来安排和监控同步间隔。</block>
+  <block id="76eea453b7f75468e3a6149c2769727d" category="list-text">与工作区创建工作流集成，以便在添加新数据源时提取和更新元数据。</block>
+  <block id="8e7615d569d074531956049f91b04690" category="paragraph">Data Guardrails 服务在整个 AI 生命周期中为敏感数据提供持续、自动化的治理和保护。</block>
+  <block id="c9a04221a55c51fae95c9b10c875fc8c" category="paragraph">基本 ONTAP One 许可证不包含 Data Guardrails 功能，需要单独的 AIDE 许可证。</block>
+  <block id="de32a96ba4f40ae38975cbb41e2a3e9b" category="paragraph">您可以通过 AI Data Engine Console 访问护栏功能。</block>
+  <block id="1631f5d9ce5be6bc7bcc5cc112f096b6" category="list-text">使用用于 PII 检测等任务的内置和可自定义分类器来识别敏感数据和风险。</block>
+  <block id="03b3189094241459509bb733a12fa25d" category="list-text">通过策略驱动的编辑、屏蔽和访问限制，自动处理敏感数据。</block>
+  <block id="16131f767c6c5275a096052213205893" category="list-text">通过附加到工作空间的 Data Guardrails 策略执行公司和监管标准。</block>
+  <block id="58379a9650e63244e664507d3a707d6e" category="list-text">通过审核日志记录和合规性报告，限制对配置的敏感文件或卷的访问。</block>
+  <block id="f7cb2a318b856b9845c2cccdde49ddd4" category="list-text">与工作空间和数据收集管理集成，在 AI 数据工作流程中一致地应用护栏。</block>
+  <block id="ab49fb652cf19cc12cd345e260bd8d27" category="paragraph">Data Curator 服务可实现 AI 和 GenAI 应用程序的快速数据发现、搜索、矢量化和检索。</block>
+  <block id="81fb0cdac45e76d8dfad14787926905b" category="paragraph">基本 ONTAP One 许可证不包含 Data Curator 功能，需要单独的 AIDE 许可证。</block>
+  <block id="1a774c5cc38ac40c98a08371bcbb439c" category="paragraph">您可以通过 AI Data Engine Console 访问 Data Curator。</block>
+  <block id="a4ce778e1ff84389939b5b8e050b361d" category="list-text">使用集中式元数据目录搜索存储中的相关数据。</block>
+  <block id="7f85623d82d570d34564f1271c656c7b" category="list-text">为数据科学家提供工具，以创建精心策划的数据集。</block>
+  <block id="82ecc3ba942db0febbb8ef2114348ea6" category="list-text">在存储层自动生成矢量嵌入。</block>
+  <block id="88b8f49ddcb6eac9230fce61f47a4f14" category="list-text">为 AI 应用程序提供安全的检索端点，支持矢量语义搜索和重新排名。</block>
+  <block id="66623b0ee1ceaba0e4c41871ee0ddfb4" category="list-text">与 AI 工具和技术集成，包括 Retrieval-Augmented Generation (RAG) 管道和代理 AI 框架。</block>
+  <block id="ff5e21d4c9aff14622d01df1385e13ad" category="list-text">提供 REST API，用于以编程方式访问数据集、矢量搜索和检索端点。</block>
+  <block id="2a6e79b6690f1b7d40f8c6ba584f2ba1" category="section-title">安全与多租户</block>
+  <block id="d702e609662ff9dbebfdf06aba2e611d" category="paragraph">该平台同时实施基于角色的访问控制 (RBAC) 和资源级别的访问控制列表 (ACL)。审核所有 API 和用户操作，并在静态和传输过程中对所有数据进行加密。针对数据和元数据对单个租户进行隔离。</block>
+  <block id="d40d93a11dec93e3b5365fedf8ffba01" category="inline-link-macro">安装 AIDE 许可证</block>
+  <block id="a42ac792b6bae52b965f8613c013b924" category="list-text"><block ref="a42ac792b6bae52b965f8613c013b924" category="inline-link-macro-rx"></block></block>
+  <block id="993eebd36c03e3dee6d00e8a5ec6f919" category="inline-link-macro">Data-to-RAG 快速启动</block>
+  <block id="312f9d8b5d1c2091030c75e2de9bd561" category="list-text"><block ref="312f9d8b5d1c2091030c75e2de9bd561" category="inline-link-macro-rx"></block></block>
+  <block id="a5331cf7e0eccce3818bb788c6878950" category="summary">了解数据工程师和数据科学家如何与 AIDE 组件交互，以发现数据、构建和策划集合、管理管道、执行语义搜索以及集成 AI 工作流。</block>
+  <block id="2aa41e6838c06055744a9742d4dcd7d6" category="doc">了解 AI Data Engine 数据工程师和数据科学家如何使用 AIDE 组件</block>
+  <block id="1ebca5b6d013aa2dc20c248c4bb51570" category="paragraph">作为数据工程师或数据科学家，您可以使用 AI Data Engine Console 探索已授予访问权限的工作区，创建和管理数据集合，执行语义搜索，并将检索端点集成到 AI/ML 工作流程中。</block>
+  <block id="b451491131fd64b884ee29804c2553ce" category="paragraph">数据工程师专注于通过构建集合、配置嵌入管道以及控制哪些用户可以访问已发布的集合，将原始数据转换为 AI 就绪数据集。数据科学家专注于利用精选数据集进行分析、模型训练和 GenAI 应用，而无需管理访问控制或基础设施。</block>
+  <block id="b279fbd1772161cc28a51994439102b8" category="section-title">数据用户组件访问</block>
+  <block id="2cb05e4bb7830be982f0922fed86b4cd" category="cell">组件</block>
+  <block id="72eb6abf9272757a5494f0d1f1c91658" category="cell">访问级别</block>
+  <block id="bf22d69fe38e93304b2871e1301b40ad" category="cell">数据工程师工作流程</block>
+  <block id="8dd47aacde012aa178c532bfc92f1bae" category="cell">数据科学家工作流程</block>
+  <block id="3414f51a48336655c098985505fb5bc0" category="cell">AI Data Engine Console</block>
+  <block id="d739bb2b21afc6ff38b12b3cdc69e589" category="cell">管理（创建、编辑、删除）</block>
+  <block id="ef0c6d1aab10044747a99d53454eb68a" category="cell">AI Data Engine Console 是您进行日常任务的主要界面，包括数据发现、集合管理、管道配置以及为您有权访问的工作区发布 RAG 或检索端点。</block>
+  <block id="1606bdf6afc0770ed5391034d8ef8204" category="cell">AI Data Engine Console 是您在可以访问的工作区内进行数据探索、优化和版本控制集合的主要界面，并将精选的数据集和检索端点连接到分析、建模和 GenAI 工作流程。</block>
+  <block id="0ec641cfacd36c8e22a334135e2abdac" category="cell">ONTAP REST API</block>
+  <block id="8c98cfb455f75e40a0a77179bab37395" category="cell">您可以使用 REST API 自动化收集生命周期操作，触发和监控嵌入管道，并以编程方式将数据工作流与外部工具集成。</block>
+  <block id="173bd63eccf9d3c03c63d74c122f0129" category="cell">您可以使用 REST API 以编程方式访问数据集，运行矢量搜索查询，并将检索端点集成到 AI/ML 应用程序和代理框架中。</block>
+  <block id="d5e92609cf510f5f97ac326e907a0540" category="cell">工作区</block>
+  <block id="c8de2b9d3595c61ac6ad256d03d8ccaa" category="cell">查看/使用（只读）</block>
+  <block id="6d328d1aef395c2a6c6f61e9c0d0a856" category="cell">在构建集合之前，您可以浏览分配的工作区以识别和了解可用数据源。</block>
+  <block id="167b23a452cbacbe03277e8eedb536b8" category="cell">您可以搜索分配的工作区，以查找与特定研究或建模任务相关的文件和对象。</block>
+  <block id="94eef88238c4e2d6c826275bc698cbd7" category="cell">数据收集</block>
+  <block id="9587097086fd56236a4781ad8f28e419" category="cell">您通过使用标记、分类和其他属性选择和过滤源数据来构建数据集合，并管理从创建和版本控制到发布为 RAG 端点供 AI 使用的完整集合生命周期。您还可以管理哪些数据科学家和其他用户可以访问每个集合。</block>
+  <block id="5a4c69bd15f1ccc4a4eaf4cb7f584398" category="cell">您可以在已授予访问权限的工作区内创建、选择、注释、版本和优化数据集合。您可以使用这些集合作为语义搜索和 GenAI 工作流程的基础。</block>
+  <block id="b87e93e0244f9e9b67fb612b137a032a" category="cell">元数据目录</block>
+  <block id="b17d653ba533f536f6d3caa25913cd07" category="cell">查询/使用（工作流使用）</block>
+  <block id="7b961919ef038586acb6692bc759e7aa" category="cell">您可以使用元数据目录来评估和选择要接收的数据源，运行查询以查找相关文件，并确认它们符合您在分配的工作区中构建的集合的要求。</block>
+  <block id="ccdf711424c47b37e0667231bb549bc0" category="cell">您可以在可访问的工作区中搜索和筛选元数据，以查找分析或模型训练所需的文件和对象，这依赖于数据工程师构建和维护的目录结构。</block>
+  <block id="e5df4bbe7b124f2fe5398d42696d57b3" category="cell">向量数据库</block>
+  <block id="4257563f015c7a54f52393627ce51483" category="list-text">管理嵌入/搜索（数据工程师）</block>
+  <block id="783817a22e667633403072a7d34e554c" category="list-text">使用/搜索（数据科学家）</block>
+  <block id="19de39495daa25e83bafb302f4a5ac01" category="cell">您可以触发嵌入管道，监控矢量化状态，配置分块和嵌入参数，并公开由矢量搜索支持的检索端点。然后，应用程序和代理通过 API 查询这些端点，以获取语义搜索和 RAG 工作流。</block>
+  <block id="65a5faa468c1fb292d8fd56df3ed12cd" category="cell">您可以针对数据工程师管理的管道生成的嵌入运行语义搜索查询，并将检索结果集成到 GenAI 或 RAG 工作流中，以实现上下文感知模型响应。您不配置分块、嵌入或管道参数。</block>
+  <block id="d6c004e67096fcdd18ec46e952ad1144" category="cell">分类器</block>
+  <block id="60eab7a5455b6814b708904379c07965" category="cell">使用（消耗分类数据）</block>
+  <block id="ff6ca9685efd77ac1fe201985e4b43ec" category="cell">您可以使用分类结果在收集准备期间对源数据进行注释和标记，确保进入管道的内容为下游 AI 工作流正确标记。</block>
+  <block id="2ad5eead848064e7b67c541f418f15cd" category="cell">您使用预先分类的数据，以确保在分析和建模中仅使用合规和相关的内容。</block>
+  <block id="ded8168a2ad23809b9c9a8a3700e90b6" category="summary">了解存储管理员如何与 AIDE 组件交互以管理集群基础架构、配置工作空间和实施治理策略。</block>
+  <block id="346166e9288555be10551eaab2ee1316" category="doc">了解 AI Data Engine 存储管理员如何使用 AIDE 组件</block>
+  <block id="7a971b7e5b0be0947015b9bb337d4648" category="paragraph">作为存储管理员，您可以通过 ONTAP 和 AIDE Console 管理 AIDE 基础架构，配置工作空间，附加护栏策略，并监控系统运行状况。您的角色侧重于确保 AI 工作负载的可靠、安全和合规数据存储。</block>
+  <block id="7c190ed89ce3aadf9c053bd8e33c4a4e" category="section-title">存储管理员组件访问</block>
+  <block id="ccd2e19c410fd1e18390aee052481d6b" category="cell">存储管理员工作流程</block>
+  <block id="6ad5e0a20f49ad6a370454bb3afc9a9e" category="cell">ONTAP System Manager</block>
+  <block id="2db9b9314d1fe8ee34f404e12ac8a49d" category="cell">您使用 ONTAP System Manager 作为集群管理、工作区配置、护栏策略管理和监控系统运行状况的主要界面。</block>
+  <block id="cf2df20fe1e23781d302c7ab220e5c81" category="cell">您可以使用 AI Data Engine Console 来监控工作区、查看收集状态以及监督整个 AIDE 环境中的系统活动。</block>
+  <block id="43fe0ced384149c84e10c7253a4d04fd" category="cell">您可以使用 REST API 自动化基础架构任务，以编程方式管理工作空间和护栏策略，并将 AIDE 管理与外部工具和工作流集成。</block>
+  <block id="de2e6680522dffaf998d8e5a6eb42135" category="cell">您可以使用 ONTAP System Manager 创建和管理工作区。您可以选择包含哪些数据源，为数据工程师和数据科学家分配权限，并附加护栏策略以强制实施治理和合规性。您还可以监控工作区运行状况和访问权限。</block>
+  <block id="ee551a1dcc93f0cc3e1b797bdc212f8c" category="cell">查看（只读）</block>
+  <block id="eb6c80aa1788ad72d751321915369c21" category="cell">您可以使用 System Manager 查看每个工作区内数据集合的状态和运行状况。您确保基础数据源可用且受保护，但不会创建或修改集合。</block>
+  <block id="ebff72429eb6fc4a19dc6b0675958cea" category="cell">护栏</block>
+  <block id="9d3ac931ca1140c4492cd23c310c33be" category="cell">您可以使用 System Manager 定义护栏策略并将其附加到工作区。您监控护栏状态和合规性报告。您确保根据需要执行和更新策略。</block>
+  <block id="db2d7c656525c5c742f70e731f899a79" category="cell">监控（查看运行状况、状态、活动）</block>
+  <block id="d7c4c40ccd70e276b238be32a58d09c4" category="cell">您确保元数据目录已填充并保持最新。您监控目录运行状况并支持访问控制。</block>
+  <block id="223b10042af2eeb56e61f781ff240a01" category="cell">调配/监控（部署、配置、查看状态）</block>
+  <block id="b40b692251c81f1df3188d69d2ca6219" category="cell">您配置和监控矢量数据库基础设施，确保具有 GPU 资源和适当许可的数据计算节点到位。您支持环境，但不直接管理嵌入或查询。</block>
+  <block id="6a3b33ecbb4318921407bdc99aa6477c" category="cell">您可以创建、配置和管理分类器及其类别。您可以将分类器应用于工作区并监控其有效性。</block>
+  <block id="c8ee1fc3b6641db275b49826b0320321" category="summary">每个 AIDE 组件在数据发现、管理、治理和与应用程序集成方面发挥着特定作用，交互因用户角色而异。</block>
+  <block id="a586e6eb37eff8098df2f11bbfff4364" category="doc">AI Data Engine 组件和基于角色的交互</block>
+  <block id="58743d1abfd35057aeb2225fb45fccaa" category="paragraph">AI Data Engine (AIDE) 由许多核心组件组成，它们协同工作，为人工智能工作负载提供全面的数据管理和处理平台。这些组件包括工作区、数据集、矢量数据库、护栏、元数据目录、检索端点和分类器。每个组件都在实现高效的数据发现、管理、治理以及与 AI/ML 应用程序的集成方面发挥着特定的作用。</block>
+  <block id="db96e91725024dbd3f6b633ca54c9b8d" category="paragraph">每个 AIDE 用户根据其角色与 AIDE 组件进行不同的交互。</block>
+  <block id="bd071a97ae256ad2feeb9f81ee5264a0" category="section-title">以存储和数据为重点的用户角色</block>
+  <block id="61c807af24e75bcf8e14ba45e0ed6f9e" category="paragraph">AIDE 引入了新的用户角色，同时仍然支持传统的 ONTAP 系统管理角色：</block>
+  <block id="cfaa741b395dd549d15c3894c5a0a7c8" category="section-title">存储用户</block>
+  <block id="43bf15afc509346621e43929a8aa01fb" category="list-text">*存储管理员*：管理 AFX 和 AIDE 集群设置、网络、存储配置和用户访问。</block>
+  <block id="48c8e305f1800d7ee892fd005e00161a" category="section-title">数据用户</block>
+  <block id="2916d43dca39a292b295d1d645ab9a5b" category="list-text">*数据工程师*：构建和优化 AI/ML 流水线，管理数据收集，并集成 AI 模型。</block>
+  <block id="f39614a4db1d15656d954616c7a76494" category="list-text">*数据科学家*：发现、管理和分析数据集，创建数据集合，并利用 GenAI 应用程序的检索端点。</block>
+  <block id="d51dbd33faf723673b5dcc805746e7d6" category="cell">角色 (RBAC 名称)</block>
+  <block id="b5a7adde1af5c87d7fd797b6245c2a39" category="cell">说明</block>
+  <block id="b94b9173d4df6fb4524c191921b3875b" category="cell">存储管理员 <block ref="21232f297a57a5a743894a0e4a801fc3" prefix="(" category="inline-code"></block>)</block>
+  <block id="40e262f3c9a56f372c72a3806856f097" category="cell">管理 AFX 和 AIDE 集群设置、网络、存储配置和用户访问。将 RBAC 角色分配给用户，以确定对 AIDE 接口和功能的访问级别。此管理员角色具有使用 ONTAP System Manager 和 AI Data Engine Console 的完全管理访问权限。</block>
+  <block id="9611217ec1acaf786fac509784e8b7ee" category="cell">数据工程师 <block ref="1870f298c6f688b7a7b0648dd1fea76d" prefix="(" category="inline-code"></block>)</block>
+  <block id="6ef1b15e897520ff26a15ed3f66d09da" category="cell">构建和优化 AI/ML 管道，管理数据收集，并集成 AI 模型。该角色可以访问 AI Data Engine Console 进行数据工程工作流程。</block>
+  <block id="62bff939f115e0bb794deaa5c6729d9c" category="cell">数据科学家 <block ref="39c1868b2bbb2d4cba562bfb0b031ef2" prefix="(" category="inline-code"></block>)</block>
+  <block id="44df33b9ea82d7d4cb0c0f89fd41119a" category="cell">发现、管理和分析数据集，创建数据集，并利用 GenAI 应用程序的检索端点。该角色可以访问用于数据科学工作流程的 AI Data Engine Console。</block>
+  <block id="0de6a1f895df1c36a63bd2a36ef90008" category="paragraph">每个 AIDE 用户（存储管理员、数据工程师和数据科学家）根据其角色与 AIDE 组件进行交互。</block>
+  <block id="5040991ca25df57796d359a33ae849ca" category="paragraph">工作区是集群内数据的逻辑段，用于对特定项目、团队或工作流的卷进行分组。工作区定义了 AIDE 中数据可见性、访问权限和治理的范围。</block>
+  <block id="37a14c7350a1fc766e78dc512db08936" category="paragraph">一个集中的、可扩展的数据库，存储本地群集中所有文件和对象的元数据记录，包括使用 ONTAP SnapMirror 或群集对等从远程 ONTAP 群集同步的数据。它支持丰富的交互式搜索和过滤。</block>
+  <block id="92f9ae7118bd864a10681234b39bdcf9" category="paragraph">分类器是一种工具（内置或自定义），用于扫描和标记特定类型的敏感数据（例如 PII、金融、医疗保健）的文件，或按类型（例如法律、HR、销售）对文档进行分类。</block>
+  <block id="bacee550c3601443084160961db8430f" category="paragraph">数据集是来自工作区的相关文件或对象的精选组，由用户指定的查询定义，用于 GenAI 工作流。发布后，数据集合中文件的内容可用于 GenAI 应用程序的 API 进行语义搜索。</block>
+  <block id="16d0c6a53cf7a3ff5fb937a4b9c72143" category="paragraph">矢量数据库存储从数据集合生成的嵌入，为 AI 和 GenAI 应用程序实现高性能语义搜索和检索。</block>
+  <block id="7b2ac437da1f50d188914512387f874a" category="paragraph">Guardrails 是策略驱动的机制，可在整个 AI 数据生命周期中实施数据治理、分类和保护（例如编辑或访问限制）。</block>
+  <block id="dfef957a41e38a1b6e1bf69b23b64869" category="section-title">检索端点（RAG 端点）</block>
+  <block id="8aadb5a7cd9bfbcc2d182a23e845b619" category="paragraph">检索端点（有时称为检索增强生成或"RAG"端点）是一种安全的 API，使 AI 和 GenAI 应用程序能够从策划的集合和矢量数据库中访问相关数据、上下文或嵌入。</block>
+  <block id="0433fbc60c5e44bd96c368cc6099b030" category="paragraph">RAG 端点旨在支持高级 AI 工作流程，例如生成式 AI 模型中的语义搜索和上下文感知响应。通过将 AI 应用程序连接到检索端点，您可以提供对由 AIDE 管理的精选 AI 就绪数据集的实时访问，从而提高模型的准确性和相关性。</block>
+  <block id="4ca180c8b6ae0c3a4a55d0fb58655467" category="inline-link-macro">AIDE 存储管理员如何使用 AIDE 组件</block>
+  <block id="6b77e1b6b766120209f1243d1b87168a" category="list-text"><block ref="6b77e1b6b766120209f1243d1b87168a" category="inline-link-macro-rx"></block></block>
+  <block id="532bf716d17c37764e16bdbff7d6f1ef" category="inline-link-macro">AIDE 数据工程师如何使用 AIDE 组件</block>
+  <block id="1abdee02bb2bf823a286e9e4a2a11ea6" category="list-text"><block ref="1abdee02bb2bf823a286e9e4a2a11ea6" category="inline-link-macro-rx"></block></block>
+  <block id="682681f0b76d3a20469bb64f90ff1fcf" category="inline-link-macro">AIDE 数据科学家如何使用 AIDE 组件</block>
+  <block id="23be111aa760db0b3d52efdb3dae6d12" category="list-text"><block ref="23be111aa760db0b3d52efdb3dae6d12" category="inline-link-macro-rx"></block></block>
+  <block id="073522c2db51e311d96dcdbfa1d2eb63" category="summary">AIDE 提供了三个主要界面，用于用户交互和自动化。</block>
+  <block id="2c88b8544cd3bf5e75e603711f69d03a" category="doc">AI Data Engine 接口</block>
+  <block id="b88eed9d02e6b5ffdafbd9fc2ef1adfe" category="paragraph">AI Data Engine (AIDE) 为用户交互和自动化提供了三个主要界面。每个角色（例如存储管理员、数据工程师和数据科学家）都会根据其特定任务和职责利用这些界面。</block>
+  <block id="9b8327c0023e73e443412da47a2042bd" category="paragraph">ONTAP System Manager 是为存储管理员设计的基于 Web 的界面。它为集群设置、工作区管理、DCN 监控和附加护栏策略提供工作流。</block>
+  <block id="870d28012bdcf37e9d22c818acee498f" category="paragraph">AI Data Engine Console 是数据工程师和数据科学家的专用界面。它使用户能够探索数据源、创建和管理数据集合、配置数据管道、应用分类器以及与护栏和矢量搜索功能进行交互。控制台提供高级工具，用于数据发现、管理以及与 AI/ML 工作流程的集成。</block>
+  <block id="aba3d4b49c454e1974970e7b5514b001" category="section-title">REST API</block>
+  <block id="fb301efb571d9d3c4c66ab5859d67fee" category="paragraph">AIDE 公开了用于自动化、集成和编程访问的 ONTAP REST API。API 支持集群设置、工作区和集合管理、元数据查询、矢量搜索和检索端点。</block>
+  <block id="34b7cc10a6d47a183fe27b9338d3ab60" category="summary">了解 AI Data Engine 系统的架构和组件，包括架构、常见角色和定义。</block>
+  <block id="75d38d77f71f859f0e6bfa05a8868b12" category="searchtitle">了解 AI Data Engine</block>
+  <block id="15fb76f58febe5931e440d6a9b9a4a08" category="paragraph">NetApp AI Data Engine (AIDE) 是一个企业级平台，旨在加速和简化 AI 驱动的数据处理、管理和治理。AIDE 可以帮助将大量非结构化数据转换为结构化、AI 就绪的数据集。它旨在满足现代机器学习 (ML) 和生成式人工智能 (GenAI) 工作负载的需求，支持传统的 IT 运营和新的以人工智能为中心的角色。</block>
+  <block id="2002d6b377e19f50928f6a0d204164fd" category="section-title">AIDE 应对 AI 挑战</block>
+  <block id="cc4eb4711f0f98a7a6994b06a1367b83" category="paragraph">AIDE 旨在帮助组织管理 AI 工作负载的数据，并提供以下关键功能：</block>
+  <block id="4fffd4cdbcb48f384bdbf205079c3338" category="list-text">*集中式元数据管理*：AIDE 从 ONTAP 卷中收集元数据并对其进行编目，从而可以对数据集进行搜索、分类并将治理策略应用于数据集。</block>
+  <block id="59736d54791dbac2dedfd718fed2889b" category="list-text">*自动数据处理*：AIDE 支持为 AI 和 ML 工作负载创建数据管道，包括为语义搜索生成向量嵌入的能力（需要适当的许可）。</block>
+  <block id="815c934fadc12577eadd000b34bd678d" category="list-text">*数据隔离和访问控制*：AIDE 为多个团队或项目实施访问控制和基本数据隔离。</block>
+  <block id="95a3a87cc9904d5dea78a483efb2a93f" category="list-text">*与 NetApp 工具集成*：AIDE 与 ONTAP System Manager 合作进行存储管理，并为数据工程师和科学家提供专用界面（AI Data Engine Console），以管理数据收集和工作流。</block>
+  <block id="f61fa8b740258aab0e790f50c050390f" category="section-title">高级设计特征</block>
+  <block id="dd79bd79e4722058007be2109b152201" category="paragraph">以下设计特性定义了如何构建 AI Data Engine 以满足 AI 工作负载的需求：</block>
+  <block id="b21d54251dfd9c093e2be511de6efa23" category="list-text">*基于微服务的服务*：使用 Kubernetes 为元数据编目、矢量搜索和基础设施管理编排模块化的弹性服务。</block>
+  <block id="3ab9372f71b296ba2a5cc0f54972e1f8" category="list-text">*企业级安全性*：对所有数据和元数据实施加密、基于角色的访问控制 (RBAC) 和审计。</block>
+  <block id="a0f9b2d19def8ae12e303a186bb9ca16" category="list-text">*多协议数据访问*：支持 NFS 和 SMB，实现灵活的数据接收和检索。</block>
+  <block id="32ea8acd78ab5ae82d58a73e6023e681" category="list-text">*自动化数据管道*：跟踪数据更改、创建嵌入和管理 AI 应用程序的矢量数据库。</block>
+  <block id="f67e58652ed157cbb223aecc8630464b" category="section-title">数据如何通过 AIDE 传输</block>
+  <block id="18869fbb75b9566d2afa307d28115552" category="paragraph">了解数据如何通过 AIDE 流动有助于说明该平台对 AI/ML 团队的价值：</block>
+  <block id="f179ebddd89d7c319470e7701c04e4c5" category="list-text">**数据摄取**：文件使用标准协议（NFS 和 SMB）存储在 ONTAP 卷中。数据可以驻留在本地 AIDE 存储（AIDE 部署中的 AFX 集群）或远程 ONTAP 集群上。来自远程集群的数据使用 ONTAP SnapMirror 同步到本地 AFX 集群，因此 AIDE 处理的所有数据最终都会在本地存储和访问。</block>
+  <block id="26346c217e8db9f3b829a9b0974b990c" category="admonition">不支持 S3 存储区作为工作区或数据集合的数据源。</block>
+  <block id="18cacad08e1f00d7b8716f09526802e0" category="list-text">**工作区创建**：存储管理员在 ONTAP System Manager 中定义工作区，为特定项目、团队或工作流程分组相关的 ONTAP 卷。访问权限和治理策略在工作区级别分配。</block>
+  <block id="664b67502178345cd005efa8b9562df5" category="list-text">**元数据提取**：AIDE 自动扫描工作区中的文件和对象，提取元数据（文件类型、大小、时间戳、自定义属性）并将其存储在集中式目录中。随着数据的变化，这种情况会不断发生。</block>
+  <block id="6d0fb2d02b025f08276ad4a10d7191a7" category="list-text">**分类和治理**：分类器扫描数据以查找敏感信息（PII、财务数据）或文档类型（法律、人力资源）。Data Guardrails 政策自动执行编辑或访问限制。</block>
+  <block id="712ab3c465e2de54b48b96be7b842586" category="list-text">**数据收集创建**：数据工程师和数据科学家使用 AI Data Engine Console 查询元数据目录，筛选结果，并为特定的 AI 任务汇编策划的数据集。</block>
+  <block id="2fba95aedeeec0c3b74c4dbe27e39a70" category="list-text">**矢量化**：对于需要语义搜索的集合，AIDE 使用选定的 AI 模型生成嵌入。矢量存储在矢量数据库中，用于高性能检索。</block>
+  <block id="c5363f1ca3626499ac0ce73c01d1c406" category="list-text">**AI/ML 消耗**：应用程序通过多条路径访问数据：</block>
+  <block id="bcfc7ea2d8d4bc0e20c49d0ebb3e6142" category="list-text">使用 NFS 或 SMB 直接访问文件/对象</block>
+  <block id="942827d04a507ddc529df1aa25e6f9ff" category="list-text">针对矢量数据库的语义搜索查询</block>
+  <block id="da11b0260044c1b1b65c1985a54ed301" category="list-text">将数据检索与 GenAI 模型集成相结合的 RAG 端点</block>
+  <block id="48604380545542ba072fbe692bb28ee1" category="list-text">用于编程工作流程的 REST API 访问</block>
+  <block id="b91921f1c9373f5121bc456727402cd5" category="paragraph">这种自动化、策略驱动的工作流程减少了为 AI 准备数据所需的时间和手动工作量，使团队能够专注于模型开发和见解，而不是数据争论。</block>
+  <block id="92df0d347921e055f717318c9989cdd3" category="summary">要开始使用 AI Data Engine 系统，请安装硬件、设置集群、设置数据访问并为要与 AI 工作负载一起使用的工作区配置存储。</block>
+  <block id="0faf8679fa64c37768334eb399f37dcc" category="doc">AI Data Engine 快速入门</block>
+  <block id="852d0bb4914d5c1ca3dc338e8c10571e" category="paragraph">要启动并运行 AI Data Engine 系统，您需要安装硬件组件、设置群集、设置从主机到存储系统的数据访问以及配置存储。</block>
+  <block id="06c2cea18679d64399783748fa367bdd" category="inline-image-macro">一个</block>
+  <block id="68f29c3aa9815c01fd795e77ad631bb6" category="paragraph-title"><block ref="58f667aaf05f87159670e12bd9bc076b" category="inline-image-macro-rx" type="image"></block> AIDE 将与新的或现有的 AFX 集群一起安装？</block>
+  <block id="e6c77343bdce14f53a105701f6f43c47" category="paragraph">需要决定是将 AIDE 和 AFX 同时安装在一起，还是将 AIDE 与现有 AFX 集群集成。</block>
+  <block id="aada29daee1d64ed0fe907043855cb7e" category="inline-image-macro">两个</block>
+  <block id="99882077cc5150985de38b05fe43c5bf" category="paragraph-title"><block ref="54f425ce8d89f4ed6b8a546561af5d60" category="inline-image-macro-rx" type="image"></block> 安装和设置硬件</block>
+  <block id="0838ba24ec50794012b940c57af5703f" category="inline-link-macro">安装和设置</block>
+  <block id="19ad89bc3e3c9d7ef68b89523eff1987" category="inline-link">安装</block>
+  <block id="ed69ee9dc2cfea9694c233f68bec9a1f" category="paragraph"><block ref="191e8c10364d857dc60e1efe9fd2b3ff" category="inline-link-macro-rx"></block> 您的 AIDE 集群计算节点。根据安装环境的不同，还要确保 <block ref="13d70449c7b854b823c140a74f89a46b" category="inline-link-rx"></block> AFX 硬件。</block>
+  <block id="ca8a2087e5557e317599344687a57391" category="inline-image-macro">三</block>
+  <block id="8a28e13725679cf81ae7a97f135f3151" category="paragraph-title"><block ref="05b2444faffd66d76e88602ea7dd353f" category="inline-image-macro-rx" type="image"></block> 设置集群</block>
+  <block id="bb473b2d6732ee544efd8c2d65235177" category="inline-link-macro">使用 AFX 集群设置 AIDE</block>
+  <block id="a874f89537b7b883012b5efd105edb1c" category="paragraph">使用 ONTAP System Manager 引导您快速轻松地完成<block ref="675ef519a4ec2a9bf76c5629db308684" category="inline-link-macro-rx"></block>。</block>
+  <block id="981b8fcee42e1e726a67a2b9a98ea6e9" category="inline-image-macro">四个</block>
+  <block id="6dbaaad4b361bfb2fb0c31979367304b" category="paragraph-title"><block ref="beadfa85a2fdca06b91edc1131c603e6" category="inline-image-macro-rx" type="image"></block> 设置工作区和数据访问</block>
+  <block id="e18aaeb7e243e2bd2a45e5ee88146021" category="inline-link-macro">为该工作区设置可以访问 AI Data Engine 数据的工作区和用户</block>
+  <block id="8ce1e27faff5504e7185aa4c79d7bd27" category="paragraph"><block ref="5b0cb7b54a06c58b1df6d72f6bbfed30" category="inline-link-macro-rx"></block>。</block>
+  <block id="58eaebf972358f1cf03d386a4ade1a0f" category="paragraph-title">下一步是什么？</block>
+  <block id="7923adc0c682d858fce4bcbdbfa05225" category="paragraph">现在，您可以使用 ONTAP System Manager 管理您的 AI Data Engine，让您的数据工程师和数据科学家开始使用他们的工作空间和配置。</block>
+  <block id="9f2e8bc6e66a2035e778a5d85e8d67f4" category="summary">在 AI Data Engine Console 中定义全局数据策略，以控制哪些数据可以用于 AI，如何对其进行分类，以及在查询过程中如何实施 Data Guardrails。</block>
+  <block id="eba372850f2a36bf98f5b67f093546c2" category="doc">在 AI Data Engine 中为您的数据资产定义 Data Guardrails 策略</block>
+  <block id="e1f6c527ae23dde4ffaba71ebdf608c7" category="paragraph">作为数据或平台所有者，您可以使用 AI Data Engine (AIDE) Console 来定义哪些数据属于 AI 的范围，哪些数据始终处于禁区，以及当该数据用于分类和检索增强生成 (RAG) 时适用哪些安全规则。</block>
+  <block id="111797bd83edd8d440933ae2333e68ca" category="paragraph">使用这些过程在 AIDE Console 中定义这些策略，以便 ONTAP System Manager 可以对工作区中的所有数据实施这些策略。</block>
+  <block id="23fa3f02fe4ac6a2257d2292a2efa41d" category="list-text">您需要在 AI Data Engine Console <block ref="3f74607a99bfe93e31e227e163b1bde6" prefix="(" category="inline-code"></block> 中具有_存储管理员_权限才能创建和管理全局策略。</block>
+  <block id="a6b9740b8fe5799e278b0abdf4503723" category="list-text">您有一个部署了健康数据计算节点的 AIDE 集群。</block>
+  <block id="ec6d0296cf1fa2f18795a99eb33cb3af" category="inline-link-macro">OpenID Connect (OIDC)</block>
+  <block id="77b33c618b557861ebb10e6a48d76a0a" category="list-text"><block ref="e938ac9c1a94c86cb3848bf92ab91463" category="inline-link-macro-rx"></block> 已配置，并且您的 IdP 角色映射到允许数据策略管理的 AIDE 管理员角色。</block>
+  <block id="e7f11e2bc726152c5dd7d2cd109c347d" category="list-text">已安装 AI Data Engine software 许可证，以便启用 Data Guardrails 和推理功能。</block>
+  <block id="208a630dcaa4c46cbc11fc34416aa57d" category="list-text">至少存在一个工作区，或者您已与管理员协调以了解将在工作区中使用哪些数据源（卷）。</block>
+  <block id="8f0a4f8d5bccc1226ef499c1044e68c7" category="section-title">了解策略类型</block>
+  <block id="5aa2d966ba2f9556d7ddbfee44569595" category="paragraph">AIDE Console 公开了塑造数据资产的以下策略类型：</block>
+  <block id="df3108211baa80799918442c757670e6" category="list-text">*分类器*：启用分类器以检测所有工作区的 PII、安全问题或其他模式。</block>
+  <block id="f5e48a415e7c6f27ce1afbd35c7d553e" category="list-text">*Classifier categories*：将分类器分为合规类别，用于组织和管理。</block>
+  <block id="9224b8aa5453ea8a2addcd576f04421b" category="list-text">*Guardrail 政策*：检索或推断时适用的安全和编辑规则。</block>
+  <block id="55393d98eda70f0cecb2217a08b025c4" category="paragraph">您无法使用 ONTAP System Manager 创建或管理这些护栏策略。仅当存储管理员将它们应用于工作区时，它才会读取并强制执行它们。所有策略定义和维护都发生在 AIDE Console 中。</block>
+  <block id="12079034a06c33e8a5e45cc00de93083" category="section-title">启用分类器</block>
+  <block id="898502101072b16daa2b1311677ef6b9" category="paragraph">分类器分析元数据和内容以注释文件和对象（例如，检测 PII 或敏感类别）。在工作区数据上运行分类器之前，必须在 AIDE Console 中启用它们。</block>
+  <block id="6fc06b87db40784763c2a05d3b60a166" category="paragraph">分类器行为在 AIDE Console 中进行全局控制。所有启用的分类器都在每个工作区上运行。由于它们是全局应用的，因此无法为单个工作区启用或禁用它们。它们只能在全局范围内启用或禁用。</block>
+  <block id="fc79d22dc5860c3a52c4ef9c7371f800" category="list-text">在 AIDE Console 中，导航到 *Data Guardrails &gt; Classifiers*。</block>
+  <block id="c6b905704e7b4b94c9c787c2ce55b915" category="list-text">选择分类器类别以显示其包含的分类器。</block>
+  <block id="e981a956528146c03671805b9ad7a3fe" category="list-text">选中要启用的分类器的复选框，或选择所有行以批量启用分类器。</block>
+  <block id="71377237946a16cc4981e8007b83be9b" category="list-text">选择 *启用*。</block>
+  <block id="ca09cbcbf708cb7f42c788f46965b09e" category="admonition">使用批量选择选项可一次启用多个分类器。每次启用分类器时，都会触发所有工作区的工作区刷新。为了最大限度地减少不必要的刷新，请一次启用多个分类器，而不是一次启用一个分类器。</block>
+  <block id="d3a0a8746352ff6aa915534f49d809a7" category="paragraph">所有新创建和现有的工作区在元数据处理期间运行启用的分类器。</block>
+  <block id="730759b526d0e9dd105f2942b462a0d5" category="paragraph">分类标记会写入元数据目录，并可供数据工程师在创建数据集合时进行筛选。</block>
+  <block id="0fd7223870b53ea8e174d47453eac177" category="section-title">管理分类器类别</block>
+  <block id="4caf834548ae71569243c0e976f45a84" category="paragraph">分类器按类别组织（例如"PII"或"财务数据"）。类别可帮助您对相关分类器进行分组，以便更轻松地管理和合规可见性。您可以使用 AIDE 提供的默认类别或创建自定义类别以满足您的合规要求。</block>
+  <block id="ef931ea95a9fd2a223cad5ff38a8f11c" category="list-text">查看现有分类器类别。分类分为两大类：</block>
+  <block id="e90d67a3a5f37f11159133bc79b40f2f" category="list-text">内容或数据：检测文件中的特定类型的数据。</block>
+  <block id="786ced3b5be1c70036619b3ce6742dfb" category="list-text">文档：根据内容对文档类型进行分类。</block>
+  <block id="e95a0947f76aa3999b3137ff979b6d5c" category="list-text">确定默认分类器子类别是否足够，或者您是否要创建自己的子类别。</block>
+  <block id="46c51bce085d71051db2a88b27e850b1" category="list-text">如果使用默认分类器子类别（例如 *General Privacy*）：</block>
+  <block id="e98768148a4b9bc34196a43b41e3b6c2" category="list-text">在分类器类别中选择类别名称以显示关联的分类器。</block>
+  <block id="119898cbe1b542f68d89fde5b3de10b8" category="list-text">检查分类器列表。</block>
+  <block id="9d381bb133cb2571971c79945486dce0" category="list-text">选择 *Add* 从可用分类器的完整列表中查找并添加未列出的分类器。</block>
+  <block id="3c442f0ec8d0ee98ccd9181e6322ae19" category="inline-image-macro">蓝色加号后跟单词 Add</block>
+  <block id="93ab56723afb5a1f02c652c01f07eeea" category="list-text">如果要创建自定义类别，请选择 <block ref="45c6f283caea7aa21c7bf2d770ca88ff" category="inline-image-macro-rx" type="image"></block>。</block>
+  <block id="a7ec3e4f428064854db6bece89d17afb" category="list-text">添加唯一的名称、描述，并为类别分配可用的分类器。</block>
+  <block id="c762b6c110a6b519dd0e116c9f69ac41" category="list-text">选择 *Add*</block>
+  <block id="437dccbea7ecf1f1c372a926bd77d4cc" category="inline-image-macro">三个水平蓝点</block>
+  <block id="9f17f7f169659a25fa3a0f91ef130b95" category="list-text">要禁用类别中的分类器，请为分类器选择 <block ref="abe63474400e5ff8a952d935ca1d25f5" category="inline-image-macro-rx" type="image"></block> 并选择 *禁用*。您还可以选择所有行以批量更改状态。</block>
+  <block id="122803f25b840f7558f08e2a6c2ca4b2" category="paragraph">类别组织分类器以实现合规可见性。数据工程师可以在筛选和创建数据集合时使用分类标签。</block>
+  <block id="ba37e76257edebb9c7d0e7424d017d2b" category="section-title">创建和管理 Data Guardrails 策略</block>
+  <block id="aaeecda911ec6965b88c73be857fee8a" category="paragraph">Guardrail 策略确定当分类器检测到敏感内容或当提示和检索结果违反内容规则时 AIDE 如何响应。</block>
+  <block id="7d52e23cb69dc281765db0b9426f2390" category="paragraph">典型的 Data Guardrails 行为包括：</block>
+  <block id="a8625e57daa0f7c439a25f1b5b0924ce" category="list-text">从检索到的代码段中隐藏或编辑 PII。</block>
+  <block id="2d47fa43632287a30eea27f4081317b9" category="list-text">阻止违反合规性规则的答案。</block>
+  <block id="cf6de9a060ce0d7990cfdacf88b6c7e7" category="list-text">记录或标记违规以进行审核。</block>
+  <block id="59bb1b95540d829614a43e7b9fd41dbe" category="paragraph">您只能在 AIDE Console 中创建和管理护栏策略。</block>
+  <block id="9c44d8542de2d8ae6050c57bbb465e0e" category="paragraph">一次只能将 ONTAP System Manager 中的工作区与单个护栏策略相关联。</block>
+  <block id="aec9a492eeff5fc51b62c90fbda6b3c4" category="list-text">在 AIDE Console 中，导航到 *Data Guardrails* &gt; *Guardrail policies*。</block>
+  <block id="5564395df411549b6d314790fcef4c39" category="list-text">输入清楚描述范围的名称和描述（例如，<block ref="d3720d1913965b1331d7b0fb4f196778" prefix=" " category="inline-code"></block>）。</block>
+  <block id="4d5c55f24ca6da41d96f8734f5843f2c" category="list-text">配置激活 Data Guardrails 所需的数据分类器驱动条件：</block>
+  <block id="190cdb0f11e6d6ecf2f48a0699ee440b" category="list-text">定义 Data Guardrails 激活条件：</block>
+  <block id="523245998265777ea3ee2fd1c06b0a36" category="list-text">为每个条件选择分类器类别或分类器类型。</block>
+  <block id="1d81ddfe47fb8cede12041b8d8475dd0" category="list-text">根据需要添加和定义其他条件。</block>
+  <block id="26345e44492fab7df06ae9437fcc43a6" category="list-text">在 *Search* 中定义特定的搜索条件，然后选择 *Accept*。</block>
+  <block id="18b1b1f8dfb12c80c45f35bae6c114ad" category="list-text">定义 Data Guardrails 策略的操作，例如匿名化内容或从数据集合中阻止和删除文件。</block>
+  <block id="23245610e658733eea6422be05259711" category="list-text">选择要应用 guardrail 的工作区。</block>
+  <block id="65681ca8556da2a14c145fd95c068b9d" category="list-text">设置策略状态：</block>
+  <block id="47aaa2c5088140995d3671b2672a8fc3" category="list-text">*Enabled*：立即激活策略。</block>
+  <block id="5a4040129170245025585a24abb04e61" category="list-text">*Test Mode*：允许您在激活策略之前验证策略的影响。</block>
+  <block id="d52e020e8c8aaa4c8ffa47a7f7d67b34" category="list-text">*已禁用*：保存 guardrail 但不强制执行。</block>
+  <block id="90b7fb6f7bcec81b0d8f4584b49a9bb3" category="list-text">选择 *Add* 以保存策略并将其应用于工作区。</block>
+  <block id="6e2857c9ee591e7802d459becf72b6c4" category="admonition">在启用严格执行之前，将 *Test Mode* 与试点工作区和非生产数据收集一起使用，以了解有多少响应将受到影响。</block>
+  <block id="8992db79daa9cf460bab198578bd2aac" category="paragraph">新 Data Guardrails 策略处于活动状态，并适用于选定工作区。</block>
+  <block id="e125c916b565dc1bafeca4aa01fffa1b" category="section-title">策略如何与工作区交互</block>
+  <block id="abedc70d7ff9e53c4c9f75c8f07af162" category="paragraph">定义策略后：</block>
+  <block id="1caa087aa97cdb7fc89385961e44e54b" category="list-text">存储管理员使用 ONTAP System Manager 创建工作区、选择数据容器和关联 Data Guardrails 策略。</block>
+  <block id="6fb4331af7e84b27f759ae2b7a4d5c74" category="list-text">分类器根据您启用的内容在工作区内容上自动运行。</block>
+  <block id="fd73e1dacb84c585b64a9989d19d0a2e" category="list-text">附加到工作区的 Data Guardrails 会影响检索端点的行为。</block>
+  <block id="9b6f91108306ed713dc83e7810fab303" category="paragraph">对于数据工程师和数据科学家：</block>
+  <block id="096f099a47db8a0468043d931759f62a" category="list-text">已按角色分配筛选可见数据资源（工作区和数据集合）。</block>
+  <block id="f95b08085941366f2e2030f613783d56" category="list-text">您查询的元数据（例如 PII 标签）由启用的分类器驱动。</block>
+  <block id="872345cb64299a4f06509e70dc4c1a82" category="list-text">您的 RAG 管道接收的响应受工作区级别配置的 Data Guardrails 的限制。</block>
+  <block id="dcd62fd337dd43e14bf409ae1d1c5b83" category="inline-link-macro">在 AI Data Engine 中查看数据收集</block>
+  <block id="630f8d5b87ad8e6e04d840656d2ec87d" category="list-text"><block ref="630f8d5b87ad8e6e04d840656d2ec87d" category="inline-link-macro-rx"></block></block>
+  <block id="0ea6a9977c1dbb583e0caf928e2509ed" category="inline-link-macro">AI Data Engine 的数据到 RAG 快速入门</block>
+  <block id="469aff1bc9dff9a0cf69310965c57b26" category="list-text"><block ref="469aff1bc9dff9a0cf69310965c57b26" category="inline-link-macro-rx"></block></block>
+  <block id="abc4b3a5812f026cfd91b7f141bf173b" category="summary">安装 AFX 存储系统，作为部署 AI Data Engine 的第一步。AFX 系统提供 AIDE 部署所需的存储基础架构基础。</block>
+  <block id="89c0b4739d3df91343c36f2c8d821680" category="doc">为 AI Data Engine 安装 AFX 存储系统</block>
+  <block id="753773c499e6d00c36d9ab4ac4b1f30d" category="paragraph">安装 AFX 存储系统，作为部署 AI Data Engine 的第一步。AFX 存储系统提供存储基础设施基础，并且在安装 Data Compute Node 之前是必需的。</block>
+  <block id="85ab5efebf9bc9af8d5e909689d4a93b" category="inline-link-macro">AFX 1K 安装文档</block>
+  <block id="96ce8ddf3fb114b4cedca2ea0892fe68" category="paragraph">按照 <block ref="4f517b3f46b2d5ca6da88f4b9b8f2b3a" category="inline-link-macro-rx"></block> 安装 AFX 存储系统。</block>
+  <block id="03fe8cddc2c4cb43a341e639c5992693" category="inline-link-macro">安装 Data Compute Node</block>
+  <block id="eae7516085e0e2eef255bc6ea494a69d" category="paragraph">完成 AFX 存储系统安装后，<block ref="088b939de9069977d312607a8f16152e" category="inline-link-macro-rx"></block>。</block>
+  <block id="f8424f6a097028fc6e148a76a5bbb1b5" category="summary">查看安装 AI Data Engine 的要求，包括 AFX 存储系统和 Data Compute Node。</block>
+  <block id="0f993a084026733f48bb95835a9b81ce" category="doc">安装 AI Data Engine 的要求</block>
+  <block id="b7d8c9e8bfd24163d634e0e4ac3e70d4" category="paragraph">查看安装 AI Data Engine 的要求。AIDE 需要 AFX 存储系统、至少三个 Data Compute Node、网络交换机和电缆。</block>
+  <block id="47dee50ad0138b8f5ca70e40e86e6c04" category="section-title">硬件要求</block>
+  <block id="38ef9bf86b5297da1d7cfe1e5626a93c" category="paragraph">AI Data Engine 需要 AFX 存储系统和至少三个 Data Compute Node。AFX 系统提供存储基础设施，而 Data Compute Node 托管 AIDE 软件组件，从而实现数据管理、管理和 AI 功能。</block>
+  <block id="180f97e4101a981a589ed7b4acd8a5f4" category="list-text">*AFX 存储系统*：包括 AFX 控制器、磁盘架和网络交换机。AIDE 部署需要 AFX 存储系统。</block>
+  <block id="b89cf6d0d0cfbce221c32768c38b8d86" category="list-text">*Data Compute Node*：至少需要三个 Data Compute Node。Data Compute Node 是 NetApp 提供的硬件节点，用于托管 AIDE 软件，包括 Metadata Engine、Data Sync、Data Curator 和 Data Guardrails。</block>
+  <block id="e47ae0c6ccb8d1ffcb23bfb3da909e24" category="list-text">每个 Data Compute Node 都有可用于连接的 I/O 插槽 4 和 5。插槽 3 预留给 GPU。插槽 1 和 2 未填充或无法访问。</block>
+  <block id="dc846b7b46dccdc8d3ef485283eaf8e2" category="list-text">端口 e4a 和 e5a 用于集群连接。</block>
+  <block id="4beb9d403896b1f2778dc59145f4ff04" category="list-text">端口 e4b 和 e5b 用于主机网络连接。</block>
+  <block id="76b766e26edfb35b1eb6b837149be61a" category="section-title">网络交换机要求</block>
+  <block id="281780476a0f1ae0634dbbfd23de4acc" category="paragraph">AI Data Engine 需要网络交换机来为 Data Compute Node 启用主机网络连接和节点间通信。</block>
+  <block id="4716f8ab3df54331b763c915df4a8ffa" category="list-text">用于主机网络连接的客户端交换机（Cisco Nexus 9332D-GX2B 或 Cisco Nexus 9364D-GX2A）</block>
+  <block id="6d3d6be8357596e8198e6110601a3ac9" category="list-text">用于节点间通信的集群交换机（Cisco Nexus 9332D-GX2B 或 Cisco Nexus 9364D-GX2A）</block>
+  <block id="a5ba574ce7b5734d40fafbd23d231b25" category="list-text">用于网络管理的可选管理交换机</block>
+  <block id="118d935cca54466f59122caecfde09ad" category="section-title">布线要求</block>
+  <block id="fb5eb0a71a541cb874be88c5b747b1db" category="paragraph">将 Data Compute Node 连接到网络交换机和管理网络需要以下电缆。</block>
+  <block id="01cc2456bb73932829ae515f34db0dd0" category="list-text">400-GbE 到 100-GbE (4x100GbE) 分支电缆，用于将节点连接到客户端和集群交换机</block>
+  <block id="aa279a872571dc75dff2808b825e8008" category="section-title">多集群支持</block>
+  <block id="fd7441c65548c52a838e58b94fb5a56d" category="paragraph">使用 AFX 部署 AIDE 后，它可以使用 SnapMirror 和集群对等连接并管理来自其他 ONTAP 9.18.1 及更高版本集群的数据。</block>
+  <block id="fcf6887c3b9d00afd6a4b0dd873ee9bc" category="summary">了解如何将 AIDE 电缆连接到网络，以及如何连接 Data Compute Node。</block>
+  <block id="5b943f690fd835500cf270e9a8a3da8f" category="doc">为 AI Data Engine 连接数据计算节点</block>
+  <block id="238d99bbb57eacad555f12555e8c072a" category="paragraph">将您的 Data Compute Node 连接到主机网络和集群网络交换机，以实现 AI 工作负载处理并与 AFX 1K 存储系统集成。此过程使用 100GbE 连接进行主机网络访问和集群通信，允许节点利用现有的集群基础设施，而无需关闭 AFX 系统。</block>
+  <block id="e5e09031843479ef9ef8cbbd4c2f404c" category="inline-link-macro">NetApp Hardware Universe</block>
+  <block id="a28718801e1a1879bc4c740387a935cd" category="paragraph">这些程序显示了常见的配置。具体的布线取决于为您的存储系统订购的组件。有关全面的配置详细信息和插槽优先级，请参阅 <block ref="43b42c26c42f7c6fe4ef77f9f2ed17ff" category="inline-link-macro-rx"></block>。</block>
+  <block id="b8813a31dec0580ca60c9211b8c31504" category="admonition">连接 Data Compute Node 时，无需关闭 AFX 1K 存储系统的电源。您可以将 Data Compute Node 添加到已打开电源并已配置的现有 AFX 1K 存储系统。</block>
+  <block id="8820ea58f8a7b9ba1f899988cc0bcc7e" category="inline-link-macro">安装您的 AFX 1K 存储系统</block>
+  <block id="e8286441186e192dd0417e0b90342681" category="list-text">您已安装现有的 AFX 1K 存储系统。有关安装 AFX 1K 存储系统的信息，请参阅<block ref="6c057105940736b02f364af6d84ea81d" category="inline-link-macro-rx"></block>。</block>
+  <block id="794101c4551a5d464aba13561dbdfcb7" category="list-text">您已安装并配置了所需的网络交换机。有关将系统连接到网络交换机的信息，请联系网络管理员。</block>
+  <block id="5438ae8fe0bf5d2f78280efdc18e8280" category="inline-link-macro">Data Compute Node 的布线要求</block>
+  <block id="bc6b8966de646d62999299467e207730" category="list-text">您已审阅 <block ref="df9ffd635bc8be93ab4198a9764d5fe7" category="inline-link-macro-rx"></block>。</block>
+  <block id="3e600c5ae163106b94f797b8d37531bb" category="section-title">步骤 1：将 Data Compute Node 连接到主机网络</block>
+  <block id="ba9743fa4e674359437383966cb93d3a" category="paragraph">您可以将 Data Compute Node 端口连接到主机网络。</block>
+  <block id="118345fbcadb00655f06e4cd198e4f44" category="list-text">将以下 Data Compute Node 的端口 e4b 连接到以太网数据网络交换机 A：</block>
+  <block id="ba29dac6a284e8d1b7e72a08aca085b4" category="list-text">Data Compute Node 1，端口 e4b</block>
+  <block id="76ae631271ff2c7de2adee5a560f6ba9" category="list-text">Data Compute Node 2，端口 e4b</block>
+  <block id="11db4a2b68c8f1aeb97f773a0dce8ecc" category="paragraph">*100GbE 电缆*</block>
+  <block id="c6dd9fad40f1c30f08c8f34623f8ed7d" category="image-alt">100 Gb Ethernet 电缆</block>
+  <block id="50f69b736cea52c0f9b7cc77b698390c" category="image-alt">缆线连接到 Ethernet 网络</block>
+  <block id="b9d8bcf14f3b4b53f60bfcaf39a8d9a0" category="list-text">将以下 Data Compute Node 的端口 e5b 连接到以太网数据网络交换机 B：</block>
+  <block id="dfbf664a24b20a5e81f43e898d684617" category="list-text">Data Compute Node 1，端口 e5b</block>
+  <block id="03c9404232757fb6fbd63f1bf30833dd" category="list-text">Data Compute Node 2，端口 e5b</block>
+  <block id="51ac89f3a68bd0a01d770e0a9023a233" category="section-title">步骤 2：为 Data Compute Node 集群连接布线</block>
+  <block id="23f4b4c052d032f52982aff86abb9547" category="paragraph">对于 Data Compute Node，e4a/e5a 端口用于集群连接。</block>
+  <block id="bc615f90adaaf6e394a43df14dc83aac" category="list-text">从下列 Data Compute Node 将端口 e4a 连接到集群网络交换机 A 上的非 ISL 端口：</block>
+  <block id="a0b2e66a85b1aedce80b6da4e0310ffd" category="list-text">Data Compute Node 1，端口 e4a</block>
+  <block id="796d3174b2e10790956b6531fd09718d" category="list-text">Data Compute Node 2，端口 e4a</block>
+  <block id="64b079a6b5212d598868b5b7804243d5" category="list-text">从下列 Data Compute Node 将端口 e5a 连接到集群网络交换机 B 上的非 ISL 端口：</block>
+  <block id="4c3c38604eae6a6237406e7c21b17ea6" category="list-text">Data Compute Node 1，端口 e5a</block>
+  <block id="75b404150b8831865d53a73c8d5e49df" category="list-text">Data Compute Node 2，端口 e5a</block>
+  <block id="d8bdb0239e31e7049e331ec53560d174" category="inline-link-macro">开启您的 Data Compute Node</block>
+  <block id="b659b3546fb581caaec13f6634743878" category="paragraph">在您连接硬件电缆后，您<block ref="4a47b4628664a0cf522188fbb092ba40" category="inline-link-macro-rx"></block>。</block>
+  <block id="1bea7bb4c3b67fb7e56873373a173ad4" category="summary">了解 Data Compute Node 的布线配置，包括 I/O 插槽使用情况、电缆类型以及主机和群集网络的连接要求。</block>
+  <block id="32045bb6e9ec0592350b601a788ccdce" category="doc">AI Data Engine 数据计算节点布线要求</block>
+  <block id="b0b66b711f4a262ccff9a731cc05cce3" category="paragraph">Data Compute Node 通过主机网络和集群网络连接与 AFX 1K 存储系统集成。查看部署的 I/O 插槽配置、电缆类型和连接要求。</block>
+  <block id="75c93cd0726c540833f0f26961c4e14c" category="section-title">布线配置</block>
+  <block id="bde68cd88ff494afe2ebe6cd3579f9ed" category="paragraph">Data Compute Node 连接到与 AFX 1K 控制器节点相同的群集交换机，通过针对 AI 和机器学习工作负载优化的计算资源扩展您的存储系统。</block>
+  <block id="26d06b5d7d83bef6fd83d17442d2d232" category="paragraph">初始 AI Data Engine (AIDE) 配置支持至少三个 Data Compute Node。有关全面的配置详细信息和插槽优先级，请参阅<block ref="43b42c26c42f7c6fe4ef77f9f2ed17ff" category="inline-link-macro-rx"></block>。</block>
+  <block id="6690b4bebe8576ca153da74ee875af92" category="image-alt">Data Compute Node 上的插槽编号</block>
+  <block id="eff9a2b0e485ca3fb80f96fc9995fb62" category="image-alt">标注编号 1</block>
+  <block id="511dfe52ba224eaa024883dc5f54a3ab" category="paragraph">Data Compute Node 上未使用的插槽。</block>
+  <block id="746fda156f20e053f2c0e3b0e0ecab0e" category="image-alt">标注编号 2</block>
+  <block id="5f695e51ae076dac62d244a3e86a2eae" category="image-alt">标注编号 3</block>
+  <block id="aea4604184c27ce2377392987d0ba125" category="paragraph">Data Compute Node 上的 GPU 插槽。</block>
+  <block id="f92f448740bddae7b25ed117dcbd39ec" category="image-alt">标注编号 4</block>
+  <block id="160bccdc930b9edb2a0b7858f754bf4c" category="paragraph">Data Compute Node 上的 I/O 插槽。</block>
+  <block id="140e6f3619a868d803ee4deb2e00c8d2" category="image-alt">标注编号 5</block>
+  <block id="d3312db08c93e69e76d69a2e38eaa08d" category="section-title">I/O 插槽配置</block>
+  <block id="244461a49975f6a3dc6fd13864c7c9d6" category="paragraph">Data Compute Node 使用与标准服务器配置不同的特定插槽编号方案。了解插槽布局对于正确布线至关重要。</block>
+  <block id="eccb7b63b731db32e0ce4a4fdd8a6ff9" category="list-text">*插槽 3*：保留用于 GPU（不可用于 I/O 布线）</block>
+  <block id="072ef0eda3c0621b6156c4523c882cc1" category="list-text">*插槽 4 和 5*：用于网络连接的 I/O 插槽</block>
+  <block id="db87e241203d1b383e71462318d289db" category="list-text">端口 a：集群网络连接</block>
+  <block id="6eedba4d3146b35e16348db7f300290a" category="list-text">端口 b：主机网络连接</block>
+  <block id="95620bdca9483cfff7bf51c4a62455b8" category="list-text">*插槽 1 和 2*：未填充且无法使用</block>
+  <block id="20822b3c185b92a79afd73ff588c5aca" category="section-title">网络连接</block>
+  <block id="d5041fc03f33372300604d90bce54c69" category="paragraph">Data Compute Node 需要两种类型的网络连接才能与 AFX 1K 存储系统集成。</block>
+  <block id="d95df3a36e17b29735e3dcf84c1ac8cc" category="list-text">*主机网络连接*</block>
+  <block id="0f606838141aa46b8c7c0c36c9b3fc56" category="paragraph">主机网络连接提供对客户端数据的访问，并使 Data Compute Node 能够处理工作负载。每个 Data Compute Node 使用端口 e4b 和 e5b 进行到独立主机网络交换机的冗余连接。</block>
+  <block id="39f5df622fd9182a8497d4799be307d8" category="paragraph">端口分配：</block>
+  <block id="b72ddcb0ab55ec75bdbda22e578d060f" category="list-text">e4b：连接到主机网络交换机 A</block>
+  <block id="2f83538c1dd5b9269be590cbd565f0b8" category="list-text">e5b：连接到主机网络交换机 B</block>
+  <block id="0f751baa5600b095040178e095bdc3fc" category="list-text">*集群网络连接*</block>
+  <block id="0f8610864881c77f35c85c5fea228e8f" category="paragraph">集群网络连接可实现存储集群内 Data Compute Node 与 AFX 1K 控制器节点之间的通信。每个 Data Compute Node 使用端口 e4a 和 e5a 进行到单独集群网络交换机的冗余连接。</block>
+  <block id="a43f0dd566fd63be71a6d0b496458ab4" category="list-text">e4a：连接到集群网络交换机 A</block>
+  <block id="02e55a937a90df05c85dc578531fb253" category="list-text">e5a：连接到集群网络交换机 B</block>
+  <block id="cf0b851cf65a2b38aa358691f2054eb4" category="section-title">支持的硬件组件</block>
+  <block id="ef6b250a141549f7e772c04dc5aedc0d" category="paragraph">Data Compute Node 需要特定的电缆和交换机，以确保与 AFX 1K 存储系统的正确连接和性能。</block>
+  <block id="f384953dc841fdd8f9091f60fb23dc3c" category="cell">*Data Compute Node*</block>
+  <block id="8c64f9689a704b2988400d455c2f479f" category="cell">*支持的交换机*</block>
+  <block id="bf354bd94707871c479fe03e89aa650a" category="cell">*支持的电缆*</block>
+  <block id="f9736fad30a453861a6c36f17783ee98" category="paragraph">数据计算节点（至少需要三个）</block>
+  <block id="2dba2a62d77ad15231f182c614bf648e" category="list-text">Cisco Nexus 9332D-GX2B（400GbE）</block>
+  <block id="fa92c432433be25e058163ac4b273419" category="list-text">Cisco Nexus 9364D-GX2A（400GbE）</block>
+  <block id="1cd3a2f7e47c3fa70b99229288373a0f" category="list-text">400GbE QSFP-DD 分支到 4x100GbE QSFP56 电缆，用于连接到数据计算节点：</block>
+  <block id="3f4bc1beef44e5b39a3be81f036d4522" category="list-text">100GbE 到数据计算节点集群网络端口（e4a、e5a）</block>
+  <block id="2d75ae05a2ed8b0ee23144e3fce815d8" category="list-text">100GbE 到数据计算节点主机网络端口（e4b、e5b）</block>
+  <block id="55e7a2908623cd1f3c58ce873aeede6c" category="list-text">用于管理连接的 RJ-45 电缆</block>
+  <block id="21fbe84925d142de75eec8238d199a64" category="admonition">分支电缆从每个 400GbE 交换机端口提供四个 100GbE 连接。将 400GbE 端连接到交换机，将 100GbE 端连接到数据计算节点 I/O 端口。</block>
+  <block id="433efc6f076409b395fc77c8192bec6e" category="section-title">电缆方向</block>
+  <block id="8eb4b7ec6df402a1f9363a7d71d2cc9f" category="paragraph">将电缆连接到数据计算节点时，正确的电缆方向可确保可靠的连接。</block>
+  <block id="728062db5b02ea126b5577a494f2c4a5" category="paragraph">安装过程中的电缆图形显示箭头图标，指示将连接器插入端口时电缆连接器拉片的正确方向（向上或向下）。插入连接器时，您应该会感觉到连接器卡入到位。如果感觉不到，请将其移除并翻转，然后重试。</block>
+  <block id="416f5908ffc86e7abf276c4f75904ee7" category="inline-image-macro">电缆拉舌方向</block>
+  <block id="c486d43df45ffe41cde84a1b0fa45aa0" category="paragraph"><block ref="c486d43df45ffe41cde84a1b0fa45aa0" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="4cc92b9b3d5f9c1887c1d3974e79b178" category="admonition">将精致的连接器组件点击到位时，请小心处理。</block>
+  <block id="6bc9706054ddce477397a74fecd293ed" category="inline-link-macro">连接硬件电缆</block>
+  <block id="05af68e80c587ac3ad14168071e01ffd" category="paragraph">查看布线配置后，<block ref="0162b3cd6daa6620dcf8fa43a15e8a1d" category="inline-link-macro-rx"></block>针对您的数据计算节点。</block>
+  <block id="c8f6369f91b2e49320555053d08b7446" category="summary">作为 ONTAP 存储管理员，您可以将 AI Data Engine (AIDE) 与 AFX 系统部署集成。您可以将 AIDE 设置为初始 AFX 存储系统部署的一部分，或者将 AIDE 添加到已部署并提供数据的 AFX 群集中。在这两种情况下，您还需要在完成基本设置后完成 AIDE 配置。</block>
+  <block id="b0124f2be19a540828d3e1c546d45955" category="doc">设置 AI Data Engine</block>
+  <block id="d30bbdc0166e56666df2d50348a510eb" category="section-title">1.设置 AIDE 并将其与 AFX 存储系统集成</block>
+  <block id="a91208ff3661145d1f851585492b790d" category="paragraph">有两种方法可以设置 AIDE 并将其与 AFX 存储系统集成。选择适合您环境的选项。</block>
+  <block id="709730c262777df12c40f33105ccccb1" category="inline-link-macro">安装 AIDE</block>
+  <block id="75b029bb06646de91c46ae62dd848d1a" category="admonition">在设置 AIDE 之前，请确保已安装数据计算节点并将其连接到集群交换机。有关详细信息，请参见 <block ref="ae272ecc1f969ca92255389d87722698" category="inline-link-macro-rx"></block>。</block>
+  <block id="67cf641733ab3c2361c8f1f769a0874b" category="section-title">使用新的 AFX 集群设置 AIDE</block>
+  <block id="146dce7ff42099042a8d85842f5b381b" category="paragraph">如果您将 AIDE 设置为初始 AFX 系统部署的一部分，则 AIDE 设置过程是标准 AFX 集群设置工作流程的一部分。在 ONTAP 集群设置过程中，System Manager 会自动发现连接的 DCN 并将其包含在集群配置中。之后，您就可以完成 AIDE 配置，包括所需的许可证配置。</block>
+  <block id="1cd087a975856327df11de8c24727816" category="section-title">使用现有 AFX 集群设置 AIDE</block>
+  <block id="79e5e9e993a32c1d24149a1ab99a00f6" category="paragraph">如果要向现有 AFX 存储系统添加数据计算节点群集，则需要配置 DCN 并完成 AIDE 群集的设置。</block>
+  <block id="65f46507bff9980b186da251beea243f" category="section-title">向集群添加数据计算节点</block>
+  <block id="f9f4e6dfa867d6fadbee2179021982ce" category="paragraph">ONTAP 动态检测连接到群集网络的新数据计算节点，并将其显示在 System Manager 中。您可以<block ref="f31476c597e559edff10c8396ad56efe" category="inline-link-macro-rx"></block>。另请注意以下事项：</block>
+  <block id="f2de9ca173c14a6166010437ea58db0b" category="list-text">数据计算节点必须物理连接到集群交换机。创建 AIDE 集群时，需要恰好三个 DCN。</block>
+  <block id="e578c3ea135e2df360bd2b3c7d452efc" category="list-text">您必须具有足够的 IP 地址以用于 DCN 网络和其他必需的网络配置信息。</block>
+  <block id="74d96a5c17230f851c945568863caad2" category="section-title">完成 AIDE 集群设置</block>
+  <block id="9561e18d620a1f37385e2f8738145fd0" category="paragraph">集成数据计算节点并完成初始网络配置后，您可以完成新 AIDE 集群的设置。</block>
+  <block id="5972c1659b9ffe4113f736973d80fc9f" category="paragraph">页面右侧显示欢迎设置指导窗口，其中包含必要的配置步骤。每个已完成的步骤或操作项目的左侧都会显示一个复选标记。对于尚未完成的项目，将显示箭头 (<block ref="5f3155aaa1f70c7a47a7d47ad66cef2b" category="inline-image-macro-rx" type="image"></block>)。对于每个未完成的操作：</block>
+  <block id="a25946c372d3f6c9c830f236c55eb976" category="list-text">选择已启用的标题链接，并为您的环境完成设置操作。</block>
+  <block id="a012fbc8cd2b843a21f12640532441d7" category="list-text">如果链接已禁用，请将鼠标悬停在标题上，以显示启用该链接所需的操作，然后继续执行设置操作。</block>
+  <block id="67e3534cd0feec346d52509c43cc0189" category="inline-link">AFX 文档</block>
+  <block id="8735f0e93e6395ea53c40aa1ae5fda12" category="paragraph">在可能的情况下，每个步骤都有指向其他文档的链接。部分配置可能包含在 AFX 集群设置中。有关详细信息，请参见<block ref="374987c02d3674cce3ca7a50ea324db7" category="inline-link-rx"></block>。</block>
+  <block id="e2c4699e1107b23f4944f15157fd1154" category="list-text">选择 *Configure link aggregation groups and VLANs*。</block>
+  <block id="706be361457f0cb385f93690c716083c" category="paragraph">如果环境需要，您可以设置群集级别的 LAG 和 VLAN。选择此选项将启动以太网端口页面。</block>
+  <block id="0d1736e8e31a21d25526ed60ca4ed657" category="list-text">选择 *Configure network protocols*。</block>
+  <block id="a6112a3104820ecf5363ca17a438fa2a" category="paragraph">您可以配置 Storage VM (SVM) 网络协议。</block>
+  <block id="468cfff85725ad5f71c038767aa7d0e5" category="list-text">选择 *Update data compute software*。</block>
+  <block id="3a40cab041f6585c05ceabf8e362f05b" category="paragraph">如果数据计算软件映像可用于更新，则将启用此选项。选择它以启动数据计算软件更新页面。另请参阅<block ref="e966f8a237d0e9b99b99d834f5fe2ecd" category="inline-link-macro-rx"></block>。</block>
+  <block id="a79f870ef92f37fc8b1c25bcf9b1ffa1" category="list-text">选择 *Configure data engine networking*。</block>
+  <block id="67f2739e9e2d8cc78123cf3eeba619c7" category="paragraph">此选项显示配置 data engine 网络地址的页面。</block>
+  <block id="0f18306a1d3f702e7592699af4f850f9" category="list-text">选择 *Create intercluster network interfaces*</block>
+  <block id="17543fe7c6650cbf00f663329fdb36d9" category="paragraph">如果要编录远程数据，此选项将启动页面以配置群集间网络接口，这是两步过程的一部分。</block>
+  <block id="91f9dd150d50b755450d1dfeb6d3b451" category="list-text">选择 *与其他 ONTAP 存储系统对等*。</block>
+  <block id="2782e3327c60368da349279c2a0d74ea" category="paragraph">创建群集间网络接口后，可以与其他 ONTAP 存储系统建立对等关系。</block>
+  <block id="63f7cf6b59a0af4372ba55b4a7626622" category="list-text">选择 *Add a data container*。</block>
+  <block id="2e84a6a800dcf21c05dbec4dc0602012" category="paragraph">您可以添加卷以供 AIDE 使用，并将其与特定 SVM 关联。</block>
+  <block id="7ad7858e08a56121553f8e0656e5f37a" category="list-text">选择 *Add Workspaces*。</block>
+  <block id="451414432b1ae3dc6013e1c2cfd18349" category="inline-link-macro">创建工作区</block>
+  <block id="5e652160fbab4adde8eea47620894fb6" category="paragraph">此时将启动 Data Engine 工作区页面，您可以在其中进行操作<block ref="8b1d7cd3b6a3be01862493d306ab7fe2" category="inline-link-macro-rx"></block>。</block>
+  <block id="4d856612f048d237095b3bd39e4f5820" category="list-text">选择 *Configure OpenID Connect*。</block>
+  <block id="7da1482c9fbbd7e1e3e31e3444c87840" category="inline-link-macro">配置 OpenID 身份验证</block>
+  <block id="985ee6683c62552ef5f5c8f4cdddf54e" category="paragraph">您需要<block ref="86c7393005e03dbceb6e0aaaec374b21" category="inline-link-macro-rx"></block>以启用对 AIDE Console 的访问权限。</block>
+  <block id="bd965e38a0c9cf27aa1bde099308e23f" category="paragraph-title">完成后</block>
+  <block id="2292a40442f971be38d6c6a5ba3b251e" category="paragraph">完成所有操作项目后，将隐藏指导窗口。您可以根据需要手动关闭并重新打开。</block>
+  <block id="6c402339040938e4262187ccb58d2596" category="section-title">2.完成 AIDE 配置</block>
+  <block id="a8bf58c3bd5a893c2faa0c740693cd19" category="paragraph">AIDE 群集设置并与 AFX 存储系统集成后，需要完成 AIDE 配置。</block>
+  <block id="00a9e768fb32e46166e15f27fd821f8f" category="inline-link-macro">添加所需的 AIDE 许可证</block>
+  <block id="c7e55a22f807e4b6863008d43e3065dc" category="list-text"><block ref="a4b5aca81183c3364fb160c5947d34ce" category="inline-link-macro-rx"></block>。</block>
+  <block id="fae51d818b673224f961f12cb9b26848" category="paragraph">您必须安装 AI Data Engine 许可证才能获得完整的 AIDE 功能，包括矢量化和护栏功能。</block>
+  <block id="ef735218764b700f4a68fad8ccc996de" category="inline-link-macro">配置 OIDC 身份验证</block>
+  <block id="b21d218266c197112b3532dfd0b37cc2" category="list-text"><block ref="ab24e4777833114d74f1cdbc6bdf8298" category="inline-link-macro-rx"></block>。</block>
+  <block id="d79f1b26c8f1b50a20e791da039dd9e5" category="paragraph">确保为所有部署配置 OIDC。您必须配置 OIDC 才能访问 AI Data Engine Console。</block>
+  <block id="5fd52d4a1119f3f751bc8f7eee151dea" category="summary">作为 ONTAP 集群管理员，您可以使用 ONTAP System Manager 为 AI Data Engine (AIDE) 集群配置 OpenID Connect (OIDC) 身份验证。这通过外部身份提供商 (IdP) 提供安全和集中的登录。</block>
+  <block id="761a07459db4e883522af85323e1b22c" category="doc">在 ONTAP 中为 AIDE 配置 OpenID Connect</block>
+  <block id="a2a098831c03bffbc313ec2474276d2e" category="admonition">您必须配置 OIDC 才能访问 AI Data Engine Console。配置后，所有身份验证都将通过 OIDC 进行。如果未配置 OIDC，管理员以及数据工程师和数据科学家将无法使用控制台。在此情况下，登录到 System Manager 将恢复到本地身份验证。</block>
+  <block id="6112c7f78022f4225fc58547cb610ae0" category="paragraph">还请注意以下有关用于 AIDE 访问的 OIDC 配置的信息：</block>
+  <block id="0acbf56bccad7ca57f0b867761598354" category="list-text">您无法修改现有的 OIDC 配置。如果需要进行更改，请先删除配置，然后创建具有所需设置的新配置。</block>
+  <block id="e54ec3f21d2147b58dcf92a8986b97a2" category="list-text">如果禁用或删除 OIDC，System Manager 将恢复为本地 ONTAP 用户身份验证。</block>
+  <block id="92e8b005d3c68652b3f2dfecdfc8f9eb" category="section-title">OIDC 概述</block>
+  <block id="d5a279827aa633f50299d1537a1b2c30" category="paragraph">OpenID Connect (OIDC) 是基于 OAuth 2.0 框架构建的身份验证协议。它通过添加身份层来扩展主要用于授权的 OAuth 2.0。OIDC 引入了 ID 令牌的概念，它是一个 JSON Web Token (JWT)，包含有关身份验证事件和用户身份的声明。</block>
+  <block id="2fea10b5c95e1bdee68a2dc952a48d3f" category="paragraph">您需要选择和配置 AFX 与 AIDE 支持的外部身份提供程序 (IdP)。IdP 对用户进行身份验证，并发出令牌，AFX 可通过 System Manager 使用这些令牌来授予对 AIDE Console 的访问权限。</block>
+  <block id="cc850bc17018f52309657b388345e0c3" category="section-title">配置第三方身份提供程序</block>
+  <block id="b5fd4801ddea199d53e38d34e0c16f45" category="paragraph">要使用 OIDC 进行身份验证，需要首先配置外部 IdP。ONTAP 实现的 OIDC 使用令牌中的角色声明来强制执行 RBAC。设置 IdP 时，请确保将其配置为在 id 令牌和访问令牌中返回角色声明。ONTAP 支持两个 IdPs 进行 OIDC 身份验证：Entra ID 和 Active Directory Federation Services (AD FS)。</block>
+  <block id="0248eceb183034c82899c7bc91d5d37c" category="section-title">Entra ID</block>
+  <block id="b6167e60a50ebc61ad68aad9cbd0174e" category="paragraph">您可以通过以下高级步骤配置 Entra ID：</block>
+  <block id="3771459e3b24de02954ab6f0aedf307b" category="list-text">在 Entra ID 配置页面创建新的应用注册。</block>
+  <block id="57a80a11fffd5c7ccb2000e294c0c432" category="list-text">将重定向 URI（Web）值设置为<block ref="a76a2b1160140e24c743afbfd4a9e6d8" prefix=" " category="inline-code"></block>，替换相应的集群管理 IP 地址或 FQDN。</block>
+  <block id="a11aa51a1b6d8a639b589168fa4de4c4" category="list-text">在应用角色下创建所需的角色，并将其分配给您的用户。</block>
+  <block id="c802a660f6a629ef2a41bf851539cdbc" category="list-text">将令牌声明更新到令牌配置下，以返回 id-token 和 access-token 中的角色。</block>
+  <block id="0c30519e7d89427ecf467f5184b9df07" category="inline-link">使用 Entra ID 设置 OpenID Connect 提供程序</block>
+  <block id="15be0a4e84558a8f6eb0e33f1c2c3293" category="paragraph">有关更多信息，请参见<block ref="269af23feaa319c11c99c62f284327cd" category="inline-link-rx"></block>。</block>
+  <block id="3a6d511a9d218e11dc64c9d43b7d1d73" category="section-title">Active Directory Federation Services</block>
+  <block id="131f09acd7384cf55108f085705d8689" category="paragraph">您可以使用以下高级步骤配置 AD FS：</block>
+  <block id="e7d14096ada1efe4fcecf9706f054c5c" category="list-text">创建新的应用程序组并选择 *Server application accessing a web API*。</block>
+  <block id="9a453850226f257a96943e9ae0d67a84" category="list-text">配置声明以返回令牌中的角色。</block>
+  <block id="b8b0dcdc556f3afbf66a1ac2ff89ee74" category="inline-link">将 AD FS 添加为 OpenID Connect 标识提供程序</block>
+  <block id="1577a4cb6500155ce9eca4f7bf8f0c2d" category="paragraph">有关更多信息，请参见<block ref="fd3aa054da399a46f69886b8147873da" category="inline-link-rx"></block>。</block>
+  <block id="d5c4d31f414df6582798f376550fecde" category="section-title">在 System Manager 中配置 OIDC</block>
+  <block id="35f276c071333edb2500e224b892009d" category="paragraph">配置 IdP 后，您可以在 System Manager 中设置 OIDC 身份验证，以启用对 AIDE Console 的安全访问。</block>
+  <block id="e53733d9219b65b42186e45b2be4559e" category="list-text">您需要具有 System Manager 的管理员访问权限。</block>
+  <block id="331cadb0301be62408df65c40b625aa8" category="list-text">必须配置并访问您的 OIDC 身份提供程序。</block>
+  <block id="6ed0ae84648b71189c7f641cea702c81" category="list-text">在 System Manager 中，选择 *Cluster*，然后选择 *Settings*；找到 OpenID Connect 卡。</block>
+  <block id="92eef66d548ce3ad6566a41eb934f2c6" category="inline-image-macro">齿轮图标</block>
+  <block id="aa444639cd27298d67b9be15294f27a0" category="list-text">如果已配置 OIDC，则可以编辑或禁用该配置。如果未配置 OIDC，请选择 <block ref="dc8373cdd5c65c1e3fe8842e4753b1df" category="inline-image-macro-rx" type="image"></block> 开始设置过程。</block>
+  <block id="ec157b31f722a3086a5fefd33395e18d" category="list-text">在 Configure OpenID Connect 下，提供以下字段的值：</block>
+  <block id="27703c8f150ac4bb0a3a83a7857353af" category="list-text">提供程序</block>
+  <block id="51360304ea03557e79bdf5ff9cd2e234" category="list-text">发行人</block>
+  <block id="27eae7c4996def83c9ce334a04b7f1c7" category="list-text">JSON Web 密钥集 URI</block>
+  <block id="1f55f8ce37c7f01eeb2dcc6fcc2df09f" category="list-text">授权端点</block>
+  <block id="8f566a2feb65374afd85b81d5eeba5e0" category="list-text">Token 端点</block>
+  <block id="98455ef8fcfe9b3dfbc949be1d0ac788" category="list-text">结束会话端点</block>
+  <block id="1dbc9bfedca43e7962944e6877374169" category="list-text">访问令牌颁发者（可选）</block>
+  <block id="6b492221da6a67563351ed2113fc32fe" category="list-text">在客户端配置下，为以下字段提供值：</block>
+  <block id="76525f0f34b48475e5ca33f71d296f3b" category="list-text">客户端 ID</block>
+  <block id="3ec569295092833d9e4b93a06e1c0dff" category="list-text">远程用户声明</block>
+  <block id="5aa9e56afd2d3053d8df04f251f7ffa8" category="list-text">刷新间隔</block>
+  <block id="c9ce40a79fbb568fd7c574eef2577a96" category="list-text">在"连接详细信息"下，为以下字段提供值：</block>
+  <block id="31f73799da3f96581a68124442f89562" category="list-text">集群 IP 地址或 FQDN</block>
+  <block id="52b1c8f4068159f0c8bbf9ef562aee40" category="list-text">传出代理（可选）</block>
+  <block id="b06c17db090ffd719f108110d0380713" category="list-text">在外部角色映射下，选择现有角色映射或为 ONTAP<block ref="21232f297a57a5a743894a0e4a801fc3" prefix=" " category="inline-code"></block> 用户定义新角色。</block>
+  <block id="2af4dc855e86094cee6431372297447a" category="list-text">选择 *立即启用* ，然后选择 *保存* 。System Manager 将刷新以应用新的身份验证设置。</block>
+  <block id="b3eac18ae7c204c556f62dd66a01d35d" category="list-text">使用 IdP 凭据登录；身份验证成功后，您将返回到 System Manager。</block>
+  <block id="83ae1104f2752dedd3f734e862e77079" category="inline-link">OpenID Foundation</block>
+  <block id="d6dc3de1eee9ae466c18b32abc3802b3" category="list-text"><block ref="d6dc3de1eee9ae466c18b32abc3802b3" category="inline-link-rx"></block></block>
+  <block id="79ae1a530fac5c3d3243825c084b579d" category="inline-link">ONTAP OAuth 2.0 实施</block>
+  <block id="f3bab0602006a91da3ab07cad24e13f8" category="list-text"><block ref="f3bab0602006a91da3ab07cad24e13f8" category="inline-link-rx"></block></block>
+  <block id="00f45165b3cfbcdf086cee49c25c82c9" category="summary">了解如何安装导轨套件并将数据计算节点固定在机柜中。</block>
+  <block id="d08f231bff757ee25df913223bf39e35" category="doc">为 AI Data Engine 安装数据计算节点</block>
+  <block id="69e42da6d542e4665008dcc83755451b" category="paragraph">在机柜中安装并保护您的数据计算节点。</block>
+  <block id="25e29897c37b7e5f9f9f0d8aac2e8c21" category="list-text">确保您拥有与滑轨套件一起包装的说明书。</block>
+  <block id="62f3c5eaeb07570891c3a2c2baab2a08" category="list-text">了解与数据计算节点、存储系统和存储架的重量相关的安全问题。</block>
+  <block id="cd5270ea2c99376e2e028058d02bfa65" category="list-text">了解通过存储系统的气流从安装挡板或端盖的前部进入，并从端口所在的后部排出。</block>
+  <block id="3449f2f032a0d602a20cb311b11cbff6" category="admonition">一般来说，交换机应安装在机柜的中心。存储架应安装在交换机下方和第二个已安装的交换机上方。控制器节点可以安装在机柜内交换机的上方或下方。数据计算节点可以安装在机柜内控制器节点的上方或下方。</block>
+  <block id="152fa5b940708a63314cf0d34700a581" category="list-text">根据需要，使用套件附带的说明为您的数据计算节点安装滑轨套件。</block>
+  <block id="11b0a4d5a690f3072c7ceee493b95176" category="list-text">在机柜中安装并保护您的数据计算节点：</block>
+  <block id="b748127649846a0b9b10f0dbcfa05897" category="list-text">将数据计算节点放置在机柜中间的导轨上，然后从底部支撑设备并将其滑入到位。</block>
+  <block id="a6d899f314cdd20df8f4d59aca478ae8" category="list-text">使用随附的安装螺钉将数据计算节点固定到机柜上。</block>
+  <block id="353ccbfd0ab9b9e503d824a6bc057226" category="list-text">将挡板连接到数据计算节点的前面。</block>
+  <block id="e30a01f520c71c74d7ceed0e849ca30b" category="inline-link-macro">为 AIDE 连接数据计算节点</block>
+  <block id="548ea28a443d143489f072c073df763d" category="paragraph">在安装数据计算节点后，您<block ref="3980b3517830ec2d777c7d0167886e44" category="inline-link-macro-rx"></block>。</block>
+  <block id="082b4c909289f25bf292fbd1efc1725f" category="summary">您需要安装 NetApp 许可证才能访问 AI Data Engine (AIDE) 的全部功能。作为 ONTAP 群集管理员，您可以使用 ONTAP System Manager 执行许可证管理。</block>
+  <block id="eda5245c7aa76877b2f41c80a9fe821c" category="doc">在您的 AFX 系统中安装 AIDE 许可证</block>
+  <block id="bf59b5fa52e090d739b08baa38ea1640" category="section-title">准备许可 AI Data Engine</block>
+  <block id="2494571377e00102d0d328681f5ff6d0" category="paragraph">许可证是一个或多个软件授权的记录。所有 AFX 许可证都以 NetApp 许可证文件 (NLF) 的形式交付，这是一个启用多个功能的单个文件。在 AFX 存储系统上安装许可证以支持 AIDE 之前，您应该考虑以下几点。</block>
+  <block id="f2da3a9e513c23c7dcfe6d6228ef0609" category="section-title">许可证类型</block>
+  <block id="c0db7d329995c565adb385de138512e9" category="paragraph">通过您的 AFX 存储系统开始使用 AIDE 需要两种主要类型的许可证。</block>
+  <block id="ad09d4f074e5e7f7524d8960ed675311" category="paragraph-title">ONTAP One 许可证</block>
+  <block id="51e9cd3df14c6a6c5e7c1aef94a02023" category="paragraph">Metadata Engine 基本许可证通常作为 ONTAP One 许可证的一部分出厂安装。它允许访问 Metadata Engine 功能，为 AIDE 操作提供必要的基础。还包括管理 ONTAP 系统所需的所有核心功能。</block>
+  <block id="424a10335c5c90e5b96111de1934acec" category="paragraph-title">AI Data Engine</block>
+  <block id="a8f70600ac4cb58293cfb988f3bd7e77" category="paragraph">您需要购买并安装 AI Data Engine 许可证，才能访问激活 AIDE 全部功能所需的高级服务。该许可证将解锁您的数据计算节点，启用矢量化、治理护栏、推理和集成 UI 体验等 AI 功能。许可证包括 GPU 计数和到期日期。</block>
+  <block id="d7f55af6d9c0662de3e0e91e473d18be" category="section-title">许可证安装要求</block>
+  <block id="aafb7d4fc0910dd58dea4e8009f15a67" category="paragraph">您需要购买 AIDE 许可证，并将相关的 NLF 文件下载到本地系统。然后，您可以通过 System Manager 将文件上传到 AFX 存储系统。另外，请确保您具备以下条件：</block>
+  <block id="69f1f7cad7c6e3c043894b607caa7682" category="list-text">登录到 ONTAP System Manager 的管理员凭据</block>
+  <block id="1689ccb5d832ad4e2705ec92a10d2bcc" category="list-text">运行 ONTAP 9.18.1 及更高版本的 AFX 集群</block>
+  <block id="0b7e20de8e074787959d057734238612" category="section-title">在您的 AFX 系统上安装许可证</block>
+  <block id="efeaf14a72476276fe8e601ef88f9b2c" category="paragraph">您可以安装 AIDE 许可证以激活 AFX 存储系统所需的其他 AIDE 功能。</block>
+  <block id="fdea97941538733664c372bd63868459" category="list-text">在 System Manager 中，选择 *Cluster*，然后选择 *Settings*。</block>
+  <block id="3c9826d26cc8beca4db8d4b66f0309ef" category="list-text">在 *Licenses* 旁边，选择 <block ref="5f3155aaa1f70c7a47a7d47ad66cef2b" category="inline-image-macro-rx" type="image"></block>。</block>
+  <block id="49f3984eec75f1ed8be9c63752692ca3" category="list-text">选择 *Features* 选项卡以显示可用的 ONTAP 功能。</block>
+  <block id="490fc776cac7f78f490dd74bac76de2d" category="list-text">要安装许可证，请选择 *Installed licenses* 选项卡。</block>
+  <block id="c3e430848a72c379bf1f417e27a1c536" category="inline-image-macro">包含加号的蓝色矩形，后跟白色字母中的单词 add</block>
+  <block id="6bf05f35bf2d6a8946407440da2938fd" category="list-text">选择 <block ref="120e8ce30fa09c1e015e32b4fdada4d3" category="inline-image-macro-rx" type="image"></block>。</block>
+  <block id="dcb1e15a471e7d9f223fbcd7e6878ac1" category="list-text">选择一个本地许可证文件，然后选择 *Add*。</block>
+  <block id="d9374af96a68f98b2e73d35fada43a6f" category="inline-link">ONTAP 许可概述</block>
+  <block id="510c89186667c1d39f8506f2a3306afc" category="list-text"><block ref="510c89186667c1d39f8506f2a3306afc" category="inline-link-rx"></block></block>
+  <block id="7485a9a2ae4ee9755a52213e23e1172c" category="inline-link">如何从 NetApp 支持站点下载 NLF 许可证</block>
+  <block id="0d31e45cb458235b1c184c1176df0af6" category="list-text"><block ref="0d31e45cb458235b1c184c1176df0af6" category="inline-link-rx"></block></block>
+  <block id="00878f0334dfbdd116785998723660f0" category="inline-link">ONTAP CLI：system license add</block>
+  <block id="16066b6f043d9521e2db5c5cf79231ca" category="list-text"><block ref="16066b6f043d9521e2db5c5cf79231ca" category="inline-link-rx"></block></block>
+  <block id="1d047fcca59846b8e8cca2172d629ef3" category="summary">查看 AI Data Engine 数据计算节点所需的设备和提升预防措施。</block>
+  <block id="a6e017b78a943077a789941ce6c445b8" category="doc">AI Data Engine 数据计算节点的安装要求</block>
+  <block id="ee68e5b99222bbc29a480fcb0d1d6ee2" category="section-title">前提条件</block>
+  <block id="366c56f2f6e54f4e282605b02803862d" category="paragraph">在安装 AIDE 数据计算节点之前，请确保您已：</block>
+  <block id="f23b06a746ce876e177c6a6196286145" category="list-text">AFX 1K 存储系统。</block>
+  <block id="f15992b3ead5729a349b745d488997b1" category="inline-link-macro">安装您的 AFX 1K 存储系统</block>
+  <block id="ea0432abd4c39d4963886d922f4a17e8" category="admonition">有关安装 AFX 1K 存储系统的信息，请参见 <block ref="78aacef5a151b9b9cf2f4610d698d814" category="inline-link-macro-rx"></block>。</block>
+  <block id="38342a608d29c610e381db6c1bfd532c" category="section-title">安装所需的设备</block>
+  <block id="932c06f46d2aa01c36a955878a7a1d9e" category="paragraph">要安装 AIDE 的数据计算节点，需要以下设备和工具。</block>
+  <block id="bb9d246c8ef7a2dd035f69ed095493f0" category="list-text">访问 Web 浏览器以配置数据计算节点</block>
+  <block id="8dd75d4e14815a2e3e3154ea67cd841e" category="list-text">静电放电 (ESD) 腕带</block>
+  <block id="75b0ae11d26c806413ef6e8aed1ece4f" category="list-text">手电筒</block>
+  <block id="32271edc7814b81370e65a0b9ea22010" category="list-text">带有 USB/串行连接的笔记本电脑或控制台</block>
+  <block id="f0ae587f290f3d775f2ea5aa1a8a00ea" category="list-text">Phillips #2 螺丝刀</block>
+  <block id="8170c4932dac7ac5a018213e28744cab" category="section-title">起重注意事项</block>
+  <block id="e58106606682bb10c46356b63c87aaf1" category="paragraph">数据计算节点很重。抬起和移动这些物品时要小心。</block>
+  <block id="6c11ed3a4af8dc2f7b618d16248e7e04" category="section-title">数据计算节点权重</block>
+  <block id="b5e179420712f0dce203796a6bae84ee" category="paragraph">移动或提升数据计算节点时，请采取必要的预防措施。</block>
+  <block id="903b6fc3c7c5a407b4c2c17bae1563d1" category="paragraph">数据计算节点的重量可达 46.3 磅（21Kg）。要提升数据计算节点，请使用两人或液压提升机。</block>
+  <block id="db874eaa8bd23db025bd708dfdf02fbe" category="image-alt">DCN 提升重量</block>
+  <block id="35c124f455f44a154eb3b514029ee58a" category="inline-link">安全信息和监管通知</block>
+  <block id="fa81f583d8b6c7dcaf8e26a5fcf5de52" category="list-text"><block ref="fa81f583d8b6c7dcaf8e26a5fcf5de52" category="inline-link-rx"></block></block>
+  <block id="d4719451e76be2b63cbc4379574f8af8" category="inline-link-macro">准备安装您的数据计算节点</block>
+  <block id="143d168057f2028bf6d721060afdf078" category="paragraph">在查看硬件要求后，您<block ref="36962d0c8289a56184a6c55f834a067a" category="inline-link-macro-rx"></block>。</block>
+  <block id="c5c899a1a675cf6171f1b0bd26cf38ad" category="summary">开始安装和设置数据计算节点，并将其部署在 ONTAP 环境中。</block>
+  <block id="b44e203a59265141b15d79992f218135" category="doc">AI Data Engine 数据计算节点的安装和设置工作流程</block>
+  <block id="a3a99d6030b7bfab3e66259156e15dbd" category="paragraph">要安装和配置数据计算节点 (DCN)，您需要查看硬件要求，准备站点，安装硬件组件并连接电缆，打开系统电源，并设置 ONTAP 群集。</block>
+  <block id="7ccd978bf0dbca0a0746f98d09b99f7f" category="inline-link-macro">查看硬件安装要求</block>
+  <block id="6889512d643df7fa8ccfb7e52dd1181c" category="paragraph-title"><block ref="58f667aaf05f87159670e12bd9bc076b" category="inline-image-macro-rx" type="image"></block><block ref="90572de4b12061d10d3adbe91dd02ace" category="inline-link-macro-rx"></block></block>
+  <block id="0d42e01cf22c0d48df016d6dd401d5fb" category="paragraph">请确保已安装现有的 AFX 1K 存储系统，然后查看用于安装 AIDE 数据计算节点的硬件要求。有关安装 AFX 1K 存储系统的信息，请参阅 <block ref="78aacef5a151b9b9cf2f4610d698d814" category="inline-link-macro-rx"></block>。</block>
+  <block id="2ef02acbcac74a2bf527975726a47ddc" category="inline-link-macro">准备安装数据计算节点</block>
+  <block id="65b761c9b7abbbeca0b5bf69bc82d7a8" category="paragraph-title"><block ref="54f425ce8d89f4ed6b8a546561af5d60" category="inline-image-macro-rx" type="image"></block><block ref="57d90d9a41d093761f4dd9f6db8351e9" category="inline-link-macro-rx"></block></block>
+  <block id="293f8966fffd4aff38846275cf9996a2" category="paragraph">要准备安装数据计算节点，需要准备好站点，检查环境和电气要求，并确保有足够的机柜空间。然后，打开设备的包装，将其内容与装箱单进行比较，并注册硬件以获得支持优势。</block>
+  <block id="3b6f8293a009822bdcb6d06936fb8f1d" category="inline-link-macro">为您的数据计算节点安装硬件</block>
+  <block id="6b0fec8ea5ac59cda339bc131da013d3" category="paragraph-title"><block ref="05b2444faffd66d76e88602ea7dd353f" category="inline-image-macro-rx" type="image"></block><block ref="61494597b1d831d6ff8b369c273f632c" category="inline-link-macro-rx"></block></block>
+  <block id="651f9bd4704a3dfd217713e594910973" category="paragraph">为您的数据计算节点安装导轨套件。将您的数据计算节点固定在机柜内。最后，将电缆管理设备连接到系统后部以进行有组织的电缆布线。</block>
+  <block id="78b7263c608b815cd3f413fb28c13ea8" category="inline-link-macro">连接您的数据计算节点</block>
+  <block id="5e57f75c71b8c2be941043075bf090a2" category="paragraph-title"><block ref="beadfa85a2fdca06b91edc1131c603e6" category="inline-image-macro-rx" type="image"></block><block ref="725152e2ddcdb5a0cb5d010a5492d444" category="inline-link-macro-rx"></block></block>
+  <block id="cdb1dfe0058aa622edc896df103bd253" category="paragraph">要连接硬件，首先将数据计算节点连接到数据和集群网络，然后将数据计算节点连接到集群交换机。</block>
+  <block id="e5d9de39f7ca1ba2637e5640af3ae8aa" category="inline-image-macro">五</block>
+  <block id="7670baab52af36366616f708588174ea" category="inline-link-macro">启动您的数据计算节点</block>
+  <block id="7593e41e7184593322f581da7379d8c8" category="paragraph-title"><block ref="99e8b2f00e172bfcff96afdce69907bc" category="inline-image-macro-rx" type="image"></block><block ref="62013dd88cfe19fc6e87ef7f52ccf53f" category="inline-link-macro-rx"></block></block>
+  <block id="ed7af015953fb0bba840b619136b01eb" category="paragraph">安装机架硬件并连接数据计算节点后，应打开 DCN 和 AFX 存储系统的控制器节点（如果尚未打开）。</block>
+  <block id="337e9239544f1891a09a6b9c13192533" category="summary">打开每个货架电源以分配唯一的货架 ID，打开 AFX 控制器节点电源，并固定电源线。</block>
+  <block id="8496df6ee8387022613ddc89ce82f9e4" category="doc">为 AI Data Engine 启动数据计算节点</block>
+  <block id="1057231c34be7c7dcf91de71d37a517f" category="inline-link-macro">分配唯一货架 ID</block>
+  <block id="011c6c560c3e271e6d524a1540ce1096" category="list-text">请确保您的盘架已通电，并且每个盘架都分配了唯一的盘架 ID。有关为 AFX 存储系统分配盘架 ID 的信息，请参见<block ref="85c8f165944a927c5df36b5b24e42dc9" category="inline-link-macro-rx"></block>。</block>
+  <block id="7be065122c5fefd188dd2adaea8fe718" category="paragraph">打开存储盘架并分配唯一 ID 后，打开 DCN 并打开存储控制器节点（如果尚未打开）。</block>
+  <block id="33c36f62f977a295a9a93ec48a27223b" category="list-text">将笔记本电脑连接到串行控制台端口。这允许您在控制器通电时监控引导顺序。</block>
+  <block id="943e3a7c8a0476b63130b5a3dfab2ef1" category="list-text">使用 N-8-1 将笔记本电脑上的串行控制台端口设置为 115,200 波特。</block>
+  <block id="04112f6af1c35028ff6da3640556c14c" category="paragraph">有关如何配置串行控制台端口的说明，请参见笔记本电脑的在线帮助。</block>
+  <block id="637d6f599c1184d1c5de273700d7924f" category="list-text">将控制台电缆连接到笔记本电脑，并使用存储系统附带的控制台电缆连接控制器上的串行控制台端口。</block>
+  <block id="dc4cb3e8c6b9abe025aa10b2d8d4b6f5" category="list-text">将笔记本电脑连接到管理子网上的交换机。</block>
+  <block id="5dc15886a7be0b02974c471249fd2702" category="image-alt">Console 连接</block>
+  <block id="9e7e8b48adc159107d0baf9021253c61" category="list-text">使用管理子网上的地址为笔记本电脑分配 TCP/IP 地址。</block>
+  <block id="a2e521b7ad497537c9e544a50086c51b" category="list-text">将电源线插入控制器电源，然后将其连接到不同电路上的电源。</block>
+  <block id="30e4be163e500cb544fa4ab2a9817bab" category="image-alt">电源连接图</block>
+  <block id="e477637685baafe9bbd353f71ef51283" category="list-text">系统开始启动。初始启动可能需要长达 8 分钟的时间。</block>
+  <block id="71abffb89587fc128eb09ec9ef2dd7e1" category="list-text">LED 指示灯闪烁，风扇启动，这表明控制器正在通电。</block>
+  <block id="2a15831b428ec92914dd2d9b9c14a463" category="list-text">启动时风扇可能会发出噪音，这是正常的。</block>
+  <block id="6f91c1fcc15db5b9fc7e167319be1236" category="list-text">将电源线插入数据计算节点电源，然后将其连接到不同电路上的电源。</block>
+  <block id="d420064a5f4919f9be16d853c6d1997c" category="list-text">使用每个电源上的固定装置固定电源线。</block>
+  <block id="5555f21dba0c7288c23300a7fe87cd81" category="list-text">打开数据计算节点的电源。</block>
+  <block id="be2a65d4275d3397392df6ca10446941" category="paragraph">您可能需要卸下挡板才能访问电源开关；如果是这样，请记得之后重新安装。</block>
+  <block id="33ce156e9858d918c1b56d969811ebbc" category="inline-link-macro">设置 ONTAP AIDE 集群</block>
+  <block id="a8d567dd1cd4e4238f332d8762966093" category="paragraph">开启数据计算节点后，您<block ref="c209b4c41b8b8a46751e6876a5bec129" category="inline-link-macro-rx"></block>。</block>
+  <block id="27c51e0dda139dd95822cad0516f7b35" category="summary">准备在您的 ONTAP 环境中安装 AI Data Engine 的数据计算节点并注册硬件以获得支持权益。</block>
+  <block id="8d89efe9b46db5b5f9ec296c31e95ee1" category="doc">准备为 AI Data Engine 安装数据计算节点</block>
+  <block id="091ec47f94f2994330da94cd9f2af30c" category="paragraph">通过准备好现场，打开箱子并将箱子的内容与装箱单进行比较，以及注册系统以获取支持权益，来准备安装 AI Data Engine 的数据计算节点。</block>
+  <block id="92c8397408f55d9526d554c55cde3d22" category="section-title">步骤 1：准备站点</block>
+  <block id="597ca1608c1f2106a1897b3b3180200e" category="paragraph">要安装数据计算节点，请确保计划使用的站点和机柜或机架符合配置规范。</block>
+  <block id="00b577734e42e4525e2674cf2a01cee4" category="list-text">使用<block ref="f73c85a53b5d65cc9c35da0b9e0d2f09" category="inline-link-rx"></block>确认您的网站是否符合数据计算节点的环境和电气要求。</block>
+  <block id="9fbe388c2d09175a0e027465bba0c173" category="list-text">确保在现有 AFX 1K 存储系统安装中为数据计算节点提供足够的机柜空间。</block>
+  <block id="d81b25edfd674dacc90e6f97a40cfa17" category="list-text">每个数据计算节点 1U</block>
+  <block id="7a0247f5f51c4cf7d52bc505425309d8" category="list-text">每个 AFX 1K 控制器节点 2U</block>
+  <block id="ac47891caba6369f901798419767ab77" category="list-text">每个 NX224 机架 2U</block>
+  <block id="b5c19055e31ebc9f041e841ce43dfaf2" category="list-text">每个交换机 1U 或 2U，具体取决于交换机型号。</block>
+  <block id="6630a85163683d2127a4b50c91d77093" category="section-title">步骤 2：拆箱</block>
+  <block id="7d04151f6433a5612abdab7eceab634b" category="paragraph">在确保计划用于数据计算节点的站点和机柜或机架符合所需规格后，打开所有箱子，并将内容与装箱单上的项目进行比较。</block>
+  <block id="82174a976e9a37564a41e6138a110eb6" category="list-text">仔细打开所有盒子，并有条不紊地布置内容物。</block>
+  <block id="4621a59024ed573f9a22c3b61322555b" category="list-text">将拆包物品与装箱单进行比较，并记录任何差异。</block>
+  <block id="6056345394434bf38ce0cd6fc7155a3e" category="paragraph">您可以通过扫描运输纸箱侧面的二维码来获取装箱单。</block>
+  <block id="1726196375cd4d9085528facd587a31e" category="paragraph">以下项目是您可能会在框中看到的一些内容。</block>
+  <block id="958c530ea1ae0e18b942f8784148734c" category="cell">*硬件*</block>
+  <block id="09ff86ce1246a36d79f5d417bc9fb6be" category="cell">*电缆*</block>
+  <block id="efb4c0c41cf8767bf0f9361a8c61a50a" category="list-text">挡板</block>
+  <block id="bcd424683b470e732b13657ff3fc6a33" category="list-text">带有说明的导轨套件</block>
+  <block id="eebcd67787ce9bd27da6ef9ee2dec2b8" category="list-text">数据计算节点</block>
+  <block id="7ceeb9e2de47574891152d45e033aea1" category="list-text">电源线</block>
+  <block id="f1ab2a355d2e663dd8475dd6ab4d14f9" category="section-title">步骤 3：注册您的数据计算节点</block>
+  <block id="2c33e484060c1969aed4bde6f5cd3038" category="paragraph">确保您的站点满足数据计算节点规范的要求，并确认已订购所有零件后，应注册系统。</block>
+  <block id="42ec9efd80714a73430bc6b272d14ad6" category="list-text">找到数据计算节点的序列号。</block>
+  <block id="3db53907b5ca9a298d8e8517cdd30a44" category="paragraph">您可以在以下位置找到序列号：</block>
+  <block id="3fc885acbf9f3f66cb5fefc99c0d76c6" category="list-text">在装箱单上</block>
+  <block id="cf163ceac39b37fd1108b3cf9ff2b719" category="list-text">在您的确认电子邮件中</block>
+  <block id="6922a7d684b7c2efd7990d736dfd7bfa" category="list-text">在每个数据计算节点上，或在某些系统上，在每个数据计算节点的系统管理模块上。</block>
+  <block id="3b2136486adac3ad66275a45c07c6ebf" category="image-alt">系统序列号示例</block>
+  <block id="9d2169c1c2855b78a7aeaa4f42d27dc7" category="inline-link">NetApp 支持站点</block>
+  <block id="210643a57f044f418e6a6b2b2d2e26ab" category="list-text">导航到 <block ref="1850de052c61829b534b07ba1a2ca402" category="inline-link-rx"></block>。</block>
+  <block id="6918c0735e9cef59385e60d3f94d7115" category="list-text">确定是否需要注册存储系统：</block>
+  <block id="8f45a9f1fcb944bee42c078bdeacd8ac" category="cell">如果您是……</block>
+  <block id="e3df4624e4d36502b5d044730eab97cc" category="cell">按照下面的步骤进行操作...</block>
+  <block id="d3f2dc7623074c370346f082b621f2db" category="paragraph">现有 NetApp 客户</block>
+  <block id="8a55a5b89690f6046e6de8dd649ff837" category="list-text">请使用您的用户名和密码 Sign in。</block>
+  <block id="5c83cedabfd78baf337988a092bcf317" category="list-text">选择 *Systems* &gt; *My Systems*。</block>
+  <block id="8cc04c4151dd22af84b31cd55d6c5f57" category="list-text">确认已列出新的序列号。</block>
+  <block id="6b127ae60215df1a5f77bc62deb0fa41" category="list-text">如果序列号未列出，请按照新 NetApp 客户的说明进行操作。</block>
+  <block id="daee797d0bf63a91fe069e1df88d7923" category="paragraph">新 NetApp 客户</block>
+  <block id="b17ae296f0429c037c1a8983d34fd1d4" category="list-text">点击 *Register Now* 以创建帐户。</block>
+  <block id="89cc8de091278e0fb0686833ac6a7982" category="list-text">选择 *Systems* &gt; *Register Systems*。</block>
+  <block id="616ce92e68107b272305803b0da3016e" category="list-text">输入存储系统的序列号和所需的详细信息。</block>
+  <block id="2fbc2bdcd9b44345629827ee822cf2cf" category="paragraph">一旦 NetApp 批准您的注册后，您可以下载所需的软件。审批最多需要 24 小时。</block>
+  <block id="3c0af5d496c5c0d39fa007c51ceb1a85" category="paragraph">准备好安装数据计算节点后，即可开始使用 <block ref="8d80699d6ea91999991c5841195fdaf6" category="inline-link-macro-rx"></block>。</block>
+  <block id="30d965eef5ba25c6b9998ae38270b43e" category="doc">法律声明</block>
+  <block id="e9c44bbfd795a5d63d74c6a77afee70d" category="paragraph">法律声明提供对版权声明、商标、专利等信息的访问。</block>
+  <block id="6016a2b341113bf496b719905398ecd2" category="section-title">版权</block>
+  <block id="52009bb7ee17227f566cd26a02caee56" category="inline-link-macro"><block ref="52009bb7ee17227f566cd26a02caee56" category="inline-link-rx"></block></block>
+  <block id="a1a9afcf552a769c282769271829889a" category="paragraph"><block ref="a1a9afcf552a769c282769271829889a" category="inline-link-macro-rx"></block></block>
+  <block id="126a02652da6de02962cf1b654fd6376" category="section-title">商标</block>
+  <block id="c4ce4761e466527d26b3e3d5ed1006fd" category="paragraph">NETAPP、NETAPP 标识和 NetApp 商标页面上所列的商标是 NetApp, Inc. 的商标。其他公司和产品名称可能是其各自所有者的商标。</block>
+  <block id="f99aa604031e5049799e73b5c3748a98" category="inline-link-macro"><block ref="f99aa604031e5049799e73b5c3748a98" category="inline-link-rx"></block></block>
+  <block id="5d545fe5152641e2ebe654e336e520e5" category="paragraph"><block ref="5d545fe5152641e2ebe654e336e520e5" category="inline-link-macro-rx"></block></block>
+  <block id="be89498d2f8a22ce47c02ba9795fe2af" category="section-title">专利</block>
+  <block id="d0b19d36be2c5f16e9aef46c8a452d3d" category="paragraph">当前 NetApp 拥有的专利列表可以在以下网址找到：</block>
+  <block id="88e5eabd3917048b6927c42496b98f86" category="inline-link-macro"><block ref="88e5eabd3917048b6927c42496b98f86" category="inline-link-rx"></block></block>
+  <block id="dd38f906b37d412de7d1c1dcf4cbf31c" category="paragraph"><block ref="dd38f906b37d412de7d1c1dcf4cbf31c" category="inline-link-macro-rx"></block></block>
+  <block id="56c34c6410dd45c5cec44149ad0ce037" category="section-title">隐私政策</block>
+  <block id="8acb58cbd50ef1b468a020ee0bd351d3" category="inline-link-macro"><block ref="8acb58cbd50ef1b468a020ee0bd351d3" category="inline-link-rx"></block></block>
+  <block id="2352c4e1f4d0024ade0869e00e6243f4" category="paragraph"><block ref="2352c4e1f4d0024ade0869e00e6243f4" category="inline-link-macro-rx"></block></block>
+  <block id="c0227cef6f07a8cd2ac72f2945b031aa" category="section-title">开源</block>
+  <block id="9b73989307c1975dfa4d5e1581e4afe8" category="paragraph">通知文件提供有关 NetApp 软件中使用的第三方版权和许可的信息。</block>
+  <block id="d17272cc21008c2cb20ddf9f14fe1bb7" category="inline-link">AIDE 9.18.1 通知</block>
+  <block id="03839fd3ed9fb12d82d1e900e1308be1" category="paragraph"><block ref="03839fd3ed9fb12d82d1e900e1308be1" category="inline-link-rx"></block></block>
+  <block id="1eba71d64e6c5e410e558530711e835b" category="summary">已知限制可识别此版本产品不支持的平台、设备或功能，或无法与其正确互操作的平台、设备或功能。请仔细查看这些限制。</block>
+  <block id="1f831132233d03e2eedec937521da75c" category="doc">AI Data Engine 的已知限制</block>
+  <block id="c7ed34d43a03b99d900c4702dccdf835" category="section-title">AIDE 9.18.1 初始版本的已知限制</block>
+  <block id="c4d83e4f146b7a5089d494cabfe01848" category="paragraph">这些限制适用于 Metadata Engine、数据计算节点和 AIDE 9.18.1 中的管理工作流。</block>
+  <block id="d7ab5d7f9fbdcd633e9e9c86e950af63" category="section-title">计算节点需求与管理</block>
+  <block id="a9dbdcc3b20054671165b267ae1f0ede" category="list-text">**最低数据计算节点要求**</block>
+  <block id="1e615922444ad227a337f033c79f44e0" category="paragraph">AIDE 群集需要最少和最多 3 个数据计算节点 (DCN) 才能实现 Metadata Engine 功能。少于 3 个 DCN 的群集无法启用 Metadata Engine 功能。</block>
+  <block id="72769661cb1f247d5d973b16cf60c4c3" category="list-text">**不支持使用 NetApp Console 添加 DCN 节点**</block>
+  <block id="63fec9b9409332675b28ccc158432b1c" category="paragraph">DCN 节点升级和添加必须使用 ONTAP System Manager 执行，而不是通过 NetApp Console。</block>
+  <block id="70d7362b35a6ff039264c78f2d35ab2c" category="section-title">支持的数据源</block>
+  <block id="7127dc7e326f115e87b6a71552429779" category="list-text">**不支持 ONTAP S3 存储桶或 StorageGRID 作为数据源**</block>
+  <block id="a2e3e56fa09bacac6853d7801d17abee" category="paragraph">仅支持 ONTAP 卷（本地或远程）作为工作区和元数据编目的数据源。在此版本中，ONTAP S3 存储桶和 StorageGRID 对象无法添加到工作区，也不会被 Metadata Engine 索引。</block>
+  <block id="bf0cd47ca87cdf863449b77a50e18129" category="list-text">**不支持使用 FlexCache 卷创建工作区**</block>
+  <block id="15aa10cddae2af2c58b95ba3db493af4" category="paragraph">无法将 FlexCache 卷作为数据源添加到工作区。</block>
+  <block id="5ba70eca0047918dcf51d7f2167209e5" category="section-title">软件更新和还原限制</block>
+  <block id="dfc9e8b9221175392740cf9d7915845c" category="list-text">**仅针对 DCN 节点的手动软件更新**</block>
+  <block id="cd004692a690df5e9377f4612b21d034" category="paragraph">AIDE 9.18.1 不支持 DCN 群集的自动软件更新。DCN 节点软件只能通过从本地客户端上传映像来更新。不支持从外部服务器（HTTP/FTP）下载映像。</block>
+  <block id="32627c3f2016d40e127ad5a90480c8e7" category="list-text">**无需还原 DCN 集群软件**</block>
+  <block id="f0a3d62059716c2ed6fce6d436880497" category="paragraph">DCN 集群软件无法还原到早期版本。仅允许升级到更高版本。</block>
+  <block id="88958baeceaef21ae3fe8f6e65638451" category="list-text">**AFX 存储集群无 ONTAP 还原**</block>
+  <block id="647198499d5b6c71c8aaa66c26c65d64" category="paragraph">AFX 存储集群无法还原为较早的 ONTAP 版本。仅允许升级到更高版本。</block>
+  <block id="f24986a0d4d07ac27e3146ed0d1bcbd0" category="section-title">工作空间生命周期和访问配置</block>
+  <block id="b4ebaf4c35e0bfffef33084319251b03" category="list-text">**不对工作区进行软删除或还原**</block>
+  <block id="1db44a84bc1b26634f786aec0ad41196" category="paragraph">删除工作区是永久性的。没有恢复已删除工作区的选项。</block>
+  <block id="3598b06e7483ea6586e40ca7bccb9ca0" category="list-text">**初始集群设置期间不支持 OIDC 配置**</block>
+  <block id="f32d1dfd1933f77f6c19f5f50b8827ac" category="paragraph">必须在使用 ONTAP System Manager 创建集群后执行 OIDC/OAuth 配置。</block>
+  <block id="b678323232cf97a3768c22969e93b6bc" category="inline-link-macro">AI Data Engine 的新增功能</block>
+  <block id="05f5a3acf1355c55b0bfe1fb38b0da38" category="list-text"><block ref="05f5a3acf1355c55b0bfe1fb38b0da38" category="inline-link-macro-rx"></block></block>
+  <block id="5f2444c9a398135bfe3cdb686e5d7b63" category="summary">了解 AI Data Engine (AIDE) 中提供的新功能。</block>
+  <block id="44b91c30c9b87c702f04abec51577e90" category="doc">AI Data Engine 的新增功能</block>
+  <block id="50218dcae6c81faa9a7834b2da37a2e3" category="paragraph">AI Data Engine (AIDE) 9.18.1 是 NetApp 的 AI 数据管理平台的初始版本。此版本引入了 Metadata Engine 和管理工作流程，使组织能够为 AI 工作负载编目和组织非结构化数据，为高级治理和矢量化功能提供基础。拥有适当 AI Data Engine 许可证的客户可以使用高级治理（护栏）和矢量化。</block>
+  <block id="7b0d984e6577869e42002f516bae0c23" category="section-title">AIDE 9.18.1 初始版本中的新增功能</block>
+  <block id="1b136ee99ae21fd1b05e374b68f4c181" category="paragraph">AIDE 9.18.1 引入了以下基础功能：</block>
+  <block id="d49835367e1df4d8c56a9f296b32f370" category="inline-link-macro">用于 AI 数据编目的 Metadata Engine</block>
+  <block id="642d48c986ef92c98d317d856ecc6b1c" category="paragraph-title"><block ref="642d48c986ef92c98d317d856ecc6b1c" category="inline-link-macro-rx"></block></block>
+  <block id="e728c10cd08f5457a1fa2e29a3ca13e2" category="paragraph">初始版本包括一个 Metadata Engine，用于跨 ONTAP 集群对文件和对象进行编目。</block>
+  <block id="46983665512cec916d21fde7e5cd3c92" category="paragraph">主要功能包括：</block>
+  <block id="82dcd50ec8368c2afe7b7d53131abdbc" category="list-text">从对等集群上的本地和远程 ONTAP 卷自动提取元数据（核心和扩展属性、对象标签）。</block>
+  <block id="f23ee9624b2b493701b6ca5247cea623" category="list-text">为需要企业数据全局视图的应用程序提供集中查询和筛选 REST API。</block>
+  <block id="74a1a4bcd3462a704904ed5a2b9a1b92" category="list-text">可扩展的元数据存储。</block>
+  <block id="998ba81b387816e29d64eb46758483f7" category="list-text">在工作区创建期间触发的自动元数据提取。</block>
+  <block id="fc6b61a5c4d75d8644499f36578d2fd5" category="inline-link-macro">工作区管理</block>
+  <block id="7a612a1d46887979381e75eb9639770e" category="paragraph-title"><block ref="7a612a1d46887979381e75eb9639770e" category="inline-link-macro-rx"></block></block>
+  <block id="e079002ad0de689c5d4453c281e7b5f0" category="paragraph">工作区为 AI 项目提供数据源（卷）的逻辑分组。</block>
+  <block id="10fb993f4589ef4945459bd9e7f52b99" category="paragraph">初始版本支持：</block>
+  <block id="32204354d7ed711114399fc0afe15cd6" category="list-text">创建跨越本地和远程 ONTAP 卷的工作区（使用集群对等）。</block>
+  <block id="fdd360c6c883f3a365b92dbf23492967" category="list-text">为工作区分配访问控制，支持多用户和多租户环境。</block>
+  <block id="e2a8d1c43075e996202a7c9a8c5e7719" category="list-text">创建工作区时自动元数据提取和目录填充。</block>
+  <block id="746aeb87b158bed80af57c86f0408c30" category="inline-link-macro">用于自动数据时效性的 Data Sync</block>
+  <block id="a7bb5301c830111030f3acd0d286e633" category="paragraph-title"><block ref="a7bb5301c830111030f3acd0d286e633" category="inline-link-macro-rx"></block></block>
+  <block id="ba88148cbc179d1c28e0a71e789b51d6" category="paragraph">Data Sync 可使元数据目录和数据集在源数据更改时保持最新，无需手动干预。</block>
+  <block id="5ad5ce4c05151773ae89d2d2f74986f3" category="list-text">使用策略驱动的 SnapMirror 复制自动同步来自远程或本地 ONTAP 集群的数据。</block>
+  <block id="43cb65d9c9860b292afdae1a23b02e7f" category="list-text">仅传播已修改数据的增量更新，从而降低开销。</block>
+  <block id="4c50126842a7c4c94df883fba94c5d20" category="list-text">每个工作区可配置的刷新间隔。</block>
+  <block id="4b86d46d5c539a6b200e351c0426038c" category="list-text">工作区级别的同步状态和活动监控。</block>
+  <block id="9739a55ac941b49fad2c472a5a1b8845" category="inline-link-macro">集群设置和管理</block>
+  <block id="f7e2e149e398706b07e775e61d2f3732" category="paragraph-title"><block ref="f7e2e149e398706b07e775e61d2f3732" category="inline-link-macro-rx"></block></block>
+  <block id="13b8ad7956b859c36923a69d8c29780e" category="paragraph">初始版本包括以下工作流：</block>
+  <block id="c1f2365086decc41babd916120f8e168" category="list-text">在集群设置期间发现和添加数据计算节点 (DCN)。</block>
+  <block id="84b6165f48696d25524cd21cf3aeafa2" category="list-text">为 Metadata Engine 创建专用元数据存储虚拟机。</block>
+  <block id="be0edf188dff33600d4ef6ab6b40ae78" category="list-text">用于集群范围元数据访问的 Data Engine 服务接口配置。</block>
+  <block id="241fe3593e7bf4d2a86a4fe6470b2ecd" category="list-text">与其他 ONTAP 集群对等，以将元数据编目扩展到整个数据资产。</block>
+  <block id="bdcfd4b8d903cc010d54b9d9190fcd90" category="inline-link-macro">OpenID Connect (OIDC) 身份验证</block>
+  <block id="fc18cb117a5d78e47654bbf8501e81fd" category="list-title"><block ref="fc18cb117a5d78e47654bbf8501e81fd" category="inline-link-macro-rx"></block></block>
+  <block id="8261f59a7e3cd0e36c47d8892c6323e1" category="list-text">基于 OIDC/OAuth 的身份验证，用于使用 Microsoft Entra ID 和 Active Directory Federation Services (ADFS) 安全访问 ONTAP System Manager 和 Data Engine Console。</block>
+  <block id="ff4ccfb6d662760365a14ab7b530dab9" category="list-text">用于工作区和元数据管理的基于角色的访问控制。</block>
+  <block id="56f5784c38334b4ee3fe2e9254b87693" category="inline-link-macro">先进的数据管理和治理能力</block>
+  <block id="59ae4de3c766ce135e4cc8163946f980" category="paragraph-title"><block ref="59ae4de3c766ce135e4cc8163946f980" category="inline-link-macro-rx"></block></block>
+  <block id="5c377fbdfac12e4bbd71cecfea57a7c8" category="paragraph">以下功能适用于拥有相应 AI Data Engine 许可证的客户：</block>
+  <block id="ae3cd29b3f7b9f6b2ec98653eae2e943" category="list-text">*矢量化和 RAG*：使用 AIDE 工作区的元数据，在 AI Data Engine Console 中创建数据集合、嵌入和检索端点。</block>
+  <block id="0af3ab204663a2b4318c4dd1913349c1" category="list-text">*基于护栏的治理*：在 AI Data Engine Console 中定义护栏策略，并将这些策略与 ONTAP System Manager 中的工作区关联。</block>
+  <block id="5b9a826190ba39acfd52ccbb7a3162df" category="section-title">支持的硬件和平台</block>
+  <block id="4bdc0244aeb278cac543268351727442" category="paragraph">AI Data Engine 9.18.1 运行在结合了以下内容的 ONTAP AI 数据平台集群上：</block>
+  <block id="445f34644993f0180d664d04552ca545" category="list-text">AFX 1K 存储节点</block>
+  <block id="3fe6e9c496db6b206c30a94d78a8072b" category="list-text">NetApp 数据计算节点</block>
+  <block id="2148fe5b31430b0b037dd91499d63ee8" category="list-text"><block ref="2148fe5b31430b0b037dd91499d63ee8" category="inline-link-macro-rx"></block></block>
+  <block id="d17713455596872594052610b30bfeb7" category="inline-link-macro">了解 AI Data Engine 架构和组件</block>
+  <block id="ac2e635323f0f40c80f3a0cec98a978c" category="list-text"><block ref="ac2e635323f0f40c80f3a0cec98a978c" category="inline-link-macro-rx"></block></block>
+  <block id="cd23e339d73c59679bb72ae5595246d0" category="summary">从 AI Data Engine Console 中的工作区元数据创建和发布数据集合，以支持检索增强生成 (RAG) 和其他 AI 工作负载。</block>
+  <block id="edba5efaaea6535b7d536d358b738c3e" category="doc">在 AI Data Engine Console 中创建数据集合</block>
+  <block id="ee1608fa113321125cd2b76a5e926106" category="paragraph">数据收集是 AI Data Engine (AIDE) 中的核心 RAG 构建块。作为数据工程师或数据科学家，您可以定义哪些文件属于集合，配置嵌入和索引选项，并发布集合，以便应用程序可以通过检索端点查询它。</block>
+  <block id="0a064ca69e20faaba8d35507624f3864" category="paragraph">您将在 AI Data Engine Console 中执行所有数据收集任务。</block>
+  <block id="053d34a45abc9edd96cd7f87a41f098c" category="list-text">您需要在 AI Data Engine Console <block ref="3f74607a99bfe93e31e227e163b1bde6" prefix="(" category="inline-code"></block> 中拥有 _data engineer_ 或 _data scientist_ 权限）。</block>
+  <block id="37972b715441dbcf43bb2d125ba3928b" category="list-text">您可以访问至少一个已提取元数据且处于 <block ref="e7d31fc0602fb2ede144d18cdffd816b" prefix=" " category="inline-code"></block> 状态的工作区。</block>
+  <block id="b0bd699bf6ff4346b01596a8b712bdca" category="list-text">您已浏览了工作区元数据，并确定了定义有意义的数据子集的查询或筛选器。</block>
+  <block id="e58ebaacb5359c398561f5667364d403" category="list-text">已安装 AI Data Engine software 许可证并启用推理功能。</block>
+  <block id="cf3cd113ea18035cd105bd313067ca3b" category="section-title">从工作区元数据创建数据收集</block>
+  <block id="05decc0de6de8d8dc249cfa7d66bd869" category="list-text">导航到 *Data Curator &gt; Workspaces*，然后选择包含目标数据的工作区。</block>
+  <block id="ebc78922c30cecf5434662ea5758f1cc" category="list-text">选择 *Add data collection*。</block>
+  <block id="387647b8f89decdaac3daf7d140ff66f" category="list-text">在 *Create new data collection* 页面中，执行以下操作：</block>
+  <block id="8a5a7e924353ba899afe05725255b292" category="list-text">输入集合的名称和描述（例如，<block ref="2b44112b22f7d5ee086219aa82098dfc" prefix=" " category="inline-code"></block>）。</block>
+  <block id="e868626b5d6df020557e4b6f3b2ad1d8" category="list-text">选择集合是否应为：</block>
+  <block id="0b8b84d02396672719c7753d1bac0658" category="list-text">*Dynamic*：根据您定义的过滤标准，自动识别新文件并将其添加到数据集合中。这发生在工作区刷新期间。</block>
+  <block id="8f751b56ccca1b86e75c64aac40bb670" category="list-text">*静态*：您可以选择集合中包含的文件。如果数据集合处于<block ref="f91b2829bf8603e358094e1dedb6f947" prefix=" " category="inline-code"></block>状态，则可以编辑文件。数据集合进入<block ref="9b9d8a976b42e0bd66381797644943d5" prefix=" " category="inline-code"></block>状态后，无法编辑。</block>
+  <block id="51b99458b238cd9ca52f9b651915fb7f" category="list-text">指定源子集：</block>
+  <block id="1a0fe8f1891b3b2e98b9f1a268e00131" category="list-text">使用关键字和筛选器（文件类型、时间戳和其他属性）查找要包含的相关文件。</block>
+  <block id="58affa713315204849e29e0c16d82670" category="admonition">您可以选择文件名以打开内容的预览窗口。</block>
+  <block id="d81e9754ec8f811699acbde5f881bf6c" category="list-text">将这些文件添加到数据集合中。</block>
+  <block id="0f7836d58937ed0422c46dcb99dee488" category="list-text">选择 *Save* 以完成收集。</block>
+  <block id="acda1968ad6b94ee44f6081eb2632629" category="paragraph">您已经定义了数据收集的范围，并向其中添加了所需的文件。当您发布收集时，AIDE 会生成嵌入并构建向量索引。</block>
+  <block id="717346aa8d98f4f6c2095e8c28f3ff02" category="admonition">创建小而有针对性的集合（例如，每个用例或域），而不是单个"全部"集合。这提高了检索的相关性和可管理性。</block>
+  <block id="b65a21cbefcdcc56e9215751cbb75367" category="section-title">发布数据收集</block>
+  <block id="a6b6ee81019154646202dbc155b2a5c7" category="paragraph">发布数据集，使其可由 AI 应用程序通过 RAG 检索端点进行查询。发布从所选文件生成矢量嵌入并将其编入索引以进行语义搜索。集合达到<block ref="e7d31fc0602fb2ede144d18cdffd816b" prefix=" " category="inline-code"></block>状态后，其端点可供数据科学家集成到笔记本、管道和 AI 应用程序中，以进行检索增强生成 (RAG) 和搜索。</block>
+  <block id="f7d74fde78d2e69eb709e29c5b396e16" category="admonition">对于大型集合，请考虑在非高峰时段安排初始发布和主要重新发布，以最大限度地减少资源争用。</block>
+  <block id="37846c0af43690fe49d9620b2830a7f6" category="list-text">导航到 *Data Curator &gt; Data collections*，然后选择数据收集的选项菜单（<block ref="abe63474400e5ff8a952d935ca1d25f5" category="inline-image-macro-rx" type="image"></block>）。</block>
+  <block id="e5f51aea9f20054c76502f170be0e275" category="list-text">选择 *Publish*。</block>
+  <block id="d7e7b4a699bbe7f37f2ba102a9ffa61a" category="list-text">选择默认或自定义优化配置。</block>
+  <block id="6121f7dd7c30390cc940769710207997" category="list-text">选择 *Publish* 以启动数据转换。</block>
+  <block id="345bdbf09c87dbfed505551c0f55653b" category="list-text">在 AIDE Console 中，打开集合详细信息视图（*Data Curator &gt; Data collections*）以获取状态更新。</block>
+  <block id="70c29ac730b31c433d438d77d337cb29" category="paragraph">集合达到 <block ref="e7d31fc0602fb2ede144d18cdffd816b" prefix=" " category="inline-code"></block> 状态，可供下游应用程序和数据科学家使用。</block>
+  <block id="e36e72c293d97bd32b6075428d4c640d" category="paragraph">从 *Data Curator &gt; 数据集合* 中，您可以选择 *复制 URI* 以获取使用 API 访问数据集合所需的信息。</block>
+  <block id="c24829b045e9c8a739bf453c162622f4" category="section-title">更新或删除数据收集</block>
+  <block id="d8f2e6185980a14f54cb6023636945f7" category="paragraph">随着时间的推移，您可能需要优化或淘汰数据集合。优化集合可能涉及调整筛选器以添加或删除文件、更改嵌入设置或更新集合描述。删除集合将永久删除它，并使其检索端点不可用。</block>
+  <block id="734488cc9d28b8dff56a2d57c2c1c317" category="section-title">更新数据收集</block>
+  <block id="5b4bc2b1612c62fbb1d7970b4aeb1759" category="paragraph">您可以在数据集处于 <block ref="f91b2829bf8603e358094e1dedb6f947" prefix=" " category="inline-code"></block> 状态时对其进行更新。</block>
+  <block id="36b29daac9a7bd51d43a831ff32ca433" category="list-text">导航到 *Data Curator &gt; 数据集合*。</block>
+  <block id="a91ab048498ee87b8d47476a843fb949" category="list-text">选择要修改的集合。</block>
+  <block id="71ca04a977b228a5dad8e2d396393e68" category="list-text">选择 *Edit*。</block>
+  <block id="1356613cac438cffe89f8257b10aa427" category="list-text">调整以下任意选项：</block>
+  <block id="61cdf240a3a31d4ab9b26c99b132ab4c" category="list-text">名称和描述</block>
+  <block id="e2c01dd6cc99c01fbebdaa8c62ee3f84" category="list-text">筛选器（路径、文件类型、分类标签）。</block>
+  <block id="a864859f95245babc0d69a9ef2395462" category="list-text">嵌入和分块设置。</block>
+  <block id="345e93a96b6e66cb9274dbad975c0db2" category="list-text">保存更改。</block>
+  <block id="9f63d82366e4430e7a861090f5d992a3" category="list-text">重新发布集合，使新定义和嵌入生效。</block>
+  <block id="2676d8d02797beddc6a8a9fd5214cbf5" category="paragraph">新的索引作业将使用更新的配置运行，完成后集合将返回到 <block ref="e7d31fc0602fb2ede144d18cdffd816b" prefix=" " category="inline-code"></block> 状态。</block>
+  <block id="5d56e753d5cf214b5d5878c629d04e00" category="section-title">删除集合</block>
+  <block id="e5e6ce4641103a7ebc0696e5aa642397" category="paragraph">删除集合是永久性的。在删除集合之前，请确保没有任何生产应用程序仍然依赖于集合的检索端点。</block>
+  <block id="8483d9fa57a207d9f2854ec8bccbad22" category="list-text">导航到 *Data Curator &gt; Data collections*，然后选择集合的选项菜单 (<block ref="abe63474400e5ff8a952d935ca1d25f5" category="inline-image-macro-rx" type="image"></block>)。</block>
+  <block id="9f2c81cac7b9efe5ee470b76e9a4870a" category="list-text">选择 *Delete*。</block>
+  <block id="b26a5fa549c938ffb56d20623c3f69c0" category="list-text">确认删除。</block>
+  <block id="123cf1df56988f0d9791d6e4d91ab01e" category="paragraph">集合定义及其嵌入已从 AI Data Engine 中删除。删除集合后，尝试查询前一个检索终结点的应用程序将失败。</block>
+  <block id="145a99a8c940e067ddcf1f7958d66df2" category="inline-link-macro">查看数据集合</block>
+  <block id="f8d6e68cb13ef718cb3a39228ee255f6" category="list-text"><block ref="f8d6e68cb13ef718cb3a39228ee255f6" category="inline-link-macro-rx"></block></block>
+  <block id="c29972897aeec205c060de4c63a9af6c" category="summary">作为数据工程师或数据科学家，使用 AI Data Engine Console 探索工作空间元数据，发现相关文件和对象，并准备用于数据收集的候选子集。</block>
+  <block id="a2ea3609f5c747024a1aeb07386bb8d4" category="doc">在 AI Data Engine Console 中探索工作空间元数据</block>
+  <block id="ad339f2ecb4415d76984c4d75c97becd" category="paragraph">作为数据工程师或数据科学家，您在 AI Data Engine (AIDE) 中的首要任务是了解工作区中可用的数据。您可以使用 AIDE Console 查询元数据目录、搜索相关文件并识别要转换为数据集的数据子集。</block>
+  <block id="468a43e363892633386b7e7ae8296cf8" category="list-text">您需要在 AI Data Engine Console 中拥有 _data engineer_ 或 _data scientist_ 权限，并可以访问至少一个工作区。</block>
+  <block id="bc130bd4e36ffdc114c746dca94de011" category="list-text">存储管理员有：</block>
+  <block id="5ad57630596c5e7da1009bc17badda76" category="list-text">已在 ONTAP System Manager 中创建一个或多个工作区。</block>
+  <block id="2fe352bdf361e854bd1f92f4896566bb" category="list-text">已将您的用户或组访问权限分配给相关工作区。</block>
+  <block id="4783203e4715a480d63b4ac5cc91fee9" category="list-text">工作区的元数据提取已完成，工作区处于<block ref="e7d31fc0602fb2ede144d18cdffd816b" prefix=" " category="inline-code"></block>状态。</block>
+  <block id="da9374816aa87d01ef0a5b787c197507" category="list-text">已启用分类器，以便元数据包括分类标签（例如 PII 指标）。</block>
+  <block id="7a04fddc63a13efdee9e536bd2ccc69c" category="section-title">以数据工程师或数据科学家身份登录 AIDE Console</block>
+  <block id="20217f6f693539e39a84a6e45a6dd52d" category="list-text">在浏览器中，导航到 AIDE Console URL：</block>
+  <block id="cbaaad260daeda5eea697411b70f7dca" category="paragraph"><block ref="3f74607a99bfe93e31e227e163b1bde6" prefix="" category="inline-code"></block></block>
+  <block id="fa25c724ec1650530fec9c2a6709908b" category="list-text">通过您组织的 OIDC 提供程序进行身份验证。</block>
+  <block id="1052720d5484e5c0af44f90c0169e66a" category="inline-link-macro">AIDE 角色文档</block>
+  <block id="89c4ce571e829a020a0aa7e60e03af44" category="list-text">确认您的角色被认可为数据工程师或数据科学家（例如，通过可用的工作区和数据收集操作）。有关详细信息，请参见 <block ref="edab3e798e94bef226ed1e0daabc40f9" category="inline-link-macro-rx"></block> 了解数据工程师和数据科学家如何使用 AIDE 组件。</block>
+  <block id="fc6f3cf650155d1aa4647456eb4abc4a" category="paragraph">您已登录 AIDE Console，仅查看已授予您访问权限的工作区。</block>
+  <block id="a1116e8ed7b3d3eca035be5c6b932739" category="section-title">查看可访问的工作区</block>
+  <block id="4e0834c79f2b410d1b3e795234b5db2b" category="list-text">在 AIDE Console 中，导航到 *Data Curator &gt; Workspaces*。</block>
+  <block id="bd66fa2fbd8df99553a4cfb8e92f0da0" category="list-text">查看您可以访问的工作区列表。</block>
+  <block id="7b93cfa2de84a3ef21540358383c9b85" category="list-text">选择工作区以打开其详细信息。</block>
+  <block id="05e8dd6410a5b66ba6eee912d4e1961a" category="paragraph">现在，您可以看到存储管理员为您的项目提供的数据资源的工作区范围视图。</block>
+  <block id="58a8b08d90cd2cacaaf1c7513104cd18" category="inline-link-macro">从工作区创建 RAG 数据集</block>
+  <block id="e7daf9716afb29396ab1cac9310601c9" category="list-text"><block ref="e7daf9716afb29396ab1cac9310601c9" category="inline-link-macro-rx"></block></block>
+  <block id="0125b899427d1ef717130d3af4d4ae6f" category="summary">使用 AI Data Engine 工具查看数据集，跟踪索引和发布作业，并了解跨工作区的矢量足迹。</block>
+  <block id="bc898078a781b0cd764d495575088cd7" category="paragraph">数据工程师或数据科学家从工作空间创建和发布数据集合后，您需要了解其状态、大小以及对 AI Data Engine 集群的影响。</block>
+  <block id="4b52ec759003a125291c9d7c9b79215e" category="paragraph">如果您是存储管理员、数据工程师或数据科学家，则可以通过 ONTAP System Manager 和 AIDE Console 查看数据收集。</block>
+  <block id="a37a154002992f155e6e874c034932ad" category="list-text">您需要 ONTAP System Manager 中的 _storage administrator_ 权限或 AI Data Engine Console <block ref="3f74607a99bfe93e31e227e163b1bde6" prefix="(" category="inline-code"></block> 中的 _data engineer_ 或 _data scientist_ 权限才能查看数据集合。</block>
+  <block id="b3ceb827e5487b7a67441a437dcb870e" category="list-text">至少存在一个已成功提取元数据的工作区。</block>
+  <block id="d81564ab25fad5b63d50353db740e475" category="list-text">数据工程师或数据科学家已经从 AI Data Engine Console 创建并发布了至少一个数据集合。</block>
+  <block id="dc8f8b66a6049b8dd7d11c4363fc3837" category="list-text">已安装 AI Data Engine software 许可证并启用推理功能，因此矢量化和检索端点处于活动状态。</block>
+  <block id="aea1ff4b73c6164a18ef6f5d045bbb42" category="section-title">查看集群范围内的数据收集</block>
+  <block id="1c2b91adda7aba90ff89d1f0a07fd722" category="paragraph">对于存储管理员，ONTAP System Manager 提供数据集及其占用空间的集群范围视图，但不允许管理员创建或修改它们。</block>
+  <block id="462a349c31259052b1c779848b053483" category="list-text">在 System Manager 中，导航到 *Data Engine &gt; Data collections*。</block>
+  <block id="d29edd9e93af342b355b53ca8cd5db2d" category="list-text">查看页面顶部的库存摘要：</block>
+  <block id="b2d27fef26fd639303ed164c58ff9ec7" category="list-text">按状态分类的数据收集总数</block>
+  <block id="25e2f1f629a0cc469b7b4721a0daffab" category="list-text">矢量数据库在所有集合中消耗的总空间</block>
+  <block id="0a48412f3dfde30955775465be7a55d9" category="list-text">矢量空间占总集群容量的百分比</block>
+  <block id="018fe0fdbe73c305f0172d0a2506be2b" category="list-text">选择单个数据收集并查看：</block>
+  <block id="779d2c5e019997c77c20922364e8fc38" category="list-text">集合名称和描述</block>
+  <block id="5a54d9ad87f7c4c1c70c8f05b9515d5a" category="list-text">UUID</block>
+  <block id="3f5cd07497bb1f705c96b92c02b1167b" category="list-text">关联工作区</block>
+  <block id="ec53a8c4f07baed5d8825072c89799be" category="list-text">状态</block>
+  <block id="aa8721c808e993f9e8d306d569d76d64" category="list-text">集合大小</block>
+  <block id="ef1d00d8a237a1bbe431e1091f5715fb" category="list-text">创作者</block>
+  <block id="9b51864e0247a0212902682252b30f81" category="list-text">上次刷新时间</block>
+  <block id="af8ae332d01699128aad42f49b9436fc" category="paragraph">现在，您可以对集群中的所有数据集及其存储影响进行高级查看。使用此视图可识别大型、过时或处于未就绪状态的集合。</block>
+  <block id="31fc81cf83cf8c9863e2f4d2944e028d" category="paragraph">您还可以查看是否正在主动更新单个数据集，以及是否有任何故障阻止了 RAG 使用。</block>
+  <block id="cb1ebb2d3dbc60a4d17901457d46f187" category="section-title">监视与集合相关的作业和事件</block>
+  <block id="1bd73ae67cd26d7660c175e5ba175dd5" category="paragraph">作为存储管理员，您可以从集群范围的 *Activity* 页面和工作区详细信息监控构建和更新集合的作业。</block>
+  <block id="06088869a7217e9e506d7d1040bb0e8d" category="list-text">在 System Manager 中，导航到 *Data Engine &gt; Activity*。</block>
+  <block id="865d4ccfbf3888dc81078748b76f25e4" category="list-text">在 *Events* 选项卡上：</block>
+  <block id="a51855c6c35788ed0f8ee6a9261a16f9" category="list-text">按类型（例如，workspace、data collection）或严重程度筛选。</block>
+  <block id="c8b45f85bf1fedcb095b988c8aecc3f4" category="list-text">展开与数据集合相关的任何事件（例如"数据集合发布失败"）以查看更多详细信息。</block>
+  <block id="73a0a5df5d92c378e6a5f7b168c95922" category="list-text">在 *Jobs* 选项卡上：</block>
+  <block id="a1203bacdf1cda46178ebaecbc2b3d93" category="list-text">筛选以专注于数据收集索引和发布作业。</block>
+  <block id="a45723c974991663fb0e65d7a0c0a93a" category="list-text">对于每个作业，打开 peek 视图以查看：</block>
+  <block id="2db3ce6699825ae2277e5d70f9cacc21" category="list-text">进度百分比。</block>
+  <block id="6b131baffb51e8a43a97c5f47fd3dca0" category="list-text">开始和结束时间。</block>
+  <block id="00a33f41100360d0ff38cad2db355bef" category="list-text">任何报告的错误消息或警告。</block>
+  <block id="49ebe336dbe360d347a57c6bf2544514" category="list-text">（可选）导航回受影响的工作区（*Data Engine &gt; 工作区*）并打开其*活动*选项卡，以查看仅限于该工作区的事件和作业。</block>
+  <block id="6f7e9f607dfb554eeedc7247263ae4bd" category="paragraph">您可以跟踪数据收集的生命周期，识别停滞或失败的作业，并收集上下文信息以传递给数据工程师、数据科学家或支持人员。</block>
+  <block id="d2cfebad7ed68429ec7e7c8f901c4bef" category="admonition">当数据收集在较长时间内保持 <block ref="9fb1f5afe9ff67d5c606041aca565287" prefix=" " category="inline-code"></block> 状态时，在假定失败之前，请在 Activity 页面中检查相应的长期运行作业。</block>
+  <block id="c4c868a960a8622dd516801d3609dea7" category="section-title">从 AIDE Console 查看数据收集</block>
+  <block id="de82d8eca6037f6b37112449c44f1cdf" category="paragraph">数据工程师和数据科学家通常直接从 AIDE Console 监控数据集合，数据集合在此处创建和发布。</block>
+  <block id="678773ef7004818df321f06c59fc8021" category="list-text">以数据工程师或数据科学家身份登录 AIDE Console。</block>
+  <block id="1d5250921fab0665436d60ab062d1742" category="list-text">导航到 *Data Collections* ，然后选择所需的数据集。</block>
+  <block id="98b45f599677ddc3271a9dcbcbbd2613" category="list-text">对于每个集合：</block>
+  <block id="a4cfe9cd7d6f1e23a4276deab7ecc414" category="list-text">检查状态（<block ref="f03ab16cd58372c77ba45a3d9a5a1cb9" prefix="(" category="inline-code"></block>、<block ref="9fb1f5afe9ff67d5c606041aca565287" prefix=" " category="inline-code"></block>、<block ref="e7d31fc0602fb2ede144d18cdffd816b" prefix=" " category="inline-code"></block> 或 <block ref="d7c8c85bf79bbe1b7188497c32c3b0ca" prefix=" " category="inline-code"></block>）。</block>
+  <block id="05f11930753cef0018b89bb6e92cd38f" category="list-text">选择数据收集名称以查看定义详细信息（筛选器、包含的文件类型、分类器选项、嵌入设置）。</block>
+  <block id="3a0cea4206a4051ebd4e2da37c8b176d" category="list-text">检查上次发布或更新的时间戳。</block>
+  <block id="a0e9f393ef0a95cc258597e4744854e9" category="list-text">如果需要，打开作业详细信息或日志（如果可用）以了解失败或未完成的运行。</block>
+  <block id="d5dbaffcfe825c7206f3181363c9cce7" category="paragraph">数据工程师和数据科学家可以迭代收集定义并再次发布，同时监控状态和运行状况，而无需存储管理员参与。</block>
+  <block id="ef30b5fdef3373d7d8296c75072c92e7" category="inline-link-macro">在 AIDE Console 中为 RAG 创建数据集合</block>
+  <block id="0a5d0e8990033f5c922847f920cf1ec8" category="list-text"><block ref="0a5d0e8990033f5c922847f920cf1ec8" category="inline-link-macro-rx"></block></block>
+  <block id="17a053961a9dc00ecc771150782992df" category="summary">从新部署的 AI Data Engine (AIDE) 系统到使用工作区、数据收集和护栏的工作检索增强生成 (RAG) 端点。</block>
+  <block id="cc32ef27001e395f127a4c7d7240f386" category="paragraph">使用此工作流从新部署的 AI Data Engine (AIDE) 系统转到工作检索增强生成 (RAG) 端点。了解存储管理员、数据工程师和数据科学家如何使用 ONTAP System Manager 和 AIDE Console 进行协作。</block>
+  <block id="d3b58f715cdf9f9f42defc18e1f25ed1" category="list-text">您已安装数据计算节点 (DCN) 并将其添加到 ONTAP 集群。</block>
+  <block id="5b94d3efbe45fb2538ff293bf0952b3f" category="list-text">您已经安装并许可了用于矢量化和护栏的 AI Data Engine software。</block>
+  <block id="8b6283f24f9cde4fdee5069d4592e968" category="list-text">您已配置 <block ref="e938ac9c1a94c86cb3848bf92ab91463" category="inline-link-macro-rx"></block> 并映射了管理员、数据工程师和数据科学家角色。</block>
+  <block id="e059973a35d0ae23790e270711ba1de9" category="paragraph-title"><block ref="58f667aaf05f87159670e12bd9bc076b" category="inline-image-macro-rx" type="image"></block> 定义数据范围和治理</block>
+  <block id="d80e0ebbd1e5b1040ba42456e701d54d" category="paragraph">作为存储管理员或安全管理员，您希望在 AIDE Console 和 ONTAP System Manager 中准备环境：</block>
+  <block id="fed66b1b22b3cce5ac18bc14f803c7ab" category="inline-link-macro">创建一个或多个工作区</block>
+  <block id="580ab9b0564448c11678573cbde37f0b" category="list-text"><block ref="5c5a3942210da4021a839bf37c8db48d" category="inline-link-macro-rx"></block>从本地和远程数据源。</block>
+  <block id="0b882be2d71fb575dfcd16a0987f2080" category="inline-link-macro">配置分类器和护栏策略</block>
+  <block id="19a1bf5e0940c099d236103155c3f5ff" category="list-text"><block ref="07ffae27d597317d95fb70023d8d11b6" category="inline-link-macro-rx"></block> 在 AIDE Console 中。</block>
+  <block id="e63769e1b24c0bd81af83560383ad72a" category="inline-link-macro">为数据工程师和数据科学家分配工作区访问权限</block>
+  <block id="4217f5ccfcf2a1d728cc61ce2cf09b6d" category="list-text"><block ref="6f87d78d40751cf2893d66b6358b7231" category="inline-link-macro-rx"></block>。</block>
+  <block id="5ebb506d7140a5bd960b1a563e947305" category="paragraph-title"><block ref="54f425ce8d89f4ed6b8a546561af5d60" category="inline-image-macro-rx" type="image"></block> 探索工作区元数据</block>
+  <block id="ad3b79a3ac113c023eec6f932d60934a" category="paragraph">作为数据工程师或数据科学家，您希望使用 AIDE Console 探索工作区元数据：</block>
+  <block id="f101adcbf3f7ae24f6e2fcde7d69b20c" category="inline-link-macro">探索工作区元数据</block>
+  <block id="a5a11ab8de51574058349e1f52140fec" category="list-text"><block ref="b5cad7960576d9f909b4a7baf774bd39" category="inline-link-macro-rx"></block> 以了解可用内容。</block>
+  <block id="642f3f15f556683b484ee8260792c14d" category="list-text">定义应为 RAG 提供数据的一个或多个逻辑子集（例如，支持文章、产品手册或匿名临床备注）。</block>
+  <block id="9f97383ae8cbcfcd4c34b4d0a8702300" category="paragraph-title"><block ref="05b2444faffd66d76e88602ea7dd353f" category="inline-image-macro-rx" type="image"></block> 创建和发布数据收集</block>
+  <block id="f6689aaa38b67cb971ca5b67bea363ff" category="paragraph">作为数据工程师或数据科学家，您希望将所选子集转换为 RAG 就绪集合：</block>
+  <block id="736e0fb0ac51ffe480fcd95726cd68ab" category="inline-link-macro">创建数据收集</block>
+  <block id="fa0e1fa63b52217bd5c832f42d78e495" category="list-text"><block ref="dfa258e17caab17492f9b243c5136265" category="inline-link-macro-rx"></block>使用选定的过滤器从工作区。</block>
+  <block id="f906ba1cce91ac8316b7f34905b79270" category="inline-link-macro">发布数据收集</block>
+  <block id="25210acdedc4fe03dfff8dbd13c2c835" category="list-text"><block ref="a912e836f1d220842f8aff44e20540f2" category="inline-link-macro-rx"></block> 并监控索引，直到它达到 <block ref="e7d31fc0602fb2ede144d18cdffd816b" prefix=" " category="inline-code"></block> 状态。</block>
+  <block id="5acef888ac0c7b0033778b9f8c0daea2" category="list-text">复制所选集合的检索端点 URI，并提供给数据科学家或应用程序开发人员。</block>
+  <block id="c64ee509bf9935bb154bfd93ca4a9f10" category="inline-link-macro">查看数据收集状态和向量占用空间</block>
+  <block id="e283c422843a5d0e9d69a0937d58c2da" category="list-text"><block ref="81e822d364e16588d62814ff67859a25" category="inline-link-macro-rx"></block> 根据需要。</block>
+  <block id="63bead6cf67cd27c10ad4dacb4ad52b9" category="inline-link-macro">在 AI Data Engine 中定义您的数据资产和护栏策略</block>
+  <block id="a743ab5238c29d3d6acb44f8575ab000" category="list-text"><block ref="a743ab5238c29d3d6acb44f8575ab000" category="inline-link-macro-rx"></block></block>
+  <block id="4c8440d1cb94a74446521b8bd8077a49" category="list-text"><block ref="4c8440d1cb94a74446521b8bd8077a49" category="inline-link-macro-rx"></block></block>
+  <block id="ab56ff48b10e2f612e7962a84ddef316" category="list-text"><block ref="ab56ff48b10e2f612e7962a84ddef316" category="inline-link-macro-rx"></block></block>
+  <block id="e99d734caecfe9571f1ce868b5e22c73" category="summary">创建工作区后，您可以为其分配将使用该工作区内 AI 资源的用户。</block>
+  <block id="14013ce6f4537aa5a445c323f302506e" category="doc">分配用户对 AI Data Engine 工作区的访问权限</block>
+  <block id="3a4483e5a6724f6b9d50ea43b182fece" category="paragraph">作为存储管理员，您可以根据其角色将用户分配到工作区：数据工程师、数据科学家或其他角色，具体取决于组织的结构和需求。用户使用其凭据登录到 AI Data Engine (AIDE) Console，并访问分配的工作区内的数据容器资源。</block>
+  <block id="b341184ff013665174bd331965ce38f2" category="paragraph">ONTAP System Manager 使您能够管理哪些用户有权访问 AI Data Engine 工作区。您可以添加或删除用户以控制谁可以查看、修改工作区数据和活动并与之交互。</block>
+  <block id="1b9b47e99ecd4d9750a86d34285be3ec" category="list-text">您需要 _storage administrator_ 权限才能管理用户对工作区的访问权限。</block>
+  <block id="68b1c247a0648b2200b74e0129c73a00" category="list-text">确认已创建工作区，并且该工作区在 Workspaces 清单中处于活动状态。</block>
+  <block id="fbf889d7861d8cb458cd817f23df47db" category="list-text">确认所有相关数据容器已添加到工作区并可访问。</block>
+  <block id="092ab9ce0b8d6f4d6bb63ea27bc62128" category="inline-link-macro">确认为集群启用并配置 OIDC</block>
+  <block id="18ced6adff806b14744facc2afc38618" category="list-text"><block ref="cdb08f47f10eec4f0a8fa92b84ac745f" category="inline-link-macro-rx"></block>。必须为每个相关数据工程师和数据科学家 IdP 用户或组完成从 IdP 到 ONTAP 角色的角色映射。</block>
+  <block id="23e7e4f72b6c2f2b58d1bf510df05607" category="list-text">将用户添加到工作区：</block>
+  <block id="38efe31a37fb0ccb33c327fd178ec1d6" category="list-text">在 ONTAP System Manager 中，导航到 *Data Engine &gt; Workspaces*。</block>
+  <block id="e9cb03c080f9bfd09d8d1045a6c46d81" category="list-text">选择工作区名称以打开其详细信息页面。</block>
+  <block id="f15769e982932d606f2b78347570b49b" category="list-text">转到 Users 选项卡。</block>
+  <block id="cbed92d4d333424db2e701ffd7f51c9d" category="list-text">选择 *Add* 按钮以打开添加用户对话框。</block>
+  <block id="2d923dc5617ac89d518b99034674fa53" category="list-text">输入一个或多个用户的详细信息。以逗号分隔的 OIDC 用户列表形式输入详细信息。</block>
+  <block id="063e5834469d46b8a0f05a58bc54e49b" category="list-text">选择 *Add* 以授予用户对工作区的访问权限。</block>
+  <block id="a03b1b743e35f6872d77f38beaf0426c" category="list-text">从工作区中删除用户：</block>
+  <block id="99b362472636677fe85b811259f051fb" category="list-text">在工作区详细信息页面的"用户"选项卡中，找到并选择要删除的用户。</block>
+  <block id="0e622ecd020a30d24190710f860ae1e7" category="list-text">选择 *Remove* 按钮。</block>
+  <block id="bb2649262e94f2b946ebcf057660b12b" category="list-text">在对话框中确认删除。</block>
+  <block id="0deb14d72b1acb1881b73fe7f1de0e4c" category="list-text">系统立即删除用户并撤销其对工作区的访问权限。</block>
+  <block id="e156480facc710768664eca7e4cff6aa" category="paragraph">只有在工作区"用户"选项卡中列出的用户才能访问工作区数据和活动并与之交互。</block>
+  <block id="f4b01cc17d7efdc8767cb70018cd28c4" category="summary">创建集群后，您可以创建工作空间，以便对数据进行分段、控制数据访问并排除 AIDE 不应访问的数据。</block>
+  <block id="676bd2470f49d80cb089e597f3feaa69" category="doc">在 AI Data Engine 中创建工作空间</block>
+  <block id="8bbc7c9557d007d9dfbb4d1357c71e90" category="paragraph">设置集群后，您可以创建工作区。工作区允许您对集群上的数据进行分段，控制个人的数据访问，并排除 AI Data Engine (AIDE) 不应访问的数据。</block>
+  <block id="c972b3b3924ffa5a9043526e13286ece" category="paragraph">如果您管理存储，您将使用 ONTAP System Manager 创建和管理工作区。</block>
+  <block id="92cf63c92952c33fddd5c1a6236f4412" category="paragraph">组织根据团队、项目、数据敏感性级别或其他相关标准创建工作区。例如，如果您从事医疗保健工作，则可能会将临床数据细分为工作区，但遗漏了与 IT、法律或其他部门相关的数据。</block>
+  <block id="b62c0a523395eeaf2777a20ef74c2c45" category="paragraph">系统处理限制会影响工作区创建（通常每个集群每天最多 15 GB）。如果您并行或快速连续创建多个工作区，则每个工作区可能需要更长的时间来处理，并且您可能会遇到严重的延迟。</block>
+  <block id="768761b677efadbcd8142dc87c0267ef" category="paragraph">从 Workspaces 清单页面监控工作区创建的状态。为了获得最佳效果，如果您需要立即访问这些功能，请避免同时创建多个工作区。</block>
+  <block id="ac45c7bb27b13d4aaf43dc3800c6324f" category="list-text">您需要 _storage administrator_ 权限才能创建工作区和关联数据集合。</block>
+  <block id="e7e7aae5d93a6fea219dfe34b6a6c64e" category="list-text">您已经确定了要与工作区和 AI Data Engine 一起使用的远程（对等）和本地数据源。</block>
+  <block id="37974cff381b4867f1825110afc8a5c4" category="inline-link-macro">已创建至少一个数据容器</block>
+  <block id="c8c1b96537524ee8470a66cd37185635" category="list-text">您已<block ref="833a56fedb0f774ff4089fb732e7cba4" category="inline-link-macro-rx"></block>工作区可以使用的卷，例如本地卷或来自对等集群的卷。</block>
+  <block id="a4bddb04a6bc00deb35b625e767e4e21" category="admonition">将卷添加到您在该工作区的预期生存期内不会删除的工作区。如果在将某个卷添加到工作区后将其删除，则该工作区将进入失败状态。在建立工作区之前，请确认卷的长期可行性。</block>
+  <block id="b86bdc6e36a35f548a358dfa98192033" category="list-text">确保已在卷上启用 NFS，但未启用 CIFS。工作区仅支持使用 NFS 的卷。不支持具有 CIFS (SMB) 的卷。</block>
+  <block id="5638176be5dd4e400efc77338868cf55" category="section-title">创建工作区</block>
+  <block id="68e216414aefa4f66a171d3813e424bd" category="paragraph">创建工作区并关联包含要与 AI Data Engine 一起使用的数据的数据容器。</block>
+  <block id="b9730cee08c3890576f25ac697f09b9c" category="list-text">在 *Add Workspace* 对话框中，至少选择一个可用数据容器以与工作区关联。</block>
+  <block id="15a141d848dfc5571d0778f26ad9fff2" category="inline-link-macro">对等集群</block>
+  <block id="3d4a2712f979b46716e603377deace91" category="list-text">配置 <block ref="fd9437ba0db2c68faa6cd8b49749fb27" category="inline-link-macro-rx"></block>，以便可以在工作区内访问这些集群中的数据</block>
+  <block id="d7e331139c156020ed2ddf05948fccd6" category="inline-link-macro">等到创建工作区后</block>
+  <block id="ee96e0c56c295aca5190aa48c7e35056" category="list-text">如果您想配置用户对工作区的访问权限，可以立即执行此操作或<block ref="4bf79c7b837d494a4a254cf979cc2db7" category="inline-link-macro-rx"></block>。</block>
+  <block id="fdf5bd2596daea0a9608db5112e99c49" category="list-text">配置刷新间隔，以确定工作区与关联数据容器同步以捕获新数据或更新数据的频率（例如，六小时）。</block>
+  <block id="7b6eb459eeedd7a621f9c42fefa4f2bb" category="inline-xref">工作区刷新和版本控制</block>
+  <block id="f253840a6fea0216c4a5c6e0be789699" category="admonition">选择一个平衡数据新鲜度与系统性能的间隔。如果将数据容器添加到多个工作区，系统会自动使用最激进（最短）的时间间隔。如需了解更多信息，请参阅有关 <block ref="6c3952073ba6bc6745415967728edddb" category="inline-xref-macro-rx"></block> 的文档。</block>
+  <block id="136dc09835924029e4299fa28f17233d" category="list-text">选择 *Continue*。</block>
+  <block id="51d6f71fc8a2c754cfb065d7ea2fef55" category="list-text">在 *Finalize workspace* 对话框中，输入工作区名称和描述。</block>
+  <block id="04e6e06bc3d169d1969fdb4e6da511c3" category="list-text">选择 *Add* 以创建工作区。</block>
+  <block id="0c794a6aa90aec9d1900bac6a2dca457" category="paragraph">工作区创建过程需要几分钟到几小时才能完成，具体取决于相关数据集及其文件数量、文件大小和其他因素。</block>
+  <block id="639b42163a0ffa46d2acfafb18a02601" category="paragraph">系统会自动提取所有数据源的元数据，并将其存储在元数据目录中，用户可以使用该目录来查找项目所需的文件。将用户分配给工作区后，数据工程师用户可以从 AI Data Engine Console 设置工作区附属组件并与之交互。</block>
+  <block id="3322e5dae3a67b6e0ea384bac656dfc8" category="paragraph">新工作区以 <block ref="a6fff580feaafda7ffe5c5d61e0ab6a7" prefix=" " category="inline-code"></block> 状态显示在工作区页面上，直至流程完成且状态更改为 <block ref="b2fdab230a2c39f3595a947861863cb7" prefix=" " category="inline-code"></block>。</block>
+  <block id="14a721aa0619dc5307dddb896c238130" category="section-title">查看工作区详细信息</block>
+  <block id="32c65af852e3b19f9f2c7f6de1bf92a8" category="paragraph">创建工作区后，请查看工作区详细信息。</block>
+  <block id="0bbfac595c132d0e8fd9c880b4ac5b64" category="list-text">查看工作区详细信息，包括总大小、使用的集群容量百分比以及最近的工作区刷新日期。</block>
+  <block id="b88eea33df2258d753e35243e952e66f" category="list-text">选择工作区名称以打开详细信息页面。</block>
+  <block id="e916e01bd6e94fb48876a572b461c898" category="list-text">在"概述"选项卡中，查看工作区详细信息，其中包括关联的数据容器、用户和活动。</block>
+  <block id="08353773b80b4a27b74ff9315439a6f6" category="section-title">工作区刷新和版本控制</block>
+  <block id="f4cec1bd0b30cb03ffb45b4bc2989e97" category="paragraph">每次工作区刷新都会创建一个不可变版本，以捕获工作区中所有文件和对象的当前状态。版本包括完整的元数据、对提取过程中使用的快照的引用以及用于可追溯性的作业 ID。这支持数据沿袭、可重复性和审核。</block>
+  <block id="e71921fb975fa2cdcfcbeeffad0d3919" category="paragraph">刷新根据您配置的计划（例如每六小时）或在手动触发时进行。支持的最小刷新间隔为一小时；最长为一年。如果数据容器包含在多个工作区中，则系统使用最频繁、最短的持续时间刷新间隔来安排元数据提取。</block>
+  <block id="71fef7323059cadb4f6eff59c4026e78" category="paragraph">默认情况下，系统将保留以前、当前和下一个（正在进行的）版本。系统会根据组织的策略保留旧版本，并可以根据需要清除它们。</block>
+  <block id="7a1a9e74e1e7d11d4562e140f0d45f95" category="paragraph">您可以列出工作区的所有版本并查看版本之间的差异，以确定添加、修改或删除了哪些文件或对象。这使您可以跟踪一段时间内的更改，并了解工作区数据的演变。</block>
+  <block id="de28d35875ebbdc1cf12dc0725822ac4" category="summary">创建集群后，您可以创建一个数据容器，其中包含您打算与 AI Data Engine 一起使用的数据。</block>
+  <block id="ce583827f6effcce01f524f25f674151" category="doc">为 AI Data Engine 准备数据</block>
+  <block id="d0a89e04da5d5186a44c05bbccaf74e5" category="paragraph">创建集群后，建立一个数据容器，其中包含您打算与 AI Data Engine (AIDE) 一起使用的数据。此数据容器必须是 ONTAP 卷，可以是本地卷或来自运行 ONTAP 9 的对等 ONTAP 集群的卷。</block>
+  <block id="7b8a6b443616665fcd12dd63cc58fe00" category="paragraph">您无需手动将 ONTAP 群集数据上传到 AIDE，而是需要将目标群集和 SVM 与 AIDE 群集对等，然后确定要将哪些 NFS 卷与 AIDE 元数据目录一起使用。创建数据容器后，可以创建一个工作区，并将数据容器与该工作区关联。然后，该工作区的用户可以访问其 AI 工作负载的工作区关联数据集和资源并与之交互。</block>
+  <block id="e1da28ee9e72581274d163c66a9f237c" category="paragraph">必须对包含要用于 AI Data Engine 的数据的每个 SVM 进行对等。仅对等集群是不够的。这确保了 AI Data Engine 可以按预期访问、载入和索引您的数据。</block>
+  <block id="e1c1fe17b3d1cc074a2108ff534348fc" category="paragraph">您应该对等 AIDE 集群中将充当 SnapMirror 目标的 SVM。</block>
+  <block id="5602141b0e1e9a2e9aa8fe82e4dd3352" category="paragraph">您不需要在 ONTAP 集群和 AIDE 集群之间创建 SnapMirror 关系。这些关系将在工作区创建过程中自动创建。</block>
+  <block id="94d61fa44223aecec9e025256f9f9c16" category="list-text">您需要 _storage administrator_ 权限才能对等集群和 SVM 并选择数据容器。</block>
+  <block id="465d9d69549a6a5004bd402ff8e22682" category="list-text">您已确定包含要用于 AI Data Engine 的数据的 ONTAP 集群和 SVM。</block>
+  <block id="6f8e89466e0611aa14b484aef144ea16" category="list-text">您已确认数据源卷满足以下要求：</block>
+  <block id="a2629a85b15ac8e9d0a05002add88915" category="list-text">卷处于联机状态且可访问。</block>
+  <block id="800e06ad9d4a2b886867f4a6b02b4ccf" category="list-text">已启用 NFS 协议。仅支持启用 NFS 的卷作为 AI Data Engine 的数据容器。不支持 SMB 和 CIFS 卷。</block>
+  <block id="cf648c526b8b93644541296f50d251f9" category="list-text">卷不是 FlexCache 卷。</block>
+  <block id="5aee44088c387ab8707a8213477d84d6" category="list-text">数据源是读写卷。不支持数据保护卷。</block>
+  <block id="ac98c81652db0d6d72c89cfcdc07bd58" category="inline-link">对等每个 ONTAP 集群和 SVM</block>
+  <block id="1216f26ccd4b19e78dc1d945c720fd3d" category="list-text"><block ref="8ceb652f32f46e0c9a1975fc579b542f" category="inline-link-rx"></block> 包含要用于 AI Data Engine 的数据。</block>
+  <block id="8d257d5a233fcdd000fa9e3f9a577fd9" category="inline-link-macro">选择要用于 AI Data Engine 的卷</block>
+  <block id="a6387615edc32ad4b22669a60843dd98" category="list-text"><block ref="f0ab6dd984351327f62cc6bf43082797" category="inline-link-macro-rx"></block>。</block>
+  <block id="2fd8593df204c213e7a054e0e4f6056e" category="paragraph">对于每个卷，请注意以下信息：</block>
+  <block id="7ffce295d6c61cb38fd76a4e505cdb33" category="list-text">卷名称</block>
+  <block id="2a5e126e0e7398b401fa86c3fcdff107" category="list-text">SVM 名称和 UUID</block>
+  <block id="955513a41dc633e8ed9a4a22dfb734cd" category="list-text">集群名称和 UUID</block>
+  <block id="c38ea9263d0f0f256b6055b9baba12e2" category="paragraph"><block ref="f6b9e7664c78bc3e4c05e10ecfa5b225" category="inline-link-macro-rx"></block> 并将您创建的数据容器与工作区相关联。</block>
+  <block id="f850d5f072b99065b8b14f209d28b6f2" category="inline-link">数据迁移选项</block>
+  <block id="55420b8ea3cb3c10666f05814a9382f8" category="list-text"><block ref="55420b8ea3cb3c10666f05814a9382f8" category="inline-link-rx"></block></block>
+  <block id="40c1be5c77d870ea1df5f3f54dccf9eb" category="sidebar">NetApp AI Data Engine (AIDE) 是一个企业级平台，旨在加速和简化 AI 驱动的数据处理、管理和治理。AIDE 将非结构化数据转换为结构化的 AI 就绪数据集，用于机器学习和生成式 AI 工作负载。</block>
+  <block id="ed67b8aec97dcec019f1b2972d70f5af" category="sidebar">AI Data Engine 文档</block>
+  <block id="92e2c257e168cb0c24a54debc143ad98" category="sidebar">AI Data Engine 文档提供有关安装、配置和管理 AIDE 系统的全面信息，包括元数据编目、工作区管理、数据收集以及与 AI/ML 工作流的集成。</block>
+  <block id="be11c74c1dd7f307bb80183a90dc2067" category="sidebar">开始使用</block>
+  <block id="0e68193094000ac3da408457283ae464" category="sidebar">AIDE 架构</block>
+  <block id="33871b6190a8d5adbe8b15282054766c" category="sidebar">新增功能</block>
+  <block id="482723983a4f2af954e36ff41e567451" category="sidebar">已知限制</block>
+  <block id="13dd53cbd668c29ff8b84c5c227806e5" category="sidebar">AIDE 快速入门</block>
+  <block id="5f6bd21af93689d91e8b08afc8cd56f1" category="sidebar">AIDE 常见问题解答</block>
+  <block id="7ff4995c299eff1168d2cf4a88aff450" category="sidebar">安装和设置</block>
+  <block id="3ddf4be006d0834329926e6562e823a1" category="sidebar">安装数据计算节点工作流程</block>
+  <block id="086af4a1a8e18c416fda306afd129ecc" category="sidebar">安装要求</block>
+  <block id="ea6245a5aad1d347d3bfd8727ccbe15c" category="sidebar">电缆硬件</block>
+  <block id="7b2ca066e862da1c95471b425468af14" category="sidebar">开启系统电源</block>
+  <block id="966dc1e12145f222e2e3c3cb6fe4551f" category="sidebar">设置 AIDE 集群</block>
+  <block id="8c8644afd3f4eaad0136d64881361a70" category="sidebar">工作区和数据访问</block>
+  <block id="b65ee0e4a1d2f91c19eb5035fd54870f" category="sidebar">为 AIDE 准备数据</block>
+  <block id="c1fa7350cf0c84974f24411e8efc84d0" category="sidebar">管理工作区</block>
+  <block id="5eb43e1edd4f0757c83c6d6f6632ff94" category="sidebar">管理和监控</block>
+  <block id="54785a252ac38bc32e469f79d275dc94" category="sidebar">查看仪表板和集群状态</block>
+  <block id="8f77ee8522eaca7b3ace0c9d72acfddf" category="sidebar">查看事件和审核日志</block>
+  <block id="19ac887174dcefa51cbee8badb0f6cc3" category="sidebar">安装 AIDE 许可证</block>
+  <block id="8df664d500e73d63ecb0a688d2afc9bc" category="sidebar">添加数据计算节点</block>
+  <block id="203eee042bcbcbb2d9eba6a1f0698363" category="sidebar">替换数据计算节点</block>
+  <block id="f43e50eb62e34e08dca5c6fd5ae8f0d8" category="sidebar">了解角色和组件</block>
+  <block id="201783b81665f632b3ffb2094e310f50" category="sidebar">AIDE 组件（按角色）</block>
+  <block id="23eebb1148810d58d22f0f1dde752583" category="sidebar">存储管理员任务</block>
+  <block id="937f937369034f7945732008612c0bb5" category="sidebar">数据工程师和数据科学家任务</block>
+  <block id="fb7e6fcfd532ab63912a2490f998346d" category="sidebar">使用数据收集和护栏</block>
+  <block id="c82aeb7c1e3d2b6ad0b5225fd15d14d2" category="sidebar">创建并发布数据集合</block>
+  <block id="b9fe67cdf40b5e4f7b65c9caf789c767" category="sidebar">定义护栏策略</block>
+  <block id="4c01f83ff289bc843e595cd019231db0" category="sidebar">AIDE 文档</block>
+  <block id="1fe917b01f9a3f87fa2d7d3b7643fac1" category="sidebar">常见问题解答</block>
+  <block id="999742c56c542625e6c789b03c61d935" category="sidebar">监控集群进程</block>
+  <block id="8395a418f540b31de23607146e05c1bc" category="sidebar">查看见解</block>
+  <block id="30e4ab04c1f00a13cdf5d0487bc349de" category="sidebar">查看事件、作业和审核日志</block>
+  <block id="31b7d0cb86c1f7530a1d2f8c38b84708" category="sidebar">升级和维护您的 AIDE 系统</block>
+  <block id="010e5e2631a214a33d6a5ea01b4a6045" category="sidebar">AIDE 系统更新和兼容性</block>
+  <block id="6d7472349ef5faba1c593dfd1b76d86e" category="sidebar">向 AIDE 集群添加节点</block>
+  <block id="1c56981a99449792ff7a458dd0fef309" category="sidebar">替换 AIDE 节点</block>
+  <block id="0589d0fce0d6360ebe0c848a55181a17" category="sidebar">了解您的 AI Data Engine 系统</block>
+  <block id="ec728291e475cad65a149d393bcb1011" category="sidebar">了解 AIDE</block>
+  <block id="bd5e2c95990a263c40d7f5414d0b7116" category="sidebar">按角色划分的 AIDE 组件和职责</block>
+  <block id="8dff77f071dd7b3fcefa6c8ed42d9960" category="sidebar">AIDE 组件和角色</block>
+  <block id="c6cca12107e3e656a6459ce28d290603" category="sidebar">AIDE 接口</block>
+  <block id="4f5eb7f05b5c03fae6d0306924f58069" category="sidebar">存储管理员和组件</block>
+  <block id="314fa01ce50b01589783a2504a0d4507" category="sidebar">数据工程师和数据科学家及组件</block>
+  <block id="06ad314b340900d226b1196e1fe289e9" category="sidebar">快速入门</block>
+  <block id="1f9c2a9600aa7017fad495f671dfcc9d" category="sidebar">安装您的 AFX 存储系统</block>
+  <block id="68c0418c1c2f1323643d70e57b82252f" category="sidebar">安装您的数据计算节点</block>
+  <block id="6f550466a69bad21f11ab99fc12db497" category="sidebar">安装工作流</block>
+  <block id="f5672ee179ad2bcc9cb2bc0cc89ba289" category="sidebar">查看硬件要求</block>
+  <block id="f76aaf3aaa7b30238e7a3e2b1a04493b" category="sidebar">准备安装</block>
+  <block id="6dc60e29027f419283b4b51721a0507c" category="sidebar">安装数据计算节点</block>
+  <block id="23504da67366dc3ea4bbc4879a308aac" category="sidebar">查看布线要求</block>
+  <block id="bf15c2b8562b6359346adf03f3be2927" category="sidebar">设置您的 AIDE 系统</block>
+  <block id="5d3d974940d79c64ab9fc5d254cbeec3" category="sidebar">实施护栏</block>
+  <block id="9700efc55926894331026ad8385c24ec" category="sidebar">在 AIDE 中定义您的护栏策略</block>
+  <block id="7d0ee6fed10d3d4e5c9ee496729ab519" category="sidebar">发行说明</block>
+  <block id="f33c77fb0971c4244ccc40e4ce6fded2" category="sidebar">AIDE 9.18.1 中的新增功能</block>
+  <block id="ef6d7f7855d9e433288350cb2db4cdd3" category="sidebar">AIDE 已知限制</block>
+  <block id="b88d42d499943268176efeb53219b5b4" category="sidebar">管理向量化和数据集合</block>
+  <block id="7ca842c6b654b62693e52f6658a337fa" category="sidebar">创建数据集合</block>
+  <block id="e9a2a57c6909b784778f0034615bafa3" category="sidebar">设置工作区</block>
+  <block id="e80a572e7316601bd6ae8dcc978dc856" category="sidebar">将用户分配到工作区</block>
+</blocks>

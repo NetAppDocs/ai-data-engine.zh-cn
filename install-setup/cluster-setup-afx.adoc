@@ -1,0 +1,119 @@
+---
+permalink: install-setup/cluster-setup-afx.html 
+sidebar: sidebar 
+keywords: ai data engine, aide, cluster setup, afx, install, set up 
+summary: '作为 ONTAP 存储管理员，您可以将 AI Data Engine (AIDE) 与 AFX 系统部署集成。您可以将 AIDE 设置为初始 AFX 存储系统部署的一部分，或者将 AIDE 添加到已部署并提供数据的 AFX 群集中。在这两种情况下，您还需要在完成基本设置后完成 AIDE 配置。' 
+---
+= 设置 AI Data Engine
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+作为 ONTAP 存储管理员，您可以将 AI Data Engine (AIDE) 与 AFX 系统部署集成。您可以将 AIDE 设置为初始 AFX 存储系统部署的一部分，或者将 AIDE 添加到已部署并提供数据的 AFX 群集中。在这两种情况下，您还需要在完成基本设置后完成 AIDE 配置。
+
+
+
+== 1.设置 AIDE 并将其与 AFX 存储系统集成
+
+有两种方法可以设置 AIDE 并将其与 AFX 存储系统集成。选择适合您环境的选项。
+
+
+NOTE: 在设置 AIDE 之前，请确保已安装数据计算节点并将其连接到集群交换机。有关详细信息，请参见 link:../install-setup/aide-hardware-requirements.html["安装 AIDE"]。
+
+
+
+=== 使用新的 AFX 集群设置 AIDE
+
+如果您将 AIDE 设置为初始 AFX 系统部署的一部分，则 AIDE 设置过程是标准 AFX 集群设置工作流程的一部分。在 ONTAP 集群设置过程中，System Manager 会自动发现连接的 DCN 并将其包含在集群配置中。之后，您就可以完成 AIDE 配置，包括所需的许可证配置。
+
+
+
+=== 使用现有 AFX 集群设置 AIDE
+
+如果要向现有 AFX 存储系统添加数据计算节点群集，则需要配置 DCN 并完成 AIDE 群集的设置。
+
+
+
+==== 向集群添加数据计算节点
+
+ONTAP 动态检测连接到群集网络的新数据计算节点，并将其显示在 System Manager 中。您可以link:../administer/dcn-add-node.html["将数据计算节点添加到您的 AIDE 集群"]。另请注意以下事项：
+
+* 数据计算节点必须物理连接到集群交换机。创建 AIDE 集群时，需要恰好三个 DCN。
+* 您必须具有足够的 IP 地址以用于 DCN 网络和其他必需的网络配置信息。
+
+
+
+
+==== 完成 AIDE 集群设置
+
+集成数据计算节点并完成初始网络配置后，您可以完成新 AIDE 集群的设置。
+
+.关于此任务
+页面右侧显示欢迎设置指导窗口，其中包含必要的配置步骤。每个已完成的步骤或操作项目的左侧都会显示一个复选标记。对于尚未完成的项目，将显示箭头 (image:icon_arrow.gif["指向右侧的蓝色箭头"])。对于每个未完成的操作：
+
+* 选择已启用的标题链接，并为您的环境完成设置操作。
+* 如果链接已禁用，请将鼠标悬停在标题上，以显示启用该链接所需的操作，然后继续执行设置操作。
+
+
+在可能的情况下，每个步骤都有指向其他文档的链接。部分配置可能包含在 AFX 集群设置中。有关详细信息，请参见 https://docs.netapp.com/us-en/ontap-afx/["AFX 文档"^]。
+
+.步骤
+. 选择 *Configure link aggregation groups and VLANs*。
++
+如果环境需要，您可以设置群集级别的 LAG 和 VLAN。选择此选项将启动以太网端口页面。
+
+. 选择 *Configure network protocols*。
++
+您可以配置 Storage VM (SVM) 网络协议。
+
+. 选择 *Update data compute software*。
++
+如果数据计算软件映像可用于更新，则将启用此选项。选择它以启动数据计算软件更新页面。另请参阅link:../administer/update-aide-firmware-software.html["更新 AI Data Engine software"]。
+
+. 选择 *Configure data engine networking*。
++
+此选项显示配置 data engine 网络地址的页面。
+
+. 选择 *Create intercluster network interfaces*
++
+如果要编录远程数据，此选项将启动页面以配置群集间网络接口，这是两步过程的一部分。
+
+. 选择 *与其他 ONTAP 存储系统对等*。
++
+创建群集间网络接口后，可以与其他 ONTAP 存储系统建立对等关系。
+
+. 选择 *Add a data container*。
++
+您可以添加卷以供 AIDE 使用，并将其与特定 SVM 关联。
+
+. 选择 *Add Workspaces*。
++
+此时将启动 Data Engine 工作区页面，您可以在其中进行操作link:../workspaces/create-workspace.html["创建工作区"]。
+
+. 选择 *Configure OpenID Connect*。
++
+您需要link:../install-setup/configure-oidc.html["配置 OpenID 身份验证"]以启用对 AIDE Console 的访问权限。
+
+
+
+.完成后
+完成所有操作项目后，将隐藏指导窗口。您可以根据需要手动关闭并重新打开。
+
+
+
+== 2.完成 AIDE 配置
+
+AIDE 群集设置并与 AFX 存储系统集成后，需要完成 AIDE 配置。
+
+.步骤
+. link:../install-setup/install-license-task.html["添加所需的 AIDE 许可证"]。
++
+您必须安装 AI Data Engine 许可证才能获得完整的 AIDE 功能，包括矢量化和护栏功能。
+
+. link:../install-setup/configure-oidc.html["配置 OIDC 身份验证"]。
++
+确保为所有部署配置 OIDC。您必须配置 OIDC 才能访问 AI Data Engine Console。
+
+

@@ -1,0 +1,50 @@
+---
+sidebar: sidebar 
+permalink: get-started/aide-components-storage-admin.html 
+keywords: aide, architecture, ontap, storage administrator, system manager, workspaces, guardrails 
+summary: 了解存储管理员如何与 AIDE 组件交互以管理集群基础架构、配置工作空间和实施治理策略。 
+---
+= 了解 AI Data Engine 存储管理员如何使用 AIDE 组件
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+作为存储管理员，您可以通过 ONTAP 和 AIDE Console 管理 AIDE 基础架构，配置工作空间，附加护栏策略，并监控系统运行状况。您的角色侧重于确保 AI 工作负载的可靠、安全和合规数据存储。
+
+
+
+== 存储管理员组件访问
+
+[cols="2h,2,3"]
+|===
+| 组件 | 访问级别 | 存储管理员工作流程 
+
+
+| ONTAP System Manager | 管理（创建、编辑、删除） | 您使用 ONTAP System Manager 作为集群管理、工作区配置、护栏策略管理和监控系统运行状况的主要界面。 
+
+
+| AI Data Engine Console | 管理（创建、编辑、删除） | 您可以使用 AI Data Engine Console 来监控工作区、查看收集状态以及监督整个 AIDE 环境中的系统活动。 
+
+
+| ONTAP REST API | 管理（创建、编辑、删除） | 您可以使用 REST API 自动化基础架构任务，以编程方式管理工作空间和护栏策略，并将 AIDE 管理与外部工具和工作流集成。 
+
+
+| 工作区 | 管理（创建、编辑、删除） | 您可以使用 ONTAP System Manager 创建和管理工作区。您可以选择包含哪些数据源，为数据工程师和数据科学家分配权限，并附加护栏策略以强制实施治理和合规性。您还可以监控工作区运行状况和访问权限。 
+
+
+| 数据收集 | 查看（只读） | 您可以使用 System Manager 查看每个工作区内数据集合的状态和运行状况。您确保基础数据源可用且受保护，但不会创建或修改集合。 
+
+
+| 护栏 | 管理（创建、编辑、删除） | 您可以使用 System Manager 定义护栏策略并将其附加到工作区。您监控护栏状态和合规性报告。您确保根据需要执行和更新策略。 
+
+
+| 元数据目录 | 监控（查看运行状况、状态、活动） | 您确保元数据目录已填充并保持最新。您监控目录运行状况并支持访问控制。 
+
+
+| 向量数据库 | 调配/监控（部署、配置、查看状态） | 您配置和监控矢量数据库基础设施，确保具有 GPU 资源和适当许可的数据计算节点到位。您支持环境，但不直接管理嵌入或查询。 
+
+
+| 分类器 | 管理（创建、编辑、删除） | 您可以创建、配置和管理分类器及其类别。您可以将分类器应用于工作区并监控其有效性。 
+|===

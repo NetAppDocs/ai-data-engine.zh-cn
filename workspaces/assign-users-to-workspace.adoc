@@ -1,0 +1,47 @@
+---
+sidebar: sidebar 
+permalink: workspaces/assign-users-to-workspace.html 
+keywords: aide, workspaces, assign users, user management, ai data engine 
+summary: 创建工作区后，您可以为其分配将使用该工作区内 AI 资源的用户。 
+---
+= 分配用户对 AI Data Engine 工作区的访问权限
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+作为存储管理员，您可以根据其角色将用户分配到工作区：数据工程师、数据科学家或其他角色，具体取决于组织的结构和需求。用户使用其凭据登录到 AI Data Engine (AIDE) Console，并访问分配的工作区内的数据容器资源。
+
+ONTAP System Manager 使您能够管理哪些用户有权访问 AI Data Engine 工作区。您可以添加或删除用户以控制谁可以查看、修改工作区数据和活动并与之交互。
+
+.开始之前
+* 您需要 _storage administrator_ 权限才能管理用户对工作区的访问权限。
+* 确认已创建工作区，并且该工作区在 Workspaces 清单中处于活动状态。
+* 确认所有相关数据容器已添加到工作区并可访问。
+* link:../install-setup/configure-oidc.html["确认为集群启用并配置 OIDC"]。必须为每个相关数据工程师和数据科学家 IdP 用户或组完成从 IdP 到 ONTAP 角色的角色映射。
+
+
+.步骤
+* 将用户添加到工作区：
++
+.. 在 ONTAP System Manager 中，导航到 *Data Engine > Workspaces*。
+.. 选择工作区名称以打开其详细信息页面。
+.. 转到 Users 选项卡。
+.. 选择 *Add* 按钮以打开添加用户对话框。
+.. 输入一个或多个用户的详细信息。以逗号分隔的 OIDC 用户列表形式输入详细信息。
+.. 选择 *Add* 以授予用户对工作区的访问权限。
+
+
+* 从工作区中删除用户：
++
+.. 在工作区详细信息页面的"用户"选项卡中，找到并选择要删除的用户。
+.. 选择 *Remove* 按钮。
+.. 在对话框中确认删除。
+.. 系统立即删除用户并撤销其对工作区的访问权限。
+
+
+
+
+.结果
+只有在工作区"用户"选项卡中列出的用户才能访问工作区数据和活动并与之交互。

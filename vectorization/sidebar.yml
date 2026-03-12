@@ -1,0 +1,12 @@
+---
+section: vectorization
+title: 管理向量化和数据集合
+entries:
+- title: Data-to-RAG 快速启动
+  url: "/vectorization/zero-to-rag.html"
+- title: 探索工作区元数据
+  url: "/vectorization/explore-workspace-metadata.html"
+- title: 创建数据集合
+  url: "/vectorization/create-data-collections.html"
+- title: 查看数据集合
+  url: "/vectorization/view-data-collections.html"

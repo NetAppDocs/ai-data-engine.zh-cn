@@ -1,0 +1,86 @@
+---
+sidebar: sidebar 
+permalink: administer/aide-node-replace.html 
+keywords:  
+summary:  
+---
+= 替换 AIDE 集群中的节点
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+如果 AI Data Engine (AIDE) 集群中的数据计算节点 (DCN) 停止运行或由于硬件故障、升级或维护需要更换，则需要更换该节点。这确保了 AIDE 集群保持健康和运行。可以在不中断正在进行的服务的情况下执行该程序。
+
+
+
+== 准备替换节点
+
+在替换 AIDE 集群中的节点之前，需要考虑几个事项。
+
+.System Manager 凭据
+需要 _storage administrator_ 权限才能执行 AIDE 群集节点替换任务。
+
+
+
+=== 限制
+
+替换 AIDE 集群中的节点时，应注意以下限制：
+
+* 仅使用 CLI 和可选的 REST API 支持节点更换。
+* 您无法使用 System Manager 执行节点替换。
+* 新节点应与集群的软件版本相匹配；如果需要，ONTAP 将对其进行更新。
+* 连接到集群网络时，不得打开故障节点，以避免 IP 地址冲突。
+
+
+
+
+=== 要求
+
+您需要具备以下条件：
+
+* 新替换节点的序列号
+
+
+
+
+== 替换 AIDE 集群中的 DCN 节点
+
+您可以使用以下过程替换 AIDE 集群中的 DCN 节点。
+
+.步骤
+. 物理移除故障节点
++
+关闭电源并断开节点与群集网络的连接。在更换过程中，请确保节点未在网络上启动。
+
+. 使用以下命令从集群中删除失败的节点：
++
+`dcn cluster node delete -name <node_name> -force true`
+
++
+提供 <node_name> 值的实际名称。
+
+. 将新节点物理连接到集群
++
+确保节点已接通电缆、已接通电源且可被发现。
+
+. 查看可发现和未配置的节点，以验证新节点是否在线：
++
+`dcn cluster node show -membership available`
+
+. 使用以下命令将该节点添加到群集中：
++
+`dcn cluster node create -serial-number <new_node_serial>`
+
++
+ONTAP 将为新节点分配 IP 地址。如果节点的软件版本与集群不匹配，ONTAP 将自动更新节点。
+
+. 使用以下命令之一验证集群健康和节点集成：
++
+`dcn cluster node show`
+
++
+`dcn cluster node show -instance`
+
+

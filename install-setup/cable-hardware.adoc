@@ -1,0 +1,107 @@
+---
+sidebar: sidebar 
+permalink: install-setup/cable-hardware.html 
+keywords: aide, ai, data engine, ai data engine dcn, data compute node, afx, afx 1k, cable controllers, Cisco Nexus 9332D-GX2B, Cisco Nexus 9364D-GX2A, switches, switch, cable hardware, cable storage shelves, cable data compute nodes, cable network, cable cluster, cable host network 
+summary: 了解如何将 AIDE 电缆连接到网络，以及如何连接 Data Compute Node。 
+---
+= 为 AI Data Engine 连接数据计算节点
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+将您的 Data Compute Node 连接到主机网络和集群网络交换机，以实现 AI 工作负载处理并与 AFX 1K 存储系统集成。此过程使用 100GbE 连接进行主机网络访问和集群通信，允许节点利用现有的集群基础设施，而无需关闭 AFX 系统。
+
+.关于此任务
+这些程序显示了常见的配置。具体的布线取决于为您的存储系统订购的组件。有关全面的配置详细信息和插槽优先级，请参阅 link:https://hwu.netapp.com["NetApp Hardware Universe"^]。
+
+
+NOTE: 连接 Data Compute Node 时，无需关闭 AFX 1K 存储系统的电源。您可以将 Data Compute Node 添加到已打开电源并已配置的现有 AFX 1K 存储系统。
+
+.开始之前
+* 您已安装现有的 AFX 1K 存储系统。有关安装 AFX 1K 存储系统的信息，请参阅link:https://docs.netapp.com/us-en/ontap-afx/install-setup/install-setup-workflow.html["安装您的 AFX 1K 存储系统"^]。
+* 您已安装并配置了所需的网络交换机。有关将系统连接到网络交换机的信息，请联系网络管理员。
+* 您已审阅 link:../install-setup/cable-overview.html["Data Compute Node 的布线要求"^]。
+
+
+
+
+== 步骤 1：将 Data Compute Node 连接到主机网络
+
+您可以将 Data Compute Node 端口连接到主机网络。
+
+.步骤
+. 将以下 Data Compute Node 的端口 e4b 连接到以太网数据网络交换机 A：
++
+** Data Compute Node 1，端口 e4b
+** Data Compute Node 2，端口 e4b
++
+*100GbE 电缆*
+
++
+image::../media/oie_cable100_gbe_qsfp28.png[100 Gb Ethernet 电缆]
+
++
+image::../media/drw_aide_network_cabling_a_ieops_2647.svg[缆线连接到 Ethernet 网络]
+
+
+
+. 将以下 Data Compute Node 的端口 e5b 连接到以太网数据网络交换机 B：
++
+** Data Compute Node 1，端口 e5b
+** Data Compute Node 2，端口 e5b
++
+*100GbE 电缆*
+
++
+image::../media/oie_cable100_gbe_qsfp28.png[100 Gb Ethernet 电缆]
+
++
+image::../media/drw_aide_network_cabling_b_ieops-2648.svg[缆线连接到 Ethernet 网络]
+
+
+
+
+
+
+
+== 步骤 2：为 Data Compute Node 集群连接布线
+
+对于 Data Compute Node，e4a/e5a 端口用于集群连接。
+
+.步骤
+. 从下列 Data Compute Node 将端口 e4a 连接到集群网络交换机 A 上的非 ISL 端口：
++
+** Data Compute Node 1，端口 e4a
+** Data Compute Node 2，端口 e4a
++
+*100GbE 电缆*
+
++
+image::../media/oie_cable100_gbe_qsfp28.png[100 Gb Ethernet 电缆]
+
++
+image::../media/drw_aide_switched_cluster_cabling_a_ieops-2649.svg[缆线连接到 Ethernet 网络]
+
+
+
+. 从下列 Data Compute Node 将端口 e5a 连接到集群网络交换机 B 上的非 ISL 端口：
++
+** Data Compute Node 1，端口 e5a
+** Data Compute Node 2，端口 e5a
++
+*100GbE 电缆*
+
++
+image::../media/oie_cable100_gbe_qsfp28.png[100 Gb Ethernet 电缆]
+
++
+image::../media/drw_aide_switched_cluster_cabling_b_ieops-2650.svg[缆线连接到 Ethernet 网络]
+
+
+
+
+
+.下一步是什么？
+在您连接硬件电缆后，您link:power-on-hardware.html["开启您的 Data Compute Node"]。

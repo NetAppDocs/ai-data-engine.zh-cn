@@ -1,0 +1,88 @@
+---
+permalink: release-notes/whats-new.html 
+sidebar: sidebar 
+keywords: release notes, new features, AI Data Engine, AIDE, metadata engine, ONTAP 9.18.1 
+summary: '了解 AI Data Engine (AIDE) 中提供的新功能。' 
+---
+= AI Data Engine 的新增功能
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+AI Data Engine (AIDE) 9.18.1 是 NetApp 的 AI 数据管理平台的初始版本。此版本引入了 Metadata Engine 和管理工作流程，使组织能够为 AI 工作负载编目和组织非结构化数据，为高级治理和矢量化功能提供基础。拥有适当 AI Data Engine 许可证的客户可以使用高级治理（护栏）和矢量化。
+
+
+
+== AIDE 9.18.1 初始版本中的新增功能
+
+AIDE 9.18.1 引入了以下基础功能：
+
+.link:../get-started/aide-architecture.html#metadata-engine["用于 AI 数据编目的 Metadata Engine"]
+初始版本包括一个 Metadata Engine，用于跨 ONTAP 集群对文件和对象进行编目。
+
+主要功能包括：
+
+* 从对等集群上的本地和远程 ONTAP 卷自动提取元数据（核心和扩展属性、对象标签）。
+* 为需要企业数据全局视图的应用程序提供集中查询和筛选 REST API。
+* 可扩展的元数据存储。
+* 在工作区创建期间触发的自动元数据提取。
+
+
+.link:../workspaces/create-workspace.html["工作区管理"]
+工作区为 AI 项目提供数据源（卷）的逻辑分组。
+
+初始版本支持：
+
+* 创建跨越本地和远程 ONTAP 卷的工作区（使用集群对等）。
+* 为工作区分配访问控制，支持多用户和多租户环境。
+* 创建工作区时自动元数据提取和目录填充。
+
+
+.link:../get-started/aide-architecture.html#data-sync["用于自动数据时效性的 Data Sync"]
+Data Sync 可使元数据目录和数据集在源数据更改时保持最新，无需手动干预。
+
+主要功能包括：
+
+* 使用策略驱动的 SnapMirror 复制自动同步来自远程或本地 ONTAP 集群的数据。
+* 仅传播已修改数据的增量更新，从而降低开销。
+* 每个工作区可配置的刷新间隔。
+* 工作区级别的同步状态和活动监控。
+
+
+.link:../install-setup/cluster-setup-afx.html["集群设置和管理"]
+初始版本包括以下工作流：
+
+* 在集群设置期间发现和添加数据计算节点 (DCN)。
+* 为 Metadata Engine 创建专用元数据存储虚拟机。
+* 用于集群范围元数据访问的 Data Engine 服务接口配置。
+* 与其他 ONTAP 集群对等，以将元数据编目扩展到整个数据资产。
+
+
+.link:../install-setup/configure-oidc.html["OpenID Connect (OIDC) 身份验证"]
+* 基于 OIDC/OAuth 的身份验证，用于使用 Microsoft Entra ID 和 Active Directory Federation Services (ADFS) 安全访问 ONTAP System Manager 和 Data Engine Console。
+* 用于工作区和元数据管理的基于角色的访问控制。
+
+
+.link:../vectorization/zero-to-rag.html["先进的数据管理和治理能力"]
+以下功能适用于拥有相应 AI Data Engine 许可证的客户：
+
+* *矢量化和 RAG*：使用 AIDE 工作区的元数据，在 AI Data Engine Console 中创建数据集合、嵌入和检索端点。
+* *基于护栏的治理*：在 AI Data Engine Console 中定义护栏策略，并将这些策略与 ONTAP System Manager 中的工作区关联。
+
+
+
+
+=== 支持的硬件和平台
+
+AI Data Engine 9.18.1 运行在结合了以下内容的 ONTAP AI 数据平台集群上：
+
+* AFX 1K 存储节点
+* NetApp 数据计算节点
+
+
+.相关信息
+* link:known-limitations.html["AI Data Engine 的已知限制"]
+* link:../get-started/learn-about.html["了解 AI Data Engine 架构和组件"]
+

@@ -1,0 +1,106 @@
+---
+sidebar: sidebar 
+permalink: get-started/aide-components.html 
+keywords: aide, architecture, ontap, logical components, networking, security 
+summary: 每个 AIDE 组件在数据发现、管理、治理和与应用程序集成方面发挥着特定作用，交互因用户角色而异。 
+---
+= AI Data Engine 组件和基于角色的交互
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+AI Data Engine (AIDE) 由许多核心组件组成，它们协同工作，为人工智能工作负载提供全面的数据管理和处理平台。这些组件包括工作区、数据集、矢量数据库、护栏、元数据目录、检索端点和分类器。每个组件都在实现高效的数据发现、管理、治理以及与 AI/ML 应用程序的集成方面发挥着特定的作用。
+
+每个 AIDE 用户根据其角色与 AIDE 组件进行不同的交互。
+
+
+
+== 以存储和数据为重点的用户角色
+
+AIDE 引入了新的用户角色，同时仍然支持传统的 ONTAP 系统管理角色：
+
+
+
+=== 存储用户
+
+* *存储管理员*：管理 AFX 和 AIDE 集群设置、网络、存储配置和用户访问。
+
+
+
+
+=== 数据用户
+
+* *数据工程师*：构建和优化 AI/ML 流水线，管理数据收集，并集成 AI 模型。
+* *数据科学家*：发现、管理和分析数据集，创建数据集合，并利用 GenAI 应用程序的检索端点。
+
+
+[cols="2h,3"]
+|===
+| 角色 (RBAC 名称) | 说明 
+
+
+| 存储管理员 (`admin`) | 管理 AFX 和 AIDE 集群设置、网络、存储配置和用户访问。将 RBAC 角色分配给用户，以确定对 AIDE 接口和功能的访问级别。此管理员角色具有使用 ONTAP System Manager 和 AI Data Engine Console 的完全管理访问权限。 
+
+
+| 数据工程师 (`data-engineer`) | 构建和优化 AI/ML 管道，管理数据收集，并集成 AI 模型。该角色可以访问 AI Data Engine Console 进行数据工程工作流程。 
+
+
+| 数据科学家 (`data-scientist`) | 发现、管理和分析数据集，创建数据集，并利用 GenAI 应用程序的检索端点。该角色可以访问用于数据科学工作流程的 AI Data Engine Console。 
+|===
+
+
+== AIDE 系统组件
+
+每个 AIDE 用户（存储管理员、数据工程师和数据科学家）根据其角色与 AIDE 组件进行交互。
+
+
+
+=== 工作区
+
+工作区是集群内数据的逻辑段，用于对特定项目、团队或工作流的卷进行分组。工作区定义了 AIDE 中数据可见性、访问权限和治理的范围。
+
+
+
+=== 元数据目录
+
+一个集中的、可扩展的数据库，存储本地群集中所有文件和对象的元数据记录，包括使用 ONTAP SnapMirror 或群集对等从远程 ONTAP 群集同步的数据。它支持丰富的交互式搜索和过滤。
+
+
+
+=== 分类器
+
+分类器是一种工具（内置或自定义），用于扫描和标记特定类型的敏感数据（例如 PII、金融、医疗保健）的文件，或按类型（例如法律、HR、销售）对文档进行分类。
+
+
+
+=== 数据收集
+
+数据集是来自工作区的相关文件或对象的精选组，由用户指定的查询定义，用于 GenAI 工作流。发布后，数据集合中文件的内容可用于 GenAI 应用程序的 API 进行语义搜索。
+
+
+
+=== 向量数据库
+
+矢量数据库存储从数据集合生成的嵌入，为 AI 和 GenAI 应用程序实现高性能语义搜索和检索。
+
+
+
+=== 护栏
+
+Guardrails 是策略驱动的机制，可在整个 AI 数据生命周期中实施数据治理、分类和保护（例如编辑或访问限制）。
+
+
+
+=== 检索端点（RAG 端点）
+
+检索端点（有时称为检索增强生成或"RAG"端点）是一种安全的 API，使 AI 和 GenAI 应用程序能够从策划的集合和矢量数据库中访问相关数据、上下文或嵌入。
+
+RAG 端点旨在支持高级 AI 工作流程，例如生成式 AI 模型中的语义搜索和上下文感知响应。通过将 AI 应用程序连接到检索端点，您可以提供对由 AIDE 管理的精选 AI 就绪数据集的实时访问，从而提高模型的准确性和相关性。
+
+.相关信息
+* link:aide-components-storage-admin.html["AIDE 存储管理员如何使用 AIDE 组件"]
+* link:aide-components-data-users.html["AIDE 数据工程师如何使用 AIDE 组件"]
+* link:aide-components-data-users.html["AIDE 数据科学家如何使用 AIDE 组件"]
+

@@ -1,0 +1,122 @@
+---
+sidebar: sidebar 
+permalink: install-setup/prepare-hardware.html 
+keywords: aide, ai, data engine, ai data engine, dcn, data compute node, prepare, hardware installation, afx, afx 1k, 
+summary: 准备在您的 ONTAP 环境中安装 AI Data Engine 的数据计算节点并注册硬件以获得支持权益。 
+---
+= 准备为 AI Data Engine 安装数据计算节点
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+通过准备好现场，打开箱子并将箱子的内容与装箱单进行比较，以及注册系统以获取支持权益，来准备安装 AI Data Engine 的数据计算节点。
+
+
+
+== 步骤 1：准备站点
+
+要安装数据计算节点，请确保计划使用的站点和机柜或机架符合配置规范。
+
+.步骤
+. 使用 https://hwu.netapp.com["NetApp Hardware Universe"^]确认您的网站是否符合数据计算节点的环境和电气要求。
+. 确保在现有 AFX 1K 存储系统安装中为数据计算节点提供足够的机柜空间。
++
+** 每个数据计算节点 1U
+** 每个 AFX 1K 控制器节点 2U
+** 每个 NX224 机架 2U
+** 每个交换机 1U 或 2U，具体取决于交换机型号。
+
+
+
+
+
+
+== 步骤 2：拆箱
+
+在确保计划用于数据计算节点的站点和机柜或机架符合所需规格后，打开所有箱子，并将内容与装箱单上的项目进行比较。
+
+.步骤
+. 仔细打开所有盒子，并有条不紊地布置内容物。
+. 将拆包物品与装箱单进行比较，并记录任何差异。
++
+您可以通过扫描运输纸箱侧面的二维码来获取装箱单。
+
++
+以下项目是您可能会在框中看到的一些内容。
+
++
+[cols="12,9,4"]
+|===
+
+
+| *硬件* | *电缆* |  
+
+
+ a| 
+** 挡板
+** 带有说明的导轨套件
+** 数据计算节点
+
+ a| 
+** 电源线
+
+|  
+|===
+
+
+
+
+== 步骤 3：注册您的数据计算节点
+
+确保您的站点满足数据计算节点规范的要求，并确认已订购所有零件后，应注册系统。
+
+.步骤
+. 找到数据计算节点的序列号。
++
+您可以在以下位置找到序列号：
+
++
+** 在装箱单上
+** 在您的确认电子邮件中
+** 在每个数据计算节点上，或在某些系统上，在每个数据计算节点的系统管理模块上。
++
+image::../media/drw_ssn_label.svg[系统序列号示例]
+
+
+
+. 导航到  http://mysupport.netapp.com/["NetApp 支持站点"^]。
+. 确定是否需要注册存储系统：
++
+[cols="1a,2a"]
+|===
+| 如果您是…… | 按照下面的步骤进行操作... 
+
+
+ a| 
+现有 NetApp 客户
+ a| 
+.. 请使用您的用户名和密码 Sign in。
+.. 选择 *Systems* > *My Systems*。
+.. 确认已列出新的序列号。
+.. 如果序列号未列出，请按照新 NetApp 客户的说明进行操作。
+
+
+
+
+ a| 
+新 NetApp 客户
+ a| 
+.. 点击 *Register Now* 以创建帐户。
+.. 选择 *Systems* > *Register Systems*。
+.. 输入存储系统的序列号和所需的详细信息。
+
+
+一旦 NetApp 批准您的注册后，您可以下载所需的软件。审批最多需要 24 小时。
+
+|===
+
+
+.下一步是什么？
+准备好安装数据计算节点后，即可开始使用 link:deploy-hardware.html["安装 Data Compute Node"]。

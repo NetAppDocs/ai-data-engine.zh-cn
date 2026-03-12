@@ -1,0 +1,25 @@
+---
+sidebar: sidebar 
+permalink: administer/view-insights.html 
+keywords: aide, aide system, insights, view insights 
+summary: 您可以使用 ONTAP System Manager 的 Insights 功能显示符合 NetApp 最佳实践的建议配置更新。这些更改可以优化 AIDE 集群的安全性和性能以及其他方面。 
+---
+= 查看见解以优化您的 AIDE 系统
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+作为存储管理员，您可以使用 ONTAP System Manager 的 _Insights_ 功能显示符合 NetApp 最佳实践的建议配置更新。这些更改可以优化您的 AIDE 群集的安全性和性能。
+
+.关于此任务
+每个见解都会在页面上显示为单独的图块或卡片，您可以选择实施或取消。您还可以选择相关文档链接，以了解有关特定技术的更多信息。
+
+.步骤
+. 在 System Manager 中，选择 *Analysis*，然后选择 *Insights*。
+. 查看可用建议。
+
+
+.下一步
+执行任何建议的操作以实施配置最佳实践。

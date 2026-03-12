@@ -1,0 +1,47 @@
+---
+sidebar: sidebar 
+permalink: administer/update-aide-firmware-software.html 
+keywords: update, firmware, system files, automatic updates, automated updates, aide, disable, 
+summary: 使用 ONTAP System Manager 的自动更新功能更新 DCN 固件和 AI Data Engine Console 软件，或手动进行更新。 
+---
+= 更新 AI Data Engine software
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+作为存储管理员，您可以使用 ONTAP System Manager 更新 AIDE 系统上的 AI Data Engine (AIDE) 软件、数据计算节点 (DCN) 固件和其他系统文件。
+
+AIDE 不支持 ONTAP 自动软件更新功能。您可以注册接收来自 link:https://mysupport.netapp.com/site/downloads["NetApp 支持站点下载"^] 的通知，但 AIDE 软件的所有更新都由管理员手动执行。
+
+.关于此任务
+合并的 AI Data Engine software 包比典型的 ONTAP 更新包大得多（AIDE 包约为 40GB）。在更新 AIDE software 时，请规划更长的上传和安装时间。
+
+.开始之前
+* 您需要 _storage administrator_ 权限才能更新 DCN 固件和 AI Data Engine software。
+* 您需要使用 NetApp 支持站点凭据才能使用活动帐户。
+* link:upgrades-aide-summary.html#compatibility-matrix["在规划更新时确保 ONTAP、DCN 固件和 AI Data Engine software 之间的兼容性"]。
+
+
+
+IMPORTANT: DCN 固件或 AI Data Engine software 更新不支持还原功能。安装更新后，无法还原到以前的版本。
+
+.步骤
+. https://mysupport.netapp.com/site/products/all/details/aide/downloads-tab["将组合的 DCN 固件和 AIDE 软件更新文件下载到本地客户端"^]。
+. 在 System Manager 中，选择 *Cluster > Settings > Software updates*。
+. 在 *软件更新* 旁边，选择 image:icon_arrow.gif["指向右侧的蓝色箭头"]。
+. 在 AI Data Engine 更新下，选择 *添加 AI Data Engine software 文件*，然后选择更新包。
+. 包上传完成后，选择 *更新* 开始在 DCN 节点上安装更新。
++
+
+NOTE: DCN 节点更新正在进行时，AIDE Console 不可用或不可访问。
+
+
+
+.结果
+DCN 使用 AI Data Engine software 进行更新，并为每个节点显示更新的版本。
+
+.相关信息
+* https://docs.netapp.com/us-en/ontap-afx/administer/upgrade-ontap.html["升级 AFX 系统的 ONTAP 软件"^]
+

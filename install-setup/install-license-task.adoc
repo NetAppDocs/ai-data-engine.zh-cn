@@ -1,0 +1,66 @@
+---
+permalink: install-setup/install-license-task.html 
+sidebar: sidebar 
+keywords: ai data engine, install license, add license, software entitlement, keys, nlf, nlf file 
+summary: '您需要安装 NetApp 许可证才能访问 AI Data Engine (AIDE) 的全部功能。作为 ONTAP 群集管理员，您可以使用 ONTAP System Manager 执行许可证管理。' 
+---
+= 在您的 AFX 系统中安装 AIDE 许可证
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您需要安装 NetApp 许可证才能访问 AI Data Engine (AIDE) 的全部功能。作为 ONTAP 群集管理员，您可以使用 ONTAP System Manager 执行许可证管理。
+
+
+
+== 准备许可 AI Data Engine
+
+许可证是一个或多个软件授权的记录。所有 AFX 许可证都以 NetApp 许可证文件 (NLF) 的形式交付，这是一个启用多个功能的单个文件。在 AFX 存储系统上安装许可证以支持 AIDE 之前，您应该考虑以下几点。
+
+
+
+=== 许可证类型
+
+通过您的 AFX 存储系统开始使用 AIDE 需要两种主要类型的许可证。
+
+.ONTAP One 许可证
+Metadata Engine 基本许可证通常作为 ONTAP One 许可证的一部分出厂安装。它允许访问 Metadata Engine 功能，为 AIDE 操作提供必要的基础。还包括管理 ONTAP 系统所需的所有核心功能。
+
+.AI Data Engine
+您需要购买并安装 AI Data Engine 许可证，才能访问激活 AIDE 全部功能所需的高级服务。该许可证将解锁您的数据计算节点，启用矢量化、治理护栏、推理和集成 UI 体验等 AI 功能。许可证包括 GPU 计数和到期日期。
+
+
+
+=== 许可证安装要求
+
+您需要购买 AIDE 许可证，并将相关的 NLF 文件下载到本地系统。然后，您可以通过 System Manager 将文件上传到 AFX 存储系统。另外，请确保您具备以下条件：
+
+* 登录到 ONTAP System Manager 的管理员凭据
+* 运行 ONTAP 9.18.1 及更高版本的 AFX 集群
+
+
+
+
+== 在您的 AFX 系统上安装许可证
+
+您可以安装 AIDE 许可证以激活 AFX 存储系统所需的其他 AIDE 功能。
+
+.步骤
+. 在 System Manager 中，选择 *Cluster*，然后选择 *Settings*。
+. 在 *Licenses* 旁边，选择 image:icon_arrow.gif["指向右侧的蓝色箭头"]。
+. 选择 *Features* 选项卡以显示可用的 ONTAP 功能。
+. 要安装许可证，请选择 *Installed licenses* 选项卡。
+. 选择 image:icon_add_blue_bg.png["包含加号的蓝色矩形，后跟白色字母中的单词 add"]。
+. 选择一个本地许可证文件，然后选择 *Add*。
+
+
+
+
+== 相关信息
+
+* https://docs.netapp.com/us-en/ontap/system-admin/manage-licenses-concept.html["ONTAP 许可概述"^]
+* https://kb.netapp.com/nss/Licensing/How_to_download_NLF_licenses_from_the_NetApp_Support_Site["如何从 NetApp 支持站点下载 NLF 许可证"^]
+* https://docs.netapp.com/us-en/ontap-cli/system-license-add.html["ONTAP CLI：system license add"^]
+

@@ -1,0 +1,56 @@
+---
+sidebar: sidebar 
+permalink: install-setup/aide-hardware-requirements.html 
+keywords: ai data engine, aide, hardware, requirements, afx, dcn, data compute node 
+summary: 查看安装 AI Data Engine 的要求，包括 AFX 存储系统和 Data Compute Node。 
+---
+= 安装 AI Data Engine 的要求
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+查看安装 AI Data Engine 的要求。AIDE 需要 AFX 存储系统、至少三个 Data Compute Node、网络交换机和电缆。
+
+
+
+== 硬件要求
+
+AI Data Engine 需要 AFX 存储系统和至少三个 Data Compute Node。AFX 系统提供存储基础设施，而 Data Compute Node 托管 AIDE 软件组件，从而实现数据管理、管理和 AI 功能。
+
+* *AFX 存储系统*：包括 AFX 控制器、磁盘架和网络交换机。AIDE 部署需要 AFX 存储系统。
+* *Data Compute Node*：至少需要三个 Data Compute Node。Data Compute Node 是 NetApp 提供的硬件节点，用于托管 AIDE 软件，包括 Metadata Engine、Data Sync、Data Curator 和 Data Guardrails。
++
+** 每个 Data Compute Node 都有可用于连接的 I/O 插槽 4 和 5。插槽 3 预留给 GPU。插槽 1 和 2 未填充或无法访问。
+** 端口 e4a 和 e5a 用于集群连接。
+** 端口 e4b 和 e5b 用于主机网络连接。
+
+
+
+
+
+
+== 网络交换机要求
+
+AI Data Engine 需要网络交换机来为 Data Compute Node 启用主机网络连接和节点间通信。
+
+* 用于主机网络连接的客户端交换机（Cisco Nexus 9332D-GX2B 或 Cisco Nexus 9364D-GX2A）
+* 用于节点间通信的集群交换机（Cisco Nexus 9332D-GX2B 或 Cisco Nexus 9364D-GX2A）
+* 用于网络管理的可选管理交换机
+
+
+
+
+== 布线要求
+
+将 Data Compute Node 连接到网络交换机和管理网络需要以下电缆。
+
+* 400-GbE 到 100-GbE (4x100GbE) 分支电缆，用于将节点连接到客户端和集群交换机
+
+
+
+
+== 多集群支持
+
+使用 AFX 部署 AIDE 后，它可以使用 SnapMirror 和集群对等连接并管理来自其他 ONTAP 9.18.1 及更高版本集群的数据。

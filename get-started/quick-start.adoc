@@ -1,0 +1,33 @@
+---
+sidebar: sidebar 
+permalink: get-started/quick-start.html 
+keywords: ai, data engine, get started, getting started, quick start, install, set up 
+summary: 要开始使用 AI Data Engine 系统，请安装硬件、设置集群、设置数据访问并为要与 AI 工作负载一起使用的工作区配置存储。 
+---
+= AI Data Engine 快速入门
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+要启动并运行 AI Data Engine 系统，您需要安装硬件组件、设置群集、设置从主机到存储系统的数据访问以及配置存储。
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-1.png["一个"] AIDE 将与新的或现有的 AFX 集群一起安装？
+[role="quick-margin-para"]
+需要决定是将 AIDE 和 AFX 同时安装在一起，还是将 AIDE 与现有 AFX 集群集成。
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-2.png["两个"] 安装和设置硬件
+[role="quick-margin-para"]
+link:../install-setup/aide-hardware-requirements.html["安装和设置"] 您的 AIDE 集群计算节点。根据安装环境的不同，还要确保  https://docs.netapp.com/us-en/ontap-afx/install-setup/install-setup-workflow.html["安装"^] AFX 硬件。
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-3.png["三"] 设置集群
+[role="quick-margin-para"]
+使用 ONTAP System Manager 引导您快速轻松地完成link:../install-setup/cluster-setup-afx.html["使用 AFX 集群设置 AIDE"]。
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-4.png["四个"] 设置工作区和数据访问
+[role="quick-margin-para"]
+link:../workspaces/create-workspace.html["为该工作区设置可以访问 AI Data Engine 数据的工作区和用户"]。
+
+.下一步是什么？
+现在，您可以使用 ONTAP System Manager 管理您的 AI Data Engine，让您的数据工程师和数据科学家开始使用他们的工作空间和配置。

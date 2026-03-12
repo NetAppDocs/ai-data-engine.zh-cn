@@ -1,0 +1,78 @@
+---
+indexpage:
+  title: AI Data Engine 文档
+  summary: AI Data Engine 文档提供有关安装、配置和管理 AIDE 系统的全面信息，包括元数据编目、工作区管理、数据收集以及与 AI/ML
+    工作流的集成。
+  keywords: aide, ai data engine, ontap, metadata engine, workspaces, data collections,
+    vector database, guardrails, dcn, data compute nodes
+  lead: NetApp AI Data Engine (AIDE) 是一个企业级平台，旨在加速和简化 AI 驱动的数据处理、管理和治理。AIDE 将非结构化数据转换为结构化的
+    AI 就绪数据集，用于机器学习和生成式 AI 工作负载。
+  tiles:
+  - title: 开始使用
+    links:
+    - title: 了解 AI Data Engine
+      url: "/get-started/learn-about.html"
+    - title: AIDE 架构
+      url: "/get-started/aide-architecture.html"
+    - title: 新增功能
+      url: "/release-notes/whats-new.html"
+    - title: 已知限制
+      url: "/release-notes/known-limitations.html"
+    - title: AIDE 快速入门
+      url: "/get-started/quick-start.html"
+    - title: AIDE 常见问题解答
+      url: "/faq-aide.html"
+  - title: 安装和设置
+    links:
+    - title: 安装数据计算节点工作流程
+      url: "/install-setup/install-workflow.html"
+    - title: 安装要求
+      url: "/install-setup/install-setup-requirements.html"
+    - title: 电缆硬件
+      url: "/install-setup/cable-hardware.html"
+    - title: 开启系统电源
+      url: "/install-setup/power-on-hardware.html"
+    - title: 设置 AIDE 集群
+      url: "/install-setup/cluster-setup-afx.html"
+    - title: 配置 OIDC 身份验证
+      url: "/install-setup/configure-oidc.html"
+  - title: 工作区和数据访问
+    links:
+    - title: 为 AIDE 准备数据
+      url: "/workspaces/prepare-data-for-aide.html"
+    - title: 创建工作区
+      url: "/workspaces/create-workspace.html"
+    - title: 将用户分配到工作区
+      url: "/workspaces/assign-users-to-workspace.html"
+    - title: 管理工作区
+      url: "/administer/manage-workspace.html"
+  - title: 管理和监控
+    links:
+    - title: 查看仪表板和集群状态
+      url: "/administer/view-dashboard.html"
+    - title: 查看事件和审核日志
+      url: "/administer/view-events-log.html"
+    - title: 安装 AIDE 许可证
+      url: "/install-setup/install-license-task.html"
+    - title: 更新 AIDE 软件
+      url: "/administer/update-aide-firmware-software.html"
+    - title: 添加数据计算节点
+      url: "/administer/dcn-add-node.html"
+    - title: 替换数据计算节点
+      url: "/administer/aide-node-replace.html"
+  - title: 了解角色和组件
+    links:
+    - title: AIDE 组件（按角色）
+      url: "/get-started/aide-components.html"
+    - title: 存储管理员任务
+      url: "/get-started/aide-components-storage-admin.html"
+    - title: 数据工程师和数据科学家任务
+      url: "/get-started/aide-components-data-users.html"
+  - title: 使用数据收集和护栏
+    links:
+    - title: Data-to-RAG 快速启动
+      url: "/vectorization/zero-to-rag.html"
+    - title: 创建并发布数据集合
+      url: "/vectorization/create-data-collections.html"
+    - title: 定义护栏策略
+      url: "/guardrails/define-data-policies.html"

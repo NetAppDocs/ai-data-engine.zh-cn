@@ -1,0 +1,120 @@
+---
+sidebar: sidebar 
+permalink: vectorization/view-data-collections.html 
+keywords: aide, data collections, monitor collections, vector database, ai data engine, data engineer, data scientist, activity 
+summary: 使用 AI Data Engine 工具查看数据集，跟踪索引和发布作业，并了解跨工作区的矢量足迹。 
+---
+= 在 AI Data Engine 中查看数据收集
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+数据工程师或数据科学家从工作空间创建和发布数据集合后，您需要了解其状态、大小以及对 AI Data Engine 集群的影响。
+
+如果您是存储管理员、数据工程师或数据科学家，则可以通过 ONTAP System Manager 和 AIDE Console 查看数据收集。
+
+.开始之前
+* 您需要 ONTAP System Manager 中的 _storage administrator_ 权限或 AI Data Engine Console (`\https://<cluster_management_ip>/console` 中的 _data engineer_ 或 _data scientist_ 权限才能查看数据集合。
+* 至少存在一个已成功提取元数据的工作区。
+* 数据工程师或数据科学家已经从 AI Data Engine Console 创建并发布了至少一个数据集合。
+* 已安装 AI Data Engine software 许可证并启用推理功能，因此矢量化和检索端点处于活动状态。
+
+
+
+
+== 查看集群范围内的数据收集
+
+对于存储管理员，ONTAP System Manager 提供数据集及其占用空间的集群范围视图，但不允许管理员创建或修改它们。
+
+.步骤
+. 在 System Manager 中，导航到 *Data Engine > Data collections*。
+. 查看页面顶部的库存摘要：
++
+** 按状态分类的数据收集总数
+** 矢量数据库在所有集合中消耗的总空间
+** 矢量空间占总集群容量的百分比
+
+
+. 选择单个数据收集并查看：
++
+** 集合名称和描述
+** UUID
+** 关联工作区
+** 状态
+** 集合大小
+** 创作者
+** 上次刷新时间
+
+
+
+
+.结果
+现在，您可以对集群中的所有数据集及其存储影响进行高级查看。使用此视图可识别大型、过时或处于未就绪状态的集合。
+
+您还可以查看是否正在主动更新单个数据集，以及是否有任何故障阻止了 RAG 使用。
+
+
+
+== 监视与集合相关的作业和事件
+
+作为存储管理员，您可以从集群范围的 *Activity* 页面和工作区详细信息监控构建和更新集合的作业。
+
+.步骤
+. 在 System Manager 中，导航到 *Data Engine > Activity*。
+. 在 *Events* 选项卡上：
++
+.. 按类型（例如，workspace、data collection）或严重程度筛选。
+.. 展开与数据集合相关的任何事件（例如"数据集合发布失败"）以查看更多详细信息。
+
+
+. 在 *Jobs* 选项卡上：
++
+.. 筛选以专注于数据收集索引和发布作业。
+.. 对于每个作业，打开 peek 视图以查看：
++
+*** 进度百分比。
+*** 开始和结束时间。
+*** 任何报告的错误消息或警告。
+
+
+
+
+. （可选）导航回受影响的工作区（*Data Engine > 工作区*）并打开其*活动*选项卡，以查看仅限于该工作区的事件和作业。
+
+
+.结果
+您可以跟踪数据收集的生命周期，识别停滞或失败的作业，并收集上下文信息以传递给数据工程师、数据科学家或支持人员。
+
+
+TIP: 当数据收集在较长时间内保持  `Publishing` 状态时，在假定失败之前，请在 Activity 页面中检查相应的长期运行作业。
+
+
+
+== 从 AIDE Console 查看数据收集
+
+数据工程师和数据科学家通常直接从 AIDE Console 监控数据集合，数据集合在此处创建和发布。
+
+.步骤
+. 以数据工程师或数据科学家身份登录 AIDE Console。
+. 导航到 *Data Collections* ，然后选择所需的数据集。
+. 对于每个集合：
++
+.. 检查状态（(`Draft`、 `Publishing`、 `Ready` 或  `Failed`）。
+.. 选择数据收集名称以查看定义详细信息（筛选器、包含的文件类型、分类器选项、嵌入设置）。
+.. 检查上次发布或更新的时间戳。
+
+
+. 如果需要，打开作业详细信息或日志（如果可用）以了解失败或未完成的运行。
+
+
+.结果
+数据工程师和数据科学家可以迭代收集定义并再次发布，同时监控状态和运行状况，而无需存储管理员参与。
+
+
+
+== 下一步是什么？
+
+* link:create-data-collections.html["在 AIDE Console 中为 RAG 创建数据集合"]
+
