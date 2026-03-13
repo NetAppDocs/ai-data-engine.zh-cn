@@ -475,7 +475,6 @@
   <block id="7521c606bbb262d4406920ae0f227482" category="list-text">支持具有索引和搜索功能的大型元数据记录。</block>
   <block id="a261e17515b5e7c6f4ac45586180ccf5" category="list-text">与工作区和数据收集抽象集成，以实施访问控制和治理。</block>
   <block id="eb1d2c1ae9218b81f27583f8febe5b0b" category="paragraph">Data Sync 是一种自动后台服务，可确保元数据目录和数据集保持最新并与基础数据源保持一致，即使在源数据发生变化时也是如此。</block>
-  <block id="c72559d5f5f29792246a89c44d4048c5" category="paragraph">基本 ONTAP One 许可证不包含 Data Sync 功能，需要单独的 AIDE 许可证。</block>
   <block id="48c7a7721f4589379290f5fbbe788089" category="list-text">使用策略驱动的 SnapMirror 复制同步来自远程或本地 ONTAP 集群的数据。来自远程集群的数据被复制到本地 AFX 集群以进行 AIDE 处理。</block>
   <block id="1789309552c1c2cc5573fd091e47b530" category="list-text">基于检测到的更改进行增量更新，仅传播已修改的数据。</block>
   <block id="296d6abc76dc8666f2ce23a492687f4a" category="list-text">提供安全的增量数据移动和跨数据资产的同步。</block>
@@ -779,7 +778,6 @@
   <block id="dfbf664a24b20a5e81f43e898d684617" category="list-text">Data Compute Node 1，端口 e5b</block>
   <block id="03c9404232757fb6fbd63f1bf30833dd" category="list-text">Data Compute Node 2，端口 e5b</block>
   <block id="51ac89f3a68bd0a01d770e0a9023a233" category="section-title">步骤 2：为 Data Compute Node 集群连接布线</block>
-  <block id="23f4b4c052d032f52982aff86abb9547" category="paragraph">对于 Data Compute Node，e4a/e5a 端口用于集群连接。</block>
   <block id="bc615f90adaaf6e394a43df14dc83aac" category="list-text">从下列 Data Compute Node 将端口 e4a 连接到集群网络交换机 A 上的非 ISL 端口：</block>
   <block id="a0b2e66a85b1aedce80b6da4e0310ffd" category="list-text">Data Compute Node 1，端口 e4a</block>
   <block id="796d3174b2e10790956b6531fd09718d" category="list-text">Data Compute Node 2，端口 e4a</block>
@@ -1013,13 +1011,11 @@
   <block id="6889512d643df7fa8ccfb7e52dd1181c" category="paragraph-title"><block ref="58f667aaf05f87159670e12bd9bc076b" category="inline-image-macro-rx" type="image"></block><block ref="90572de4b12061d10d3adbe91dd02ace" category="inline-link-macro-rx"></block></block>
   <block id="2ef02acbcac74a2bf527975726a47ddc" category="inline-link-macro">准备安装数据计算节点</block>
   <block id="65b761c9b7abbbeca0b5bf69bc82d7a8" category="paragraph-title"><block ref="54f425ce8d89f4ed6b8a546561af5d60" category="inline-image-macro-rx" type="image"></block><block ref="57d90d9a41d093761f4dd9f6db8351e9" category="inline-link-macro-rx"></block></block>
-  <block id="293f8966fffd4aff38846275cf9996a2" category="paragraph">要准备安装数据计算节点，需要准备好站点，检查环境和电气要求，并确保有足够的机柜空间。然后，打开设备的包装，将其内容与装箱单进行比较，并注册硬件以获得支持优势。</block>
   <block id="3b6f8293a009822bdcb6d06936fb8f1d" category="inline-link-macro">为您的数据计算节点安装硬件</block>
   <block id="6b0fec8ea5ac59cda339bc131da013d3" category="paragraph-title"><block ref="05b2444faffd66d76e88602ea7dd353f" category="inline-image-macro-rx" type="image"></block><block ref="61494597b1d831d6ff8b369c273f632c" category="inline-link-macro-rx"></block></block>
   <block id="651f9bd4704a3dfd217713e594910973" category="paragraph">为您的数据计算节点安装导轨套件。将您的数据计算节点固定在机柜内。最后，将电缆管理设备连接到系统后部以进行有组织的电缆布线。</block>
   <block id="78b7263c608b815cd3f413fb28c13ea8" category="inline-link-macro">连接您的数据计算节点</block>
   <block id="5e57f75c71b8c2be941043075bf090a2" category="paragraph-title"><block ref="beadfa85a2fdca06b91edc1131c603e6" category="inline-image-macro-rx" type="image"></block><block ref="725152e2ddcdb5a0cb5d010a5492d444" category="inline-link-macro-rx"></block></block>
-  <block id="cdb1dfe0058aa622edc896df103bd253" category="paragraph">要连接硬件，首先将数据计算节点连接到数据和集群网络，然后将数据计算节点连接到集群交换机。</block>
   <block id="e5d9de39f7ca1ba2637e5640af3ae8aa" category="inline-image-macro">五</block>
   <block id="7670baab52af36366616f708588174ea" category="inline-link-macro">启动您的数据计算节点</block>
   <block id="7593e41e7184593322f581da7379d8c8" category="paragraph-title"><block ref="99e8b2f00e172bfcff96afdce69907bc" category="inline-image-macro-rx" type="image"></block><block ref="62013dd88cfe19fc6e87ef7f52ccf53f" category="inline-link-macro-rx"></block></block>
@@ -1517,4 +1513,10 @@
   <block id="1d845d7fec926dc97ef9c9d1ae75fb4d" category="list-text">请确保您的盘架已通电，并且每个盘架都分配了唯一的盘架 ID。有关为 AFX 存储系统分配盘架 ID 的信息，请参见<block ref="2cb3ccd2ea21233c926cc907e5546ee0" category="inline-link-macro-rx"></block>。</block>
   <block id="72b11f47a4c462a17235bf830cef5f4d" category="paragraph">打开数据计算节点后，<block ref="c209b4c41b8b8a46751e6876a5bec129" category="inline-link-macro-rx"></block>。</block>
   <block id="69333c3b16c70d734803d338560b5f4b" category="paragraph">准备好安装数据计算节点后，<block ref="8d80699d6ea91999991c5841195fdaf6" category="inline-link-macro-rx"></block>。</block>
+  <block id="9f1b1c09e19edba239dde10c234e2b7d" category="paragraph">数据同步功能包含在基本 ONTAP One 许可证中，可在 AIDE 安装后使用。</block>
+  <block id="792b46ef5bfc70b9c772c4a7f3b55acc" category="admonition">部署 AI Data Engine 至少需要三个数据计算节点。</block>
+  <block id="b001ec8ec4133b6f8e6b8db16e7850ff" category="paragraph">对于数据计算节点，请使用 4x100GbE 分支电缆连接 e4a/e5a 端口以进行集群连接。</block>
+  <block id="788899ea47f1311b79403513bff040e9" category="paragraph">*4x100GbE 分支电缆*</block>
+  <block id="8fbd8a2f645ce1628bb418252fd4e150" category="paragraph">要准备安装数据计算节点，需要准备好站点，检查环境和电气要求，并确保有足够的机柜空间。然后，打开设备的包装，将其内容与装箱单进行比较，并注册硬件以获得支持优势。部署 AI Data Engine 至少需要三个数据计算节点。</block>
+  <block id="ba1f39989ab5fafce1803b42f3c54d45" category="paragraph">要连接硬件，首先将数据计算节点连接到数据网络，然后将数据计算节点连接到集群交换机。</block>
 </blocks>
