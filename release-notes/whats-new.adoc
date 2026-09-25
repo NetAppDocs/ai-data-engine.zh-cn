@@ -1,0 +1,40 @@
+---
+sidebar: sidebar 
+permalink: release-notes/whats-new.html 
+keywords: 'what"s new, release notes, AI Data Engine, storage optimization' 
+summary: 了解 AI Data Engine 的新功能。 
+---
+= AI Data Engine 的新增功能
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+了解 AI Data Engine 的新功能。
+
+
+
+[[ai-data-engine-1-1-0]]
+== AI Data Engine 1.1.0
+
+AI Data Engine 是通过 NetApp Console 管理的元数据智能服务，可扫描连接的系统，构建元数据目录，并为您提供可见性和工具，以优化存储并大规模管理数据。您可以将 AI Data Engine 部署为 link:../deploy/deployment-overview.html["AIDE Lite"]，或者如果您的环境需要大规模的基于 Kubernetes 的高可用性，则可将其部署为 AIDE Enterprise。
+
+新增功能：
+
+link:../investigate/understand-dashboard.html["恢复存储容量"]:: 根据您配置的阈值，识别连接系统中的冷数据、过时数据和重复数据，并查看哪些系统和数据所有者拥有最高浓度的此类数据。
+link:../investigate/investigate-data.html["降低成本和风险"]:: 按访问时间、修改日期、创建日期、文件大小、重复状态和其他条件筛选所有连接的系统，以查找符合组织数据管理目标的文件。直接对结果采取操作，或将条件保存为策略。
+link:../policies/create-policy.html["持续管理数据"]:: 将筛选器条件保存为命名策略，以跟踪一段时间内的重复数据条件，例如冷文件或超大文件，并在受影响的文件计数发生变化时接收通知。
+link:../investigate/take-actions.html["降低存储成本"]:: 通过将文件复制和存档到 NFS 或 SMB/CIFS 目标、标记要跟踪的项目或根据保留要求永久删除文件，强制实施组织的数据生命周期策略。
+link:../administer/manage-users-roles.html["分配管理员和查看者角色"]:: 通过将 AI Data Engine 管理员或查看者角色分配给组织中的用户，控制谁可以调查数据并采取行动。
+link:../investigate/use-filters.html["消除重复数据"]:: 查找在连接的系统中具有重复副本的文件。按 Duplicates 属性或文件哈希进行筛选，以直接查看重复组并对其执行操作。
+link:../investigate/understand-dashboard.html["让数据所有者承担责任"]:: 从控制面板中识别哪些数据所有者拥有最高浓度的冷数据、过时数据或重复数据，然后在调查视图中按所有者或组进行筛选，以根据您的策略查看和管理结果。
+
+
+
+
+[[related-information]]
+== 相关信息
+
+* link:known-limitations.html["已知限制"]
+

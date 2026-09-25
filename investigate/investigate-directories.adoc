@@ -1,0 +1,76 @@
+---
+sidebar: sidebar 
+permalink: investigate/investigate-directories.html 
+keywords: investigate, directories, permissions, org-wide access, open access, directory owner, overly permissive, exposed directories 
+summary: 跨存储系统审核目录级权限，以查找可广泛访问的路径，查看有权访问的人员，并将调查结果保存为可重复使用的策略。 
+---
+= 调查 AI Data Engine 中的目录
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+当需要确定哪些目录暴露给比预期更多的用户时，请按权限筛选以查找对整个组织开放的文件夹。例如，在仪表板上看到已标记的暴露目录的安全管理员可以查找具有组织范围访问权限的所有目录，查看谁拥有读取和写入权限，并创建策略以在每次扫描后监控新的暴露情况。
+
+.开始之前
+* 必须至少连接并扫描一个数据源。请参阅 link:../data-sources/connect-data-source.html["连接数据源"]。
+
+
+
+
+[[find-broadly-accessible-directories]]
+== 查找可广泛访问的目录
+
+使用权限筛选器识别对超出预期受众范围的人员开放的目录。
+
+.步骤
+. 在 AI Data Engine 用户界面中，选择*调查*。
+. 选择*目录*选项卡。
++
+该表显示目录名称（完整路径）、数据容器、目录所有者、目录类型和系统。
+
+. 选择*添加过滤器*，然后选择*打开权限*。
+. 将筛选器设置为*对组织开放*，以显示可在组织范围内访问的目录。
++
+结果表更新以显示与权限条件匹配的目录，包括最后访问日期和权限状态。
+
+
+
+要查看可用筛选条件的完整列表，请参阅 link:use-filters.html["使用筛选器"]。
+
+
+
+[[review-directory-permissions]]
+== 查看目录权限
+
+选择一个目录行以打开详细信息面板并查看谁具有访问权限。
+
+详细信息面板显示目录类型、系统、目录所有者和权限摘要（例如，"对组织开放"）。选择 *查看权限* 可查看具有目录访问权限的每个用户或组的读取和写入访问权限的明细。
+
+在创建策略或升级到目录所有者之前，请使用此信息确认访问级别是否为有意设置。
+
+
+
+[[save-findings-as-a-policy]]
+== 将调查结果保存为策略
+
+过滤以识别可广泛访问的目录后，将条件保存为策略，以便在每个扫描周期后监控新的暴露风险。
+
+.步骤
+. 应用权限筛选器后，在筛选器工具栏中选择*创建策略*。
+. 完成保单表格。请参阅 link:../policies/create-policy.html["创建策略"]。
+
+
+要从"目录"选项卡下载过滤结果，请选择 image:icon_download_file.png["下载"]。
+
+
+
+[[related-information]]
+== 相关信息
+
+* link:use-filters.html["使用筛选器"]
+* link:../policies/create-policy.html["创建策略"]
+* link:../administer/manage-users-roles.html["管理用户和角色"]
+* link:understand-dashboard.html["从仪表板评估存储利用率"]
+

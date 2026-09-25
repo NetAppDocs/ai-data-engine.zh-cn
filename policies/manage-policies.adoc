@@ -1,0 +1,71 @@
+---
+sidebar: sidebar 
+permalink: policies/manage-policies.html 
+keywords: manage policies, edit policy, enable policy, disable policy, delete policy 
+summary: 查看已保存的策略，了解哪些文件当前符合每组标准，并删除不再需要的策略。 
+---
+= 管理 AI Data Engine 中的策略
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+如果要查看哪些已保存的策略与数据匹配、比较受影响的文件计数以排定操作的优先级，或删除不再需要的策略，请使用策略页面。例如，具有多个冷数据策略的存储管理员可以比较受影响的文件计数，以确定首先需要关注的数据分组。
+
+每个策略列表显示当前符合其条件的文件和对象的计数。使用此计数可确定哪些策略正在主动捕获值得查看的数据。
+
+
+
+[[check-which-files-match-a-policy]]
+== 检查哪些文件与策略匹配
+
+在编辑或删除策略之前，请查看其当前匹配的文件，以确认条件仍在捕获正确的数据。
+
+.步骤
+. 在 AI Data Engine 用户界面中，选择 *Policies*。
+. 打开策略旁边的操作菜单，然后选择*Investigate results*。
+
+
+
+
+[[edit-a-policy]]
+== 编辑策略
+
+.开始之前
+* 您必须具有 _AI Data Engine administrator_ 角色。
+
+
+.步骤
+. 在 AI Data Engine 用户界面中，选择 *Policies*。
+. 打开要编辑的策略的操作菜单，然后选择 *Edit policy*。
+. 根据需要更新策略名称、描述或操作。
+. 选择 *保存*。
+
+
+
+
+[[delete-a-policy]]
+== 删除策略
+
+.开始之前
+* 您必须具有 _AI Data Engine administrator_ 角色。
+
+
+
+CAUTION: 删除是永久性的，无法撤消。
+
+.步骤
+. 在 AI Data Engine 用户界面中，选择 *Policies*。
+. 打开要删除的策略的操作菜单，然后选择*删除策略*。
+. 在预览对话框中确认删除。
+
+
+
+
+[[related-information]]
+== 相关信息
+
+* link:create-policy.html["创建策略"]
+* link:../investigate/take-actions.html["对您的数据采取行动"]
+

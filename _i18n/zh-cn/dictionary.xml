@@ -1,0 +1,895 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blocks>
+  <block id="f8c4fea7e7cf7f7ef0388b1a5482f73c" category="summary">配置AI Data Engine用于在整个环境中将数据分类为冷数据或过时数据的时间阈值。</block>
+  <block id="307f340773d2ec521a24b7d47748d7a9" category="doc">在 AI Data Engine 中配置冷数据和过期数据阈值</block>
+  <block id="685b95cce8c6b31584d6cbc499744d76" category="paragraph">AI Data Engine 根据您定义的时间阈值将文件分类为冷文件或过时文件。这些阈值会影响仪表板摘要中显示的数据、在"调查"中应用冷筛选器或过时筛选器时显示的文件以及策略所针对的文件。设置与您组织的数据分类和保留实践相匹配的阈值，并帮助您确定您认为需要监控的重要数据。</block>
+  <block id="61fe78e998733806cbb9289d9a334133" category="section-title">什么是冷数据和过时数据？</block>
+  <block id="b5e9abb7d0603dc93a1c7f770d525201" category="list-text">冷数据</block>
+  <block id="ffd32e72e017c9e3f551aaa0f1f073c0" category="list-text">在配置的冷数据阈值内未被访问的文件。冷数据是您的组织可用于识别能够根据保留策略和业务策略进行优化的存储的关键指标。</block>
+  <block id="58f9985309ad441d05540492b96a7afd" category="list-text">陈旧数据</block>
+  <block id="02ab08a8615eca8247a792a9e857afa8" category="list-text">在配置的陈旧数据阈值内未被访问或修改的文件。过期数据包括偶尔访问但最近未修改的文件，您的组织可以根据您的策略监控或管理这些文件。</block>
+  <block id="82df3679be1205e2d375ad745e4b1726" category="admonition">默认阈值是作为起点提供的产品默认值。它们不代表法律、合规或行业标准的保留期限。设置反映组织特定政策和要求的阈值。</block>
+  <block id="10cde949b73468c8fce425af672f3b72" category="paragraph">对任一阈值的更改将在下一个扫描周期完成后生效。</block>
+  <block id="895804863a97a03a3e03470d02478133" category="section-title">配置冷数据阈值</block>
+  <block id="135b308ed83c53f1516b7c754566d1c4" category="list-title">开始之前</block>
+  <block id="44afa8c12ba5016087097eac7b7ece41" category="list-text">您必须具有 _AI Data Engine administrator_ 角色。</block>
+  <block id="f3a29486bed19a90f2da6d007818b427" category="list-title">步骤</block>
+  <block id="d724be4a2aa2baccee94826f1af0c6ac" category="list-text">从 AI Data Engine UI 中，选择 *配置*。</block>
+  <block id="376ec8b3e51e6597fb939c31a3fe0e59" category="list-text">选择*设置*。</block>
+  <block id="14f363037c6a0b83c2c86a312d5db12a" category="list-text">选择 *Cold data definition* 对应的 *Edit*。</block>
+  <block id="39f725773719f7e03fa6969dd0b4d925" category="list-text">将文件属性设置为 *Last Accessed* 或 *Last Modified*。</block>
+  <block id="7eead87b8cc9c7fcfb53634c53faf69d" category="list-text">设置时间阈值。默认值为一年。</block>
+  <block id="10492389e94efdebbb66f7b0cd8a1324" category="list-text">选择 *保存*。</block>
+  <block id="0803d30fefe8c23b3667222268afa94b" category="section-title">配置陈旧数据阈值</block>
+  <block id="af4ec082fbd0c524e89b1c1edfde19a4" category="list-text">选择 *Stale data definition* 的 *Edit*。</block>
+  <block id="e927212088bb79337374c3f698de2179" category="list-text">设置时间阈值。默认值为三年。</block>
+  <block id="30f60d67f457bb040dffde52197a54da" category="section-title">相关信息</block>
+  <block id="da04d3e23ca53cd49a0abe6e25b1632b" category="inline-link-macro">了解 AI Data Engine 仪表板</block>
+  <block id="72a44204a778b5f38d69fa2db6cd3e9d" category="list-text"><block ref="72a44204a778b5f38d69fa2db6cd3e9d" category="inline-link-macro-rx"></block></block>
+  <block id="f47313cb11c7179c014c38c757ea3524" category="inline-link-macro">探索存储优化工作流程</block>
+  <block id="12e1c9d43b7fa4b8afa0d962af8d6f6a" category="list-text"><block ref="12e1c9d43b7fa4b8afa0d962af8d6f6a" category="inline-link-macro-rx"></block></block>
+  <block id="015653ee347fd187160fa2a4e0cc0018" category="inline-link-macro">管理用户和角色</block>
+  <block id="e4a085ef6af4b1e82ee2f0d60ce0893a" category="list-text"><block ref="e4a085ef6af4b1e82ee2f0d60ce0893a" category="inline-link-macro-rx"></block></block>
+  <block id="d3ee3c86b87e2394d5115800bd00579c" category="summary">通过为每个用户分配管理员或查看者角色来控制访问权限。了解这两种角色及其权限。</block>
+  <block id="9f4346dd22f2a2d61f9ceb9a382e7def" category="doc">在 AI Data Engine 中管理用户和角色</block>
+  <block id="6e922598602274a9fa1bfc4867a30553" category="paragraph">通过为用户分配管理员或查看者角色，控制每个用户可以在 AI Data Engine 中查看和执行的内容。在您的团队开始使用 AI Data Engine 之前，为每个用户分配与其所需访问级别相匹配的角色。</block>
+  <block id="e2a36e2d6394d346a30e4bc9ed6037a5" category="paragraph">您可以通过 NetApp Console 组织设置分配角色。AI Data Engine 支持两个角色。</block>
+  <block id="5f30ddc6ba978a38568dd0166ca854f8" category="section-title">可用角色</block>
+  <block id="2626c6ebd52cec6b4931c3a9ef69c567" category="section-title">AI Data Engine 管理员</block>
+  <block id="938afc897dbf7f9f917594f75c742375" category="paragraph">AI Data Engine 管理员角色提供对所有 AI Data Engine 功能的完全访问权限。NetApp 建议每个部署将此角色分配给不超过两个或三个用户。</block>
+  <block id="71e4642cc01f7e5c4bf1d9b2e6eb6c1a" category="section-title">AI Data Engine 查看器</block>
+  <block id="e96d3cd421b701e01b78e94b49c5bad2" category="paragraph">AI Data Engine 查看器角色提供对 AI Data Engine 的有限访问权限。查看器可以查看信息、导出报告、标记文件和创建仅监控策略，但不能修改设置或执行存档、复制或删除等文件操作。</block>
+  <block id="f015140812f0bc60ae7d3bffbfe93e84" category="section-title">权限（按角色）</block>
+  <block id="fa97f6975c9b94a252d204cd22159ff4" category="cell">功能</block>
+  <block id="93cba07454f06a4a960172bbd6e2a435" category="cell">是</block>
+  <block id="336d5ebc5436534e61d16e63ddfca327" category="cell">-</block>
+  <block id="a88a417ad9c2be56b616cd48d8e21f83" category="cell">管理数据资源</block>
+  <block id="3c4e32d95f12c00d16a76057a7af18f6" category="cell">系统配置</block>
+  <block id="3967d8036668c2f89130ca845de9d4a4" category="cell">查看控制面板</block>
+  <block id="f5c67558060302f363b758762a776d1b" category="cell">搜索元数据（调查）</block>
+  <block id="0993273353cc9f49309ecd350c0dd2bb" category="cell">导出报告</block>
+  <block id="a7cf128c8cf9d2177ce397028ee0f199" category="cell">创建仅监控策略</block>
+  <block id="6faf562d55c6575c8fee54b7ee423082" category="cell">创建包含操作的策略</block>
+  <block id="a292a883937f7bfd9a8ed960542159e0" category="cell">操作：标记</block>
+  <block id="0b29f28b6f97e633b987fa1519ec84f5" category="cell">操作：存档、复制、删除</block>
+  <block id="31d10a37fb8885408a38171daea61807" category="cell">管理业务标签</block>
+  <block id="8b53b00f5352fcc616e0371c614127ff" category="section-title">将角色分配给用户</block>
+  <block id="2e4a4d8d918b5db6fd6dccf54e4310b9" category="paragraph">您可以在 NetApp Console 中分配角色，而不是在 AI Data Engine 本身中分配角色。</block>
+  <block id="0d87fb6d34ff9ec127d1fb7fe40d2873" category="list-text">从 NetApp Console，转到 *成员*。</block>
+  <block id="365d382b2d9ecca9b0d40171c69b38ff" category="list-text">执行以下操作之一：</block>
+  <block id="4013279dd0be7a6765daac734d254b85" category="list-text">要添加新用户，请选择*添加用户*并输入用户的电子邮件地址。</block>
+  <block id="d3bd0996721400f8f6c60a50c1e195fb" category="list-text">要更新现有用户，请从列表中选择该用户。</block>
+  <block id="2a206a44a0a994c82b461831f93b69c4" category="list-text">选择组织、文件夹或项目，然后选择*数据服务*类别。</block>
+  <block id="8e4308c1d564d9b777d03434bab61b0a" category="list-text">分配 *AI Data Engine 管理员* 或 *AI Data Engine 查看器* 角色。</block>
+  <block id="345e93a96b6e66cb9274dbad975c0db2" category="list-text">保存更改。</block>
+  <block id="8edc5b73c3c2a64166547be39158f048" category="paragraph">用户收到一封电子邮件邀请，接受后即可访问 AI Data Engine。</block>
+  <block id="4fce3801c71d07e76b130137410b84e6" category="inline-link-macro">对您的数据采取行动</block>
+  <block id="83f4e51e2352c106bc442855cebb5115" category="list-text"><block ref="83f4e51e2352c106bc442855cebb5115" category="inline-link-macro-rx"></block></block>
+  <block id="437f900a689b3effaba13525bf426e50" category="inline-link-macro">创建策略</block>
+  <block id="a6ba65d5603bedd3e970c59f52c864db" category="list-text"><block ref="a6ba65d5603bedd3e970c59f52c864db" category="inline-link-macro-rx"></block></block>
+  <block id="9fcf5c684f11b7bbbd6635da90d62ee7" category="summary">通过完成数据源启用向导将存储系统连接到 AI Data Engine，然后激活扫描以开始元数据收集。</block>
+  <block id="c7b2e3a558f93c05a2ce9d80b8c8c8e0" category="doc">将数据源连接到 AI Data Engine</block>
+  <block id="1bd7981e3d7c792404f8fdfaa6c1c50c" category="paragraph">AI Data Engine 扫描您的存储系统以收集和分析元数据。要添加数据源，请完成引导向导。该向导会收集源类型的连接详细信息、扫描范围和设置。添加系统后，激活扫描以开始元数据收集。</block>
+  <block id="81ce10edb3d458fc62131464f0c20994" category="list-text">您必须具有 _AI Data Engine administrator_ 权限才能在 AI Data Engine 中连接和配置数据源。</block>
+  <block id="c5fbee6586294d81141f8dd158707985" category="inline-link-macro">发现本地 ONTAP 集群</block>
+  <block id="2e3c75f22a9ebeae23565b189a21c411" category="list-text">在将存储系统添加到 AI Data Engine 之前，请先使用 Console Agent 在 NetApp Console 中发现这些系统。这适用于所有受支持的存储类型，包括本地 ONTAP 集群、Cloud Volumes ONTAP、Amazon FSx for NetApp ONTAP、Google Cloud NetApp Volumes 和 Azure NetApp Files。对于本地 ONTAP 集群，请参阅 NetApp Console 文档中的 <block ref="e85b78baa8f4e35e46a2387467739692" category="inline-link-macro-rx"></block>。直接发现不会启用 AI Data Engine 等数据服务。</block>
+  <block id="9f91522d43e1c5f4a996c9a8384dc391" category="inline-link-macro">AI Data Engine 要求</block>
+  <block id="1742041af0b9f3a717b5cf211479fdf3" category="list-text">验证 AI Data Engine 访问数据源所需的网络连接是否已开放。请参阅 <block ref="54a8e181914f652a26e1c9bb92d0a23f" category="inline-link-macro-rx"></block>。</block>
+  <block id="f721e2f5905762b503bdc11996948f52" category="section-title">添加数据源</block>
+  <block id="1036f7c00460b9a45a9e5412bd73af32" category="list-text">在*已扫描系统*选项卡上，选择*添加系统*。</block>
+  <block id="6802dbdc8935d97c254889cc48e9da6f" category="list-text">选择源类型：</block>
+  <block id="f99f3d1bb0801fc90897db0098fc2b36" category="cell">源类型</block>
+  <block id="b5a7adde1af5c87d7fd797b6245c2a39" category="cell">问题描述</block>
+  <block id="7906bd4892f76d110c19711b10d6974f" category="cell">*文件共享组*</block>
+  <block id="7df6468497d58e41a37e6f7f67ce8061" category="cell">从云或本地添加 NFS 或 SMB/CIFS 文件共享作为命名组。</block>
+  <block id="7a8d3dc7f0e719542e9e706dbca4f3ec" category="cell">*数据库*</block>
+  <block id="96c6bed08ddd7b750ad14c5944284278" category="cell">添加数据库服务器以扫描所选架构。</block>
+  <block id="cc8eee99371af0beb4dcd80f722b6a62" category="cell">*StorageGRID*</block>
+  <block id="aa9f5a1aee11febeadd1b489d3f65550" category="cell">使用 S3 协议从 NetApp StorageGRID 扫描数据。</block>
+  <block id="163998c3867b69d394de852cc2153a1c" category="list-text">输入源类型的连接详细信息：</block>
+  <block id="6f06467ad05e46080f77c6d42084a566" category="cell">必填详细信息</block>
+  <block id="e073a5abe29c11bef13a47c04d7cae9c" category="cell">共享组的名称，然后是共享主机和路径详细信息。</block>
+  <block id="136c6f0aa925fb0bfd7463700ddf1674" category="cell">数据库类型、主机、端口和身份验证凭据。</block>
+  <block id="c2551511c0e16fab930f47dceceb01a4" category="cell">系统名称、S3 端点 URL 以及 S3 访问密钥和私密密钥。</block>
+  <block id="9fc6176ce15bcce9331a1e20d5b5f6c8" category="list-text">查看您的选择，然后选择 *Confirm* 以添加数据源。</block>
+  <block id="bafd4c151b05d8865cbb162dbec61687" category="section-title">激活扫描</block>
+  <block id="397e7ff470834102f1db8c0e1d7f00c6" category="paragraph">配置数据源后，扫描不会自动开始。您必须激活每个系统的扫描。</block>
+  <block id="5c36c141c7bd019c9ed19a66aa3d7d5f" category="list-text">在*扫描的系统*选项卡上，找到要扫描的系统。</block>
+  <block id="75f33db49e0e6285bb693013ad8eff4f" category="list-text">选择*激活扫描*。</block>
+  <block id="8eea62084ca7e541d918e823422bd82e" category="paragraph-title">结果</block>
+  <block id="a184e20ed5e6a5b8da09e0b40c163e0c" category="inline-link-macro">管理数据源</block>
+  <block id="e2a06367a28bf2533a5c602b27e1216b" category="inline-link-macro">监控扫描运行状况</block>
+  <block id="af9bbf23b5e3a1331dfcb40555ee9bd1" category="paragraph">"已扫描的系统"选项卡中的系统状态将更新，以显示扫描正在运行。要监控扫描进度并验证 AI Data Engine 是否正在索引数据资源，请参阅<block ref="9bb912d6e599634eb2e0e0bb63292cd7" category="inline-link-macro-rx"></block>和<block ref="8e1e532fb417ff9d34e2ce12ba4bb87b" category="inline-link-macro-rx"></block>。</block>
+  <block id="9bb912d6e599634eb2e0e0bb63292cd7" category="list-text"><block ref="9bb912d6e599634eb2e0e0bb63292cd7" category="inline-link-macro-rx"></block></block>
+  <block id="54a8e181914f652a26e1c9bb92d0a23f" category="list-text"><block ref="54a8e181914f652a26e1c9bb92d0a23f" category="inline-link-macro-rx"></block></block>
+  <block id="0a85e5de3bf2e7da2454dd1ebb06df4c" category="inline-link-macro">从仪表板评估存储利用率</block>
+  <block id="e4e3dec594fae827f2c546b2c4243be2" category="list-text"><block ref="e4e3dec594fae827f2c546b2c4243be2" category="inline-link-macro-rx"></block></block>
+  <block id="8e1e532fb417ff9d34e2ce12ba4bb87b" category="list-text"><block ref="8e1e532fb417ff9d34e2ce12ba4bb87b" category="inline-link-macro-rx"></block></block>
+  <block id="71bed252a0d725056daf3e51c5fbeb5b" category="summary">监控扫描状态并管理连接的数据源，包括暂停扫描、编辑凭据、启用 DP 卷访问和停用系统。</block>
+  <block id="3d934a56ae9bd1e2d3693013e9b1ade0" category="doc">在 AI Data Engine 中管理数据源</block>
+  <block id="54c980376574e881b2271b2d860072c8" category="paragraph">连接数据源后，您可以监控其扫描状态，并从*已扫描系统*选项卡对其进行管理。使用这些过程可以暂停或恢复扫描、更新凭据、调整数据访问设置以及停用不再需要扫描的系统。</block>
+  <block id="8caae32095ed52cd3c05e55becafb858" category="section-title">查看扫描状态和详细信息</block>
+  <block id="f9bad9406ac312c31d212aa25120ecf2" category="list-text">在*扫描的系统*选项卡上，找到要查看的系统。</block>
+  <block id="3676bd988230e578436a0e1c5ea94daf" category="list-text">选择系统行以打开详细信息视图。</block>
+  <block id="6545e1699002538b5f0ee518b09298e4" category="paragraph">详细信息视图显示：</block>
+  <block id="fa84b834db75064714082c0dd20223d0" category="list-text">当前扫描进度的状态概述</block>
+  <block id="5751b8d5629d88c078d6299f86965140" category="list-text">数据资源扫描状态细分：正在运行、已完成、已暂停和错误</block>
+  <block id="ab61d82ed3b9442ae09a2640f7f66122" category="list-text">扫描权限模式（例如，"无写入权限扫描"）</block>
+  <block id="942284f04c1abc207bb6a052c78839bb" category="paragraph">如果出现扫描错误，请展开错误详细信息，查看哪些卷或共享受到影响以及失败的原因。</block>
+  <block id="b1652f66588933fdd998c84f1fc371b5" category="section-title">暂停扫描</block>
+  <block id="5d6211b0ed7d27d92b93a574d2c87b14" category="list-text">在*扫描的系统*选项卡上，找到要暂停的系统。</block>
+  <block id="549087ff6c78cd133e60eae091dcb474" category="list-text">选择 *暂停*。</block>
+  <block id="bf2a5339c0e847663ee371977a8739e6" category="section-title">恢复扫描</block>
+  <block id="f39b13071aeb5402471aa32f93666962" category="list-text">在*已扫描系统*选项卡上，找到暂停的系统。</block>
+  <block id="f9d637e15d973238afdaad997d440a45" category="list-text">选择*Resume*。</block>
+  <block id="03a27bda0a3fbf35292e887abf9530c0" category="section-title">扫描所有数据资源</block>
+  <block id="174876884410e05a752f3369d44a1be4" category="paragraph">触发对系统上所有数据资源的即时扫描。使用此选项可在重大数据更改后刷新元数据。</block>
+  <block id="d526d76ea93c408bf96f0d8f6492d4a2" category="list-text">选择系统旁边的操作菜单。</block>
+  <block id="eb6687d5f8c164fc44228bdf2efa6e92" category="list-text">选择 *Scan all volumes*（在共享和存储桶的操作菜单中有一个等效选项）。</block>
+  <block id="de18a9c7b461766a9e15f645a9277626" category="section-title">重试失败的扫描</block>
+  <block id="62f3db64bafc9a9f3332553e7caf974e" category="paragraph">重新排队处于失败或错误状态的数据资源。请先解决根本原因，例如凭据问题、网络错误或权限问题，然后再重试。</block>
+  <block id="163c73c5c480913ef1fd9beaede8aa79" category="list-text">在*已扫描系统*选项卡上，找到扫描失败的系统。</block>
+  <block id="3773ecec1d9bf175c40c3e00905fa3a8" category="list-text">选择*重试所有扫描*。</block>
+  <block id="9e95c1bf1f55b0dd3fa35ac05987ff47" category="section-title">编辑 CIFS 凭据</block>
+  <block id="6b4f460b09df7f7d04473cce3f5c2091" category="paragraph">更新 AI Data Engine 用于向 SMB/CIFS 共享进行身份验证的凭据。</block>
+  <block id="20c1653420c6e86abf3dc395a5235f15" category="list-text">在*已扫描系统*选项卡上，找到 SMB/CIFS 系统。</block>
+  <block id="1c8399981fc0cb7f53cf4e4c1b840982" category="list-text">选择 *Edit CIFS credentials*。</block>
+  <block id="1f41fef264384b90868d40a821202c24" category="list-text">输入更新后的用户名和密码，然后选择*Save*。</block>
+  <block id="414649aab6b69f900857f6d64b790c98" category="section-title">启用或禁用对 DP 卷的访问</block>
+  <block id="6efc4789000f4a114ada7d2f9cfeb19f" category="paragraph">数据保护 (DP) 卷是 NetApp SnapMirror 目标卷。默认情况下，AI Data Engine 不会扫描 DP 卷。您可以按系统启用或禁用 DP 卷访问。</block>
+  <block id="f024fd7ca7740cd729663e0e315fb029" category="list-text">在*扫描的系统*选项卡上，找到系统。</block>
+  <block id="a7a9e665c4b73f67405d0bcefd63e223" category="list-text">选择 *Enable access to DP volumes* 或 *Disable access to DP volumes*。</block>
+  <block id="afed3d052e427b3d85d5eee2e3322141" category="section-title">启用或禁用特定共享、存储桶或卷的扫描</block>
+  <block id="ecdf26f68c4c61e174bec07cbdde9a3f" category="paragraph">连接并扫描数据源后，您可以启用或禁用对单个卷或共享的扫描，而无需重新配置整个系统。使用此选项可在初始设置后优化扫描范围。例如，您可能希望排除包含无需分析数据的卷，或者添加初始扫描期间未选择或不可用的卷。</block>
+  <block id="705ef84a0de672a6a79522e15cbd6ef2" category="list-text">在*已扫描系统*选项卡上，找到要更新的系统。</block>
+  <block id="0d556b4ab9d1db6d4a1b749f3386759a" category="list-text">在系统行中选择*查看详细信息*。</block>
+  <block id="c3af1519c6123af458cb90ec91542a4f" category="list-text">在数据资源列表中，找到要更改的卷、存储桶或共享。</block>
+  <block id="14b27b75a1d120ea9e666d3db0941436" category="list-text">使用*扫描*切换开关来启用或禁用对该资源的扫描。</block>
+  <block id="41935257476ba80c261ff080a271a7d3" category="section-title">停用系统的 AI Data Engine</block>
+  <block id="a20a23b2ca54961af6236cefa5ef356b" category="paragraph">停用系统会停止所有扫描并将其从活动扫描覆盖范围中删除。系统配置将保留，您可以随时通过在系统行上选择 *Activate scans* 来重新激活系统。</block>
+  <block id="b5ed7919704c41d347e419e3f07f7aee" category="list-text">在*已扫描系统*选项卡上，找到要停用的系统。</block>
+  <block id="41f7ed8100607003b6ffe45c6005c1ff" category="list-text">选择*停用 AI Data Engine*。</block>
+  <block id="712644c5607df8e9083327eca1c82101" category="inline-link-macro">连接数据源</block>
+  <block id="2724dae3d4fe6872691d5034cb03bbd3" category="list-text"><block ref="2724dae3d4fe6872691d5034cb03bbd3" category="inline-link-macro-rx"></block></block>
+  <block id="d744fa90fe44a5904aea919dfca837ea" category="summary">确认扫描工作正常，并且您的调查结果反映当前数据。</block>
+  <block id="11a16707e401e546365bdd295c6a352c" category="doc">在 AI Data Engine 中监控扫描运行状况</block>
+  <block id="470523a2048e77f6dc9db3dec1e18161" category="paragraph">在对控制面板或调查结果采取行动之前，请确认基础数据是最新的。验证扫描是否正常工作，以及您的发现是否反映了最新数据。</block>
+  <block id="2a0b481e4f870b99102f077085800e16" category="section-title">验证扫描状态和覆盖范围</block>
+  <block id="9d474a5a515fcc0d55b42b0cf37c092d" category="paragraph">确认已连接并正在扫描所有存储系统。</block>
+  <block id="9cc9537fabb2431661a21bfb76403c12" category="list-text">在*已扫描系统*选项卡上，确认您希望看到的每个存储系统都已列出并启用扫描。</block>
+  <block id="84a5093fdc653e7495c6bbc2f37f5561" category="list-text">从系统行中选择*查看详细信息*以查看扫描进度和任何错误。有关详细信息，请参见 <block ref="0b2fcdd8d4d9682bfd2c6d6258375c8a" category="inline-link-macro-rx"></block>。</block>
+  <block id="b5488e9b98687008f2ea983e9dffd258" category="section-title">验证调查结果是否反映了当前数据</block>
+  <block id="a0a61f82fe136888cc21e0515930a76a" category="paragraph">如果仪表板显示大量冷数据或陈旧数据，请在根据这些数据做出决策之前确认这些数字是最新的。</block>
+  <block id="38f706e282df2c74bca3ccf3f3d0fb9b" category="list-text">检查导致发现的每个存储系统的上次扫描时间。最近未扫描的系统可能会低报或高报冷数据和陈旧数据。</block>
+  <block id="4212d3ae3d1d779b3e6d2793eb980dd6" category="list-text">确认该系统的扫描覆盖率已完成。部分扫描（已暂停、正在进行或有错误）意味着某些数据尚未评估。</block>
+  <block id="adc853eb6e5b5878e13573f1fa83cfcb" category="list-text">等待下一个扫描周期，如果覆盖范围看起来不完整，则解决潜在错误。</block>
+  <block id="3540fa5efa78b3ae6e9c7d52a1e7d21a" category="list-text"><block ref="3540fa5efa78b3ae6e9c7d52a1e7d21a" category="inline-link-macro-rx"></block></block>
+  <block id="949195768b714c50c6fc8c9385a74cc5" category="inline-link-macro">调查您的数据</block>
+  <block id="a7b69c2f48ed01caa5360edd3b7e1922" category="list-text"><block ref="a7b69c2f48ed01caa5360edd3b7e1922" category="inline-link-macro-rx"></block></block>
+  <block id="3feb21bfc5c576b8b0ba88831f152f9e" category="summary">在部署 AI Data Engine 之前，请查看基础架构和网络要求。</block>
+  <block id="f0d98a4bfed3e44ea9936088be5b51be" category="paragraph">在部署 AI Data Engine 之前，请查看您环境中的网络、虚拟机大小和操作系统要求。</block>
+  <block id="9251700e586dc1a410f2e755a8643751" category="section-title">网络要求</block>
+  <block id="6cd7be1b5f82b01b11188317c9ab762d" category="paragraph">必须打开以下网络连接：</block>
+  <block id="c2cc7082a89c1ad6631a2f66af5f00c0" category="cell">连接</block>
+  <block id="60aaf44d4b562252c04db7f98497e9aa" category="cell">端口</block>
+  <block id="888a77f5ac0748b6c8001822417df8b6" category="cell">协议</block>
+  <block id="02674a4ef33e11c879283629996c8ff8" category="cell">方向</block>
+  <block id="261addf78c7b2c961032b3dd08ba0b1f" category="cell">目的</block>
+  <block id="74ebb19c002aeb0737bde4301280551b" category="cell">Console Agent 到 NetApp Console</block>
+  <block id="13f3cf8c531952d72e5847c4183e6910" category="cell">443</block>
+  <block id="b136ef5f6a01d816991fe3cf7a6ac763" category="cell">TCP</block>
+  <block id="4c32be4a0b4f48cdd593aef35fd69e44" category="cell">出站</block>
+  <block id="79c4d4839679effbb0de35f32d5b0348" category="cell">HTTPS：与 NetApp Console 的连接</block>
+  <block id="ae7fb447812f3f8ffd319804eaaf9c57" category="cell">控制台代理到 ONTAP</block>
+  <block id="48d083b082abdc6a89158d0e6ae2d159" category="cell">HTTPS：ONTAP 集群发现</block>
+  <block id="3cda5bf04bdb0f0bc3387861b3f93fde" category="cell">控制台代理到 AI Data Engine</block>
+  <block id="bfd0e75d565a2e7a467f23c7d6ed5272" category="cell">80, 443, 8080, 9000</block>
+  <block id="abd4328c725637aabedbd02d3b7ffd40" category="cell">双向</block>
+  <block id="6c2a2f48b6d12c7baaa10e3a9ae2f62f" category="cell">控制台代理和 AI Data Engine 之间的通信</block>
+  <block id="931d680d6a5460c1d2622564222f587f" category="cell">AI Data Engine 到 ONTAP （NFS）</block>
+  <block id="7a7f881d4d3190005bfe3277c48286d2" category="cell">111, 2049</block>
+  <block id="8962b8350728e2f6eb9cbbb07ca70d86" category="cell">TCP/UDP</block>
+  <block id="aa488fb4d7657cdf6ee20912242f78c9" category="cell">到存储</block>
+  <block id="c286f6ab35109c987f8d1c719c99357d" category="cell">NFS 数据源访问</block>
+  <block id="593471079242cfe64460e1a9f77827e9" category="cell">AI Data Engine 到 ONTAP（SMB/CIFS）</block>
+  <block id="bb9d171c99ee8c2dd5ace360b8c91105" category="cell">139, 445</block>
+  <block id="ef43abd9c133e1911593104b252ec139" category="cell">SMB/CIFS 数据源访问</block>
+  <block id="8adeec70074c625307a8b338e365abb6" category="cell">AI Data Engine 至 Active Directory</block>
+  <block id="ce4eb690b25a002b5241b04f64c1e5a3" category="cell">389、636、3268、3269</block>
+  <block id="aaf48608e56973323dc5fd5ed96df4e0" category="cell">LDAP (389)、LDAPS (636)和全局目录 (3268、3269)，用于用户身份验证和 SMB/CIFS 扫描。端口 389 同时使用 TCP 和 UDP；所有其他端口仅使用 TCP。</block>
+  <block id="2db1dab3ddb9f419528a22df20d91148" category="cell">AI Data Engine 到 NetApp 服务/容器注册表</block>
+  <block id="b7ac7d300206d5941ec66379a70e21c9" category="cell">HTTPS：工件下载和容器映像拉取（AWS S3 和 ECR）</block>
+  <block id="c8f224037ea295aeec347c94779d9932" category="section-title">出站互联网接入</block>
+  <block id="fe5ca1427b7b25600877465e2b007712" category="paragraph">对于在线安装，必须能够从 AI Data Engine 主机访问以下端点：</block>
+  <block id="2a6ba72e93aa7fa676d07973ed2716bb" category="cell">端点</block>
+  <block id="5d113f2038d289f391614c39043629e8" category="cell">范围</block>
+  <block id="97a10868af176d2bb0b0e075c08558b7" category="cell"><block ref="8ace43f907c71d8be7768e59cf9e21dc" prefix="" category="inline-code"></block></block>
+  <block id="6061d3eb59dc8de0365754ba1b7fa241" category="cell">NetApp Console 通信</block>
+  <block id="130c5b3473c57faa76e2a1c54e26f88e" category="cell">两者</block>
+  <block id="cbb66f5f0c7ca4b7d24f549b094bdc89" category="cell"><block ref="300f031c227ed1b4448a8bb51abec2bb" prefix="" category="inline-code"></block></block>
+  <block id="f819285916732af4c9441637a0f0e6f3" category="cell">集中用户身份验证</block>
+  <block id="43cb0bffdd9d5ded05a3424ff4e965da" category="cell"><block ref="fdb51f8a262ef532926feb44b010cb72" prefix="" category="inline-code"></block></block>
+  <block id="80a6f28c09d348797265c4baa8b846a2" category="cell">身份验证服务</block>
+  <block id="d7f881d10d719addec3155de4baf22eb" category="cell"><block ref="51fe8074caa966b7d305454c11b1d09d" prefix="" category="inline-code"></block></block>
+  <block id="4dc4e4dd4f2622ff339cec2e9b258777" category="cell">NetApp 容器注册表（AIDE 容器镜像）</block>
+  <block id="b300e728158ca5abf567ee6842739ef7" category="cell"><block ref="8d1a277a7868d38ae6878e8c44088c86" prefix="" category="inline-code"></block></block>
+  <block id="6ff6699f108d036de7d8b3307cbba639" category="cell">NetApp 容器注册表（双栈/虚拟私有云（VPC）端点访问）</block>
+  <block id="728781c2f7cdb1f4c5cae712d25a3521" category="cell"><block ref="910449e9fd785da87d5f385fac95cee8" prefix="" category="inline-code"></block></block>
+  <block id="27eab3a38e9c960cd387dd0fcb59b25e" category="cell">AWS ECR API （身份验证和图像清单检索）</block>
+  <block id="b3bd75f12ce9b0acd43d20cbcdc48fcb" category="cell"><block ref="7ca098361cdcac8376224541f6a154c1" prefix="" category="inline-code"></block></block>
+  <block id="465fa38be0e889a6f4f5eea4bfe44907" category="cell">AWS S3 （ECR 容器映像层存储）</block>
+  <block id="42f24633638dc7dcd28fb8f99b7b7345" category="cell"><block ref="d1d564ee4aa9ec56fade21c33a8fa4ed" prefix="" category="inline-code"></block></block>
+  <block id="5f307da0cc037fccf5156a0b4ee1113d" category="cell"><block ref="ff032e02260ff014601b07ec7a62ebb1" prefix="" category="inline-code"></block></block>
+  <block id="5443ee8394dc795513c17308df8c608c" category="cell">AWS S3 （安装程序包装器脚本、Helm 图表和组件版本目录）</block>
+  <block id="7ded7b42d1eca3a189946f71087a85aa" category="cell"><block ref="da2b821a15b81caba3d4b0ea9a59ff1e" prefix="" category="inline-code"></block></block>
+  <block id="aa0b7e03e09f090a4bf285bf5ccb013f" category="cell"><block ref="392fdd4737637bf98a0b2e0d58c55d8b" prefix="" category="inline-code"></block></block>
+  <block id="a8d7819f8fcc49a13bd5e04efc4bb73d" category="cell">AWS STS （注册表和 S3 访问的临时凭据交换）</block>
+  <block id="e01bbe0a773568d8b2d943c725bc4a98" category="cell"><block ref="ecaf91bb6d35ab95086ca1e072f979e8" prefix="" category="inline-code"></block></block>
+  <block id="3ed1acda8d7511c7f0e269b4d06365c2" category="cell">软件映像、清单和模板；日志和指标流</block>
+  <block id="113661af05a54ad30f2cf875f2085a8c" category="cell"><block ref="8c4749a6c91d5b5be3fa16d5adfdfcd0" prefix="" category="inline-code"></block></block>
+  <block id="c6c113e5074b85b3ee7783cc7a256ee6" category="cell">CloudFront CDN 用于软件分发</block>
+  <block id="154a7dea0b63eaedaeebe172e4e534dd" category="cell"><block ref="6a2ac7d8f0e16e23be3e2fab90d9833f" prefix="" category="inline-code"></block></block>
+  <block id="dd1e8a369ffb5c425f5295170150f923" category="cell">Ubuntu 必备软件包</block>
+  <block id="a41cf9dbadca9500ac38067b535c8cf0" category="cell">仅精简版（Ubuntu）</block>
+  <block id="a507356b394570536b9953261b512550" category="cell"><block ref="8a37b484d48f7ab19209f20f88161503" prefix="" category="inline-code"></block></block>
+  <block id="638435f38da637d50db5ecf629602caa" category="cell">Ubuntu 软件包归档</block>
+  <block id="0b20abf458365869110b9a53c5f48b0f" category="cell"><block ref="d85007fc604c0187d8c7f0a0905426d5" prefix="" category="inline-code"></block></block>
+  <block id="73e4a059e9e92b2539973611852c265b" category="cell">Ubuntu 安全软件包归档</block>
+  <block id="eb1b835842ecab36376189c338d3e249" category="cell"><block ref="9efd15cdc3b59f15ddb128b87d2bc31a" prefix="" category="inline-code"></block></block>
+  <block id="afcd81bacefaa3b77cbbea478e2ee10f" category="cell">k3s runtime download （安装程序启动）</block>
+  <block id="6f5c0b49665b73d6c115ce1c02b0a641" category="cell">仅限精简版</block>
+  <block id="84e4ea8324474b00a6eda8b69e242e21" category="cell"><block ref="a8563316869b25370e1b9ac9741eff2d" prefix="" category="inline-code"></block></block>
+  <block id="13dfeaaa930b5f416523dd975c27cf87" category="cell">Helm 下载（安装程序启动）</block>
+  <block id="474410b6ac258b996077d7027389646f" category="inline-link-macro">NetApp Console 的网络访问要求</block>
+  <block id="c7da5317ad58b7d0506fb53736221000" category="paragraph">AI Data Engine 还依赖于 NetApp Console 进行集中式身份验证和控制台服务。有关 Console 和 Console 代理连接所需的端点，请参阅 <block ref="6f746cd707dc96e510abd18d2b8a9632" category="inline-link-macro-rx"></block>。</block>
+  <block id="2c20fbdcf9b7401db8516a896c4e0033" category="paragraph">在开始部署之前，请先验证 AI Data Engine 主机是否能正常解析这些端点的 DNS。</block>
+  <block id="a3ac66e285684389dd120cdd1d91a5a6" category="section-title">AIDE Lite 要求</block>
+  <block id="5227f9d83b477a63e6c0e89a04230d28" category="section-title">VM 规模估算</block>
+  <block id="e40651cfbb74f24098d1e77f279d26fc" category="inline-xref">弹性规格调整准则</block>
+  <block id="5239445f5c0400ffad13f96e85ca912d" category="paragraph">这些大小是建议的基线配置，针对三到四天的初始扫描窗口进行了优化，而不是硬性限制。有关这些数字的驱动因素以及如何超越这些数字，请参阅 <block ref="fdfdda200a4cf41e7b7263540f25f221" category="inline-xref-macro-rx"></block>。</block>
+  <block id="6f6cb72d544962fa333e2e34ce64f719" category="cell">大小</block>
+  <block id="5d56dbd20d9ee1ab8a722ff12e331953" category="cell">vCPU</block>
+  <block id="e53619c1fe611a51eeeb8d148ba6e532" category="cell">RAM</block>
+  <block id="380dbc8d9d2c8a17f6ebb0b2c62d3e85" category="cell">磁盘</block>
+  <block id="83b43ea2a270ae284e57558dfbd904a4" category="cell">Storage IOPS</block>
+  <block id="d942498bbf676ede690f93fe6f4eba33" category="cell">存储吞吐量</block>
+  <block id="eec89088ee408b80387155272b113256" category="cell">网络</block>
+  <block id="a00581fb76f430c52622665705a127d6" category="cell">近似文件</block>
+  <block id="2660064e68655415da2628c2ae2f7592" category="cell">小型</block>
+  <block id="c74d97b01eae257e44aa9d5bade97baf" category="cell">16</block>
+  <block id="7fffe4f81cc10365684f8c3ef5dfc752" category="cell">64 GB</block>
+  <block id="47a5e6e39f64ff5d5dfb25da1aa3f3f2" category="cell">500 GB</block>
+  <block id="b7bc1c544eac128f494cbef4dde51844" category="cell">8,000</block>
+  <block id="253904cf11e154c1467da791e2916dff" category="cell">1,000 MB/s</block>
+  <block id="542a51a19678b099661225e50ca14113" category="cell">1 GbE</block>
+  <block id="007104a26459cf001f34b5b588ae4d6b" category="cell">2亿</block>
+  <block id="87f8a6ab85c9ced3702b4ea641ad4bb5" category="cell">中</block>
+  <block id="6364d3f0f495b6ab9dcf8d3b5c6e0b01" category="cell">32</block>
+  <block id="da41e52384d87f5c6c3e5e945da60a14" category="cell">128 GB</block>
+  <block id="4399cdb8f35c7f54994fbd6ad16ae51d" category="cell">2 TB</block>
+  <block id="29ca150c07f43a7c676ecb487e3b8100" category="cell">12,000</block>
+  <block id="37b2db17d6593a3788376bf9bb6c1535" category="cell">1,500 MB/s</block>
+  <block id="8452946a913c5da5d0753b575bc8e7b6" category="cell">10 亿</block>
+  <block id="3a69b34ce86dacb205936a8094f6c743" category="cell">大型</block>
+  <block id="26657d5ff9020d2abefe558796b99584" category="cell">96</block>
+  <block id="a10c56d6d6012a90b60e77f2248ee70f" category="cell">192 GB</block>
+  <block id="ab4bf7c1be6270d2b6e2a29d2048d9ba" category="cell">6 TB</block>
+  <block id="5fd87da18bd5a2e29a0cc852c332a1ba" category="cell">16,000</block>
+  <block id="97fcefbae965abf290381c16b678b7ec" category="cell">2,000 MB/s</block>
+  <block id="f813d4c41b3987dfffdcc0cea30c64cf" category="cell">10 GbE</block>
+  <block id="68c08a4d5037c95bc8fba88bfb68be34" category="cell">30亿</block>
+  <block id="8d13605af92cc217c85c4ad45d6f7c6e" category="admonition">建议对所有部署规模使用 NVMe SSD 或其他固态存储。此表中的磁盘值仅反映 AIDE 数据卷存储。如果操作系统、k3s 运行时和 AIDE 数据均共享单个磁盘，请在所选规模的磁盘值基础上额外增加约 65 GB。例如，单个磁盘上的小型部署总共需要约 565 GB。</block>
+  <block id="f8a25fbf01ad745086d3090cb86949e9" category="inline-xref">小型、中型和大型配置</block>
+  <block id="2c63324398e340bc0cfa20633d950a5d" category="paragraph"><block ref="63c192fbfe28a904fef2370327d0b606" category="inline-xref-macro-rx"></block> 是三到四天初始扫描窗口的推荐基线，而不是软件强制执行的硬性限制。</block>
+  <block id="5616873f83786e41d208235efcb21dfa" category="list-text">规模估算建议的依据</block>
+  <block id="b3175af68c1f955a338904f52f52c31b" category="list-text">*文件和目录总数*：要编目的对象总数是计算和存储需求的主要驱动因素。对象数量越多，所需的内存、CPU 和存储也越多。</block>
+  <block id="477c48bec7aa8153b71c2fa6775007ea" category="list-text">*目录结构*：资源使用因目录嵌套深度以及文件在共享和卷之间的分布方式而异。深度嵌套或高度碎片化的结构所需资源可能多于扁平层次结构中相同文件数量所需的资源。</block>
+  <block id="ae5bdffd41c2fa1109349cdb30a487d8" category="list-text">*所需扫描吞吐量*：初始目录完成速度与 CPU 和内存分配直接相关。配置低于建议规格会降低吞吐量并延长初始扫描时间窗口。</block>
+  <block id="5255e30ce3becd1a8dad5261847352e9" category="list-text">*存储性能*：强烈建议使用高性能存储。元数据索引和事件处理需要与部署规模成比例的持续 IOPS 和吞吐量。</block>
+  <block id="21d3030790ee8dd6aedf4b3d3bd85241" category="list-text">如果容量规划不足会发生什么</block>
+  <block id="976dca6e7f73b47bd2e65fc64fda0297" category="paragraph">低于建议大小的配置不会阻止安装或导致服务失败。系统保持运行并继续扫描，但您可能会遇到以下情况：</block>
+  <block id="3392722f1bd8a79d8ce9aa1291375d35" category="list-text">*扩展的初始目录持续时间*：减少计算量会降低每天扫描的对象数。例如，以 30 亿个对象为目标但以较小规模进行配置的部署，可能需要远超三到四天目标时间的时间。</block>
+  <block id="04f33df6364dce086ab124fb023f1189" category="list-text">*降低持续摄取吞吐量*：在持续负载下，新文件事件和增量扫描更新的处理速度会变慢。</block>
+  <block id="0e2dd61bf6532387db4ae20e0fdd6b94" category="list-text">*存储容量风险*：相对于总对象数而言，存储规模过小可能会使元数据索引趋近容量阈值。通常可以通过扩展存储容量来解决此问题，而无需完全重新部署。</block>
+  <block id="1a3127d574918312a4ab223c9e789fd8" category="list-text">在需要更多容量时进行扩展</block>
+  <block id="843313627dc8ca4704eddce4be151a81" category="paragraph">AIDE Lite 在单个虚拟机上运行，因此扩展是垂直的：</block>
+  <block id="6c662a2b269371b61f3191b2ada2b39e" category="list-text">增加主机虚拟机上的 vCPU、内存或存储。</block>
+  <block id="6a09047df4598fb150581654b18f4fec" category="list-text">不需要重新配置或重新安装集群。</block>
+  <block id="d23bfd9ad7bd0c9a791c088e9bd2252f" category="inline-link-macro">AIDE 企业版</block>
+  <block id="0da03b32810b54d59826c030fc38e4e3" category="admonition">AIDE Lite 不支持高可用性或横向扩展。如果您的环境持续超过 30 亿个文件，或者您需要高可用性和容错，请改为部署 <block ref="d382e1cc179a193668ba420fcde06e3a" category="inline-link-macro-rx"></block>。</block>
+  <block id="696c660ff8d9323e55146a6dbd4e4088" category="section-title">操作系统</block>
+  <block id="17bc10091293fdc562a6db69940ee924" category="cell">操作系统</block>
+  <block id="2e5d14f7919ff3c6138e7845aec4f915" category="cell">支持的版本</block>
+  <block id="3d945423f8e9496c429a5d8c65b4604f" category="cell">Ubuntu</block>
+  <block id="91cf600280a31c34bee92cbbf232fbb4" category="cell">22.04 LTS、24.04 LTS（推荐 24.04 LTS）</block>
+  <block id="eb13ea1edb52f2f7cdf4b15544892c06" category="cell">Red Hat Enterprise Linux (RHEL)</block>
+  <block id="2faf5144932acddbc582e2735ccfaf81" category="cell">8.x，9.x</block>
+  <block id="4a08abf9b8a46798cdcd3d6fa7855a47" category="section-title">其他先决条件</block>
+  <block id="d9f20d148982fcb9954271f9773f9faa" category="list-text">您对目标 VM 具有 root 或 sudo 访问权限，可以运行安装程序。</block>
+  <block id="d0841e0c68b47eabc71d450da0eb4198" category="list-text">最少 1 GbE 网络连接（大型部署为 10 GbE）。</block>
+  <block id="be09bfe2a7cb95c01696de8958129e58" category="list-text">目标主机必须具有可用的 bash 4.0 或更高版本、curl 和 tar。</block>
+  <block id="e659b40d2126ceff49df127acc731bb5" category="list-text">安装程序会自动下载和引导<block ref="8adf56ad116be901bc1c46fc138f5e35" prefix=" " category="inline-code"></block>、<block ref="e7d07ed8aa8dd8cafce4a527a523d6c5" prefix=" " category="inline-code"></block>、<block ref="0f12ee5c9f1dd90158580f1c292b0d37" prefix=" " category="inline-code"></block>和<block ref="d8757fb4e9ea07606d23a1ef5a4b8d4e" prefix=" " category="inline-code"></block>。不需要在目标虚拟机上预安装这些工具。</block>
+  <block id="bdbae2c2c4e32ec6c1ad43c90a2e0cb1" category="list-text">在安装程序启动之前，必须在主机上释放端口 6443 (TCP)、10250 (TCP) 和 8472 (UDP)。如果 RHEL 上的主机防火墙<block ref="7ba21652408bcade58b8719451511f2a" prefix="(" category="inline-code"></block>或 Ubuntu 上的<block ref="43a8c9840722971d7bc00f689aaba839" prefix=" " category="inline-code"></block>）处于活动状态，请在运行安装程序之前允许这些端口以及 k3s pod CIDR<block ref="4cc0d71210465fa62867c07617a07f7c" prefix="(" category="inline-code"></block>）和服务 CIDR<block ref="1791b22edf57421226fdd571bb029cc8" prefix="(" category="inline-code"></block>）。有关所需命令，请参阅操作系统防火墙文档。</block>
+  <block id="d695202087632e6b4642eb352ae1d72e" category="list-text">在强制模式下运行 SELinux 的 RHEL 系统上，安装程序会自动配置所需的 SELinux 策略包。无需手动配置 SELinux。</block>
+  <block id="d7df956ed8a6009f2697e7ea59f768d5" category="section-title">AIDE Enterprise 要求</block>
+  <block id="4fa7f8915ea18c5e59f278f803e53f3c" category="list-text">您在运行安装程序的计算机上具有 cluster-admin 权限的 kubectl 访问权限。</block>
+  <block id="6cae2059ae7f40a8509d44cf4088d007" category="list-text">您对运行 install 命令的计算机具有 Sudo （或 root）权限。</block>
+  <block id="1af43e39f476169c4e7048fa30b0d2c7" category="list-text">已在目标集群上安装 RKE2 v1.34 或更高版本（建议使用 v1.36.x）。</block>
+  <block id="76fb8e768567e341c1a0798fe4e633d9" category="list-text">安装程序主机将通过 <block ref="50bc6b145cdb10db9c46326848e35a5f" prefix=" " category="inline-code"></block> 自动下载并引导 <block ref="e7d07ed8aa8dd8cafce4a527a523d6c5" prefix=" " category="inline-code"></block>、<block ref="0f12ee5c9f1dd90158580f1c292b0d37" prefix=" " category="inline-code"></block> 和 <block ref="d8757fb4e9ea07606d23a1ef5a4b8d4e" prefix=" " category="inline-code"></block>。不需要在管理机器上预装这些工具。</block>
+  <block id="27c33c218c2b02ddcbe36e59b26e901d" category="list-text">集群上有一个已配置的 StorageClass（默认名称<block ref="92bf138b666c1c986bd7a1a4dcae9436" prefix=" " category="inline-code"></block>），用于 AIDE 的有状态支持服务。</block>
+  <block id="ce5ab936ac40869458236d23365a7973" category="list-text">至少具有一个导出路径的 NFS 服务器可用，用于 AIDE 配置数据卷和共享索引快照。</block>
+  <block id="488ff87aea5a8d31ced927df06aa9dc3" category="list-text">集群上已存在目标 Kubernetes 命名空间（默认<block ref="87a4f89dbcdda862656068534d7005a9" prefix=" " category="inline-code"></block>）；安装程序不会创建它。</block>
+  <block id="80193bec93acbe5d566695e92ff40775" category="admonition">对于所有企业节点部署，建议使用 NVMe 或高性能 SSD 存储。</block>
+  <block id="3aaf805fc23f2d38628eb9e6dc9e212b" category="section-title">节点大小调整</block>
+  <block id="a7241bce0d45d1d8412b2bdb9a2eec8e" category="paragraph">这些大小是建议的基线集群配置，针对大约三天的初始扫描窗口进行了优化，而不是硬容量限制。AIDE Enterprise 通过横向扩展支持超过 60 亿个文件的环境。有关详细信息，请参阅 <block ref="11b0da32332d2d0d9386ce7e27a30ee4" category="inline-xref-macro-rx"></block>。</block>
+  <block id="187c6ad3a74cc93ac6c2229d398e383e" category="cell">节点</block>
+  <block id="1bfd2220d8fe0d16364a1fbbcb55ddc7" category="cell">每个节点的 vCPU</block>
+  <block id="b35eb28fbdaf65ec1327e79b53c92e28" category="cell">每个节点的内存</block>
+  <block id="423216f082fec9a07efd841cf2b73c0a" category="cell">每个节点的磁盘数</block>
+  <block id="34d27416cf2043f878a1146074999ee9" category="cell">每个节点的存储 IOPS</block>
+  <block id="809af93b75fb9d00ddf2e6804ac26921" category="cell">每个节点的存储吞吐量</block>
+  <block id="9d5bc42a1c7b5a6800df499cdffee6e5" category="cell">每个节点的网络</block>
+  <block id="eccbc87e4b5ce2fe28308fd9f2a7baf3" category="cell">3</block>
+  <block id="1afcf8ebd4c358721fd35f9b14bffaaf" category="cell">~1.3TB</block>
+  <block id="1679091c5a880faf6fb5e6087eb1b2dc" category="cell">6</block>
+  <block id="642e92efb79421734881b53e1e1b18b6" category="cell">48</block>
+  <block id="afed790d874c2e5b39e05619b86defab" category="cell">~2TB</block>
+  <block id="45c48cce2e2d7fbdea1afc51c7c6ad26" category="cell">9</block>
+  <block id="ea5d2f1c4608232e07d3aa3d998e5135" category="cell">64</block>
+  <block id="93bc489a942be947d2726505e1ca48b3" category="cell">256 GB</block>
+  <block id="c37f4c58f39bdadb53567758084c00fe" category="cell">~2.7TB</block>
+  <block id="f11053ee708ace18a04905ad93419736" category="cell">60亿</block>
+  <block id="34feeb41c12a81b277887e38b0e1ee6c" category="paragraph"><block ref="bfc30cc05666392ab558bedcc9f91c20" category="inline-xref-macro-rx"></block> 是针对大约三天初始扫描窗口的推荐基线集群配置，而非软件强制执行的硬容量上限。AIDE Enterprise 通过跨集群节点的水平横向扩展，支持超过 30 亿个文件的环境。</block>
+  <block id="e7b02f4784ecd28afb8997ce3e05d184" category="list-text">*文件和目录总数*：对象总数是存储和计算要求的主要驱动因素。较大的环境需要额外的集群节点来分配处理负载并保持性能。</block>
+  <block id="25086dd45e0992ec487556de2c24cc04" category="list-text">*高可用性复制*：默认情况下，企业部署启用跨节点的数据复制，以实现容错。与同等单节点部署相比，复制增加了总存储和内存需求。</block>
+  <block id="4a47b233159281b95c6ff76fd60442fa" category="list-text">*节点计数和工作负载分布*：处理吞吐量和总目录容量随集群中的节点数量扩展。额外节点可在整个集群中分布索引工作负载和存储容量。</block>
+  <block id="fc768cfdf2ef096f800a1266bbff12b3" category="list-text">*所需的扫描吞吐量*：集群范围内的 CPU 和内存分配决定了每日扫描速率以及初始目录完成的速度。</block>
+  <block id="bca9080545e2ebb3d3f268550dacf9ca" category="list-text">*每节点存储性能*：强烈建议在每个节点上使用高性能存储，总集群容量随节点数量成比例扩展。</block>
+  <block id="a6cb150774c57ec4d46f3f0687ffced7" category="paragraph">低于建议大小的配置不会阻止安装或导致硬故障。实际影响包括：</block>
+  <block id="160c5350b70126814b2fba75f7af8cff" category="list-text">*扩展的初始目录持续时间*：节点数量减少或每节点资源降低会降低吞吐量，从而按比例延长初始目录窗口。</block>
+  <block id="8c76ce7c020db553216deba2dc8f5401" category="list-text">*峰值负载下的处理延迟增加*：集群内存不足可能会导致高容量摄取期间的处理延迟增加。正在进行的操作不会中断，但持续的吞吐量会降低。</block>
+  <block id="182dadf1fe353e7cc124c0b9ccdfd5fa" category="list-text">*存储容量风险*：目标对象计数的集群存储不足可能会将元数据索引推向容量阈值。您可以通过扩展现有节点上的存储（无中断）或添加专用存储节点来解决此问题。</block>
+  <block id="0cfd3ae232b1f5c6e4b55c8d7488d43f" category="paragraph">AIDE Enterprise 支持横向扩展，无需重新部署：</block>
+  <block id="9eaa27fc36031cf7508a6c9afb5da59b" category="list-text">添加工作节点以增加可用于扫描处理和事件摄取的 CPU 和内存。</block>
+  <block id="2613221086922fe4c4c02f9bb4e826a6" category="list-text">添加专用存储节点以增加总目录容量。这是将环境扩展到超出最大预定义部署大小的主要方法。</block>
+  <block id="66176e61e735a415fff25c70d428be82" category="list-text">通过向集群添加更多节点，可扩展超过 60 亿个文件。请联系您的 NetApp 代表，获取自定义规模的节点大小调整指南。</block>
+  <block id="bc9887c630f44bf1747981259d20312d" category="admonition">向现有 Enterprise 集群添加节点不会中断正在进行的扫描操作，但请在低活动时段内协调完成此更改。</block>
+  <block id="8676992f5e93250096176880b5305a01" category="inline-link-macro">AIDE 部署概述</block>
+  <block id="d3556613131e318e5f2d2a7ee8d38a7c" category="list-text"><block ref="d3556613131e318e5f2d2a7ee8d38a7c" category="inline-link-macro-rx"></block></block>
+  <block id="07a3b4a364ef4ea2f66e179b22b2c081" category="inline-link-macro">部署 AI Data Engine — Lite</block>
+  <block id="10bda37ec504bc21475c363f87d039b7" category="list-text"><block ref="10bda37ec504bc21475c363f87d039b7" category="inline-link-macro-rx"></block></block>
+  <block id="9780340266e04ab00f8baf827c278456" category="inline-link-macro">部署 AI Data Engine — Enterprise</block>
+  <block id="b8ffd49b161a0bafa7ac79af99a078d4" category="list-text"><block ref="b8ffd49b161a0bafa7ac79af99a078d4" category="inline-link-macro-rx"></block></block>
+  <block id="bf432db974914045dbdb141a94746102" category="summary">使用部署向导从 NetApp Console 部署 AIDE Lite。</block>
+  <block id="f7c39236be6bd435ec42b2fa2cf0b64d" category="doc">部署 AI Data Engine Lite</block>
+  <block id="b1099081e00f8989d9694c85a0c5923a" category="paragraph">使用部署向导从 NetApp Console 部署 AIDE Lite。该向导将引导您选择安装位置、选择配置大小以及在目标主机上运行安装命令。</block>
+  <block id="6c197e358af4189fc5967ff9d49f6db4" category="list-text">您在 NetApp Console 中拥有_组织管理员_或更高权限。</block>
+  <block id="1f4a2d6200ad6e55158f5376f5cc28b6" category="list-text">在目标主机上运行安装命令需要 Sudo （或 root）权限。</block>
+  <block id="6d7bfbfb328e91017c8160aec407be19" category="inline-link-macro">AIDE 要求</block>
+  <block id="65eacaaf3bea1fd7a8594828320cd9f6" category="list-text">您的环境符合 <block ref="0be0e04edd1e19a89ae931415ae02878" category="inline-link-macro-rx"></block> 中所述的所有先决条件。</block>
+  <block id="c38a91b64338659be48390e7b59b98be" category="inline-link">已部署</block>
+  <block id="b2c5da1f5dc6f7356acb47cf3ba444d1" category="list-text">一个 NetApp Console 代理<block ref="b73290be3504f0507d7e45d060da298b" category="inline-link-rx"></block>，可从 AI Data Engine 主机访问。运行安装命令需要提供 Console 代理 IP。</block>
+  <block id="174790ce4804262cdbb778690ee4a907" category="list-text">在 NetApp Console 中，导航到*治理* &gt; *AI Data Engine*。</block>
+  <block id="48602d83d5d9910704adcce3b2ee67e6" category="paragraph">此时将显示 AI Data Engine 登录页面。</block>
+  <block id="5bb86b97d5261c3f0e5705b4f80cac36" category="list-text">选择*部署 AI Data Engine*。</block>
+  <block id="f365e3c1684ae4b1c44970f25e545b04" category="list-text">选择 *Lite* 部署选项，然后选择 *Next*。</block>
+  <block id="a2c58206f4ee0d23ded834a18b1daf1f" category="list-text">将向导中显示的预配置安装命令复制到编辑器。</block>
+  <block id="96285c2d71bcec3ce19882c295253e45" category="list-text">选择您的配置大小：</block>
+  <block id="91a62ce5f728453d53ed8d0c2a936aec" category="list-text">*Small*：建议用于最多包含约 2 亿个文件的环境。</block>
+  <block id="8682893534f62c0d0aff25d6d8c85d96" category="list-text">*中等（默认）*：建议用于最多约 10 亿个文件的环境。</block>
+  <block id="8f83f7fa2261b412d2fa290f60ffe9e8" category="list-text">*Large*：建议用于最多包含约 30 亿个文件的环境。</block>
+  <block id="d46a5933f9f2e7d0d06362ecd5dfa041" category="inline-link-macro">灵活调整大小准则</block>
+  <block id="b7f0cfda97f42693a8f1e2398887a994" category="paragraph">这些大小是推荐的基线，而不是硬性限制。如果您的环境不在这些范围内，请参阅 <block ref="6b8e74170b14d312ab21928a851153d3" category="inline-link-macro-rx"></block>。</block>
+  <block id="83ac9607e5958c0984c3f28f18cdc1a1" category="list-text">对于小型或大型配置，请调整安装命令以反映所选的大小：<block ref="8f650be051c9eec5eab6770e03ffce31" prefix=" " category="inline-code"></block></block>
+  <block id="ac18774dc2dba5258b649f18aa8155de" category="list-text">在目标主机上运行 install 命令并进行任何配置大小调整。</block>
+  <block id="d1a3d9894253a2d72545899e3a59192e" category="admonition">安装大约需要 45 分钟才能完成。可能会发生超时和重试，这是正常的。</block>
+  <block id="85e6b359225d41261774c22bf2bf080a" category="list-text">出现提示时，请确认主机 IP 地址和用户 ID 以继续安装。</block>
+  <block id="c9ef0d99fbf5ed26a85b92f55e6b6c6e" category="list-text">监控进度屏幕，直到成功屏幕出现并显示"AI Data Engine deployed"。</block>
+  <block id="e9b6d2f0d9b694914f20877d3f88c18f" category="inline-link-macro">连接数据源</block>
+  <block id="db4300c03495773caef1471c598e802e" category="paragraph">AI Data Engine 已部署并连接到 NetApp Console。您现在可以 <block ref="8616a87379e9890bdf232e0c72419049" category="inline-link-macro-rx"></block> 以开始扫描。</block>
+  <block id="83eac39203f6a78bfab5f05109f06f07" category="summary">使用部署向导从 NetApp Console 部署 AIDE Enterprise。</block>
+  <block id="c2cf1d98d36dbefbfe09eae2488f7247" category="doc">部署 AI Data Engine Enterprise</block>
+  <block id="330f7c265828f01dee99afee070313b1" category="paragraph">使用部署向导从 NetApp Console 部署 AIDE Enterprise。该向导将引导您选择安装位置、选择配置大小以及对 RKE2 集群运行安装命令。</block>
+  <block id="1a86a03f19ece1eb1fdd892e27ea3956" category="list-text">您的 RKE2 集群符合 <block ref="0be0e04edd1e19a89ae931415ae02878" category="inline-link-macro-rx"></block> 中所述的企业节点先决条件。</block>
+  <block id="6689cb476023c6c1c9be0efa2539934e" category="list-text">运行安装命令的计算机上需要 Sudo （或 root）权限。</block>
+  <block id="87f9897a401f495b9a1facf1d7bd910d" category="list-text">具有导出路径的 NFS 服务器可从集群访问，可用于 AIDE 配置卷。</block>
+  <block id="9dda54b0355e711b7bf378cb95fb1046" category="list-text">一个 NetApp Console 代理<block ref="b73290be3504f0507d7e45d060da298b" category="inline-link-rx"></block>，可从集群节点访问。运行 install 命令需要 Console Agent IP。</block>
+  <block id="bb51b81f5223e5f0c8bc58ed7e50a5f4" category="list-text">kubectl 可在运行 install 命令的计算机上使用，并具有对目标集群的 cluster-admin 访问权限。</block>
+  <block id="8da2dfbfcb5791d3d926eab6d4e00ae7" category="list-text">在运行 install 命令之前，集群上已存在目标 Kubernetes 命名空间（默认<block ref="87a4f89dbcdda862656068534d7005a9" prefix=" " category="inline-code"></block>）。</block>
+  <block id="6d673c33bc8499857dfcdafd62d54f4b" category="list-text">集群上有一个已配置的 StorageClass（默认名称：<block ref="92bf138b666c1c986bd7a1a4dcae9436" prefix=" " category="inline-code"></block>），用于 AIDE 的有状态支持服务。</block>
+  <block id="44e1a4e1589f76ddf1eeaa489bc4cc29" category="list-text">选择 *Enterprise* 部署选项，然后选择 *Next*。</block>
+  <block id="9b58efe1f18455876debd5dc57e57729" category="list-text">*Small*：建议用于最多约 10 亿个文件的环境。</block>
+  <block id="a756d5b5aaf4cf555459970b4520faf5" category="list-text">*中等（默认）*：建议用于最多包含约 30 亿个文件的环境。</block>
+  <block id="8774ee0c7f760cf14a59d6eb9c2c926d" category="list-text">*Large*：建议用于最多约 60 亿个文件的环境。</block>
+  <block id="97632a3bfddd2d43a6ad9e18867b01c4" category="paragraph">这些大小是推荐的基线，而非硬性限制。AIDE Enterprise 通过横向扩展支持超过 60 亿个文件的环境；有关详细信息，请参见 <block ref="89c154f2a0e84f293476bfb9d47ae425" category="inline-link-macro-rx"></block>。</block>
+  <block id="394b930dc1b5023622cb49ed7c298b31" category="list-text">通过 kubectl 访问 RKE2 集群，从目标主机运行 install 命令并进行任何配置大小调整。</block>
+  <block id="f9556a416fe39ca723fd3ecd6f571ded" category="admonition">安装大约需要 30 分钟才能完成。可能会发生超时和重试，这是正常的。</block>
+  <block id="869ef2cf26ae6a981846da827aae59f0" category="paragraph">AI Data Engine Enterprise 已部署并连接到 NetApp Console。您现在可以 <block ref="8616a87379e9890bdf232e0c72419049" category="inline-link-macro-rx"></block> 以开始扫描。</block>
+  <block id="fb2aa9495542bd13d3605c929812c980" category="summary">将 AI Data Engine 部署为 AIDE Lite，或者如果您的环境需要基于 Kubernetes 的高可用性，则部署为 AIDE Enterprise。</block>
+  <block id="2241eca142f39ffb460bb2bf4661c568" category="doc">了解 AI Data Engine 部署</block>
+  <block id="7647c2aafe383ffd0d50b64929b2f530" category="paragraph">将 AI Data Engine 部署为 AIDE Lite，这是一种单虚拟机安装方式。如果您的环境需要基于 Kubernetes 的大规模高可用性，则可以改为部署 AIDE Enterprise。</block>
+  <block id="a76e498c33f6c726c7b3b1e63f3c9f86" category="section-title">AIDE Lite</block>
+  <block id="b8f59a240d3f4b57a1c6c7e4cc02d32d" category="paragraph">AIDE Lite 安装在单个 Linux 虚拟机上。您不需要 Kubernetes 专业知识，因为安装程序会自动配置 k3s。</block>
+  <block id="6dc3f2c5a4a07cf906856038dc455b60" category="paragraph">AIDE Lite 有三种规格——小型、中型和大型——分别适用于约 2 亿、10 亿和 30 亿个文件的环境。有关完整的虚拟机规格和操作系统要求，请参阅<block ref="0be0e04edd1e19a89ae931415ae02878" category="inline-link-macro-rx"></block>。这些规格是建议的基准，而非硬性限制；请参阅<block ref="6b8e74170b14d312ab21928a851153d3" category="inline-link-macro-rx"></block>，了解影响规格调整的因素以及如何进一步扩展。</block>
+  <block id="e56291a61f22a59964581e4b089d9646" category="paragraph">如果您的环境需要高可用性、容错、滚动升级或超出 AIDE Lite 最大规模的水平扩展，请部署 AIDE Enterprise。AIDE Enterprise 作为多节点 Kubernetes 集群部署在客户自行配置和管理的 RKE2 集群上。</block>
+  <block id="511a454fc3a3987519fe85b03965f6c8" category="paragraph">AIDE Enterprise 有三种大小——小型、中型和大型——分别适用于高达约 10 亿、30 亿和 60 亿个文件的环境。有关完整的节点大小和集群要求，请参阅<block ref="0be0e04edd1e19a89ae931415ae02878" category="inline-link-macro-rx"></block>。这些大小是推荐的基线，而不是硬性限制：通过水平横向扩展可支持超过 60 亿个文件的环境。详情请参阅<block ref="89c154f2a0e84f293476bfb9d47ae425" category="inline-link-macro-rx"></block>。</block>
+  <block id="0c5241f126b35cf2419c66ba39a5a298" category="section-title">部署流程</block>
+  <block id="46597a2025eee9696dd502828e25e3d5" category="paragraph">NetApp Console 不为 AI Data Engine 配置基础架构。准备符合要求的 Linux 计算机或集群，然后从 NetApp Console 复制预先生成的安装命令，并在目标主机上运行该命令。该命令将引导运行时并自动部署 AI Data Engine 堆栈。在安装过程中，安装程序会提示您确认目标主机 IP 地址和用户 ID，然后再继续安装。</block>
+  <block id="0d7f0465ec681cb9f6e5a8be3b1a0396" category="paragraph">AIDE Lite 安装通常在 45 分钟内完成。AIDE Enterprise 安装通常在 30 分钟内完成。安装程序包含内置超时和重试机制，以处理组件启动时出现的瞬态问题。</block>
+  <block id="c9ff479d3b0a5190f9c70e082837c411" category="section-title">部署模式参考</block>
+  <block id="d41d8cd98f00b204e9800998ecf8427e" category="cell"></block>
+  <block id="a0e3089d312c100208595d685b4104d2" category="cell">部署模式</block>
+  <block id="e944d7416ffeeaf9a68e8ef9da608c26" category="cell">单个 Linux 虚拟机</block>
+  <block id="1a92dd236bb30572af26007d261a2e83" category="cell">多节点 Kubernetes 集群（客户预置的 RKE2）</block>
+  <block id="4b650ef1239cf58ca9b3eb4dddac9322" category="cell">扫描速率</block>
+  <block id="91a6bef895437e73680f6f013deb9588" category="cell">每天5000万到10亿个文件，因大小而异</block>
+  <block id="78fd22e45655dd97ace1673f19b03c74" category="cell">每天 2.5 亿到 20 亿个文件，因大小而异</block>
+  <block id="ccb52e04a2105113dc40fe0f8716aea1" category="cell">最大文件数（大）</block>
+  <block id="a499f695d0cd8cd297f733cd1289a331" category="cell">约30亿</block>
+  <block id="d6a79615f28b6194d592e29ba6f5f964" category="cell">约60亿</block>
+  <block id="0be0e04edd1e19a89ae931415ae02878" category="list-text"><block ref="0be0e04edd1e19a89ae931415ae02878" category="inline-link-macro-rx"></block></block>
+  <block id="c565a648dc1d9e80e46687a0fc1cdfe6" category="summary">了解 AI Data Engine 的组件以及它们如何协同工作，为存储系统的元数据编制目录。</block>
+  <block id="abb2753fee0210c75705619ab94e6ceb" category="doc">AI Data Engine 架构</block>
+  <block id="fccc76f1cda27ea29c381a63456dc242" category="paragraph">AI Data Engine （AIDE） 由 Metadata Engine 和策略框架组成。这些功能协同工作，可从存储系统中提取元数据，将其编入可搜索的索引中，并允许您定义已保存的查询，以识别符合特定条件的文件并对其执行操作。</block>
+  <block id="05bbb43b3d923283e0b6ffafd088f41f" category="section-title">组件</block>
+  <block id="9a8bc3c76ae750342ae6d6959e6d4931" category="paragraph">您主要通过四个功能领域与 AI Data Engine 进行交互：仪表板、调查、策略和配置。这些功能区域由以下底层组件提供支持。</block>
+  <block id="1dcad9443ae8987b7175c4cdf8acb9f9" category="section-title">Metadata Engine</block>
+  <block id="7539b92c776f337a385f300efb36fd59" category="paragraph">Metadata Engine 是 AI Data Engine 的核心功能。它扫描连接的存储系统以提取文件系统元数据，并将元数据存储在可搜索的目录中。Metadata Engine 在每个扫描周期更新目录，检测存储系统中的添加、更改和删除。</block>
+  <block id="5423702a1b6fd3820d9dbf88027fcfb9" category="section-title">NetApp Console 代理</block>
+  <block id="857facec419107b5214ee8fa6aac760e" category="paragraph">AI Data Engine 需要在您的环境中部署 NetApp Console Agent。Console Agent 是一个通用的 NetApp 平台组件，用于维护本地环境与 NetApp Console 之间的连接。它处理您的站点与 AIDE 服务之间的身份验证和通信。</block>
+  <block id="ae339237ba250f3e9622bc068691a4a4" category="inline-link-macro">NetApp Console Agent 文档</block>
+  <block id="b4536b8eef87e734777da5e22580bed8" category="admonition">Console Agent 并非特定于 AI Data Engine。如果您已经为其他 NetApp 服务部署了 Console Agent，则可以使用相同的代理。有关 Console Agent 部署说明，请参阅<block ref="2f66cea022adc2ad8169604b656a336f" category="inline-link-macro-rx"></block>。</block>
+  <block id="6762973af9b127d271f0d2b2aea0bc96" category="section-title">部署模型</block>
+  <block id="7e55a28dcce8cb14e4d27ea41261d95e" category="paragraph">AI Data Engine 支持两种部署模型：</block>
+  <block id="ac4f9e11413c44efe69404bc36ec291c" category="list-text">适用于较小环境的单虚拟机部署。根据要编目的文件数量，提供小型、中型和大型配置。</block>
+  <block id="d8624879f2df7108b28170d3c8d0cf6a" category="list-text">基于 Kubernetes 的多节点集群部署，适用于需要高可用性的大型环境。</block>
+  <block id="932b129d9e40853fb53d785a7bbb7acd" category="paragraph">AIDE Enterprise 从支持约 10 亿个文件、每天 2.5 亿个文件的三节点配置扩展到支持约 60 亿个文件、每天 20 亿个文件的九节点配置。有关节点大小调整的详细信息，请参阅 <block ref="374da513b9cc4d9fde319e2e3de4220b" category="inline-link-macro-rx"></block>。额外的节点可以将容量扩展到超过 60 亿个文件。有关横向扩展的详细信息，请参阅 <block ref="678b19a1fca5ae4e7fd0a6867698af36" category="inline-link-macro-rx"></block>。</block>
+  <block id="1558fd62a25c3c5839314d3d05591cff" category="inline-link-macro">详细了解部署选项</block>
+  <block id="7522e35bcf6b4e765785f2c02ab88732" category="paragraph"><block ref="c85626c591e7dabf2ef44243c8154bd8" category="inline-link-macro-rx"></block>。</block>
+  <block id="51e229527022b23ef548bfc016bfb0ac" category="section-title">数据流</block>
+  <block id="d48e37a5e6e17429470acd5447f7d7a2" category="list-text">AI Data Engine 部署在您的本地环境中。</block>
+  <block id="6466ed6a7617c9156b9142fd84ca463e" category="list-text">您可以在 *配置 &gt; 系统* 中添加希望 AIDE 进行编目的存储系统。支持的系统包括 NetApp ONTAP、StorageGRID、数据库系统，以及任何提供 NFS、SMB/CIFS 或 S3 协议的 NAS 或对象存储系统。</block>
+  <block id="4335b6439217fbe3a78bc483bbb8e2db" category="list-text">Metadata Engine 使用 NFS 和 SMB/CIFS 协议挂载共享，并扫描文件系统以提取文件元数据。</block>
+  <block id="ec7c0cda0b856c7b0ef27518243b5770" category="list-text">元数据已在目录中编制索引。</block>
+  <block id="e08465e99912650826365007e8296ccf" category="list-text">该仪表板从目录中显示存储洞察。</block>
+  <block id="614bf6aec561c6163de8df0a75ec10e0" category="list-text">调查让您可以使用元数据筛选器直接查询目录。</block>
+  <block id="f76213c17fe77d7795d2575f82e6a911" category="list-text">您可以将搜索条件保存为策略，然后重新运行它们以识别匹配的文件并对其执行操作。</block>
+  <block id="af377abffc86ee018a19a7a84fa2e12c" category="admonition">Metadata Engine 完成扫描所有已配置的卷后，会立即开始新的扫描循环，重新扫描文件系统以检测新增、更改和删除操作。</block>
+  <block id="75d38d77f71f859f0e6bfa05a8868b12" category="inline-link-macro">了解 AI Data Engine</block>
+  <block id="26e666e2e4e46660c91e74754caac64f" category="list-text"><block ref="26e666e2e4e46660c91e74754caac64f" category="inline-link-macro-rx"></block></block>
+  <block id="e24b77f89668ee9cb97930aad67c47cb" category="inline-link-macro">了解 AIDE 部署</block>
+  <block id="71a1e4d97605fe8774b49ca1dce1bf4f" category="list-text"><block ref="71a1e4d97605fe8774b49ca1dce1bf4f" category="inline-link-macro-rx"></block></block>
+  <block id="c161c41ee580d32d31bdc317b8636009" category="summary">了解AI Data Engine，它可为存储在存储系统上的结构化和非结构化数据提供可见性。</block>
+  <block id="10205b2b1a0570eb1e538ad453946b06" category="paragraph">AI Data Engine 是一种元数据智能服务，可让您查看存储在存储系统上的结构化和非结构化数据。通过扫描您的存储系统并对文件系统元数据进行编目，AI Data Engine 可帮助您识别存储优化机会、调查您的数据，并通过就地分析元数据来实施治理策略，而无需移动或复制数据。</block>
+  <block id="5b78c83d95e5745d473240203777c774" category="section-title">AI Data Engine 的作用</block>
+  <block id="93ac98d7e0f46af4be06d763ca8e4d9b" category="paragraph">AI Data Engine 扫描连接的存储系统以提取文件系统元数据，并构建在每个扫描周期后更新的目录。从此目录中，您可以：</block>
+  <block id="851d3089d23f602e41cb88e4a24c7049" category="list-text">在控制面板上查看存储优化见解，包括哪些数据所有者持有可能可回收的存储（例如满足组织冷数据和陈旧数据阈值的文件以及重复文件）</block>
+  <block id="d4cf1ae8d3de1580dd4b64635c327386" category="list-text">使用灵活的元数据过滤器调查您的数据，以构建有针对性的数据分组</block>
+  <block id="365d4efead84b227551ff1b66a19925b" category="list-text">创建将调查标准保存为可重用规则的策略</block>
+  <block id="df7ad139df65c04c4945d61374956c8b" category="list-text">对数据执行操作：标记、存档、复制或删除符合策略条件的文件</block>
+  <block id="149bf441b327b46f1cee6927c3821fb9" category="section-title">存储优化和数据治理</block>
+  <block id="652d2454860d7fc35944afe99e879614" category="paragraph">AI Data Engine专注于存储系统上存储的结构化和非结构化数据的存储优化和数据生命周期管理。</block>
+  <block id="0c46a9a4d5421afa53e0965858a40308" category="section-title">谁使用AI Data Engine</block>
+  <block id="64f79c32b0b61631101d478d31e9f7d3" category="paragraph">AI Data Engine 专为以下用户设计：</block>
+  <block id="cd407958cd82f6304bcf61eaf827f40c" category="list-text">*存储管理员* ，他们需要识别和监控哪些数据所有者持有符合其组织冷数据和过时数据阈值的文件，识别重复文件，并评估存储优化机会。</block>
+  <block id="ba9f66e96d3a72c260292e7e433d9c1e" category="list-text">*IT 运营团队*，需要集中查看其存储环境中存在的结构化和非结构化数据。</block>
+  <block id="f5d8c539c573d98ed75c16e6120b556e" category="section-title">AI Data Engine 所在的位置</block>
+  <block id="2e41d1b0867653660816d43d38a3d448" category="paragraph">您可以通过 NetApp Console 在 *治理 &gt; AI Data Engine* 下访问 AI Data Engine。您可以将其作为 AIDE Lite（单 VM 安装）部署在您管理的 Linux 基础架构上，可以是云帐户中的虚拟机，也可以是本地环境中的计算机。如果您的环境需要大规模的基于 Kubernetes 的高可用性，则可以改为部署 AIDE Enterprise。</block>
+  <block id="e3d3e027f48463eb78e548236f017140" category="paragraph">AI Data Engine 扫描 NetApp ONTAP 和 StorageGRID 系统上的数据，以及支持 NFS、SMB/CIFS 或 S3 协议的非 NetApp 系统上的数据。</block>
+  <block id="5195f9c28c95a19d82dbbab0c1b03be8" category="list-text"><block ref="5195f9c28c95a19d82dbbab0c1b03be8" category="inline-link-macro-rx"></block></block>
+  <block id="06ad314b340900d226b1196e1fe289e9" category="inline-link-macro">快速入门</block>
+  <block id="bdeb5cd25a7dbc37504b3514d1fd7016" category="list-text"><block ref="bdeb5cd25a7dbc37504b3514d1fd7016" category="inline-link-macro-rx"></block></block>
+  <block id="977e38bc044068997869d10e6979a705" category="list-text"><block ref="977e38bc044068997869d10e6979a705" category="inline-link-macro-rx"></block></block>
+  <block id="4c1a261e30da6a55a9b3726af88508d4" category="summary">通过部署服务、连接存储系统并开始您的第一次调查，让 AI Data Engine 启动并运行。</block>
+  <block id="0faf8679fa64c37768334eb399f37dcc" category="doc">AI Data Engine 快速入门</block>
+  <block id="06c2cea18679d64399783748fa367bdd" category="inline-image-macro">一个</block>
+  <block id="a8f814495d9a5097386d4d0fa44d053b" category="paragraph-title"><block ref="58f667aaf05f87159670e12bd9bc076b" category="inline-image-macro-rx" type="image"></block> 查看要求</block>
+  <block id="d95edcb83173c645e4cdae7d65d60d50" category="inline-link-macro">了解部署模式</block>
+  <block id="bc643586ebbdea3a67e8e78803edef1d" category="paragraph">查看<block ref="374da513b9cc4d9fde319e2e3de4220b" category="inline-link-macro-rx"></block>和<block ref="1fb19d6de740c7259fc64be5fec6d5ce" category="inline-link-macro-rx"></block>，以确定是否安装 AIDE Lite 或 AIDE Enterprise。</block>
+  <block id="aada29daee1d64ed0fe907043855cb7e" category="inline-image-macro">两个</block>
+  <block id="5508a1321b4a833f86a54cc7821a3b51" category="paragraph-title"><block ref="54f425ce8d89f4ed6b8a546561af5d60" category="inline-image-macro-rx" type="image"></block> 部署 AI Data Engine</block>
+  <block id="8b64721c44a2f53b46f63f848ac39d35" category="paragraph">从 NetApp Console 部署 <block ref="f746162465c96a1adff24c92f0728c5e" category="inline-link-macro-rx"></block> 或 <block ref="eb04f2a0df94baa820b9a7e6f474747f" category="inline-link-macro-rx"></block>。设置页面将引导您选择安装位置和配置大小，并运行安装命令。</block>
+  <block id="ca8a2087e5557e317599344687a57391" category="inline-image-macro">三</block>
+  <block id="1c588aa33f42b4c4c20be39616a29ded" category="paragraph-title"><block ref="05b2444faffd66d76e88602ea7dd353f" category="inline-image-macro-rx" type="image"></block> 连接数据源</block>
+  <block id="96542a64c03a6496363376fdc6a2fbc6" category="paragraph"><block ref="3540fa5efa78b3ae6e9c7d52a1e7d21a" category="inline-link-macro-rx"></block> 开始扫描。AI Data Engine 对您指定的存储系统中的文件系统元数据进行编目。</block>
+  <block id="981b8fcee42e1e726a67a2b9a98ea6e9" category="inline-image-macro">四个</block>
+  <block id="be456a52157be16e2bb64e80582b27c7" category="paragraph-title"><block ref="beadfa85a2fdca06b91edc1131c603e6" category="inline-image-macro-rx" type="image"></block> 浏览您的数据</block>
+  <block id="dc7161be3dbf2250c8954e560cc35060" category="inline-link-macro">信息板</block>
+  <block id="5cbac16d406ddfc92080f39efa7437d8" category="inline-link-macro">调查</block>
+  <block id="fb3b1d7b841806f690ee73aaa0c8d14c" category="paragraph">打开 <block ref="fb0f058ee96ad213f6425340e1f6e497" category="inline-link-macro-rx"></block> 以查看存储优化见解，或转至 <block ref="baf11e96ddb5cf9a99e9104cce3d98fd" category="inline-link-macro-rx"></block> 直接搜索和筛选您的元数据。</block>
+  <block id="e5d9de39f7ca1ba2637e5640af3ae8aa" category="inline-image-macro">五</block>
+  <block id="27daab068a7cde6f0b947da706cd9c7a" category="paragraph-title"><block ref="99e8b2f00e172bfcff96afdce69907bc" category="inline-image-macro-rx" type="image"></block> 创建策略</block>
+  <block id="434a141f3cf546ea041658ccf5e2e280" category="inline-link-macro">将调查筛选器保存为策略</block>
+  <block id="90d578959921e40c779e3651e77e209f" category="paragraph"><block ref="bf586bccd0bf27b6e1fabd9280d26067" category="inline-link-macro-rx"></block> 以监控一段时间内符合相同标准的文件。您可以配置策略以发送通知、永久删除匹配文件或跟踪结果。</block>
+  <block id="fdb19c6fec05b54408b4b0f903fd81ee" category="summary">使用端到端流程，通过调查、操作和持续策略监控来处理仪表板发现的问题。</block>
+  <block id="1df62125b1fa407d537cb4d69ea2cea4" category="doc">探索 AI Data Engine 中的存储优化工作流</block>
+  <block id="b7a7e43957c3e85adef192b310b6b3d2" category="paragraph">这些 AI Data Engine 工作流程将引导您从识别仪表板上的存储问题，到调查和操作，再到持续监控策略。每个工作流程都遵循相同的路径：控制面板、调查、操作，以及另存为策略。</block>
+  <block id="2e48f83a3b8559bc839f287b372ae63a" category="section-title">识别冷数据并采取行动</block>
+  <block id="54861efdd06fc309e1c9a420feff98eb" category="paragraph-title">场景</block>
+  <block id="3b84a859e68974b8b6a7c2e5209e8031" category="paragraph">您在控制面板上注意到，存储资源中有大量标记为冷数据的数据。冷文件在配置的冷数据阈值内未被访问，该阈值默认为一年，可在*配置* &gt; *设置*中进行配置。</block>
+  <block id="44e6a1f5dab90577824d8f22e1988fde" category="inline-link-macro">控制面板</block>
+  <block id="a9ff44ea6a5fe6dc227b4ea55b034864" category="list-text">从 <block ref="8f8592489ae57c27af5c107a0d44dae6" category="inline-link-macro-rx"></block> 中，确定冷数据浓度最高的资源，然后选择 *调查*。</block>
+  <block id="47f41e739fa983e85fc6c87ce98479c5" category="list-text">在 <block ref="52e9ed5e3e773251fd429eeb0045af22" category="inline-link-macro-rx"></block> 中，使用设置为与您配置的冷数据阈值匹配的*上次访问*筛选器确认资源（默认值：*1+ 年*）。</block>
+  <block id="af03039d1382ef8676c4fdd8760440cf" category="inline-link-macro">是否标记、存档或删除</block>
+  <block id="e9ed6d698e78f62a0321650cd016f395" category="list-text">查看结果以确定<block ref="3efcafeea256ec5f5f80d2df60560120" category="inline-link-macro-rx"></block>匹配的文件。</block>
+  <block id="7ef0163ee717bd6fd04d7eeb49b51058" category="inline-link-macro">将筛选器集保存为策略</block>
+  <block id="5b5ae5eda1079bc84d33033a52fa0bd2" category="list-text">如果这些资源值得持续监控，<block ref="7d8ac40ed60791213197ab6f4e0c9736" category="inline-link-macro-rx"></block>则会在新文件冻结时通知您。</block>
+  <block id="0d10005b6bd2a6b85eb9f287e40da0fe" category="section-title">识别过时数据并采取行动</block>
+  <block id="90fe85823d1212c8a3b704aa6c8ded5c" category="paragraph">仍然偶尔访问但多年未修改的文件，若超出组织的过时阈值（默认值：上次访问或修改后三年），则会被归类为过时文件。</block>
+  <block id="b0c4d387a50a45d4f64e0a353764db5a" category="admonition">此阈值可在*配置* &gt; *设置*中配置。</block>
+  <block id="7bdb301d8f2bd1bc4dc8ff7228adae25" category="list-text">从 <block ref="8f8592489ae57c27af5c107a0d44dae6" category="inline-link-macro-rx"></block> 中，识别包含大量过期数据的资源。</block>
+  <block id="1456972c0c54611fb33073481d7d23b9" category="list-text">在 <block ref="52e9ed5e3e773251fd429eeb0045af22" category="inline-link-macro-rx"></block> 中，将*上次修改*过滤器设置应用于您的过期阈值（默认为 *3+ 年*）。</block>
+  <block id="ee0e6032122c761b81fc2cd66a35b691" category="inline-link-macro">将筛选器集保存为策略</block>
+  <block id="b35a68b716804484978c21c7594fcad8" category="list-text"><block ref="537d965580da49e1e6c3a096271213f7" category="inline-link-macro-rx"></block> 在后续扫描中跟踪这些资源。</block>
+  <block id="1c26e78563d9a7bad5cd8730fb3014eb" category="section-title">管理数据保留合规性</block>
+  <block id="a255165b7b7823a623dbb6b105440b3f" category="paragraph">您的组织要求对超过特定期限的文件进行保留审核。AI Data Engine 中的默认保留阈值为文件创建后七年或更长时间。您可以调整此阈值以匹配组织的合规性和保留策略。</block>
+  <block id="1882b006574819130803840fe1b9469b" category="list-text">在 <block ref="52e9ed5e3e773251fd429eeb0045af22" category="inline-link-macro-rx"></block> 中，将*上次创建*筛选器设置为保留阈值（默认 *7 年以上*）。</block>
+  <block id="5913dad45eb7f4d4c33e3d5282acecea" category="list-text">在采取行动之前，先与相关利益相关方审查结果。保留标记的文件通常会被监控，而不是自动删除。</block>
+  <block id="9ccc4a73e855e5fd0cf236f7725bec04" category="list-text"><block ref="a6ba65d5603bedd3e970c59f52c864db" category="inline-link-macro-rx"></block> 使用仅监控或电子邮件通知操作，以便在新文件达到保留阈值时收到警报，而不是对这些资源执行一次操作。</block>
+  <block id="03490a48891dc30405298515cb0a2ec1" category="section-title">查找并消除重复的文件</block>
+  <block id="ef14c05b00c07359bf1b4ea88e94054e" category="paragraph">同一文件的多个相同副本存在于卷或共享中，这是具有备份作业、数据迁移或共享项目文件夹的环境中的常见问题。</block>
+  <block id="f9ca2405c30ced0ee904d9e0f97cf9a0" category="list-text">在 <block ref="52e9ed5e3e773251fd429eeb0045af22" category="inline-link-macro-rx"></block> 中，选择*添加过滤器*，然后选择*重复项*。</block>
+  <block id="01d46cb938e4d511d3e9999a33fcf5f9" category="list-text">查看结果。列出的文件在目录中的其他位置有一个或多个相同的副本。</block>
+  <block id="7742546bbb754d84caafaa114682a8fa" category="inline-link-macro">一个动作</block>
+  <block id="7314dc8edb48e7722955c7e114704518" category="list-text">选择要操作的文件，然后选择 <block ref="969e8bd9170e1e99801569561e044682" category="inline-link-macro-rx"></block>。存档或删除在其他位置具有原始副本的已确认重复文件。</block>
+  <block id="b0c0d5d2684f243b989c8f373fd49af4" category="inline-link-macro">将筛选器另存为策略</block>
+  <block id="c9ff8855af97bd1a12a7e6912ad77df9" category="list-text"><block ref="46439728f888d79fb7cc9b685ae19ce6" category="inline-link-macro-rx"></block> 以跟踪随时间推移的重复累积，并在计数增加时接收通知。</block>
+  <block id="5f142691dc2e5880dde4fa4e8308addd" category="section-title">数据所有者的目标清理</block>
+  <block id="eb825210e78145b21120ef3c8c285534" category="paragraph">满足组织冷数据和陈旧数据阈值的数据分布在许多所有者中。确定哪些数据所有者在这些类别中持有的文件最多，可以帮助您确定清理的优先级。</block>
+  <block id="d18055bb263b716bd2926c7fbc634768" category="list-text">从 <block ref="8f8592489ae57c27af5c107a0d44dae6" category="inline-link-macro-rx"></block> 中，找到 _Top data owners by reclaimable storage_ 表。</block>
+  <block id="4b9bd7dec241c003603e9ba36f85a4e9" category="list-text">选择所有者行以打开筛选到该所有者文件的 <block ref="52e9ed5e3e773251fd429eeb0045af22" category="inline-link-macro-rx"></block>。</block>
+  <block id="8826c83ac41b279afb2deb64b8e4f22d" category="list-text">查看结果并决定<block ref="3efcafeea256ec5f5f80d2df60560120" category="inline-link-macro-rx"></block>文件。</block>
+  <block id="e2b9c3b26ba26fd50d8e5ea52baf5615" category="list-text"><block ref="537d965580da49e1e6c3a096271213f7" category="inline-link-macro-rx"></block> 以监控该所有者的潜在可回收数据随时间的变化情况。</block>
+  <block id="099b7eb42ed02e26b076249d7bc9e248" category="inline-link-macro">调查非结构化数据</block>
+  <block id="86f84a6aeae2c3ff3b735d8e60ef5504" category="list-text"><block ref="86f84a6aeae2c3ff3b735d8e60ef5504" category="inline-link-macro-rx"></block></block>
+  <block id="4e17f6659f1ce957a9128ff286ebb060" category="summary">使用调查视图可以浏览连接系统上的基于文件的存储、数据库表和目录结构。选择与您要查找的内容匹配的选项卡。</block>
+  <block id="679e69e9bdc70ba02f2657d93510fff9" category="doc">在 AI Data Engine 中调查您的数据</block>
+  <block id="44da94769eacd19020729f27fef9441d" category="paragraph">当您需要了解哪些内容正在消耗存储空间、识别哪些数据库表正在无限制地增长，或查找访问权限过于宽松的目录时，请使用元数据过滤器调查所有已连接系统中的数据。</block>
+  <block id="3082e4bef0a9c97ce9f133bff6ea5eb5" category="section-title">选择一个起点</block>
+  <block id="18102ed05bb0a8ff6f88556fda449b9c" category="paragraph">在左侧导航栏中选择*调查*以打开视图。您还可以从仪表板打开调查视图，方法是在 _Top data resources by reclaimable storage_ 表中选择 *Investigate*，该表会自动为该资源应用筛选器。</block>
+  <block id="b4554dcd354d221900b1346138e1cd61" category="paragraph">*调查*分为三个选项卡。选择与您正在调查的数据类型匹配的选项卡。</block>
+  <block id="5c6ba25104401c9ee0650230fc6ba413" category="cell">选项卡</block>
+  <block id="e214b95958c9f93ea16e42f7db6cc60d" category="cell">请在需要时使用</block>
+  <block id="ab066b3292d8ab61ef3b5c77169cdd19" category="cell">更多信息</block>
+  <block id="c7187f6fea22a59bf7665d6a00bc979f" category="cell">*非结构化*</block>
+  <block id="df48daaf43ed83934872f416dc296e9a" category="cell">在 NFS 和 SMB/CIFS 卷上查找冷数据、过时数据或基于文件的重复数据</block>
+  <block id="81764035d4bb7622fe386f2c8b866f2d" category="cell"><block ref="81764035d4bb7622fe386f2c8b866f2d" category="inline-link-macro-rx"></block></block>
+  <block id="5eca2bb7beed7342cca1106688651049" category="cell">*结构化*</block>
+  <block id="f0c49b1f5a3d381d7e5aaf049286da6b" category="cell">识别占用存储空间的超大或未使用的数据库表</block>
+  <block id="4a85d1ee07bb8b9d1edfdad83663f695" category="inline-link-macro">调查结构化数据</block>
+  <block id="56e5a25f46de7fd625c2a35f379b85a5" category="cell"><block ref="56e5a25f46de7fd625c2a35f379b85a5" category="inline-link-macro-rx"></block></block>
+  <block id="6f81d7719620f85dcacb3a3a4375a869" category="cell">*目录*</block>
+  <block id="85076b52dccc264b25239b17f908a37d" category="cell">审核目录级权限并查找可广泛访问的路径</block>
+  <block id="c3752096b16f86b02150e9d64aeefb03" category="inline-link-macro">调查目录</block>
+  <block id="243090fac4ef0153c4d49200a899b55c" category="cell"><block ref="243090fac4ef0153c4d49200a899b55c" category="inline-link-macro-rx"></block></block>
+  <block id="2febbf7b97a1bd1e8bf90649b86ce36f" category="paragraph">页面顶部的汇总计数和总大小会更新以反映活动选项卡（例如，"非结构化（400M）| 5.7 PiB"）。</block>
+  <block id="03469f3b31a2702640b0a64e1fae7825" category="inline-link-macro">使用筛选器</block>
+  <block id="4b141310f8c42d32665587f57a3d5e06" category="list-text"><block ref="4b141310f8c42d32665587f57a3d5e06" category="inline-link-macro-rx"></block></block>
+  <block id="0a32a9c8f26d2c4f95b1f16b549ee04a" category="list-text"><block ref="0a32a9c8f26d2c4f95b1f16b549ee04a" category="inline-link-macro-rx"></block></block>
+  <block id="acc5764f7cffbcb72bf1a80039f58b45" category="summary">跨存储系统审核目录级权限，以查找可广泛访问的路径，查看有权访问的人员，并将调查结果保存为可重复使用的策略。</block>
+  <block id="0112ff7d7742da75e2844fccf8e0c00d" category="doc">调查 AI Data Engine 中的目录</block>
+  <block id="6613a2040255dc6982fe712823bd450a" category="paragraph">当需要确定哪些目录暴露给比预期更多的用户时，请按权限筛选以查找对整个组织开放的文件夹。例如，在仪表板上看到已标记的暴露目录的安全管理员可以查找具有组织范围访问权限的所有目录，查看谁拥有读取和写入权限，并创建策略以在每次扫描后监控新的暴露情况。</block>
+  <block id="99cf048b4570a503827b433537bf7a58" category="list-text">必须至少连接并扫描一个数据源。请参阅 <block ref="3540fa5efa78b3ae6e9c7d52a1e7d21a" category="inline-link-macro-rx"></block>。</block>
+  <block id="51572c9a667a33a3847aef86b292e654" category="section-title">查找可广泛访问的目录</block>
+  <block id="87e928f2a1c66c783997d4245415120c" category="paragraph">使用权限筛选器识别对超出预期受众范围的人员开放的目录。</block>
+  <block id="f2a60bd092547b3abe2cf0a9d1abe8e2" category="list-text">在 AI Data Engine 用户界面中，选择*调查*。</block>
+  <block id="10ba159cb5ee1b6139fccac82d24494d" category="list-text">选择*目录*选项卡。</block>
+  <block id="453c1a03af4844925b9c44be0f0a776e" category="paragraph">该表显示目录名称（完整路径）、数据容器、目录所有者、目录类型和系统。</block>
+  <block id="bf1cef9127c9e6edc37958d8a4037666" category="list-text">选择*添加过滤器*，然后选择*打开权限*。</block>
+  <block id="aa0dd989b4d2622818bfe9976fab25fe" category="list-text">将筛选器设置为*对组织开放*，以显示可在组织范围内访问的目录。</block>
+  <block id="dd386e911c1b569dfc2cf3427f37d663" category="paragraph">结果表更新以显示与权限条件匹配的目录，包括最后访问日期和权限状态。</block>
+  <block id="f2d7a774ed1ac216d1452a55765e4201" category="paragraph">要查看可用筛选条件的完整列表，请参阅 <block ref="4b141310f8c42d32665587f57a3d5e06" category="inline-link-macro-rx"></block>。</block>
+  <block id="c790c517b487eb008ec91ccb9c64b087" category="section-title">查看目录权限</block>
+  <block id="23fdcec5412294db96c0d0fa0caa9028" category="paragraph">选择一个目录行以打开详细信息面板并查看谁具有访问权限。</block>
+  <block id="3cad8b69ba020943e96d17a6e54caf82" category="paragraph">详细信息面板显示目录类型、系统、目录所有者和权限摘要（例如，"对组织开放"）。选择 *查看权限* 可查看具有目录访问权限的每个用户或组的读取和写入访问权限的明细。</block>
+  <block id="7ba5f74e28642cd22f893052cee01692" category="paragraph">在创建策略或升级到目录所有者之前，请使用此信息确认访问级别是否为有意设置。</block>
+  <block id="31bfae586bf76c48ae93881709c7e146" category="section-title">将调查结果保存为策略</block>
+  <block id="cba82d10856d128f229e20e00b1e9a2a" category="paragraph">过滤以识别可广泛访问的目录后，将条件保存为策略，以便在每个扫描周期后监控新的暴露风险。</block>
+  <block id="29d02aa1a491ca6fa24ed83bafd47040" category="list-text">应用权限筛选器后，在筛选器工具栏中选择*创建策略*。</block>
+  <block id="4fbab17ed9ad970e5548a7d1d4569e6b" category="list-text">完成保单表格。请参阅 <block ref="a6ba65d5603bedd3e970c59f52c864db" category="inline-link-macro-rx"></block>。</block>
+  <block id="801ab24683a4a8c433c6eb40c48bcd9d" category="inline-image-macro">下载</block>
+  <block id="ac81d0c9d07b55c8f3e61604209babad" category="paragraph">要从"目录"选项卡下载过滤结果，请选择 <block ref="5cdab54312f4c99b6053532c2103d660" category="inline-image-macro-rx" type="image"></block>。</block>
+  <block id="d59f12356f9957c4b4ff227159fcf4ce" category="list-text"><block ref="d59f12356f9957c4b4ff227159fcf4ce" category="inline-link-macro-rx"></block></block>
+  <block id="882b7cd90ab9c836a860233e4f0eead8" category="list-text"><block ref="882b7cd90ab9c836a860233e4f0eead8" category="inline-link-macro-rx"></block></block>
+  <block id="b91af9e0d2dba364d6d2a561af5363cd" category="summary">在连接的数据库服务器上查找超大或未使用的数据库表，然后将调查结果保存为可重用的治理策略。</block>
+  <block id="b1a1fd02deed95037828a36a7179afbf" category="doc">调查 AI Data Engine 中的结构化数据</block>
+  <block id="1e41100e4bae97b934039a13901ff517" category="paragraph">当数据库存储意外增长时，请按表元数据筛选，以查找哪些表超大或自首次发现以来未显示任何活动。例如，存储管理员可以识别自早期扫描以来未更改的大型表，然后与数据库所有者协调，以评估是否仍然需要这些表。</block>
+  <block id="c8cd110517c3b92d3347f4ec9aa59bfb" category="list-text">必须至少连接并扫描一个数据库数据源。请参阅 <block ref="3540fa5efa78b3ae6e9c7d52a1e7d21a" category="inline-link-macro-rx"></block>。</block>
+  <block id="4bbbe5b15760624da31d87f512b3cc15" category="section-title">查看数据库表列表</block>
+  <block id="43d29d6a732a4589622f09b5ac4afdf9" category="list-text">选择*结构化*选项卡。</block>
+  <block id="1ecc9fc79ee3d69d421d06063a731522" category="paragraph">该表显示数据库表名、架构、数据库服务器、发现时间、表维度（列×行）和表大小。</block>
+  <block id="5ad9d9ad516549de5fb814e3b5b35506" category="section-title">识别超大或未使用的表格</block>
+  <block id="6a0c39f9c98f5df1491258dd20bb772d" category="paragraph">使用筛选条件将列表范围缩小到最有可能提供回收机会的表。</block>
+  <block id="382d8811bbc95deb4119e6f0dfd639c3" category="list-text">选择*添加过滤器*，然后选择*发现时间*。</block>
+  <block id="3b3db3939971236d8ce2306dd9d88c2d" category="list-text">将范围设置为跨多个扫描周期存在的表面表，例如一年多前首次发现的表。</block>
+  <block id="df9b75f54ade626477192154c29e9801" category="list-text">要进一步缩小范围，请再次选择 *添加过滤器* 并按 DB server 或 schema 进行过滤，以专注于特定系统。</block>
+  <block id="ce7f610ced968febc3cd61a9bb7cdefb" category="paragraph">应用的筛选器在筛选器栏下方显示为标签。添加每个筛选器时，结果都会更新。</block>
+  <block id="4dd34ef90a77f1d09391c45476e798b3" category="section-title">查看表详细信息</block>
+  <block id="fd3754f4f7b2ef38094a8fc62525fab1" category="paragraph">选择表格行以打开详细信息面板，并评估该表是否为回收候选对象。</block>
+  <block id="84287206d3f05ec7283ab9d5a52c461c" category="paragraph">详细信息面板显示数据库服务器、架构、表维度、表大小和发现时间。使用此信息来确定表自发现以来是否已增长或保持不变。</block>
+  <block id="07ac78891bad6396bded1a9176f8e297" category="admonition">在对数据库表执行操作之前，请与数据库所有者协调，以确认不再需要该表。</block>
+  <block id="25f30c6941a078ab089edf63b56bd24d" category="paragraph">应用识别感兴趣表格的过滤器后，保存持续监控的标准。</block>
+  <block id="3f6002a9d5a412d0cfc083657206daed" category="list-text">在筛选工具栏中选择*创建策略*。</block>
+  <block id="39760bf31d6d1280fffe7fdda7c2f0f5" category="paragraph">要从结构化选项卡下载过滤结果，请选择 <block ref="5cdab54312f4c99b6053532c2103d660" category="inline-image-macro-rx" type="image"></block>。</block>
+  <block id="66b7953990a2c19a573306360e644fe9" category="summary">使用元数据筛选器在 NFS 和 SMB/CIFS 卷上查找文件并将其分类为冷文件、过时文件或大型文件，然后查看结果、酌情采取行动或将筛选器条件保存为可重用策略。</block>
+  <block id="e641dbbcf92be8ee6a73622ebe033070" category="doc">调查 AI Data Engine 中的非结构化数据</block>
+  <block id="1c4dfb9d2f2d457842021d37ab190421" category="paragraph">当基于文件的存储意外增长时，请按上次访问时间、文件大小和所有者进行筛选，以查找哪些文件正在占用容量。例如，存储管理员可以识别超过一年未访问的 TB 级 VM 快照，并评估是存档、删除还是保留这些快照。</block>
+  <block id="ba342bb770d37972475e46fec4007716" category="section-title">按上次访问时间查找冷文件或过时文件</block>
+  <block id="8ab92643f17b04229c9edd9da18a21b5" category="inline-link-macro">配置冷数据和过期数据阈值</block>
+  <block id="28f4c25388d7d09ca2a87d44d5c9a79f" category="paragraph">使用基于日期的筛选器来识别未在组织冷数据阈值或过时数据阈值内访问的文件。阈值可在 *Configuration* &gt; *Settings* 中配置。请参阅 <block ref="5b2f6a0e7f285ed05b047fba791060b7" category="inline-link-macro-rx"></block>。</block>
+  <block id="81b39180656b54592301851e11944e31" category="paragraph">默认情况下，非结构化选项卡处于选中状态。</block>
+  <block id="24446f194b4e840f6a8fc2e8d83584fa" category="list-text">选择*添加过滤器*，然后选择*上次访问时间*。</block>
+  <block id="69c7c55399371b6a9da3b5a279f6218f" category="list-text">选择与冷数据阈值匹配的时间范围，例如 *1+ year*。</block>
+  <block id="75a212d69d73a2bed522805ef8d11c80" category="list-text">要关注占用空间最多的对象，请再次选择*添加过滤器*，然后选择*文件大小*，并设置最小值，例如*&gt;1 GiB*。</block>
+  <block id="93161565eff7dd1bcd7695ef334eb442" category="paragraph">应用的筛选器会以标签的形式显示在筛选器栏下方。添加每个筛选器时，结果表和项目计数会更新。</block>
+  <block id="c064ea72a2e73b982c10fdbee1cc2f42" category="section-title">按所有者对结果进行分组</block>
+  <block id="27e3ceb3bbe18fe6b8cbfdbf811dadc1" category="paragraph">按所有者分组可帮助您在决定在何处采取行动之前了解谁持有最多可能可回收的数据。</block>
+  <block id="77327dffbe725494ad0395784b0923ab" category="list-text">应用筛选条件后，选择*查看方式*下拉菜单。</block>
+  <block id="22e027d4752aaf407ea183c679494a52" category="list-text">选择*所有者*。</block>
+  <block id="bd41ceeb815c1a7689b77f615b603cd5" category="paragraph">结果将重新组织，以显示每个所有者的总文件数量和大小。选择任何所有者行以展开并查看其单个文件。</block>
+  <block id="13102176d90562c915296329d372cf05" category="section-title">查看文件详细信息</block>
+  <block id="e45fbe0fa3391072b64ce7b218c7f9cd" category="paragraph">选择任何文件行以打开详细信息面板，并确认文件与预期范围匹配，然后再执行操作。</block>
+  <block id="570232dc9d8301751d1f0df3d7d6ded5" category="paragraph">详细信息面板显示文件的系统、存储库、文件所有者以及任何应用的标签或策略。在存档或删除之前，请验证系统和所有者。</block>
+  <block id="739c8a225ec9d4388a87cbff74a364d6" category="section-title">根据结果采取行动或另存为策略</block>
+  <block id="9115023d9a2299cdbb6c4094a3b32978" category="paragraph">确定要处理的文件后，使用结果表中的复选框选择一个或多个项目。</block>
+  <block id="1da1c3b62b44c3206eda6a0bfaa3608b" category="list-text">要立即采取行动，请参阅 <block ref="0a32a9c8f26d2c4f95b1f16b549ee04a" category="inline-link-macro-rx"></block>。</block>
+  <block id="4dfc97cca55649475fd1827176bf7835" category="list-text">要保存用于持续监控的筛选条件，请在筛选工具栏中选择*创建策略*。请参阅 <block ref="a6ba65d5603bedd3e970c59f52c864db" category="inline-link-macro-rx"></block>。</block>
+  <block id="c53e81a36cf6536770e3901db796b77b" category="paragraph">要从非结构化选项卡下载过滤结果，请选择 <block ref="5cdab54312f4c99b6053532c2103d660" category="inline-image-macro-rx" type="image"></block>。</block>
+  <block id="466cb045e839cbb73b8cad13c419eadc" category="summary">通过存档文件、标记要跟踪的项目或永久删除不再需要的内容，对已识别为冷数据、陈旧或过时的文件采取操作。</block>
+  <block id="c6cdf2484e43853022e3d34a4196e735" category="doc">在 AI Data Engine 中对数据执行操作</block>
+  <block id="cb54b53eef654e8ada475149b79f002c" category="paragraph">使用您定义的筛选器识别文件后，您可以直接采取行动以执行组织的数据生命周期策略。例如，存储管理员可以通过筛选找到超过一年未访问的 TB 级 VM 快照，并根据保留要求和业务策略将其批量存档到冷存储共享中，或将其删除。</block>
+  <block id="bbe48fb854ea022537208eeeff822f91" category="paragraph-title">关于此任务</block>
+  <block id="728d5066b3e522f53ee9bb1aa1cceff2" category="paragraph">要执行操作，请使用复选框在"调查结果"表中选择一个或多个项目。操作工具栏将激活并显示四个选项：*删除*、*存档*、*复制*和*标记*。</block>
+  <block id="3b701cb2531be0b00189872b17d5f0c9" category="paragraph">您可以执行的操作取决于您分配的角色：</block>
+  <block id="004bf6c9a40003140292e97330236c53" category="cell">操作</block>
+  <block id="c101058e7ea21bbbf2a5ac893088e90b" category="cell">标记</block>
+  <block id="e727b00944f81e1d0a95c12886ac4641" category="cell">归档</block>
+  <block id="5fb63579fc981698f97d55bfecb213ea" category="cell">复制</block>
+  <block id="f2a6c498fb90ee345d997f888fce3b18" category="cell">删除</block>
+  <block id="95649a07a392f0eeb3ca64399627eba1" category="paragraph">要查看角色的完整描述，请参阅 <block ref="d59f12356f9957c4b4ff227159fcf4ce" category="inline-link-macro-rx"></block>。</block>
+  <block id="db1d23e5179a9fe160dcc88e195ec706" category="section-title">决定该怎么做</block>
+  <block id="147b072cafab1c2dd42e22e5d15301b6" category="paragraph">根据您对数据的确定程度选择一个操作：</block>
+  <block id="098576d35c2d491f4817320ed47b6aaa" category="cell">何时使用</block>
+  <block id="0f9189cdc3e0a037abe09638c750c872" category="cell">在承诺存档或删除之前，您需要更多时间，或需要与其他团队协调。标记跟踪文件而不更改其位置。</block>
+  <block id="b2ec648a2d141cdfffc053e7b6563866" category="cell">数据可能仍然有价值，但不应存储在主存储中。归档会将其移至成本较低的目标位置，同时保持其可恢复性。</block>
+  <block id="7a513a3c28a8f669fd4aca87edc7d4ff" category="cell">数据应存在于第二个位置，例如用于备份或迁移目的。复制会保留原件。</block>
+  <block id="bc3816ab076629adfe40a0bb74253630" category="cell">此数据不再需要，也没有保留要求。删除是永久性的，因此请仅在确定时使用。</block>
+  <block id="3a86a1f3200bc13f3e6e25cd8c63f387" category="paragraph">当数据可能仍然有价值或需要进一步审核时，请选择标记、存档或复制而不是删除。仅当您确定可以安全地永久删除数据时才删除。</block>
+  <block id="b94cf9b41dc14b08e350609a8dda9851" category="section-title">归档文件</block>
+  <block id="d583e1dacb23bebde940fa5e8d865f0e" category="paragraph">存档通过 NFS 或 SMB/CIFS 将文件移动到冷存储目标。您可以选择将痕迹文件保留在原始位置。</block>
+  <block id="1570687f8725a213b4a686f6ac4fdae2" category="list-text">在"调查"视图中，选择要存档的文件。</block>
+  <block id="2c77adf5fa1de4ed37a6e14d2212f074" category="list-text">选择 *Archive*。</block>
+  <block id="f54b7c864a181cded9240ed6104e3daf" category="list-text">在"存档"对话框中，选择目标卷协议：</block>
+  <block id="cd500862e33a75abfb5031fad39b1142" category="list-text">*NFS*：输入 NFS 目标文件夹路径。</block>
+  <block id="3935da95b9989cca3c105737826afe11" category="list-text">*CIFS*：按格式输入 CIFS 目标文件夹路径<block ref="fe92c67c0b14ced5563463f4fafedf55" prefix=" " category="inline-code"></block>。提供 Active Directory 凭据：以<block ref="17d3c626ba751e0e94dda4f25e2f7917" prefix=" " category="inline-code"></block>或<block ref="6dbef44fd2513f0adc2001ca12b9ab28" prefix=" " category="inline-code"></block>格式输入用户名，然后输入密码。</block>
+  <block id="057781ed20a2756d33dd5357cc3202fe" category="list-text">要在原始位置创建痕迹导航文件，请启用 *Leave breadcrumb*。</block>
+  <block id="58a462660ae302250a4d780d0b3e6c75" category="paragraph">面包屑文件可帮助用户了解移动文件的原因。</block>
+  <block id="558f28628ba8ab4cb8420949524832d3" category="section-title">复制文件</block>
+  <block id="02a8733c4bf7bb8ff585c8b99ea9c13d" category="paragraph">将重复文件复制到目标卷，而不将它们从原始位置删除。</block>
+  <block id="a058b0c45ff3df328bd80e228d5ce518" category="list-text">在"调查"视图中，选择要复制的文件。</block>
+  <block id="ff721def565be95c3cfffe25fdb400a0" category="list-text">选择*复制*。</block>
+  <block id="672c6ba1d9b352d97c0a978b29edc305" category="list-text">在"复制"对话框中，选择目标卷协议：</block>
+  <block id="19e43848563797a6f937c7895b604754" category="section-title">删除文件</block>
+  <block id="febaf5fabe3319f93b2fe563154ea639" category="paragraph">删除将从存储中永久删除文件，并且无法撤消。</block>
+  <block id="78ed60cd08755488e6329393322735be" category="admonition">删除操作是永久性的，无法撤消。此操作会删除源文件，即使它们包含活动数据。</block>
+  <block id="2502b05a7977f127e7281b538960066d" category="list-text">在"调查"视图中，选择要删除的文件。</block>
+  <block id="0f024621e0673f1f4e657983682d6e72" category="list-text">选择 *Delete*。</block>
+  <block id="0dd343f5a1b1a1c2fe813f560aebc821" category="list-text">在"删除"对话框中，在确认字段中键入 *permanently delete*。</block>
+  <block id="72e2db7d480025db5af43c2aac619bc7" category="paragraph">选定文件将从存储中永久删除。</block>
+  <block id="df35ebac2a41097b9917523bd3c2bc09" category="section-title">标记文件</block>
+  <block id="44449c40b94c6968d500d3ac0000d80f" category="paragraph">标记将业务标记应用于文件以进行分类和跟踪。</block>
+  <block id="8e257df1aecf26a0f56609f5b258ac48" category="list-text">在调查视图中，选择要标记的文件。</block>
+  <block id="2aef7b9ad66d778cf2b4d09ef8ca9e20" category="list-text">选择*标签*。</block>
+  <block id="4a928d09a792f7bb80c2f5c0cd76c45d" category="list-text">输入或选择要应用的标签（例如"Archive candidate"）。</block>
+  <block id="e0c82a884434f7335c9d93b81ff581a8" category="list-text">确认以应用标签。</block>
+  <block id="1a00c6d70a5f287fa08a2f560298aaaf" category="list-text"><block ref="1a00c6d70a5f287fa08a2f560298aaaf" category="inline-link-macro-rx"></block></block>
+  <block id="e8feacb52d9a8d1ca3dc8fece412de38" category="summary">评估整个环境中的存储运行状况，确定潜在可回收存储的集中位置，并决定首先调查哪些系统或数据所有者。</block>
+  <block id="e51a89894bc2fbb0eac3aacc1ae7e58e" category="doc">使用 AI Data Engine 仪表板评估存储健康状况</block>
+  <block id="b943da8162c47c91e3486439e26e1301" category="paragraph">在决定要调查的内容之前，您需要了解存储的状态。有多少存储满足贵组织的冷和陈旧分类阈值，哪些系统或所有者在这些类别中拥有的数据最多？例如，响应容量警报的存储管理员可以看到扫描的存储中有很大一部分是冷数据，然后深入影响最大的系统立即开始调查。</block>
+  <block id="c3f8d99caf13f1c9cc868c7e63ac0b27" category="paragraph">从 NetApp Console 中，选择 *Governance* &gt; *AI Data Engine UI*。默认情况下，仪表板将打开。</block>
+  <block id="91e4a9de07cf0d0c9175eae1427f1f38" category="section-title">了解受影响的存储空间</block>
+  <block id="c8e00eaecbe5dcb031f4ca326e46a4c6" category="paragraph">摘要面板显示了整个扫描环境中问题的严重程度：</block>
+  <block id="7ef3152904e46ae7f94840efc09c3b92" category="list-text">*冷数据*：未在冷数据阈值内访问的存储（默认：一年）。您的组织可以根据您的保留和治理策略评估此数据。</block>
+  <block id="d712d7ee942e358c4009c49431ef2f2d" category="list-text">*过期数据*：在过期数据阈值内未访问或修改的存储（默认：三年）。在决定存档或删除等操作之前，过期数据可能需要根据组织的数据生命周期策略进行审查。</block>
+  <block id="cc2f4d57c9484a23c4a96fc8f23b8656" category="list-text">*暴露目录*：访问权限设置过于宽松的目录。这些代表了与存储消耗无关的治理风险。</block>
+  <block id="10f5b659d787bd27e2a927247a54a851" category="list-text">*数据资源*：当前扫描的卷、共享和存储桶计数。</block>
+  <block id="4032aca872e761b4f5e049b7efe7b33b" category="list-text">*Total files scanned*：在所有扫描的数据资源中编制索引的文件总数。</block>
+  <block id="5ecd0a2f3bf7cb827b44868e8678c44a" category="paragraph">冷阈值和陈旧阈值反映了您配置的设置，可以在*配置* &gt; *设置*中进行更改。默认值为产品默认值，不代表法律、合规性或行业标准保留期。请参阅 <block ref="5b2f6a0e7f285ed05b047fba791060b7" category="inline-link-macro-rx"></block>。</block>
+  <block id="4c1929bca68da328a7aa87cbf4e79c82" category="paragraph">_Active versus reclaimable storage_ 图表显示了所有扫描资源中活动数据与冷数据和过期数据的比例。高比例的冷数据、陈旧数据或重复数据可能表明存在显著的存储优化机会。</block>
+  <block id="13350d4cdc4449515291e667e2318234" category="paragraph">*系统*和*系统类型*过滤器控制仪表板范围。如果存储系统未出现在筛选器列表中，请参阅 <block ref="3540fa5efa78b3ae6e9c7d52a1e7d21a" category="inline-link-macro-rx"></block>。</block>
+  <block id="8b361c02b649d493e4f9211584d129e7" category="section-title">确定存储优化机会</block>
+  <block id="4bab448286926edb332cf3552e879598" category="paragraph">使用摘要面板和图表识别存储优化机会并确定其优先级：</block>
+  <block id="2e8488475a072fccfcc2119d2b03ea22" category="list-text">专注于潜在可回收规模最大的资源，而不是总规模最大的资源。与主要包含活动数据的大型系统相比，主要包含冷数据或过时数据的小型系统可能是更值得优先评估的资源。</block>
+  <block id="b1bb6fb4de70db88e5ce6c82540ddb6d" category="list-text">查找大量冷数据或过时数据，而不是孤立的文件。在一个资源上达到过时阈值的数十 TB 数据值得评估；孤立文件可能无需采取行动。</block>
+  <block id="9b7c190f314417a73c41881f5ea8e249" category="section-title">从控制面板移至调查</block>
+  <block id="e17f5b218ebb105d6297d499db8bf9ab" category="paragraph">当您确定了值得调查的资源或所有者时，请使用信息板底部的表格直接转到详细信息。</block>
+  <block id="e7ef56695ea04d5a8ed28ad8f4c0057d" category="inline-link-macro">非结构化</block>
+  <block id="f60bce136c62f7ab3c73aa4f0d5fcae9" category="inline-link-macro">目录</block>
+  <block id="f902c7ef331eec27ba7c19c76dd13ea7" category="paragraph">_Top data resources by reclaimable storage_ 表列出了您的扫描存储资源，这些资源按重复或符合组织冷阈值和过时阈值的数据比例排列。选择任一行以打开筛选到该资源的调查视图。在此处，使用 <block ref="2ffd1417cc35a965547bb2150ad9550e" category="inline-link-macro-rx"></block> 选项卡识别冷文件或过时文件，或使用 <block ref="6d961a2a6fb0e60e8e41943755ff0165" category="inline-link-macro-rx"></block> 选项卡审核权限暴露情况。</block>
+  <block id="10160b4a6005b5e64e6bb3c6cd4ce9f4" category="paragraph">_Top data owners by reclaimable storage_ 表显示哪些数据所有者拥有可能可回收的数据。选择任一行以打开筛选到该所有者文件的 <block ref="7c7d8a698a0c8312e3f60c4049c831eb" category="inline-link-macro-rx"></block> 视图。然后，您可以查看结果、对其采取行动或将其保存为策略。</block>
+  <block id="5b2f6a0e7f285ed05b047fba791060b7" category="list-text"><block ref="5b2f6a0e7f285ed05b047fba791060b7" category="inline-link-macro-rx"></block></block>
+  <block id="29f269506dea333c951e5bdd24f562e8" category="summary">AI Data Engine 调查视图中可用元数据过滤器的参考。</block>
+  <block id="3f1e5985ebe63ee48079ec674c8e712c" category="doc">AI Data Engine 中的元数据筛选器</block>
+  <block id="32098fe855860a385d3e78e6f21bddba" category="paragraph">AI Data Engine 调查视图提供元数据过滤器，将结果缩小到特定数据组。同时应用一个或多个筛选器以定义要检查或操作的文件。</block>
+  <block id="4f0571511f3798371fc4148cfd519ee4" category="section-title">时间筛选器</block>
+  <block id="d7778d0c64b6ba21494c97f77a66885a" category="cell">筛选器</block>
+  <block id="12707aedcfa4c45ecea0e99004cb9c09" category="cell">上次创建时间</block>
+  <block id="6c4f535cc063708aa94771d54aac42fc" category="cell">按创建日期筛选文件。</block>
+  <block id="fe8430e1398bb650f70a7f4ac687f688" category="cell">上次修改时间</block>
+  <block id="932670db976eb5163da370a9844d60a2" category="cell">按上次修改日期筛选文件。</block>
+  <block id="54bc6f9dec592e510fe90ddcb5c6e572" category="cell">上次访问时间</block>
+  <block id="fae6ad3654612fb7f673d44ed469f25d" category="cell">按上次访问日期筛选文件。使用此过滤器可识别冷数据或过时数据。</block>
+  <block id="eed7cc7f64269eb19a98b58ae0d79b6f" category="cell">发现时间</block>
+  <block id="0cd081aab0fdbd4873a2df7b40288c7e" category="cell">按 AI Data Engine 首次在扫描期间检测到文件的时间筛选文件。</block>
+  <block id="478b6b0fb2364dfbd840a53ccc181cdf" category="section-title">文件属性筛选器</block>
+  <block id="e539fd665e202f536325140d87d7bf72" category="cell">文件类型</block>
+  <block id="451bd265f7d7e6ef80f9660ce3f8938b" category="cell">按文件扩展名或类型分类筛选。从列表中选择一个或多个文件类型。</block>
+  <block id="a00fe904aecabd4bff74d8776e6da2c5" category="cell">文件大小</block>
+  <block id="ab46ef9ee6c9aeb566a0052138ce96fe" category="cell">按文件大小筛选。输入最小值、最大值或范围。</block>
+  <block id="39ef84f61972b7a15df8579366a81c58" category="cell">文件/目录路径</block>
+  <block id="c15d26ebf6d6ddcb7b27630b29418303" category="cell">按文件或其包含目录的完整或部分路径筛选。</block>
+  <block id="bca27ee6b79f497c1dda149cd12ce9f6" category="cell">文件/目录所有者</block>
+  <block id="19642f59edd25d4d972fe6baaccee253" category="cell">按拥有文件或目录的用户或组筛选。</block>
+  <block id="116279f96a5a5a07b36a9ed5e3b30ae8" category="cell">文件哈希</block>
+  <block id="c0714ffda0184867f1dc524ff0e5e420" category="cell">按文件的哈希值筛选，以查找特定文件或确认重复内容。</block>
+  <block id="763275034b3bde5ad4f0fb074a35e741" category="cell">重复项</block>
+  <block id="32faa42aebad484f8da6541b5505c7e0" category="cell">筛选以仅显示在目录中检测到重复副本的文件。</block>
+  <block id="c3a9830be43f6515257f3979e66816fd" category="cell">目录类型</block>
+  <block id="6354853e63c8ea1bdaef8b483969bac2" category="cell">按目录类型筛选。应用于"目录"选项卡。</block>
+  <block id="f6ee46e7a4dcaeef127cb631d4d71eba" category="section-title">源筛选器</block>
+  <block id="0a2e90839e516c5beec6a6b2383bebbb" category="cell">数据容器</block>
+  <block id="18f84adbe62810f511dc08313445b852" category="cell">筛选到特定卷或共享。</block>
+  <block id="a45da96d0bf6575970f2d27af22be28a" category="cell">系统</block>
+  <block id="b4e6aff3dc86a2a0b3d147648dcffc93" category="cell">筛选到特定集群。</block>
+  <block id="09a501049563e4eed9d4a3de0e0ef779" category="cell">系统类型</block>
+  <block id="817145c1a1deab51f396b987565b3847" category="cell">按存储系统类型筛选。</block>
+  <block id="1b3b8b36365509a34458842ab634d447" category="section-title">治理筛选器</block>
+  <block id="189f63f277cd73395561651753563065" category="cell">标记</block>
+  <block id="088563aec15dfe81a18f529521715ea6" category="cell">筛选已应用特定业务标记的文件。</block>
+  <block id="51359e8b51c63b87d50cb1bab73380e2" category="cell">策略</block>
+  <block id="a7958d6b539c348235ccc6bee16e5ce1" category="cell">筛选与特定已保存策略匹配的文件。策略名称显示在筛选器列表中。</block>
+  <block id="9f6155ee2fa8065bc4074b1d7c733d3f" category="section-title">访问筛选器</block>
+  <block id="81593873baa2c232be0bc3600b554eb3" category="cell">具有访问权限的用户数量</block>
+  <block id="7b94fe52ebacb5ec60b2cc5908f95eab" category="cell">按有多少用户或组具有访问权限来筛选文件。使用此功能可识别可广泛访问的数据。</block>
+  <block id="1f5111136feebd2cebb509caf39d84ea" category="cell">用户/组权限</block>
+  <block id="2c6c8d72b780de32255fbc74be0e6042" category="cell">按具有访问权限的特定用户或组筛选文件。</block>
+  <block id="56dc1022c52105e2bab579a7c3eb86ec" category="section-title">组合筛选器</block>
+  <block id="30b3b28cbcc9fe320c89ccf0cd63c711" category="paragraph">筛选器通过 AND 逻辑进行组合，这意味着结果必须同时匹配所有已应用的筛选器。</block>
+  <block id="30d965eef5ba25c6b9998ae38270b43e" category="doc">法律声明</block>
+  <block id="e9c44bbfd795a5d63d74c6a77afee70d" category="paragraph">法律声明提供对版权声明、商标、专利等信息的访问。</block>
+  <block id="6016a2b341113bf496b719905398ecd2" category="section-title">版权</block>
+  <block id="52009bb7ee17227f566cd26a02caee56" category="inline-link-macro"><block ref="52009bb7ee17227f566cd26a02caee56" category="inline-link-rx"></block></block>
+  <block id="a1a9afcf552a769c282769271829889a" category="paragraph"><block ref="a1a9afcf552a769c282769271829889a" category="inline-link-macro-rx"></block></block>
+  <block id="126a02652da6de02962cf1b654fd6376" category="section-title">商标</block>
+  <block id="c4ce4761e466527d26b3e3d5ed1006fd" category="paragraph">NETAPP、NETAPP 标识和 NetApp 商标页面上所列的商标是 NetApp, Inc. 的商标。其他公司和产品名称可能是其各自所有者的商标。</block>
+  <block id="f99aa604031e5049799e73b5c3748a98" category="inline-link-macro"><block ref="f99aa604031e5049799e73b5c3748a98" category="inline-link-rx"></block></block>
+  <block id="5d545fe5152641e2ebe654e336e520e5" category="paragraph"><block ref="5d545fe5152641e2ebe654e336e520e5" category="inline-link-macro-rx"></block></block>
+  <block id="be89498d2f8a22ce47c02ba9795fe2af" category="section-title">专利</block>
+  <block id="d0b19d36be2c5f16e9aef46c8a452d3d" category="paragraph">当前 NetApp 拥有的专利列表可以在以下网址找到：</block>
+  <block id="88e5eabd3917048b6927c42496b98f86" category="inline-link-macro"><block ref="88e5eabd3917048b6927c42496b98f86" category="inline-link-rx"></block></block>
+  <block id="dd38f906b37d412de7d1c1dcf4cbf31c" category="paragraph"><block ref="dd38f906b37d412de7d1c1dcf4cbf31c" category="inline-link-macro-rx"></block></block>
+  <block id="56c34c6410dd45c5cec44149ad0ce037" category="section-title">隐私政策</block>
+  <block id="8acb58cbd50ef1b468a020ee0bd351d3" category="inline-link-macro"><block ref="8acb58cbd50ef1b468a020ee0bd351d3" category="inline-link-rx"></block></block>
+  <block id="2352c4e1f4d0024ade0869e00e6243f4" category="paragraph"><block ref="2352c4e1f4d0024ade0869e00e6243f4" category="inline-link-macro-rx"></block></block>
+  <block id="c0227cef6f07a8cd2ac72f2945b031aa" category="section-title">开源</block>
+  <block id="9b73989307c1975dfa4d5e1581e4afe8" category="paragraph">通知文件提供有关 NetApp 软件中使用的第三方版权和许可的信息。</block>
+  <block id="93d6496a69f6384320dab15ccadbc4e8" category="inline-link-macro">关于AI Data Engine</block>
+  <block id="7ab36480d3c1a530e02ac892b3191e4a" category="paragraph"><block ref="7ab36480d3c1a530e02ac892b3191e4a" category="inline-link-macro-rx"></block></block>
+  <block id="e7dc26f23cfcebf955f51e9ec20046b1" category="summary">将调查筛选条件保存为命名策略，以便随时跟踪相同的数据分组，并在条件发生变化时收到通知。</block>
+  <block id="0e276db5651852f12c3a3c7be8b2939e" category="doc">在 AI Data Engine 中创建策略</block>
+  <block id="ede0a89e2e37ef9e8c3495af56db91eb" category="paragraph">如果您希望监控重复出现的数据状况，而无需手动重复相同的调查，请创建策略。例如，数据治理管理员可以保存"大型过期文件"策略，以跨扫描周期跟踪该分组，并在受影响的文件数量发生变化时接收电子邮件更新。</block>
+  <block id="f52de95261912772fdb0cf144dbe03b4" category="section-title">关于策略</block>
+  <block id="a5fa586a92013c5c97e29689057b2cb1" category="paragraph">策略将您在调查中定义的筛选条件保存为可重用的规则。AI Data Engine 在每个扫描周期后根据元数据目录评估每个策略。您可以随时打开策略以查看当前匹配结果集。如果附加删除操作，AI Data Engine 将在每个扫描周期后删除匹配的文件。如果您附加电子邮件通知，AI Data Engine 会在受影响的文件计数发生变化时发送更新。</block>
+  <block id="a6386166765944cb85899326a6b2c476" category="section-title">选择策略操作</block>
+  <block id="c64d18b33c4649a44b2628b0bb93ef7c" category="paragraph">策略是已保存的过滤器集，并附加了可选操作：</block>
+  <block id="0c38824176557eba4a1f516f7b088c6a" category="list-text">*仅监控（不采取行动）*：在不采取行动的情况下跟踪一段时间内的匹配分组。如果您希望在不承诺自动响应的情况下获得可见性，请使用此选项。</block>
+  <block id="c2e1f4c774ea10b57abefcb31aa76536" category="list-text">*发送电子邮件通知*：当匹配文件数量发生变化时，通过电子邮件通知用户。</block>
+  <block id="cb68685abc4007772bf80e880f6ac0b8" category="list-text">*永久删除*：在每个扫描周期后永久自动删除所有匹配的文件，无需进一步确认。此操作不可逆转。在附加此操作之前，请验证筛选条件是否准确，以及您是否有权删除已识别的文件。</block>
+  <block id="e1b7f70c1cf13a700c2cf801fe8ab552" category="section-title">从调查创建策略</block>
+  <block id="238cdb076cf9e0d915750e9789485a70" category="list-text">要附加删除或电子邮件通知操作，必须具有 _AI Data Engine administrator_ 角色。_AI Data Engine viewer_ 角色可以创建仅监控策略。</block>
+  <block id="b2aa56915b8338c2ab4bb92754d8c8b0" category="list-text">在 NetApp Console 中，导航到*治理* &gt; *AI Data Engine* &gt; *调查*。</block>
+  <block id="4556be3d18976a94e35e9505a84ce0a8" category="list-text">应用一个或多个筛选器，以标识策略要定位的文件。</block>
+  <block id="3c5d0d0d1c86fad21c867f867ba470c0" category="paragraph">例如：*文件类型* = .vmdk AND *上次访问时间* &gt; 365 天。</block>
+  <block id="af8e50ebd71c84b70d4d016cc5af3ace" category="paragraph">查看结果表，确认筛选器集捕获了预期的数据分组。</block>
+  <block id="2a2288a0330a9617d3c0853f85e68419" category="list-text">在筛选操作栏中，选择*创建策略*。</block>
+  <block id="8a37796b9da962274f41ca52f950bc99" category="list-text">输入*策略名称*。</block>
+  <block id="9915d257811585adeea12f4d8e40cc73" category="list-text">（可选）输入*描述*（最多 500 个字符）。</block>
+  <block id="d334da0bb32759f8d5a78f143560afcd" category="list-text">查看筛选条件表达式（例如<block ref="9ece38ef1bce889b5cd8f71bfea85fdc" prefix=" " category="inline-code"></block>），以确认它反映了您的选择。</block>
+  <block id="f77f4eb500540d8520b974e5058db78e" category="list-text">要附加操作，请在*操作*下选择以下选项之一：</block>
+  <block id="f07b095e62dc1ddbd4bf74cc9ca2b983" category="list-text">*仅监控（无操作）*（默认）：策略将保存为仅监控条件。</block>
+  <block id="5942095503f6d7e1e26b60a2a6e62d7f" category="list-text">*Send email notification*：向您指定的收件人发送电子邮件通知。</block>
+  <block id="92b84f78dfb45bf70e508b01224589fc" category="list-text">*永久删除*：无需额外输入。</block>
+  <block id="e396b1ac5c2d912ca6a8b13ed0e05a07" category="admonition">在每个扫描周期后，永久删除操作会自动且不可逆地删除与此策略匹配的所有文件。验证您的筛选条件，并确认您有权在保存之前删除这些文件。</block>
+  <block id="bf18811faac9b8e4fcaebab51afd1113" category="list-text">选择 *Create*。</block>
+  <block id="9e476387322a5c250893cf9c5c4ce78c" category="inline-link-macro">策略</block>
+  <block id="ce31e5e1b0f1c49223168a724c959c80" category="paragraph">策略已保存并显示在 <block ref="94996367e765be6e764d9bd137e8806b" category="inline-link-macro-rx"></block> 页面上。如果关联了操作，AI Data Engine 会将该操作应用于符合策略条件的文件。</block>
+  <block id="2fdca2ba1ed7693e487bec5025936503" category="section-title">示例：识别冷归档文件</block>
+  <block id="8d0110cf0e0c534d680481796f5a88f5" category="paragraph">以下示例创建了一个策略，用于在检测到一年以上未被访问的文件时发送电子邮件通知。</block>
+  <block id="e86db3241da52f3960cf869272355591" category="list-text">在调查中，应用以下筛选器：</block>
+  <block id="d91d018dd5cfcadde4007e74098c07ea" category="list-text">*上次访问时间* &gt; 365 天</block>
+  <block id="db92c743d97601150bbdfa11bf3cf66b" category="list-text">选择*创建策略*。</block>
+  <block id="874c7fe25e0efe0e2f1f89158d6b2375" category="list-text">输入策略名称：*Cold Files — Unaccessed 1 Year*。</block>
+  <block id="ce8113155f35b52456a2501ac34f598f" category="list-text">选择操作*发送电子邮件通知*并输入收件人电子邮件地址。</block>
+  <block id="e7326f303b8abf78625da7d8f22fa0b4" category="inline-link-macro">管理策略</block>
+  <block id="e9ba76d54e1aa8410ae34a053e8340ea" category="list-text"><block ref="e9ba76d54e1aa8410ae34a053e8340ea" category="inline-link-macro-rx"></block></block>
+  <block id="56a7a067af00ee6bab27db9405ac066d" category="summary">查看已保存的策略，了解哪些文件当前符合每组标准，并删除不再需要的策略。</block>
+  <block id="74ec5da2fefa69fddb2881fbc2dbd402" category="doc">管理 AI Data Engine 中的策略</block>
+  <block id="ff4836632ff67a727c02672236e6e643" category="paragraph">如果要查看哪些已保存的策略与数据匹配、比较受影响的文件计数以排定操作的优先级，或删除不再需要的策略，请使用策略页面。例如，具有多个冷数据策略的存储管理员可以比较受影响的文件计数，以确定首先需要关注的数据分组。</block>
+  <block id="64c6e97782938b65828124df5bf425e3" category="paragraph">每个策略列表显示当前符合其条件的文件和对象的计数。使用此计数可确定哪些策略正在主动捕获值得查看的数据。</block>
+  <block id="369b015b44433288d8d9f44f10b8f01c" category="section-title">检查哪些文件与策略匹配</block>
+  <block id="f1d0cd6ff1faaa9828ee3daf3aa01b7c" category="paragraph">在编辑或删除策略之前，请查看其当前匹配的文件，以确认条件仍在捕获正确的数据。</block>
+  <block id="fb1f704e8084c654c300bf0b7e8f6abd" category="list-text">在 AI Data Engine 用户界面中，选择 *Policies*。</block>
+  <block id="1e62455bacaf81600fe41fd0658e0acf" category="list-text">打开策略旁边的操作菜单，然后选择*Investigate results*。</block>
+  <block id="fb6e9d876191a4c0c156e739e377be59" category="section-title">编辑策略</block>
+  <block id="7bce56498401ba4fb04b8af6d984b307" category="list-text">打开要编辑的策略的操作菜单，然后选择 *Edit policy*。</block>
+  <block id="b43ad3d67481f4076cbc1f9453c9b41c" category="list-text">根据需要更新策略名称、描述或操作。</block>
+  <block id="8b6af900279ab887f7d317420c8ef15c" category="section-title">删除策略</block>
+  <block id="6da2239d74d67983073e7b7ef1decbb0" category="admonition">删除是永久性的，无法撤消。</block>
+  <block id="55c29241fe1686604368df5845be9163" category="list-text">打开要删除的策略的操作菜单，然后选择*删除策略*。</block>
+  <block id="172a47418c24bf93ca97612514cafed3" category="list-text">在预览对话框中确认删除。</block>
+  <block id="28fa47d57487a7a01a693e7abece3024" category="list-text"><block ref="28fa47d57487a7a01a693e7abece3024" category="inline-link-macro-rx"></block></block>
+  <block id="a80dc868c7fe91b119b830460ef35842" category="summary">已知限制列出了此版本 AI Data Engine 中不支持的功能。</block>
+  <block id="df210d5dd27498fc443f259d10010182" category="doc">AI Data Engine 中的已知限制</block>
+  <block id="c1d0108537baf61ec55a7c0d2bf2865c" category="paragraph">已知限制用于识别此版本的 AI Data Engine 中不支持的功能，或无法正确互操作的功能。在部署或使用产品之前，请查看这些限制。</block>
+  <block id="ea355214fd4bc7c57f471bd92918879b" category="section-title">部署</block>
+  <block id="b154839e03c7861cb59c16d126dfb18b" category="list-text">Lite 和 Enterprise 部署是独立的</block>
+  <block id="50994614c7e6b09b219e17a7563708d8" category="list-text">AIDE Lite 和 AIDE Enterprise 是独立的部署模式。目前不支持将现有部署从一种模式迁移到另一种模式。</block>
+  <block id="d7ac65d8f6471ff1370e8ad4fda2db56" category="section-title">策略和操作</block>
+  <block id="22d58514041f9d266de2982f62b704e1" category="list-text">策略触发的操作受到限制</block>
+  <block id="1bd7116c1271070fddc738ca1e2a63ac" category="list-text">创建策略时，可用的自动操作仅限于永久删除和电子邮件通知。来自策略的自动存档和标记操作在此版本中不可用。您可以创建无需执行任何操作的策略，以随着时间的推移监控数据状况。</block>
+  <block id="5e5599b4ab847835c7ed2699cdee9711" category="list-text">无法删除或重命名标签</block>
+  <block id="f8219070c8f68fd81cbf60bf1fe96f84" category="list-text">此版本中不提供标记管理。创建标记后，它仍可在系统中使用。您可以将标记应用于项目并将其从项目中删除，但不能删除标记定义本身或更正包含拼写错误的标记名称。</block>
+  <block id="33871b6190a8d5adbe8b15282054766c" category="inline-link-macro">新增功能</block>
+  <block id="d2cf1d75a14c1b649ad24af4f7cc016a" category="list-text"><block ref="d2cf1d75a14c1b649ad24af4f7cc016a" category="inline-link-macro-rx"></block></block>
+  <block id="42f8643eb52a942747937327c72c8361" category="inline-link-macro">部署概述</block>
+  <block id="cd987b27c3ccd639db6b361c502cc401" category="list-text"><block ref="cd987b27c3ccd639db6b361c502cc401" category="inline-link-macro-rx"></block></block>
+  <block id="f83adadb9550a879c846995e2192c210" category="summary">了解 AI Data Engine 的新功能。</block>
+  <block id="44b91c30c9b87c702f04abec51577e90" category="doc">AI Data Engine 的新增功能</block>
+  <block id="18b0745779f8b981a16d46a4004a7a76" category="section-title">AI Data Engine 1.1.0</block>
+  <block id="4803fa959f55c9868ce67add988b1bc3" category="paragraph">AI Data Engine 是通过 NetApp Console 管理的元数据智能服务，可扫描连接的系统，构建元数据目录，并为您提供可见性和工具，以优化存储并大规模管理数据。您可以将 AI Data Engine 部署为 <block ref="8fdf49583b6b6aae3264dbfdc5e4db3c" category="inline-link-macro-rx"></block>，或者如果您的环境需要大规模的基于 Kubernetes 的高可用性，则可将其部署为 AIDE Enterprise。</block>
+  <block id="acff41ea8efa2706fc9a587f718f0796" category="paragraph">新增功能：</block>
+  <block id="5985e93b91139d269803898603d579a6" category="inline-link-macro">恢复存储容量</block>
+  <block id="b86b47941c4c25cee43b3c71138fd185" category="list-text"><block ref="b86b47941c4c25cee43b3c71138fd185" category="inline-link-macro-rx"></block></block>
+  <block id="28ee8cd4b89e717d7369cec556fc8ecb" category="list-text">根据您配置的阈值，识别连接系统中的冷数据、过时数据和重复数据，并查看哪些系统和数据所有者拥有最高浓度的此类数据。</block>
+  <block id="48f8775f839e036416f7dc0d633d5f90" category="inline-link-macro">降低成本和风险</block>
+  <block id="e52b3bfa6b31678effcc50ac056804c0" category="list-text"><block ref="e52b3bfa6b31678effcc50ac056804c0" category="inline-link-macro-rx"></block></block>
+  <block id="847b10ef72a08afa0a7a2bccfc9f722a" category="list-text">按访问时间、修改日期、创建日期、文件大小、重复状态和其他条件筛选所有连接的系统，以查找符合组织数据管理目标的文件。直接对结果采取操作，或将条件保存为策略。</block>
+  <block id="3ff38183453704f2e6ad7755f7b18083" category="inline-link-macro">持续管理数据</block>
+  <block id="051b1389b635c6321bf59c8160978b9c" category="list-text"><block ref="051b1389b635c6321bf59c8160978b9c" category="inline-link-macro-rx"></block></block>
+  <block id="324524f3e5ca24846ad76aa3a39d085c" category="list-text">将筛选器条件保存为命名策略，以跟踪一段时间内的重复数据条件，例如冷文件或超大文件，并在受影响的文件计数发生变化时接收通知。</block>
+  <block id="a82c68dd721dede489a3f3b8e95372d3" category="inline-link-macro">降低存储成本</block>
+  <block id="3cdd5ec3a4c7cb1197214bf213ebc152" category="list-text"><block ref="3cdd5ec3a4c7cb1197214bf213ebc152" category="inline-link-macro-rx"></block></block>
+  <block id="5ba3f47da1647119a0c451e5cddf25f4" category="list-text">通过将文件复制和存档到 NFS 或 SMB/CIFS 目标、标记要跟踪的项目或根据保留要求永久删除文件，强制实施组织的数据生命周期策略。</block>
+  <block id="a39bf4bdcac229739d4368182e65aa6a" category="inline-link-macro">分配管理员和查看者角色</block>
+  <block id="c0d075a2db1d36d19fe844351b6f646e" category="list-text"><block ref="c0d075a2db1d36d19fe844351b6f646e" category="inline-link-macro-rx"></block></block>
+  <block id="05cd97f29840d5823c5d103c71b26a1a" category="list-text">通过将 AI Data Engine 管理员或查看者角色分配给组织中的用户，控制谁可以调查数据并采取行动。</block>
+  <block id="aa06fbb4900808cad7e234eac413020c" category="inline-link-macro">消除重复数据</block>
+  <block id="ac3a7591b6c527c7f8b4165add1344e5" category="list-text"><block ref="ac3a7591b6c527c7f8b4165add1344e5" category="inline-link-macro-rx"></block></block>
+  <block id="7b13634364ab63bb85b99711d8e97507" category="list-text">查找在连接的系统中具有重复副本的文件。按 Duplicates 属性或文件哈希进行筛选，以直接查看重复组并对其执行操作。</block>
+  <block id="b35eff1ca35dd2f41cd4416cbe7b1867" category="inline-link-macro">让数据所有者承担责任</block>
+  <block id="95ab69d3f8b9dd3c20895e2a8f620b1d" category="list-text"><block ref="95ab69d3f8b9dd3c20895e2a8f620b1d" category="inline-link-macro-rx"></block></block>
+  <block id="7dbe065509bb17277c7b17f3766f97be" category="list-text">从控制面板中识别哪些数据所有者拥有最高浓度的冷数据、过时数据或重复数据，然后在调查视图中按所有者或组进行筛选，以根据您的策略查看和管理结果。</block>
+  <block id="482723983a4f2af954e36ff41e567451" category="inline-link-macro">已知限制</block>
+  <block id="34e34c0debc388181c3934f84b977ddd" category="list-text"><block ref="34e34c0debc388181c3934f84b977ddd" category="inline-link-macro-rx"></block></block>
+  <block id="e72c60c273700856ad0eeb853a353e52" category="sidebar">AI Data Engine 让您查看存储在 NetApp 系统上的非结构化数据。使用它来确定存储优化机会、调查数据和执行生命周期策略。</block>
+  <block id="ed67b8aec97dcec019f1b2972d70f5af" category="sidebar">AI Data Engine 文档</block>
+  <block id="0416d02572f9d563fa4967178dc5c5fb" category="sidebar">AI Data Engine 文档涵盖了如何部署、连接数据源以及如何使用 AI Data Engine 进行存储优化、元数据调查和数据治理。</block>
+  <block id="be11c74c1dd7f307bb80183a90dc2067" category="sidebar">开始使用</block>
+  <block id="507a3a88cebc46603ce2be8eaa924eee" category="sidebar">部署</block>
+  <block id="11806d1dadc91ccfe2ae6f339e25a1c9" category="sidebar">部署 AIDE Lite</block>
+  <block id="257ce553226ee14243e41d9927b62f9a" category="sidebar">部署 AIDE Enterprise</block>
+  <block id="1b127134042c4fb15c087d142010cbf8" category="sidebar">浏览您的数据</block>
+  <block id="aa01e24e60b9724b9b233b2a1e85f950" category="sidebar">使用筛选器</block>
+  <block id="325a8ad959d134128fc6baa371b4bbac" category="sidebar">对数据采取操作</block>
+  <block id="10a6be92e43e8ae9229f893030d4ea66" category="sidebar">管理</block>
+  <block id="a0b9d46eb31f48b358b5d002a6a61532" category="sidebar">配置数据阈值</block>
+  <block id="482048d0a60a52e1c59023a695b7ddf7" category="sidebar">AI Data Engine 文档</block>
+  <block id="dd60be60a280d7b79db7dd4b933c4f6c" category="sidebar">使用 AIDE</block>
+  <block id="c362fa2cf25cd98532ce4b3771f9fc76" category="sidebar">连接数据源</block>
+  <block id="ec728291e475cad65a149d393bcb1011" category="sidebar">了解 AIDE</block>
+  <block id="0e68193094000ac3da408457283ae464" category="sidebar">AIDE 架构</block>
+  <block id="1cbaf70f8f4340f5a7ef57a023be3309" category="sidebar">调查数据</block>
+  <block id="6b2443d2529b7b19a67154f7a04c9877" category="sidebar">使用 AIDE 仪表板评估存储运行状况</block>
+  <block id="4bd61438e659088dded1d69964caccb1" category="sidebar">管理策略和操作</block>
+  <block id="7d0ee6fed10d3d4e5c9ee496729ab519" category="sidebar">发行说明</block>
+</blocks>

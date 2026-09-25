@@ -1,0 +1,69 @@
+---
+sidebar: sidebar 
+permalink: investigate/understand-dashboard.html 
+keywords: dashboard, overview, reclaimable storage, cold data, stale data, storage health, capacity risk, data owners, investigate 
+summary: 评估整个环境中的存储运行状况，确定潜在可回收存储的集中位置，并决定首先调查哪些系统或数据所有者。 
+---
+= 使用 AI Data Engine 仪表板评估存储健康状况
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+在决定要调查的内容之前，您需要了解存储的状态。有多少存储满足贵组织的冷和陈旧分类阈值，哪些系统或所有者在这些类别中拥有的数据最多？例如，响应容量警报的存储管理员可以看到扫描的存储中有很大一部分是冷数据，然后深入影响最大的系统立即开始调查。
+
+从 NetApp Console 中，选择 *Governance* > *AI Data Engine UI*。默认情况下，仪表板将打开。
+
+
+
+[[understand-how-much-storage-is-affected]]
+== 了解受影响的存储空间
+
+摘要面板显示了整个扫描环境中问题的严重程度：
+
+* *冷数据*：未在冷数据阈值内访问的存储（默认：一年）。您的组织可以根据您的保留和治理策略评估此数据。
+* *过期数据*：在过期数据阈值内未访问或修改的存储（默认：三年）。在决定存档或删除等操作之前，过期数据可能需要根据组织的数据生命周期策略进行审查。
+* *暴露目录*：访问权限设置过于宽松的目录。这些代表了与存储消耗无关的治理风险。
+* *数据资源*：当前扫描的卷、共享和存储桶计数。
+* *Total files scanned*：在所有扫描的数据资源中编制索引的文件总数。
+
+
+冷阈值和陈旧阈值反映了您配置的设置，可以在*配置* > *设置*中进行更改。默认值为产品默认值，不代表法律、合规性或行业标准保留期。请参阅 link:../administer/configure-settings.html["配置冷数据和过期数据阈值"]。
+
+_Active versus reclaimable storage_ 图表显示了所有扫描资源中活动数据与冷数据和过期数据的比例。高比例的冷数据、陈旧数据或重复数据可能表明存在显著的存储优化机会。
+
+*系统*和*系统类型*过滤器控制仪表板范围。如果存储系统未出现在筛选器列表中，请参阅 link:../data-sources/connect-data-source.html["连接数据源"]。
+
+
+
+[[identify-storage-optimization-opportunities]]
+== 确定存储优化机会
+
+使用摘要面板和图表识别存储优化机会并确定其优先级：
+
+* 专注于潜在可回收规模最大的资源，而不是总规模最大的资源。与主要包含活动数据的大型系统相比，主要包含冷数据或过时数据的小型系统可能是更值得优先评估的资源。
+* 查找大量冷数据或过时数据，而不是孤立的文件。在一个资源上达到过时阈值的数十 TB 数据值得评估；孤立文件可能无需采取行动。
+
+
+
+
+[[move-from-the-dashboard-to-investigation]]
+== 从控制面板移至调查
+
+当您确定了值得调查的资源或所有者时，请使用信息板底部的表格直接转到详细信息。
+
+_Top data resources by reclaimable storage_ 表列出了您的扫描存储资源，这些资源按重复或符合组织冷阈值和过时阈值的数据比例排列。选择任一行以打开筛选到该资源的调查视图。在此处，使用 link:investigate-unstructured.html["非结构化"] 选项卡识别冷文件或过时文件，或使用 link:investigate-directories.html["目录"] 选项卡审核权限暴露情况。
+
+_Top data owners by reclaimable storage_ 表显示哪些数据所有者拥有可能可回收的数据。选择任一行以打开筛选到该所有者文件的 link:investigate-unstructured.html["调查"] 视图。然后，您可以查看结果、对其采取行动或将其保存为策略。
+
+
+
+[[related-information]]
+== 相关信息
+
+* link:investigate-data.html["调查您的数据"]
+* link:investigate-unstructured.html["调查非结构化数据"]
+* link:../data-sources/connect-data-source.html["连接数据源"]
+* link:../administer/configure-settings.html["配置冷数据和过期数据阈值"]
+

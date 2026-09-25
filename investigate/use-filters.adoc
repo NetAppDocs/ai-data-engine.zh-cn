@@ -1,0 +1,132 @@
+---
+sidebar: sidebar 
+permalink: investigate/use-filters.html 
+keywords: filters, metadata filters, file type, last accessed, last modified, tags, policy, investigation 
+summary: AI Data Engine 调查视图中可用元数据过滤器的参考。 
+---
+= AI Data Engine 中的元数据筛选器
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+AI Data Engine 调查视图提供元数据过滤器，将结果缩小到特定数据组。同时应用一个或多个筛选器以定义要检查或操作的文件。
+
+
+
+[[time-filters]]
+== 时间筛选器
+
+[cols="1,2"]
+|===
+| 筛选器 | 问题描述 
+
+
+| 上次创建时间 | 按创建日期筛选文件。 
+
+
+| 上次修改时间 | 按上次修改日期筛选文件。 
+
+
+| 上次访问时间 | 按上次访问日期筛选文件。使用此过滤器可识别冷数据或过时数据。 
+
+
+| 发现时间 | 按 AI Data Engine 首次在扫描期间检测到文件的时间筛选文件。 
+|===
+
+
+[[file-attribute-filters]]
+== 文件属性筛选器
+
+[cols="1,2"]
+|===
+| 筛选器 | 问题描述 
+
+
+| 文件类型 | 按文件扩展名或类型分类筛选。从列表中选择一个或多个文件类型。 
+
+
+| 文件大小 | 按文件大小筛选。输入最小值、最大值或范围。 
+
+
+| 文件/目录路径 | 按文件或其包含目录的完整或部分路径筛选。 
+
+
+| 文件/目录所有者 | 按拥有文件或目录的用户或组筛选。 
+
+
+| 文件哈希 | 按文件的哈希值筛选，以查找特定文件或确认重复内容。 
+
+
+| 重复项 | 筛选以仅显示在目录中检测到重复副本的文件。 
+
+
+| 目录类型 | 按目录类型筛选。应用于"目录"选项卡。 
+|===
+
+
+[[source-filters]]
+== 源筛选器
+
+[cols="1,2"]
+|===
+| 筛选器 | 问题描述 
+
+
+| 数据容器 | 筛选到特定卷或共享。 
+
+
+| 系统 | 筛选到特定集群。 
+
+
+| 系统类型 | 按存储系统类型筛选。 
+|===
+
+
+[[governance-filters]]
+== 治理筛选器
+
+[cols="1,2"]
+|===
+| 筛选器 | 问题描述 
+
+
+| 标记 | 筛选已应用特定业务标记的文件。 
+
+
+| 策略 | 筛选与特定已保存策略匹配的文件。策略名称显示在筛选器列表中。 
+|===
+
+
+[[access-filters]]
+== 访问筛选器
+
+[cols="1,2"]
+|===
+| 筛选器 | 问题描述 
+
+
+| 具有访问权限的用户数量 | 按有多少用户或组具有访问权限来筛选文件。使用此功能可识别可广泛访问的数据。 
+
+
+| 用户/组权限 | 按具有访问权限的特定用户或组筛选文件。 
+|===
+
+
+[[combining-filters]]
+== 组合筛选器
+
+筛选器通过 AND 逻辑进行组合，这意味着结果必须同时匹配所有已应用的筛选器。
+
+
+
+[[related-information]]
+== 相关信息
+
+* link:investigate-data.html["调查您的数据"]
+* link:investigate-unstructured.html["调查非结构化数据"]
+* link:investigate-structured.html["调查结构化数据"]
+* link:investigate-directories.html["调查目录"]
+* link:../policies/create-policy.html["创建策略"]
+

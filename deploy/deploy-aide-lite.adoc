@@ -1,0 +1,52 @@
+---
+sidebar: sidebar 
+permalink: deploy/deploy-aide-lite.html 
+keywords: deploy, install, lite, wizard, NetApp Console, deployment wizard, onboarding 
+summary: 使用部署向导从 NetApp Console 部署 AIDE Lite。 
+---
+= 部署 AI Data Engine Lite
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+使用部署向导从 NetApp Console 部署 AIDE Lite。该向导将引导您选择安装位置、选择配置大小以及在目标主机上运行安装命令。
+
+.开始之前
+* 您在 NetApp Console 中拥有_组织管理员_或更高权限。
+* 在目标主机上运行安装命令需要 Sudo （或 root）权限。
+* 您的环境符合 link:aide-requirements.html["AIDE 要求"] 中所述的所有先决条件。
+* 一个 NetApp Console 代理 https://docs.netapp.com/us-en/console-setup-admin/concept-agent-install-options.html#agent-console-deploy["已部署"^]，可从 AI Data Engine 主机访问。运行安装命令需要提供 Console 代理 IP。
+
+
+.步骤
+. 在 NetApp Console 中，导航到*治理* > *AI Data Engine*。
++
+此时将显示 AI Data Engine 登录页面。
+
+. 选择*部署 AI Data Engine*。
+. 选择 *Lite* 部署选项，然后选择 *Next*。
+. 将向导中显示的预配置安装命令复制到编辑器。
+. 选择您的配置大小：
++
+** *Small*：建议用于最多包含约 2 亿个文件的环境。
+** *中等（默认）*：建议用于最多约 10 亿个文件的环境。
+** *Large*：建议用于最多包含约 30 亿个文件的环境。
++
+这些大小是推荐的基线，而不是硬性限制。如果您的环境不在这些范围内，请参阅 link:aide-requirements.html#flexible-sizing-lite["灵活调整大小准则"]。
+
+
+
+. 对于小型或大型配置，请调整安装命令以反映所选的大小： `--flavor <small|medium|large>`
+. 在目标主机上运行 install 命令并进行任何配置大小调整。
++
+
+NOTE: 安装大约需要 45 分钟才能完成。可能会发生超时和重试，这是正常的。
+
+. 出现提示时，请确认主机 IP 地址和用户 ID 以继续安装。
+. 监控进度屏幕，直到成功屏幕出现并显示"AI Data Engine deployed"。
+
+
+.结果
+AI Data Engine 已部署并连接到 NetApp Console。您现在可以 link:../data-sources/connect-data-source.html["连接数据源"] 以开始扫描。

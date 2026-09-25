@@ -1,0 +1,312 @@
+---
+sidebar: sidebar 
+permalink: deploy/aide-requirements.html 
+keywords: requirements, prerequisites, networking, ports, vm, kubernetes, sizing, flexible sizing, scaling, capacity planning 
+summary: 在部署 AI Data Engine 之前，请查看基础架构和网络要求。 
+---
+= AI Data Engine 要求
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+在部署 AI Data Engine 之前，请查看您环境中的网络、虚拟机大小和操作系统要求。
+
+
+
+[[networking-requirements]]
+== 网络要求
+
+必须打开以下网络连接：
+
+[cols="2,1,1,1,2"]
+|===
+| 连接 | 端口 | 协议 | 方向 | 目的 
+
+
+| Console Agent 到 NetApp Console | 443 | TCP | 出站 | HTTPS：与 NetApp Console 的连接 
+
+
+| 控制台代理到 ONTAP | 443 | TCP | 出站 | HTTPS：ONTAP 集群发现 
+
+
+| 控制台代理到 AI Data Engine | 80, 443, 8080, 9000 | TCP | 双向 | 控制台代理和 AI Data Engine 之间的通信 
+
+
+| AI Data Engine 到 ONTAP （NFS） | 111, 2049 | TCP/UDP | 到存储 | NFS 数据源访问 
+
+
+| AI Data Engine 到 ONTAP（SMB/CIFS） | 139, 445 | TCP/UDP | 到存储 | SMB/CIFS 数据源访问 
+
+
+| AI Data Engine 至 Active Directory | 389、636、3268、3269 | TCP/UDP | 出站 | LDAP (389)、LDAPS (636)和全局目录 (3268、3269)，用于用户身份验证和 SMB/CIFS 扫描。端口 389 同时使用 TCP 和 UDP；所有其他端口仅使用 TCP。 
+
+
+| AI Data Engine 到 NetApp 服务/容器注册表 | 443 | TCP | 出站 | HTTPS：工件下载和容器映像拉取（AWS S3 和 ECR） 
+|===
+
+
+[[outbound-internet-access]]
+=== 出站互联网接入
+
+对于在线安装，必须能够从 AI Data Engine 主机访问以下端点：
+
+[cols="2,2,1"]
+|===
+| 端点 | 目的 | 范围 
+
+
+| `\https://api.console.netapp.com` | NetApp Console 通信 | 两者 
+
+
+| `\https://netapp-cloud-account.auth0.com` | 集中用户身份验证 | 两者 
+
+
+| `\https://auth0.com` | 身份验证服务 | 两者 
+
+
+| `\https://582244788873.dkr.ecr.us-west-2.amazonaws.com` | NetApp 容器注册表（AIDE 容器镜像） | 两者 
+
+
+| `\https://582244788873.dkr-ecr.us-west-2.on.aws` | NetApp 容器注册表（双栈/虚拟私有云（VPC）端点访问） | 两者 
+
+
+| `\https://api.ecr.us-west-2.amazonaws.com` | AWS ECR API （身份验证和图像清单检索） | 两者 
+
+
+| `\https://prod-us-west-2-starport-layer-bucket.s3.us-west-2.amazonaws.com` | AWS S3 （ECR 容器映像层存储） | 两者 
+
+
+| `\https://prod-us-west-2-starport-layer-bucket.s3.amazonaws.com` | AWS S3 （ECR 容器映像层存储） | 两者 
+
+
+| `\https://s3.us-west-2.amazonaws.com` | AWS S3 （安装程序包装器脚本、Helm 图表和组件版本目录） | 两者 
+
+
+| `\https://s3.amazonaws.com` | AWS S3 （安装程序包装器脚本、Helm 图表和组件版本目录） | 两者 
+
+
+| `\https://sts.us-west-2.amazonaws.com` | AWS STS （注册表和 S3 访问的临时凭据交换） | 两者 
+
+
+| `\https://support.compliance.api.bluexp.netapp.com` | 软件映像、清单和模板；日志和指标流 | 两者 
+
+
+| `\https://dseasb33srnrn.cloudfront.net` | CloudFront CDN 用于软件分发 | 两者 
+
+
+| `\http://packages.ubuntu.com` | Ubuntu 必备软件包 | 仅精简版（Ubuntu） 
+
+
+| `\http://archive.ubuntu.com` | Ubuntu 软件包归档 | 仅精简版（Ubuntu） 
+
+
+| `\http://security.ubuntu.com` | Ubuntu 安全软件包归档 | 仅精简版（Ubuntu） 
+
+
+| `\https://get.k3s.io` | k3s runtime download （安装程序启动） | 仅限精简版 
+
+
+| `\https://get.helm.sh` | Helm 下载（安装程序启动） | 仅限精简版 
+|===
+AI Data Engine 还依赖于 NetApp Console 进行集中式身份验证和控制台服务。有关 Console 和 Console 代理连接所需的端点，请参阅 link:https://docs.netapp.com/us-en/console-setup-admin/reference-networking-saas-console.html["NetApp Console 的网络访问要求"^]。
+
+在开始部署之前，请先验证 AI Data Engine 主机是否能正常解析这些端点的 DNS。
+
+
+
+[[aide-lite-requirements]]
+== AIDE Lite 要求
+
+
+
+[[vm-sizing]]
+[[lite-vm-sizes]]
+=== VM 规模估算
+
+这些大小是建议的基线配置，针对三到四天的初始扫描窗口进行了优化，而不是硬性限制。有关这些数字的驱动因素以及如何超越这些数字，请参阅 <<flexible-sizing-lite,弹性规格调整准则>>。
+
+[cols="1,1,1,1,1,1,1,1"]
+|===
+| 大小 | vCPU | RAM | 磁盘 | Storage IOPS | 存储吞吐量 | 网络 | 近似文件 
+
+
+| 小型 | 16 | 64 GB | 500 GB | 8,000 | 1,000 MB/s | 1 GbE | 2亿 
+
+
+| 中 | 32 | 128 GB | 2 TB | 12,000 | 1,500 MB/s | 1 GbE | 10 亿 
+
+
+| 大型 | 96 | 192 GB | 6 TB | 16,000 | 2,000 MB/s | 10 GbE | 30亿 
+|===
+
+NOTE: 建议对所有部署规模使用 NVMe SSD 或其他固态存储。此表中的磁盘值仅反映 AIDE 数据卷存储。如果操作系统、k3s 运行时和 AIDE 数据均共享单个磁盘，请在所选规模的磁盘值基础上额外增加约 65 GB。例如，单个磁盘上的小型部署总共需要约 565 GB。
+
+
+
+[[flexible-sizing-guidelines]]
+[[flexible-sizing-lite]]
+=== 弹性规格调整准则
+
+<<lite-vm-sizes,小型、中型和大型配置>> 是三到四天初始扫描窗口的推荐基线，而不是软件强制执行的硬性限制。
+
+规模估算建议的依据::
++
+--
+* *文件和目录总数*：要编目的对象总数是计算和存储需求的主要驱动因素。对象数量越多，所需的内存、CPU 和存储也越多。
+* *目录结构*：资源使用因目录嵌套深度以及文件在共享和卷之间的分布方式而异。深度嵌套或高度碎片化的结构所需资源可能多于扁平层次结构中相同文件数量所需的资源。
+* *所需扫描吞吐量*：初始目录完成速度与 CPU 和内存分配直接相关。配置低于建议规格会降低吞吐量并延长初始扫描时间窗口。
+* *存储性能*：强烈建议使用高性能存储。元数据索引和事件处理需要与部署规模成比例的持续 IOPS 和吞吐量。
+
+
+--
+如果容量规划不足会发生什么::
++
+--
+低于建议大小的配置不会阻止安装或导致服务失败。系统保持运行并继续扫描，但您可能会遇到以下情况：
+
+* *扩展的初始目录持续时间*：减少计算量会降低每天扫描的对象数。例如，以 30 亿个对象为目标但以较小规模进行配置的部署，可能需要远超三到四天目标时间的时间。
+* *降低持续摄取吞吐量*：在持续负载下，新文件事件和增量扫描更新的处理速度会变慢。
+* *存储容量风险*：相对于总对象数而言，存储规模过小可能会使元数据索引趋近容量阈值。通常可以通过扩展存储容量来解决此问题，而无需完全重新部署。
+
+
+--
+在需要更多容量时进行扩展::
++
+--
+AIDE Lite 在单个虚拟机上运行，因此扩展是垂直的：
+
+* 增加主机虚拟机上的 vCPU、内存或存储。
+* 不需要重新配置或重新安装集群。
++
+
+NOTE: AIDE Lite 不支持高可用性或横向扩展。如果您的环境持续超过 30 亿个文件，或者您需要高可用性和容错，请改为部署 link:deploy-enterprise.html["AIDE 企业版"]。
+
+
+
+--
+
+
+
+
+[[operating-system]]
+=== 操作系统
+
+[cols="1,2"]
+|===
+| 操作系统 | 支持的版本 
+
+
+| Ubuntu | 22.04 LTS、24.04 LTS（推荐 24.04 LTS） 
+
+
+| Red Hat Enterprise Linux (RHEL) | 8.x，9.x 
+|===
+
+
+[[additional-prerequisites]]
+=== 其他先决条件
+
+* 您对目标 VM 具有 root 或 sudo 访问权限，可以运行安装程序。
+* 最少 1 GbE 网络连接（大型部署为 10 GbE）。
+* 目标主机必须具有可用的 bash 4.0 或更高版本、curl 和 tar。
+* 安装程序会自动下载和引导 `k3s`、 `helm`、 `kubectl`和 `jq`。不需要在目标虚拟机上预安装这些工具。
+* 在安装程序启动之前，必须在主机上释放端口 6443 (TCP)、10250 (TCP) 和 8472 (UDP)。如果 RHEL 上的主机防火墙(`firewalld`或 Ubuntu 上的 `ufw`）处于活动状态，请在运行安装程序之前允许这些端口以及 k3s pod CIDR(`10.44.0.0/16`）和服务 CIDR(`10.45.0.0/16`）。有关所需命令，请参阅操作系统防火墙文档。
+* 在强制模式下运行 SELinux 的 RHEL 系统上，安装程序会自动配置所需的 SELinux 策略包。无需手动配置 SELinux。
+
+
+
+
+[[aide-enterprise-requirements]]
+== AIDE Enterprise 要求
+
+* 您在运行安装程序的计算机上具有 cluster-admin 权限的 kubectl 访问权限。
+* 您对运行 install 命令的计算机具有 Sudo （或 root）权限。
+* 已在目标集群上安装 RKE2 v1.34 或更高版本（建议使用 v1.36.x）。
+* 安装程序主机将通过  `--tools-dir` 自动下载并引导  `helm`、 `kubectl` 和  `jq`。不需要在管理机器上预装这些工具。
+* 集群上有一个已配置的 StorageClass（默认名称 `aide-sc`），用于 AIDE 的有状态支持服务。
+* 至少具有一个导出路径的 NFS 服务器可用，用于 AIDE 配置数据卷和共享索引快照。
+* 集群上已存在目标 Kubernetes 命名空间（默认 `aide`）；安装程序不会创建它。
+
+
+
+NOTE: 对于所有企业节点部署，建议使用 NVMe 或高性能 SSD 存储。
+
+
+
+[[node-sizing]]
+[[enterprise-vm-sizes]]
+=== 节点大小调整
+
+这些大小是建议的基线集群配置，针对大约三天的初始扫描窗口进行了优化，而不是硬容量限制。AIDE Enterprise 通过横向扩展支持超过 60 亿个文件的环境。有关详细信息，请参阅 <<flexible-sizing-enterprise,弹性规格调整准则>>。
+
+[cols="1,1,1,1,1,1,1,1,1"]
+|===
+| 大小 | 节点 | 每个节点的 vCPU | 每个节点的内存 | 每个节点的磁盘数 | 每个节点的存储 IOPS | 每个节点的存储吞吐量 | 每个节点的网络 | 近似文件 
+
+
+| 小型 | 3 | 32 | 128 GB | ~1.3TB | 8,000 | 1,000 MB/s | 1 GbE | 10 亿 
+
+
+| 中 | 6 | 48 | 192 GB | ~2TB | 12,000 | 1,500 MB/s | 10 GbE | 30亿 
+
+
+| 大型 | 9 | 64 | 256 GB | ~2.7TB | 16,000 | 2,000 MB/s | 10 GbE | 60亿 
+|===
+
+
+[[flexible-sizing-guidelines]]
+[[flexible-sizing-enterprise]]
+=== 弹性规格调整准则
+
+<<enterprise-vm-sizes,小型、中型和大型配置>> 是针对大约三天初始扫描窗口的推荐基线集群配置，而非软件强制执行的硬容量上限。AIDE Enterprise 通过跨集群节点的水平横向扩展，支持超过 30 亿个文件的环境。
+
+规模估算建议的依据::
++
+--
+* *文件和目录总数*：对象总数是存储和计算要求的主要驱动因素。较大的环境需要额外的集群节点来分配处理负载并保持性能。
+* *高可用性复制*：默认情况下，企业部署启用跨节点的数据复制，以实现容错。与同等单节点部署相比，复制增加了总存储和内存需求。
+* *节点计数和工作负载分布*：处理吞吐量和总目录容量随集群中的节点数量扩展。额外节点可在整个集群中分布索引工作负载和存储容量。
+* *所需的扫描吞吐量*：集群范围内的 CPU 和内存分配决定了每日扫描速率以及初始目录完成的速度。
+* *每节点存储性能*：强烈建议在每个节点上使用高性能存储，总集群容量随节点数量成比例扩展。
+
+
+--
+如果容量规划不足会发生什么::
++
+--
+低于建议大小的配置不会阻止安装或导致硬故障。实际影响包括：
+
+* *扩展的初始目录持续时间*：节点数量减少或每节点资源降低会降低吞吐量，从而按比例延长初始目录窗口。
+* *峰值负载下的处理延迟增加*：集群内存不足可能会导致高容量摄取期间的处理延迟增加。正在进行的操作不会中断，但持续的吞吐量会降低。
+* *存储容量风险*：目标对象计数的集群存储不足可能会将元数据索引推向容量阈值。您可以通过扩展现有节点上的存储（无中断）或添加专用存储节点来解决此问题。
+
+
+--
+在需要更多容量时进行扩展::
++
+--
+AIDE Enterprise 支持横向扩展，无需重新部署：
+
+* 添加工作节点以增加可用于扫描处理和事件摄取的 CPU 和内存。
+* 添加专用存储节点以增加总目录容量。这是将环境扩展到超出最大预定义部署大小的主要方法。
+* 通过向集群添加更多节点，可扩展超过 60 亿个文件。请联系您的 NetApp 代表，获取自定义规模的节点大小调整指南。
++
+
+NOTE: 向现有 Enterprise 集群添加节点不会中断正在进行的扫描操作，但请在低活动时段内协调完成此更改。
+
+
+
+--
+
+
+
+
+[[related-information]]
+== 相关信息
+
+* link:deployment-overview.html["AIDE 部署概述"]
+* link:deploy-aide-lite.html["部署 AI Data Engine — Lite"]
+* link:deploy-enterprise.html["部署 AI Data Engine — Enterprise"]
+

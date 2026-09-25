@@ -1,0 +1,106 @@
+---
+sidebar: sidebar 
+permalink: get-started/storage-optimization-workflows.html 
+keywords: storage optimization, cold data, stale data, retention, workflow, dashboard, investigate, policy 
+summary: 使用端到端流程，通过调查、操作和持续策略监控来处理仪表板发现的问题。 
+---
+= 探索 AI Data Engine 中的存储优化工作流
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+这些 AI Data Engine 工作流程将引导您从识别仪表板上的存储问题，到调查和操作，再到持续监控策略。每个工作流程都遵循相同的路径：控制面板、调查、操作，以及另存为策略。
+
+
+
+[[identify-and-act-on-cold-data]]
+== 识别冷数据并采取行动
+
+.场景
+您在控制面板上注意到，存储资源中有大量标记为冷数据的数据。冷文件在配置的冷数据阈值内未被访问，该阈值默认为一年，可在*配置* > *设置*中进行配置。
+
+.步骤
+. 从 link:../investigate/understand-dashboard.html["控制面板"] 中，确定冷数据浓度最高的资源，然后选择 *调查*。
+. 在 link:../investigate/investigate-unstructured.html["调查"] 中，使用设置为与您配置的冷数据阈值匹配的*上次访问*筛选器确认资源（默认值：*1+ 年*）。
+. 查看结果以确定link:../investigate/take-actions.html["是否标记、存档或删除"]匹配的文件。
+. 如果这些资源值得持续监控，link:../policies/create-policy.html["将筛选器集保存为策略"]则会在新文件冻结时通知您。
+
+
+
+
+[[identify-and-act-on-stale-data]]
+== 识别过时数据并采取行动
+
+.场景
+仍然偶尔访问但多年未修改的文件，若超出组织的过时阈值（默认值：上次访问或修改后三年），则会被归类为过时文件。
+
+
+NOTE: 此阈值可在*配置* > *设置*中配置。
+
+.步骤
+. 从 link:../investigate/understand-dashboard.html["控制面板"] 中，识别包含大量过期数据的资源。
+. 在 link:../investigate/investigate-unstructured.html["调查"] 中，将*上次修改*过滤器设置应用于您的过期阈值（默认为 *3+ 年*）。
+. 查看结果以确定link:../investigate/take-actions.html["是否标记、存档或删除"]匹配的文件。
+. link:../policies/create-policy.html["将筛选器集保存为策略"] 在后续扫描中跟踪这些资源。
+
+
+
+
+[[manage-data-retention-compliance]]
+== 管理数据保留合规性
+
+.场景
+您的组织要求对超过特定期限的文件进行保留审核。AI Data Engine 中的默认保留阈值为文件创建后七年或更长时间。您可以调整此阈值以匹配组织的合规性和保留策略。
+
+
+NOTE: 此阈值可在*配置* > *设置*中配置。
+
+.步骤
+. 在 link:../investigate/investigate-unstructured.html["调查"] 中，将*上次创建*筛选器设置为保留阈值（默认 *7 年以上*）。
+. 在采取行动之前，先与相关利益相关方审查结果。保留标记的文件通常会被监控，而不是自动删除。
+. link:../policies/create-policy.html["创建策略"] 使用仅监控或电子邮件通知操作，以便在新文件达到保留阈值时收到警报，而不是对这些资源执行一次操作。
+
+
+
+
+[[find-and-eliminate-duplicate-files]]
+== 查找并消除重复的文件
+
+.场景
+同一文件的多个相同副本存在于卷或共享中，这是具有备份作业、数据迁移或共享项目文件夹的环境中的常见问题。
+
+.步骤
+. 在 link:../investigate/investigate-unstructured.html["调查"] 中，选择*添加过滤器*，然后选择*重复项*。
+. 查看结果。列出的文件在目录中的其他位置有一个或多个相同的副本。
+. 选择要操作的文件，然后选择 link:../investigate/take-actions.html["一个动作"]。存档或删除在其他位置具有原始副本的已确认重复文件。
+. link:../policies/create-policy.html["将筛选器另存为策略"] 以跟踪随时间推移的重复累积，并在计数增加时接收通知。
+
+
+
+
+[[target-cleanup-by-data-owner]]
+== 数据所有者的目标清理
+
+.场景
+满足组织冷数据和陈旧数据阈值的数据分布在许多所有者中。确定哪些数据所有者在这些类别中持有的文件最多，可以帮助您确定清理的优先级。
+
+.步骤
+. 从 link:../investigate/understand-dashboard.html["控制面板"] 中，找到 _Top data owners by reclaimable storage_ 表。
+. 选择所有者行以打开筛选到该所有者文件的 link:../investigate/investigate-unstructured.html["调查"]。
+. 查看结果并决定link:../investigate/take-actions.html["是否标记、存档或删除"]文件。
+. link:../policies/create-policy.html["将筛选器集保存为策略"] 以监控该所有者的潜在可回收数据随时间的变化情况。
+
+
+
+
+[[related-information]]
+== 相关信息
+
+* link:../investigate/understand-dashboard.html["从仪表板评估存储利用率"]
+* link:../investigate/investigate-data.html["调查您的数据"]
+* link:../investigate/investigate-unstructured.html["调查非结构化数据"]
+* link:../investigate/take-actions.html["对您的数据采取行动"]
+* link:../policies/create-policy.html["创建策略"]
+

@@ -1,0 +1,8 @@
+---
+section: policies
+title: 管理策略和操作
+entries:
+- title: 创建策略
+  url: "/policies/create-policy.html"
+- title: 管理策略
+  url: "/policies/manage-policies.html"

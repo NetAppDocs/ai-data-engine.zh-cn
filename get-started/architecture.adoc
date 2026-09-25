@@ -1,0 +1,79 @@
+---
+sidebar: sidebar 
+permalink: get-started/architecture.html 
+keywords: architecture, components, metadata engine, policy, deployment, data flow 
+summary: 了解 AI Data Engine 的组件以及它们如何协同工作，为存储系统的元数据编制目录。 
+---
+= AI Data Engine 架构
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+AI Data Engine （AIDE） 由 Metadata Engine 和策略框架组成。这些功能协同工作，可从存储系统中提取元数据，将其编入可搜索的索引中，并允许您定义已保存的查询，以识别符合特定条件的文件并对其执行操作。
+
+
+
+[[components]]
+== 组件
+
+您主要通过四个功能领域与 AI Data Engine 进行交互：仪表板、调查、策略和配置。这些功能区域由以下底层组件提供支持。
+
+
+
+[[metadata-engine]]
+=== Metadata Engine
+
+Metadata Engine 是 AI Data Engine 的核心功能。它扫描连接的存储系统以提取文件系统元数据，并将元数据存储在可搜索的目录中。Metadata Engine 在每个扫描周期更新目录，检测存储系统中的添加、更改和删除。
+
+
+
+[[netapp-console-agent]]
+=== NetApp Console 代理
+
+AI Data Engine 需要在您的环境中部署 NetApp Console Agent。Console Agent 是一个通用的 NetApp 平台组件，用于维护本地环境与 NetApp Console 之间的连接。它处理您的站点与 AIDE 服务之间的身份验证和通信。
+
+
+NOTE: Console Agent 并非特定于 AI Data Engine。如果您已经为其他 NetApp 服务部署了 Console Agent，则可以使用相同的代理。有关 Console Agent 部署说明，请参阅link:https://docs.netapp.com/us-en/console-setup-admin/concept-agents.html["NetApp Console Agent 文档"]。
+
+
+
+[[deployment-models]]
+== 部署模型
+
+AI Data Engine 支持两种部署模型：
+
+AIDE Lite:: 适用于较小环境的单虚拟机部署。根据要编目的文件数量，提供小型、中型和大型配置。
+AIDE 企业版:: 基于 Kubernetes 的多节点集群部署，适用于需要高可用性的大型环境。
+
+
+AIDE Enterprise 从支持约 10 亿个文件、每天 2.5 亿个文件的三节点配置扩展到支持约 60 亿个文件、每天 20 亿个文件的九节点配置。有关节点大小调整的详细信息，请参阅 link:../deploy/aide-requirements.html["AIDE 要求"]。额外的节点可以将容量扩展到超过 60 亿个文件。有关横向扩展的详细信息，请参阅 link:../deploy/aide-requirements.html#flexible-sizing-enterprise["灵活调整大小准则"]。
+
+link:../deploy/deployment-overview.html["详细了解部署选项"]。
+
+
+
+[[data-flow]]
+== 数据流
+
+. AI Data Engine 部署在您的本地环境中。
+. 您可以在 *配置 > 系统* 中添加希望 AIDE 进行编目的存储系统。支持的系统包括 NetApp ONTAP、StorageGRID、数据库系统，以及任何提供 NFS、SMB/CIFS 或 S3 协议的 NAS 或对象存储系统。
+. Metadata Engine 使用 NFS 和 SMB/CIFS 协议挂载共享，并扫描文件系统以提取文件元数据。
+. 元数据已在目录中编制索引。
+. 该仪表板从目录中显示存储洞察。
+. 调查让您可以使用元数据筛选器直接查询目录。
+. 您可以将搜索条件保存为策略，然后重新运行它们以识别匹配的文件并对其执行操作。
+
+
+
+NOTE: Metadata Engine 完成扫描所有已配置的卷后，会立即开始新的扫描循环，重新扫描文件系统以检测新增、更改和删除操作。
+
+
+
+[[related-information]]
+== 相关信息
+
+* link:learn-about.html["了解 AI Data Engine"]
+* link:../deploy/deployment-overview.html["了解 AIDE 部署"]
+

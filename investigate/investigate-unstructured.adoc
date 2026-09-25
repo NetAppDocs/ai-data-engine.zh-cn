@@ -1,0 +1,89 @@
+---
+sidebar: sidebar 
+permalink: investigate/investigate-unstructured.html 
+keywords: investigate, unstructured, cold data, stale data, last accessed, file size, file owner, reclaimable storage, NFS, SMB, CIFS 
+summary: 使用元数据筛选器在 NFS 和 SMB/CIFS 卷上查找文件并将其分类为冷文件、过时文件或大型文件，然后查看结果、酌情采取行动或将筛选器条件保存为可重用策略。 
+---
+= 调查 AI Data Engine 中的非结构化数据
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+当基于文件的存储意外增长时，请按上次访问时间、文件大小和所有者进行筛选，以查找哪些文件正在占用容量。例如，存储管理员可以识别超过一年未访问的 TB 级 VM 快照，并评估是存档、删除还是保留这些快照。
+
+.开始之前
+* 必须至少连接并扫描一个数据源。请参阅 link:../data-sources/connect-data-source.html["连接数据源"]。
+
+
+
+
+[[find-cold-or-stale-files-by-last-access-time]]
+== 按上次访问时间查找冷文件或过时文件
+
+使用基于日期的筛选器来识别未在组织冷数据阈值或过时数据阈值内访问的文件。阈值可在 *Configuration* > *Settings* 中配置。请参阅 link:../administer/configure-settings.html["配置冷数据和过期数据阈值"]。
+
+.步骤
+. 在 AI Data Engine 用户界面中，选择*调查*。
++
+默认情况下，非结构化选项卡处于选中状态。
+
+. 选择*添加过滤器*，然后选择*上次访问时间*。
+. 选择与冷数据阈值匹配的时间范围，例如 *1+ year*。
+. 要关注占用空间最多的对象，请再次选择*添加过滤器*，然后选择*文件大小*，并设置最小值，例如*>1 GiB*。
++
+应用的筛选器会以标签的形式显示在筛选器栏下方。添加每个筛选器时，结果表和项目计数会更新。
+
+
+
+要查看可用筛选条件的完整列表，请参阅 link:use-filters.html["使用筛选器"]。
+
+
+
+[[group-results-by-owner]]
+== 按所有者对结果进行分组
+
+按所有者分组可帮助您在决定在何处采取行动之前了解谁持有最多可能可回收的数据。
+
+.步骤
+. 应用筛选条件后，选择*查看方式*下拉菜单。
+. 选择*所有者*。
++
+结果将重新组织，以显示每个所有者的总文件数量和大小。选择任何所有者行以展开并查看其单个文件。
+
+
+
+
+
+[[review-file-details]]
+== 查看文件详细信息
+
+选择任何文件行以打开详细信息面板，并确认文件与预期范围匹配，然后再执行操作。
+
+详细信息面板显示文件的系统、存储库、文件所有者以及任何应用的标签或策略。在存档或删除之前，请验证系统和所有者。
+
+
+
+[[act-on-results-or-save-as-a-policy]]
+== 根据结果采取行动或另存为策略
+
+确定要处理的文件后，使用结果表中的复选框选择一个或多个项目。
+
+* 要立即采取行动，请参阅 link:take-actions.html["对您的数据采取行动"]。
+* 要保存用于持续监控的筛选条件，请在筛选工具栏中选择*创建策略*。请参阅 link:../policies/create-policy.html["创建策略"]。
+
+
+要从非结构化选项卡下载过滤结果，请选择 image:icon_download_file.png["下载"]。
+
+
+
+[[related-information]]
+== 相关信息
+
+* link:use-filters.html["使用筛选器"]
+* link:take-actions.html["对您的数据采取行动"]
+* link:../policies/create-policy.html["创建策略"]
+* link:../get-started/storage-optimization-workflows.html["探索存储优化工作流程"]
+* link:understand-dashboard.html["从仪表板评估存储利用率"]
+

@@ -1,0 +1,108 @@
+---
+sidebar: sidebar 
+permalink: administer/manage-users-roles.html 
+keywords: roles, users, permissions, AI data engine administrator, AI data engine viewer 
+summary: 通过为每个用户分配管理员或查看者角色来控制访问权限。了解这两种角色及其权限。 
+---
+= 在 AI Data Engine 中管理用户和角色
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+通过为用户分配管理员或查看者角色，控制每个用户可以在 AI Data Engine 中查看和执行的内容。在您的团队开始使用 AI Data Engine 之前，为每个用户分配与其所需访问级别相匹配的角色。
+
+您可以通过 NetApp Console 组织设置分配角色。AI Data Engine 支持两个角色。
+
+
+
+[[available-roles]]
+== 可用角色
+
+
+
+[[ai-data-engine-administrator]]
+=== AI Data Engine 管理员
+
+AI Data Engine 管理员角色提供对所有 AI Data Engine 功能的完全访问权限。NetApp 建议每个部署将此角色分配给不超过两个或三个用户。
+
+
+
+[[ai-data-engine-viewer]]
+=== AI Data Engine 查看器
+
+AI Data Engine 查看器角色提供对 AI Data Engine 的有限访问权限。查看器可以查看信息、导出报告、标记文件和创建仅监控策略，但不能修改设置或执行存档、复制或删除等文件操作。
+
+
+
+[[permissions-by-role]]
+== 权限（按角色）
+
+[cols="3,1,1"]
+|===
+| 功能 | AI Data Engine 管理员 | AI Data Engine 查看器 
+
+
+| 管理用户和角色 | 是 | - 
+
+
+| 管理数据资源 | 是 | - 
+
+
+| 系统配置 | 是 | - 
+
+
+| 查看控制面板 | 是 | 是 
+
+
+| 搜索元数据（调查） | 是 | 是 
+
+
+| 导出报告 | 是 | 是 
+
+
+| 创建仅监控策略 | 是 | 是 
+
+
+| 创建包含操作的策略 | 是 | - 
+
+
+| 操作：标记 | 是 | 是 
+
+
+| 操作：存档、复制、删除 | 是 | - 
+
+
+| 管理业务标签 | 是 | 是 
+|===
+
+
+[[assign-a-role-to-a-user]]
+== 将角色分配给用户
+
+您可以在 NetApp Console 中分配角色，而不是在 AI Data Engine 本身中分配角色。
+
+.步骤
+. 从 NetApp Console，转到 *成员*。
+. 执行以下操作之一：
++
+** 要添加新用户，请选择*添加用户*并输入用户的电子邮件地址。
+** 要更新现有用户，请从列表中选择该用户。
+
+
+. 选择组织、文件夹或项目，然后选择*数据服务*类别。
+. 分配 *AI Data Engine 管理员* 或 *AI Data Engine 查看器* 角色。
+. 保存更改。
+
+
+用户收到一封电子邮件邀请，接受后即可访问 AI Data Engine。
+
+
+
+[[related-information]]
+== 相关信息
+
+* link:../investigate/take-actions.html["对您的数据采取行动"]
+* link:../policies/create-policy.html["创建策略"]
+

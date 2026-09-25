@@ -1,0 +1,69 @@
+---
+sidebar: sidebar 
+permalink: deploy/deployment-overview.html 
+keywords: deployment, aide lite, aide enterprise, kubernetes, vm, deployment modes, sizing 
+summary: 将 AI Data Engine 部署为 AIDE Lite，或者如果您的环境需要基于 Kubernetes 的高可用性，则部署为 AIDE Enterprise。 
+---
+= 了解 AI Data Engine 部署
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+将 AI Data Engine 部署为 AIDE Lite，这是一种单虚拟机安装方式。如果您的环境需要基于 Kubernetes 的大规模高可用性，则可以改为部署 AIDE Enterprise。
+
+
+
+[[aide-lite]]
+== AIDE Lite
+
+AIDE Lite 安装在单个 Linux 虚拟机上。您不需要 Kubernetes 专业知识，因为安装程序会自动配置 k3s。
+
+AIDE Lite 有三种规格——小型、中型和大型——分别适用于约 2 亿、10 亿和 30 亿个文件的环境。有关完整的虚拟机规格和操作系统要求，请参阅link:aide-requirements.html["AIDE 要求"]。这些规格是建议的基准，而非硬性限制；请参阅link:aide-requirements.html#flexible-sizing-lite["灵活调整大小准则"]，了解影响规格调整的因素以及如何进一步扩展。
+
+
+
+[[aide-enterprise]]
+== AIDE 企业版
+
+如果您的环境需要高可用性、容错、滚动升级或超出 AIDE Lite 最大规模的水平扩展，请部署 AIDE Enterprise。AIDE Enterprise 作为多节点 Kubernetes 集群部署在客户自行配置和管理的 RKE2 集群上。
+
+AIDE Enterprise 有三种大小——小型、中型和大型——分别适用于高达约 10 亿、30 亿和 60 亿个文件的环境。有关完整的节点大小和集群要求，请参阅link:aide-requirements.html["AIDE 要求"]。这些大小是推荐的基线，而不是硬性限制：通过水平横向扩展可支持超过 60 亿个文件的环境。详情请参阅link:aide-requirements.html#flexible-sizing-enterprise["灵活调整大小准则"]。
+
+
+
+[[deployment-process]]
+== 部署流程
+
+NetApp Console 不为 AI Data Engine 配置基础架构。准备符合要求的 Linux 计算机或集群，然后从 NetApp Console 复制预先生成的安装命令，并在目标主机上运行该命令。该命令将引导运行时并自动部署 AI Data Engine 堆栈。在安装过程中，安装程序会提示您确认目标主机 IP 地址和用户 ID，然后再继续安装。
+
+AIDE Lite 安装通常在 45 分钟内完成。AIDE Enterprise 安装通常在 30 分钟内完成。安装程序包含内置超时和重试机制，以处理组件启动时出现的瞬态问题。
+
+
+
+[[deployment-mode-reference]]
+== 部署模式参考
+
+[cols="1h,2,2"]
+|===
+|  | AIDE Lite | AIDE 企业版 
+
+
+| 部署模式 | 单个 Linux 虚拟机 | 多节点 Kubernetes 集群（客户预置的 RKE2） 
+
+
+| 扫描速率 | 每天5000万到10亿个文件，因大小而异 | 每天 2.5 亿到 20 亿个文件，因大小而异 
+
+
+| 最大文件数（大） | 约30亿 | 约60亿 
+|===
+
+
+[[related-information]]
+== 相关信息
+
+* link:aide-requirements.html["AIDE 要求"]
+* link:deploy-aide-lite.html["部署 AI Data Engine — Lite"]
+* link:deploy-enterprise.html["部署 AI Data Engine — Enterprise"]
+

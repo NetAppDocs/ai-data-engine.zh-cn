@@ -1,0 +1,74 @@
+---
+sidebar: sidebar 
+permalink: administer/configure-settings.html 
+keywords: cold threshold, stale threshold, configuration, settings, data classification, cold data, stale data 
+summary: 配置AI Data Engine用于在整个环境中将数据分类为冷数据或过时数据的时间阈值。 
+---
+= 在 AI Data Engine 中配置冷数据和过期数据阈值
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+AI Data Engine 根据您定义的时间阈值将文件分类为冷文件或过时文件。这些阈值会影响仪表板摘要中显示的数据、在"调查"中应用冷筛选器或过时筛选器时显示的文件以及策略所针对的文件。设置与您组织的数据分类和保留实践相匹配的阈值，并帮助您确定您认为需要监控的重要数据。
+
+
+
+[[what-is-cold-and-stale-data]]
+== 什么是冷数据和过时数据？
+
+冷数据:: 在配置的冷数据阈值内未被访问的文件。冷数据是您的组织可用于识别能够根据保留策略和业务策略进行优化的存储的关键指标。
+陈旧数据:: 在配置的陈旧数据阈值内未被访问或修改的文件。过期数据包括偶尔访问但最近未修改的文件，您的组织可以根据您的策略监控或管理这些文件。
+
+
+
+NOTE: 默认阈值是作为起点提供的产品默认值。它们不代表法律、合规或行业标准的保留期限。设置反映组织特定政策和要求的阈值。
+
+对任一阈值的更改将在下一个扫描周期完成后生效。
+
+
+
+[[configure-the-cold-data-threshold]]
+== 配置冷数据阈值
+
+.开始之前
+* 您必须具有 _AI Data Engine administrator_ 角色。
+
+
+.步骤
+. 从 AI Data Engine UI 中，选择 *配置*。
+. 选择*设置*。
+. 选择 *Cold data definition* 对应的 *Edit*。
+. 将文件属性设置为 *Last Accessed* 或 *Last Modified*。
+. 设置时间阈值。默认值为一年。
+. 选择 *保存*。
+
+
+
+
+[[configure-the-stale-data-threshold]]
+== 配置陈旧数据阈值
+
+.开始之前
+* 您必须具有 _AI Data Engine administrator_ 角色。
+
+
+.步骤
+. 从 AI Data Engine UI 中，选择 *配置*。
+. 选择*设置*。
+. 选择 *Stale data definition* 的 *Edit*。
+. 将文件属性设置为 *Last Accessed* 或 *Last Modified*。
+. 设置时间阈值。默认值为三年。
+. 选择 *保存*。
+
+
+
+
+[[related-information]]
+== 相关信息
+
+* link:../investigate/understand-dashboard.html["了解 AI Data Engine 仪表板"]
+* link:../get-started/storage-optimization-workflows.html["探索存储优化工作流程"]
+* link:manage-users-roles.html["管理用户和角色"]
+

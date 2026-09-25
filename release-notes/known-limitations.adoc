@@ -1,0 +1,48 @@
+---
+sidebar: sidebar 
+permalink: release-notes/known-limitations.html 
+keywords: known limitations, limitations, restrictions, AI Data Engine 
+summary: 已知限制列出了此版本 AI Data Engine 中不支持的功能。 
+---
+= AI Data Engine 中的已知限制
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+已知限制用于识别此版本的 AI Data Engine 中不支持的功能，或无法正确互操作的功能。在部署或使用产品之前，请查看这些限制。
+
+
+
+[[deployment]]
+== 部署
+
+Lite 和 Enterprise 部署是独立的:: AIDE Lite 和 AIDE Enterprise 是独立的部署模式。目前不支持将现有部署从一种模式迁移到另一种模式。
+
+
+
+
+[[policies-and-actions]]
+== 策略和操作
+
+策略触发的操作受到限制:: 创建策略时，可用的自动操作仅限于永久删除和电子邮件通知。来自策略的自动存档和标记操作在此版本中不可用。您可以创建无需执行任何操作的策略，以随着时间的推移监控数据状况。
+
+
+
+
+[[tags]]
+== 标记
+
+无法删除或重命名标签:: 此版本中不提供标记管理。创建标记后，它仍可在系统中使用。您可以将标记应用于项目并将其从项目中删除，但不能删除标记定义本身或更正包含拼写错误的标记名称。
+
+
+
+
+[[related-information]]
+== 相关信息
+
+* link:whats-new.html["新增功能"]
+* link:../deploy/deployment-overview.html["部署概述"]
+* link:../investigate/take-actions.html["对您的数据采取行动"]
+

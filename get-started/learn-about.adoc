@@ -1,0 +1,66 @@
+---
+sidebar: sidebar 
+permalink: get-started/learn-about.html 
+keywords: ai data engine, aide, overview, use cases, storage optimization, data governance 
+summary: 了解AI Data Engine，它可为存储在存储系统上的结构化和非结构化数据提供可见性。 
+---
+= 了解 AI Data Engine
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+AI Data Engine 是一种元数据智能服务，可让您查看存储在存储系统上的结构化和非结构化数据。通过扫描您的存储系统并对文件系统元数据进行编目，AI Data Engine 可帮助您识别存储优化机会、调查您的数据，并通过就地分析元数据来实施治理策略，而无需移动或复制数据。
+
+
+
+[[what-ai-data-engine-does]]
+== AI Data Engine 的作用
+
+AI Data Engine 扫描连接的存储系统以提取文件系统元数据，并构建在每个扫描周期后更新的目录。从此目录中，您可以：
+
+* 在控制面板上查看存储优化见解，包括哪些数据所有者持有可能可回收的存储（例如满足组织冷数据和陈旧数据阈值的文件以及重复文件）
+* 使用灵活的元数据过滤器调查您的数据，以构建有针对性的数据分组
+* 创建将调查标准保存为可重用规则的策略
+* 对数据执行操作：标记、存档、复制或删除符合策略条件的文件
+
+
+
+
+[[storage-optimization-and-data-governance]]
+== 存储优化和数据治理
+
+AI Data Engine专注于存储系统上存储的结构化和非结构化数据的存储优化和数据生命周期管理。
+
+
+
+[[who-uses-ai-data-engine]]
+== 谁使用AI Data Engine
+
+AI Data Engine 专为以下用户设计：
+
+* *存储管理员* ，他们需要识别和监控哪些数据所有者持有符合其组织冷数据和过时数据阈值的文件，识别重复文件，并评估存储优化机会。
+* *IT 运营团队*，需要集中查看其存储环境中存在的结构化和非结构化数据。
+
+
+
+
+[[where-ai-data-engine-lives]]
+== AI Data Engine 所在的位置
+
+您可以通过 NetApp Console 在 *治理 > AI Data Engine* 下访问 AI Data Engine。您可以将其作为 AIDE Lite（单 VM 安装）部署在您管理的 Linux 基础架构上，可以是云帐户中的虚拟机，也可以是本地环境中的计算机。如果您的环境需要大规模的基于 Kubernetes 的高可用性，则可以改为部署 AIDE Enterprise。
+
+AI Data Engine 扫描 NetApp ONTAP 和 StorageGRID 系统上的数据，以及支持 NFS、SMB/CIFS 或 S3 协议的非 NetApp 系统上的数据。
+
+link:../deploy/deployment-overview.html["详细了解部署选项"]。
+
+
+
+[[related-information]]
+== 相关信息
+
+* link:architecture.html["AI Data Engine 架构"]
+* link:quick-start.html["快速入门"]
+* link:storage-optimization-workflows.html["探索存储优化工作流程"]
+

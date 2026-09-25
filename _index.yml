@@ -1,0 +1,58 @@
+---
+indexpage:
+  title: AI Data Engine 文档
+  summary: AI Data Engine 文档涵盖了如何部署、连接数据源以及如何使用 AI Data Engine 进行存储优化、元数据调查和数据治理。
+  keywords: ai data engine, aide, storage optimization, investigation, policies, data
+    governance, NetApp Console
+  lead: AI Data Engine 让您查看存储在 NetApp 系统上的非结构化数据。使用它来确定存储优化机会、调查数据和执行生命周期策略。
+  tiles:
+  - title: 开始使用
+    links:
+    - title: 了解 AI Data Engine
+      url: "/get-started/learn-about.html"
+    - title: AI Data Engine 架构
+      url: "/get-started/architecture.html"
+    - title: 快速入门
+      url: "/get-started/quick-start.html"
+    - title: 探索存储优化工作流程
+      url: "/get-started/storage-optimization-workflows.html"
+  - title: 部署
+    links:
+    - title: 部署概述
+      url: "/deploy/deployment-overview.html"
+    - title: AIDE 要求
+      url: "/deploy/aide-requirements.html"
+    - title: 部署 AIDE Lite
+      url: "/deploy/deploy-aide-lite.html"
+    - title: 部署 AIDE Enterprise
+      url: "/deploy/deploy-enterprise.html"
+  - title: 浏览您的数据
+    links:
+    - title: 连接数据源
+      url: "/data-sources/connect-data-source.html"
+    - title: 管理数据源
+      url: "/data-sources/manage-data-sources.html"
+    - title: 从仪表板评估存储利用率
+      url: "/investigate/understand-dashboard.html"
+    - title: 调查您的数据
+      url: "/investigate/investigate-data.html"
+    - title: 使用筛选器
+      url: "/investigate/use-filters.html"
+    - title: 对数据采取操作
+      url: "/investigate/take-actions.html"
+  - title: 策略和操作
+    links:
+    - title: 创建策略
+      url: "/policies/create-policy.html"
+    - title: 管理策略
+      url: "/policies/manage-policies.html"
+  - title: 管理
+    links:
+    - title: 管理用户和角色
+      url: "/administer/manage-users-roles.html"
+    - title: 配置数据阈值
+      url: "/administer/configure-settings.html"
+    - title: 新增功能
+      url: "/release-notes/whats-new.html"
+    - title: 已知限制
+      url: "/release-notes/known-limitations.html"

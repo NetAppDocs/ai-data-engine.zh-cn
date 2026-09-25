@@ -1,0 +1,18 @@
+---
+section: investigate
+title: 调查数据
+entries:
+- title: 使用 AIDE 仪表板评估存储运行状况
+  url: "/investigate/understand-dashboard.html"
+- title: 调查您的数据
+  url: "/investigate/investigate-data.html"
+- title: 调查非结构化数据
+  url: "/investigate/investigate-unstructured.html"
+- title: 调查结构化数据
+  url: "/investigate/investigate-structured.html"
+- title: 调查目录
+  url: "/investigate/investigate-directories.html"
+- title: 使用筛选器
+  url: "/investigate/use-filters.html"
+- title: 对数据采取操作
+  url: "/investigate/take-actions.html"

@@ -1,0 +1,50 @@
+---
+sidebar: sidebar 
+permalink: investigate/investigate-data.html 
+keywords: investigate, metadata, unstructured, structured, directories, cold data, stale data, permissions, reclaimable storage 
+summary: 使用调查视图可以浏览连接系统上的基于文件的存储、数据库表和目录结构。选择与您要查找的内容匹配的选项卡。 
+---
+= 在 AI Data Engine 中调查您的数据
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+当您需要了解哪些内容正在消耗存储空间、识别哪些数据库表正在无限制地增长，或查找访问权限过于宽松的目录时，请使用元数据过滤器调查所有已连接系统中的数据。
+
+
+
+[[choose-a-starting-point]]
+== 选择一个起点
+
+在左侧导航栏中选择*调查*以打开视图。您还可以从仪表板打开调查视图，方法是在 _Top data resources by reclaimable storage_ 表中选择 *Investigate*，该表会自动为该资源应用筛选器。
+
+*调查*分为三个选项卡。选择与您正在调查的数据类型匹配的选项卡。
+
+[cols="1,2,1"]
+|===
+| 选项卡 | 请在需要时使用 | 更多信息 
+
+
+| *非结构化* | 在 NFS 和 SMB/CIFS 卷上查找冷数据、过时数据或基于文件的重复数据 | link:investigate-unstructured.html["调查非结构化数据"] 
+
+
+| *结构化* | 识别占用存储空间的超大或未使用的数据库表 | link:investigate-structured.html["调查结构化数据"] 
+
+
+| *目录* | 审核目录级权限并查找可广泛访问的路径 | link:investigate-directories.html["调查目录"] 
+|===
+页面顶部的汇总计数和总大小会更新以反映活动选项卡（例如，"非结构化（400M）| 5.7 PiB"）。
+
+
+
+[[related-information]]
+== 相关信息
+
+* link:investigate-unstructured.html["调查非结构化数据"]
+* link:investigate-structured.html["调查结构化数据"]
+* link:investigate-directories.html["调查目录"]
+* link:use-filters.html["使用筛选器"]
+* link:take-actions.html["对您的数据采取行动"]
+

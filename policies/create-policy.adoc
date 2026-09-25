@@ -1,0 +1,100 @@
+---
+sidebar: sidebar 
+permalink: policies/create-policy.html 
+keywords: create policy, save query, policy, filters, actions, automation 
+summary: 将调查筛选条件保存为命名策略，以便随时跟踪相同的数据分组，并在条件发生变化时收到通知。 
+---
+= 在 AI Data Engine 中创建策略
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+如果您希望监控重复出现的数据状况，而无需手动重复相同的调查，请创建策略。例如，数据治理管理员可以保存"大型过期文件"策略，以跨扫描周期跟踪该分组，并在受影响的文件数量发生变化时接收电子邮件更新。
+
+
+
+[[about-policies]]
+== 关于策略
+
+策略将您在调查中定义的筛选条件保存为可重用的规则。AI Data Engine 在每个扫描周期后根据元数据目录评估每个策略。您可以随时打开策略以查看当前匹配结果集。如果附加删除操作，AI Data Engine 将在每个扫描周期后删除匹配的文件。如果您附加电子邮件通知，AI Data Engine 会在受影响的文件计数发生变化时发送更新。
+
+
+
+[[choose-a-policy-action]]
+== 选择策略操作
+
+策略是已保存的过滤器集，并附加了可选操作：
+
+* *仅监控（不采取行动）*：在不采取行动的情况下跟踪一段时间内的匹配分组。如果您希望在不承诺自动响应的情况下获得可见性，请使用此选项。
+* *发送电子邮件通知*：当匹配文件数量发生变化时，通过电子邮件通知用户。
+* *永久删除*：在每个扫描周期后永久自动删除所有匹配的文件，无需进一步确认。此操作不可逆转。在附加此操作之前，请验证筛选条件是否准确，以及您是否有权删除已识别的文件。
+
+
+
+
+[[create-a-policy-from-investigation]]
+== 从调查创建策略
+
+.开始之前
+* 要附加删除或电子邮件通知操作，必须具有 _AI Data Engine administrator_ 角色。_AI Data Engine viewer_ 角色可以创建仅监控策略。
+
+
+.步骤
+. 在 NetApp Console 中，导航到*治理* > *AI Data Engine* > *调查*。
+. 应用一个或多个筛选器，以标识策略要定位的文件。
++
+例如：*文件类型* = .vmdk AND *上次访问时间* > 365 天。
+
++
+查看结果表，确认筛选器集捕获了预期的数据分组。
+
+. 在筛选操作栏中，选择*创建策略*。
+. 输入*策略名称*。
+. （可选）输入*描述*（最多 500 个字符）。
+. 查看筛选条件表达式（例如 `last_access_time <= 3 Years AND file_size >= 5GiB`），以确认它反映了您的选择。
+. 要附加操作，请在*操作*下选择以下选项之一：
++
+** *仅监控（无操作）*（默认）：策略将保存为仅监控条件。
+** *Send email notification*：向您指定的收件人发送电子邮件通知。
+** *永久删除*：无需额外输入。
++
+
+CAUTION: 在每个扫描周期后，永久删除操作会自动且不可逆地删除与此策略匹配的所有文件。验证您的筛选条件，并确认您有权在保存之前删除这些文件。
+
+
+
+. 选择 *Create*。
+
+
+.结果
+策略已保存并显示在 link:manage-policies.html["策略"] 页面上。如果关联了操作，AI Data Engine 会将该操作应用于符合策略条件的文件。
+
+
+
+[[example-identify-cold-archive-files]]
+== 示例：识别冷归档文件
+
+以下示例创建了一个策略，用于在检测到一年以上未被访问的文件时发送电子邮件通知。
+
+. 在调查中，应用以下筛选器：
++
+** *上次访问时间* > 365 天
+
+
+. 选择*创建策略*。
+. 输入策略名称：*Cold Files — Unaccessed 1 Year*。
+. 选择操作*发送电子邮件通知*并输入收件人电子邮件地址。
+. 选择 *Create*。
+
+
+
+
+[[related-information]]
+== 相关信息
+
+* link:manage-policies.html["管理策略"]
+* link:../investigate/take-actions.html["对您的数据采取行动"]
+* link:../investigate/investigate-data.html["调查您的数据"]
+

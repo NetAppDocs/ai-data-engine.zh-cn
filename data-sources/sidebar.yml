@@ -1,0 +1,10 @@
+---
+section: data-sources
+title: 连接数据源
+entries:
+- title: 连接数据源
+  url: "/data-sources/connect-data-source.html"
+- title: 管理数据源
+  url: "/data-sources/manage-data-sources.html"
+- title: 监控扫描运行状况
+  url: "/data-sources/monitor-scanning-health.html"
