@@ -871,7 +871,6 @@
   <block id="7dbe065509bb17277c7b17f3766f97be" category="list-text">从控制面板中识别哪些数据所有者拥有最高浓度的冷数据、过时数据或重复数据，然后在调查视图中按所有者或组进行筛选，以根据您的策略查看和管理结果。</block>
   <block id="482723983a4f2af954e36ff41e567451" category="inline-link-macro">已知限制</block>
   <block id="34e34c0debc388181c3934f84b977ddd" category="list-text"><block ref="34e34c0debc388181c3934f84b977ddd" category="inline-link-macro-rx"></block></block>
-  <block id="e72c60c273700856ad0eeb853a353e52" category="sidebar">AI Data Engine 让您查看存储在 NetApp 系统上的非结构化数据。使用它来确定存储优化机会、调查数据和执行生命周期策略。</block>
   <block id="ed67b8aec97dcec019f1b2972d70f5af" category="sidebar">AI Data Engine 文档</block>
   <block id="0416d02572f9d563fa4967178dc5c5fb" category="sidebar">AI Data Engine 文档涵盖了如何部署、连接数据源以及如何使用 AI Data Engine 进行存储优化、元数据调查和数据治理。</block>
   <block id="be11c74c1dd7f307bb80183a90dc2067" category="sidebar">开始使用</block>
@@ -892,4 +891,5 @@
   <block id="6b2443d2529b7b19a67154f7a04c9877" category="sidebar">使用 AIDE 仪表板评估存储运行状况</block>
   <block id="4bd61438e659088dded1d69964caccb1" category="sidebar">管理策略和操作</block>
   <block id="7d0ee6fed10d3d4e5c9ee496729ab519" category="sidebar">发行说明</block>
+  <block id="ac219e2fd9f167e916107df50eb88fad" category="sidebar">AI Data Engine 是通过 NetApp Console 管理的元数据智能服务，可扫描连接的系统，构建元数据目录，并为您提供可见性和工具，以优化存储并大规模管理数据。</block>
 </blocks>
