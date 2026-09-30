@@ -14,6 +14,7 @@ summary: 使用部署向导从 NetApp Console 部署 AIDE Enterprise。
 使用部署向导从 NetApp Console 部署 AIDE Enterprise。该向导将引导您选择安装位置、选择配置大小以及对 RKE2 集群运行安装命令。
 
 .开始之前
+* 您的组织可以访问 NetApp Console 中的 AI Data Engine 私有预览。请联系您的 NetApp 代表以请求访问权限，以便部署 AI Data Engine。
 * 您在 NetApp Console 中拥有_组织管理员_或更高权限。
 * 您的 RKE2 集群符合 link:aide-requirements.html["AIDE 要求"] 中所述的企业节点先决条件。
 * 运行安装命令的计算机上需要 Sudo （或 root）权限。
@@ -25,7 +26,7 @@ summary: 使用部署向导从 NetApp Console 部署 AIDE Enterprise。
 
 
 .步骤
-. 在 NetApp Console 中，导航到*治理* > *AI Data Engine*。
+. 在 NetApp Console 中，导航到 *AI data hub* > *AI Data Engine*。
 +
 此时将显示 AI Data Engine 登录页面。
 

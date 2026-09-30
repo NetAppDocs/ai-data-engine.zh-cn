@@ -49,7 +49,7 @@ AI Data Engine 专为以下用户设计：
 [[where-ai-data-engine-lives]]
 == AI Data Engine 所在的位置
 
-您可以通过 NetApp Console 在 *治理 > AI Data Engine* 下访问 AI Data Engine。您可以将其作为 AIDE Lite（单 VM 安装）部署在您管理的 Linux 基础架构上，可以是云帐户中的虚拟机，也可以是本地环境中的计算机。如果您的环境需要大规模的基于 Kubernetes 的高可用性，则可以改为部署 AIDE Enterprise。
+您可以通过 NetApp Console 在 *AI data hub > AI Data Engine* 下访问 AI Data Engine。AI Data Engine 目前以私有预览版形式提供。请联系您的 NetApp 代表以申请访问权限。您可以将 AI Data Engine 作为 AIDE Lite（单虚拟机安装）部署在您管理的 Linux 基础架构上，可以是云账户中的虚拟机，也可以是本地环境中的计算机。如果您的环境需要大规模的基于 Kubernetes 的高可用性，则可以改为部署 AIDE Enterprise。
 
 AI Data Engine 扫描 NetApp ONTAP 和 StorageGRID 系统上的数据，以及支持 NFS、SMB/CIFS 或 S3 协议的非 NetApp 系统上的数据。
 

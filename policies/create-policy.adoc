@@ -42,7 +42,7 @@ summary: 将调查筛选条件保存为命名策略，以便随时跟踪相同�
 
 
 .步骤
-. 在 NetApp Console 中，导航到*治理* > *AI Data Engine* > *调查*。
+. 在 NetApp Console 中，导航到 *AI data hub* > *AI Data Engine* > *Investigation*。
 . 应用一个或多个筛选器，以标识策略要定位的文件。
 +
 例如：*文件类型* = .vmdk AND *上次访问时间* > 365 天。
