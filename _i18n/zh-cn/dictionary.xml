@@ -433,7 +433,6 @@
   <block id="c0227cef6f07a8cd2ac72f2945b031aa" category="section-title">开源</block>
   <block id="9b73989307c1975dfa4d5e1581e4afe8" category="paragraph">通知文件提供有关 NetApp 软件中使用的第三方版权和许可的信息。</block>
   <block id="93d6496a69f6384320dab15ccadbc4e8" category="inline-link-macro">关于AI Data Engine</block>
-  <block id="7ab36480d3c1a530e02ac892b3191e4a" category="paragraph"><block ref="7ab36480d3c1a530e02ac892b3191e4a" category="inline-link-macro-rx"></block></block>
   <block id="e7dc26f23cfcebf955f51e9ec20046b1" category="summary">将调查筛选条件保存为命名策略，以便随时跟踪相同的数据分组，并在条件发生变化时收到通知。</block>
   <block id="0e276db5651852f12c3a3c7be8b2939e" category="doc">在 AI Data Engine 中创建策略</block>
   <block id="ede0a89e2e37ef9e8c3495af56db91eb" category="paragraph">如果您希望监控重复出现的数据状况，而无需手动重复相同的调查，请创建策略。例如，数据治理管理员可以保存"大型过期文件"策略，以跨扫描周期跟踪该分组，并在受影响的文件数量发生变化时接收电子邮件更新。</block>
@@ -2452,4 +2451,5 @@
   <block id="1f2989a2e9ce42f8b0db48acd9ed2e4e" category="sidebar">将 AIDE 部署为带代理的多节点部署</block>
   <block id="d76d64858ff00ec6f65866ed6c6641f4" category="sidebar">将 AIDE 连接到 Microsoft Entra ID</block>
   <block id="156586dd7dceda9f103091b3c0beb1e6" category="sidebar">AIDE MCP 工具</block>
+  <block id="7da93123cf77bf1f1d116b04b8d380c2" category="paragraph"><block ref="7da93123cf77bf1f1d116b04b8d380c2" category="inline-link-macro-rx"></block></block>
 </blocks>
