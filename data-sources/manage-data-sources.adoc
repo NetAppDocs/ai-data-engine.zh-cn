@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: data-sources/manage-data-sources.html 
-keywords: manage, data source, storage system, scanned systems, pause scanning, resume scanning, scan all, retry scans, CIFS credentials, DP volumes, deactivate, scan status, scan errors, scanning toggle 
+keywords: manage, data source, storage system, data sources page, pause scanning, resume scanning, scan all, retry scans, CIFS credentials, DP volumes, deactivate, scan status, scan errors, scanning toggle 
 summary: 监控扫描状态并管理连接的数据源，包括暂停扫描、编辑凭据、启用 DP 卷访问和停用系统。 
 ---
 = 在 AI Data Engine 中管理数据源
@@ -11,17 +11,21 @@ summary: 监控扫描状态并管理连接的数据源，包括暂停扫描、�
 
 
 [role="lead"]
-连接数据源后，您可以监控其扫描状态，并从*已扫描系统*选项卡对其进行管理。使用这些过程可以暂停或恢复扫描、更新凭据、调整数据访问设置以及停用不再需要扫描的系统。
+使扫描覆盖范围与您需要分析的数据保持一致。使用*数据源*页面检查扫描进度，调查覆盖范围的差距，并管理 AI Data Engine（AIDE）扫描的系统和数据资源。
 
 
 
 [[view-scan-status-and-details]]
 == 查看扫描状态和详细信息
 
+检查扫描状态以查看扫描进度并确定需要注意的资源。查看系统级进度和资源级详细信息，以区分仍在运行的扫描与暂停或有错误的扫描。
+
+如果扫描意外停止或暂停，请检查部署运行状况。请参阅 link:../administer/monitor-deployment-health.html["监控部署运行状况并调查问题"]。
+
 .步骤
-. 从 AI Data Engine UI 中，选择 *配置*。
-. 在*扫描的系统*选项卡上，找到要查看的系统。
-. 选择系统行以打开详细信息视图。
+. 在 AI Data Engine 用户界面中，选择*数据源*。
+. 找到要查看的系统。
+. 选择系统行并打开详细信息视图。
 +
 详细信息视图显示：
 
@@ -30,7 +34,7 @@ summary: 监控扫描状态并管理连接的数据源，包括暂停扫描、�
 ** 数据资源扫描状态细分：正在运行、已完成、已暂停和错误
 ** 扫描权限模式（例如，"无写入权限扫描"）
 +
-如果出现扫描错误，请展开错误详细信息，查看哪些卷或共享受到影响以及失败的原因。
+如果出现扫描错误，请展开错误详细信息，查看哪些数据资源（卷、共享、存储区或架构）受到影响以及失败的原因。
 
 
 
@@ -41,9 +45,11 @@ summary: 监控扫描状态并管理连接的数据源，包括暂停扫描、�
 [[pause-scanning]]
 == 暂停扫描
 
+当您不希望 AI Data Engine 扫描某个系统时，可以暂时停止对其进行扫描。系统会保持连接，您可以稍后恢复扫描。
+
 .步骤
-. 从 AI Data Engine UI 中，选择 *配置*。
-. 在*扫描的系统*选项卡上，找到要暂停的系统。
+. 在 AI Data Engine 用户界面中，选择*数据源*。
+. 找到要暂停的系统。
 . 选择系统行以打开详细信息视图。
 . 选择 *暂停*。
 
@@ -53,9 +59,11 @@ summary: 监控扫描状态并管理连接的数据源，包括暂停扫描、�
 [[resume-scanning]]
 == 恢复扫描
 
+当您准备好让 AI Data Engine 再次扫描已暂停的系统时，请恢复扫描。
+
 .步骤
-. 从 AI Data Engine UI 中，选择 *配置*。
-. 在*已扫描系统*选项卡上，找到暂停的系统。
+. 在 AI Data Engine 用户界面中，选择*数据源*。
+. 找到暂停的系统。
 . 选择系统行以打开详细信息视图。
 . 选择*Resume*。
 
@@ -65,11 +73,11 @@ summary: 监控扫描状态并管理连接的数据源，包括暂停扫描、�
 [[scan-all-data-resources]]
 == 扫描所有数据资源
 
-触发对系统上所有数据资源的即时扫描。使用此选项可在重大数据更改后刷新元数据。
+在重大数据更改后刷新整个系统的元数据，以便您的分析反映更新的数据。使用此操作可请求立即扫描系统上的所有数据资源。
 
 .步骤
-. 从 AI Data Engine UI 中，选择 *配置*。
-. 在*扫描的系统*选项卡上，找到要扫描的系统。
+. 在 AI Data Engine 用户界面中，选择*数据源*。
+. 找到要扫描的系统。
 . 选择系统旁边的操作菜单。
 . 选择 *Scan all volumes*（在共享和存储桶的操作菜单中有一个等效选项）。
 
@@ -79,11 +87,11 @@ summary: 监控扫描状态并管理连接的数据源，包括暂停扫描、�
 [[retry-failed-scans]]
 == 重试失败的扫描
 
-重新排队处于失败或错误状态的数据资源。请先解决根本原因，例如凭据问题、网络错误或权限问题，然后再重试。
+恢复无法成功扫描的资源的扫描覆盖率。首先解决失败的原因，例如凭据问题、网络错误或权限问题，然后重试失败的扫描。
 
 .步骤
-. 从 AI Data Engine UI 中，选择 *配置*。
-. 在*已扫描系统*选项卡上，找到扫描失败的系统。
+. 在 AI Data Engine 用户界面中，选择*数据源*。
+. 找到扫描失败的系统。
 . 选择系统旁边的操作菜单。
 . 选择*重试所有扫描*。
 
@@ -93,11 +101,14 @@ summary: 监控扫描状态并管理连接的数据源，包括暂停扫描、�
 [[edit-cifs-credentials]]
 == 编辑 CIFS 凭据
 
-更新 AI Data Engine 用于向 SMB/CIFS 共享进行身份验证的凭据。
+当扫描帐户的凭据更改或身份验证失败时，维护或恢复对 SMB 共享的访问。更新 AI Data Engine 用于对共享进行身份验证的 SMB (CIFS) 凭据。
+
+
+NOTE: 如果共享使用 Kerberos 身份验证，AI Data Engine 会使用 keytab 中的票据进行身份验证，并且数据源中不会存储密码。请参阅 link:../administer/configure-kerberos-smb.html["AI Data Engine 中 SMB/CIFS 共享的 Kerberos 身份验证"]。
 
 .步骤
-. 从 AI Data Engine UI 中，选择 *配置*。
-. 在*已扫描系统*选项卡上，找到 SMB/CIFS 系统。
+. 在 AI Data Engine 用户界面中，选择*数据源*。
+. 找到 SMB 系统。
 . 选择系统行以打开详细信息视图。
 . 选择 *Edit CIFS credentials*。
 . 输入更新后的用户名和密码，然后选择*Save*。
@@ -108,11 +119,11 @@ summary: 监控扫描状态并管理连接的数据源，包括暂停扫描、�
 [[enable-or-disable-access-to-dp-volumes]]
 == 启用或禁用对 DP 卷的访问
 
-数据保护 (DP) 卷是 NetApp SnapMirror 目标卷。默认情况下，AI Data Engine 不会扫描 DP 卷。您可以按系统启用或禁用 DP 卷访问。
+通过启用或禁用对数据保护 (DP) 卷的访问，在扫描范围中包括或排除复制的数据。DP 卷是 NetApp SnapMirror 目标卷，默认情况下，AI Data Engine 不会扫描它们。您可以按系统启用或禁用访问权限。
 
 .步骤
-. 从 AI Data Engine UI 中，选择 *配置*。
-. 在*扫描的系统*选项卡上，找到系统。
+. 在 AI Data Engine 用户界面中，选择*数据源*。
+. 找到系统。
 . 选择系统行以打开详细信息视图。
 . 选择 *Enable access to DP volumes* 或 *Disable access to DP volumes*。
 
@@ -122,11 +133,11 @@ summary: 监控扫描状态并管理连接的数据源，包括暂停扫描、�
 [[enable-or-disable-scanning-of-specific-shares-buckets-or-volumes]]
 == 启用或禁用特定共享、存储桶或卷的扫描
 
-连接并扫描数据源后，您可以启用或禁用对单个卷或共享的扫描，而无需重新配置整个系统。使用此选项可在初始设置后优化扫描范围。例如，您可能希望排除包含无需分析数据的卷，或者添加初始扫描期间未选择或不可用的卷。
+将扫描覆盖范围集中在您需要分析的数据资源上，而无需重新配置整个系统。启用对初始设置期间未选择或不可用的资源的扫描，并禁用对无需分析的卷、共享或存储桶的扫描。
 
 .步骤
-. 从 AI Data Engine UI 中，选择 *配置*。
-. 在*已扫描系统*选项卡上，找到要更新的系统。
+. 在 AI Data Engine 用户界面中，选择*数据源*。
+. 找到要更新的系统。
 . 在系统行中选择*查看详细信息*。
 . 在数据资源列表中，找到要更改的卷、存储桶或共享。
 . 使用*扫描*切换开关来启用或禁用对该资源的扫描。
@@ -137,11 +148,11 @@ summary: 监控扫描状态并管理连接的数据源，包括暂停扫描、�
 [[deactivate-ai-data-engine-for-a-system]]
 == 停用系统的 AI Data Engine
 
-停用系统会停止所有扫描并将其从活动扫描覆盖范围中删除。系统配置将保留，您可以随时通过在系统行上选择 *Activate scans* 来重新激活系统。
+当您不再需要 AI Data Engine 扫描某个系统时，请将其从主动扫描覆盖范围中移除。停用系统会停止所有扫描并保留其配置。要再次包含该系统，请在系统行上选择*激活扫描*。
 
 .步骤
-. 从 AI Data Engine UI 中，选择 *配置*。
-. 在*已扫描系统*选项卡上，找到要停用的系统。
+. 在 AI Data Engine 用户界面中，选择*数据源*。
+. 找到要停用的系统。
 . 选择系统旁边的操作菜单。
 . 选择*停用 AI Data Engine*。
 
@@ -152,6 +163,6 @@ summary: 监控扫描状态并管理连接的数据源，包括暂停扫描、�
 == 相关信息
 
 * link:connect-data-source.html["连接数据源"]
-* link:monitor-scanning-health.html["监控扫描运行状况"]
+* link:../administer/monitor-deployment-health.html["监控部署运行状况并调查问题"]
 * link:../investigate/understand-dashboard.html["从仪表板评估存储利用率"]
 

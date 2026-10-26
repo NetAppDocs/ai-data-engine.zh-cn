@@ -1,0 +1,74 @@
+---
+sidebar: sidebar 
+permalink: administer/monitor-deployment-health.html 
+keywords: health monitor, deployment health, system stability, pods, unhealthy pod, OOMKilled, CrashLoopBackOff, evicted, memory, disk, CPU, utilization, eviction threshold, scans paused, node health, troubleshooting 
+summary: 监控您的 AI Data Engine 部署，以识别可能中断扫描的不正常工作负载和资源限制，并收集信息以进行故障排除。 
+---
+= 监控部署健康状况并调查 AI Data Engine 中的问题
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+AI Data Engine（AIDE）运行状况监视器可帮助您识别可能中断扫描的不正常工作负载和资源限制。使用运行状况详细信息来评估问题的影响并收集故障排除信息。
+
+
+
+[[monitor-deployment-health-and-investigate-issues]]
+== 监控部署运行状况并调查问题
+
+.步骤
+. 在 NetApp Console 中，转到 *AI 数据中心* > *AI Data Engine*。
+. 选择*配置*，然后选择*健康监视器*。
+. 检查*基础架构状态*下的*系统稳定性*，以查看是否有任何 Pod 不健康。
++
+不正常的 pod 无法按预期运行其工作负载。不正常状态包括待定、失败、驱逐、未知、OOMKilled 和 CrashLoopBackOff。
+
+. 确定可能影响部署的资源限制：
++
+--
+** 对于单节点部署，请查看*节点运行状况*。如果节点显示运行状况问题，请检查 CPU、内存和磁盘利用率卡，以查找资源压力的迹象。
+** 对于多节点部署，请查看*节点健康状况*以识别具有严重、警告或离线状态的节点。比较可用的资源利用率指标，找出资源压力的迹象。对于离线节点，请调查节点可用性。
+
+
+--
+. 对于多节点部署，选择利用率卡上的*查看详细信息*以调查资源：
++
+--
+** *CPU 利用率*：将当前使用率与警告和临界阈值进行比较。
+** *内存利用率*：查看当前使用情况、内存不足（OOM）风险和驱逐阈值。
+** *磁盘使用情况*：查看可用空间、风险和停止阈值。
+
+
+--
++
+特别注意内存和磁盘警告，因为这些情况可能会中断扫描。请按照详细信息中显示的任何建议操作进行操作。
+
+. 要识别受影响的工作负载，请使用 *Pod 运行状况* 下的 *Pod* 和 *状态* 筛选器缩小列表范围。
++
+查看每个受影响的 Pod 的工作负载、状态和资源使用情况。使用此信息可将资源压力与出现故障、重复重新启动或等待运行的 Pod 区分开来。
+
+. 查看*有问题的工作负载*，以确定已停止或频繁重新启动的工作负载。请注意报告的时间，以帮助将这些事件与资源使用相关联。
+. 查看资源利用趋势，了解资源压力是暂时的还是持续的：
++
+--
+** 对于单节点部署，查看相关时间段的*资源利用率分布*。
+** 对于多节点部署，请查看相关时间范围的*前 20 个节点（利用率）*。比较各节点的利用率，并检查受影响节点的 CPU、内存和磁盘使用情况，以识别短暂的峰值或持续的高利用率。
+
+
+--
+. 如果您需要帮助解决问题，请在 *Pod 健康状况* 中选择 image:icon_download_file.png["下载"] 以下载 pod 信息。从 *系统信息* 中收集相关详细信息，包括主机名、操作系统、内核、控制台版本、Kubernetes 版本和控制台帐户 ID，以便与您的管理员或支持团队共享。
+
+
+.结果
+采取纠正措施后，返回*运行状况监视器*并查看*系统稳定性*、*Pod 运行状况*、*节点运行状况*和资源利用率，以确认报告的情况已被清除。如果扫描被中断，请转到*数据源*以确认其已恢复。请参阅 link:../data-sources/manage-data-sources.html#view-scan-status-and-details["查看扫描状态和详细信息"]。
+
+
+
+[[related-information]]
+== 相关信息
+
+* link:../data-sources/manage-data-sources.html["管理数据源"]
+* link:../deploy/aide-requirements.html["AI Data Engine 要求"]
+

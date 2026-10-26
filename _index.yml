@@ -1,10 +1,12 @@
 ---
 indexpage:
   title: AI Data Engine 文档
-  summary: AI Data Engine 文档涵盖了如何部署、连接数据源以及如何使用 AI Data Engine 进行存储优化、元数据调查和数据治理。
+  summary: AI Data Engine 文档涵盖了如何部署、连接数据源，以及使用 AI Data Engine 进行存储优化、元数据调查、数据治理以及通过
+    MCP 实现受管的 AI 访问。
   keywords: ai data engine, aide, storage optimization, investigation, policies, data
-    governance, NetApp Console
-  lead: AI Data Engine 是通过 NetApp Console 管理的元数据智能服务，可扫描连接的系统，构建元数据目录，并为您提供可见性和工具，以优化存储并大规模管理数据。
+    governance, NetApp Console, governed ai access, mcp, model context protocol
+  lead: AI Data Engine 是通过 NetApp Console 管理的元数据智能服务，可扫描连接的系统，构建元数据目录，并为您提供可见性和工具来优化存储并大规模管理数据。通过受管理的
+    AI 访问，AI 客户端可以通过模型上下文协议（MCP）搜索该元数据。
   tiles:
   - title: 开始使用
     links:
@@ -16,16 +18,22 @@ indexpage:
       url: "/get-started/quick-start.html"
     - title: 探索存储优化工作流程
       url: "/get-started/storage-optimization-workflows.html"
+    - title: 新增功能
+      url: "/release-notes/whats-new.html"
+    - title: 已知限制
+      url: "/release-notes/known-limitations.html"
   - title: 部署
     links:
     - title: 部署概述
       url: "/deploy/deployment-overview.html"
     - title: AIDE 要求
       url: "/deploy/aide-requirements.html"
-    - title: 部署 AIDE Lite
-      url: "/deploy/deploy-aide-lite.html"
-    - title: 部署 AIDE Enterprise
-      url: "/deploy/deploy-enterprise.html"
+    - title: 将 AIDE 作为单节点部署
+      url: "/deploy/deploy-aide-single-node.html"
+    - title: 将 AIDE 部署为多节点部署
+      url: "/deploy/deploy-aide-multi-node.html"
+    - title: 了解 AIDE 的代理
+      url: "/deploy/configure-proxy.html"
   - title: 浏览您的数据
     links:
     - title: 连接数据源
@@ -36,8 +44,6 @@ indexpage:
       url: "/investigate/understand-dashboard.html"
     - title: 调查您的数据
       url: "/investigate/investigate-data.html"
-    - title: 使用筛选器
-      url: "/investigate/use-filters.html"
     - title: 对数据采取操作
       url: "/investigate/take-actions.html"
   - title: 策略和操作
@@ -46,13 +52,17 @@ indexpage:
       url: "/policies/create-policy.html"
     - title: 管理策略
       url: "/policies/manage-policies.html"
+  - title: 受管 AI 访问（MCP）
+    links:
+    - title: 了解受管理的 AI 访问
+      url: "/mcp/learn-about-mcp.html"
+    - title: 受管理的人工智能访问快速入门
+      url: "/mcp/quick-start-mcp.html"
+    - title: 维护 MCP 设置
+      url: "/mcp/maintain-mcp-setup.html"
   - title: 管理
     links:
     - title: 管理用户和角色
       url: "/administer/manage-users-roles.html"
-    - title: 配置数据阈值
+    - title: 配置数据分类阈值和访问扫描
       url: "/administer/configure-settings.html"
-    - title: 新增功能
-      url: "/release-notes/whats-new.html"
-    - title: 已知限制
-      url: "/release-notes/known-limitations.html"

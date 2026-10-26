@@ -1,0 +1,22 @@
+---
+section: mcp
+title: 受管 AI 访问（MCP）
+entries:
+- title: 了解受管理的 AI 访问
+  url: "/mcp/learn-about-mcp.html"
+- title: 快速入门
+  url: "/mcp/quick-start-mcp.html"
+- title: 准备 MCP 主机
+  url: "/mcp/prepare-mcp-host.html"
+- title: 配置 Microsoft Entra ID
+  url: "/mcp/configure-entra-id-mcp.html"
+- title: 将 AIDE 连接到 Microsoft Entra ID
+  url: "/mcp/connect-entra-id-aide-mcp.html"
+- title: 管理数据收集
+  url: "/mcp/manage-data-collections.html"
+- title: 连接 AI 客户端
+  url: "/mcp/connect-ai-clients-mcp.html"
+- title: AIDE MCP 工具
+  url: "/mcp/mcp-tools-reference.html"
+- title: 维护 MCP 设置
+  url: "/mcp/maintain-mcp-setup.html"

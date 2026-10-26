@@ -1,8 +1,8 @@
 ---
 sidebar: sidebar 
 permalink: get-started/learn-about.html 
-keywords: ai data engine, aide, overview, use cases, storage optimization, data governance 
-summary: 了解AI Data Engine，它可为存储在存储系统上的结构化和非结构化数据提供可见性。 
+keywords: ai data engine, aide, overview, metadata, use cases, storage optimization, data lifecycle, access risk, governed ai access, mcp 
+summary: 了解 AI Data Engine 如何使用元数据来帮助您回收存储容量、查找访问风险并组织数据以用于 AI 客户端。 
 ---
 = 了解 AI Data Engine
 :allow-uri-read: 
@@ -11,49 +11,66 @@ summary: 了解AI Data Engine，它可为存储在存储系统上的结构化和
 
 
 [role="lead"]
-AI Data Engine 是一种元数据智能服务，可让您查看存储在存储系统上的结构化和非结构化数据。通过扫描您的存储系统并对文件系统元数据进行编目，AI Data Engine 可帮助您识别存储优化机会、调查您的数据，并通过就地分析元数据来实施治理策略，而无需移动或复制数据。
+AI Data Engine（AIDE）是一种元数据智能服务，可让您查看存储在存储系统中的结构化和非结构化数据。AI Data Engine 扫描您的存储系统并对文件系统元数据进行编目，以便您可以识别存储优化机会、调查数据并执行治理策略。
 
 
 
 [[what-ai-data-engine-does]]
 == AI Data Engine 的作用
 
-AI Data Engine 扫描连接的存储系统以提取文件系统元数据，并构建在每个扫描周期后更新的目录。从此目录中，您可以：
+AI Data Engine 扫描您连接的数据源，并构建可在每个扫描周期刷新的可搜索元数据目录。在目录中，您可以：
 
-* 在控制面板上查看存储优化见解，包括哪些数据所有者持有可能可回收的存储（例如满足组织冷数据和陈旧数据阈值的文件以及重复文件）
-* 使用灵活的元数据过滤器调查您的数据，以构建有针对性的数据分组
-* 创建将调查标准保存为可重用规则的策略
-* 对数据执行操作：标记、存档、复制或删除符合策略条件的文件
+* *了解您的存储空间。*查看您拥有多少数据、谁拥有这些数据以及它们所在的位置。
+* *回收容量。*查找冷数据、陈旧数据和重复数据，并查看哪些数据所有者持有最多的数据，以便您知道要联系谁来进行清理。
+* *查找访问风险。*识别具有开放权限的目录，以便为其排定优先级以供审核。
+* *调查和整理。*使用元数据筛选器查找您关心的数据，对其进行标记，并将您的标准保存为可随时监控的策略。
+* *对数据采取行动。*标记、存档、复制或删除已查看的文件。
+* *为人工智能准备数据。*让您授权的 AI 客户端搜索您的元数据并对数据采取行动。
 
 
 
 
-[[storage-optimization-and-data-governance]]
-== 存储优化和数据治理
+[[storage-optimization-and-data-lifecycle-management]]
+== 存储优化和数据生命周期管理
 
-AI Data Engine专注于存储系统上存储的结构化和非结构化数据的存储优化和数据生命周期管理。
+使用元数据来识别需要检查的数据，例如满足组织冷阈值和陈旧阈值的文件以及重复文件。在决定是否保留、标记、归档、复制或删除数据之前，请先调查结果。
+
+存储优化洞察指向机遇。您可能回收的容量取决于您选择采取的操作。
+
+
+
+[[governed-ai-access]]
+== 受管理的 AI 访问
+
+受管 AI 访问权限允许 AI 客户端在您设置的边界内通过模型上下文协议（MCP）搜索您的元数据。您可以通过创建集合来选择要提供的数据。集合是您向 AI 客户端提供的一组扫描数据。您可以通过定义 Microsoft Entra ID 作用域来控制用户可以搜索哪些集合。
+
+AI 客户端仅使用元数据。它们无法检索文件内容。
+
+link:../mcp/learn-about-mcp.html["详细了解受管 AI 访问"]。
 
 
 
 [[who-uses-ai-data-engine]]
 == 谁使用AI Data Engine
 
-AI Data Engine 专为以下用户设计：
+以下示例展示了不同的人如何使用 AI Data Engine：
 
-* *存储管理员* ，他们需要识别和监控哪些数据所有者持有符合其组织冷数据和过时数据阈值的文件，识别重复文件，并评估存储优化机会。
+* *存储管理员*，他们需要查看满足其组织冷阈值和过时阈值的文件，识别重复文件，并评估存储优化机会。
 * *IT 运营团队*，需要集中查看其存储环境中存在的结构化和非结构化数据。
+* 使用 AI 客户端搜索授权集合中的元数据并标记他们想要使用的数据的*数据或 AI 团队成员*。
+* 正在推出 AI 工具并需要选择 AI 客户端可以搜索哪些集合以及谁可以使用它们的 *IT 主管*。
 
 
 
 
-[[where-ai-data-engine-lives]]
-== AI Data Engine 所在的位置
+[[where-ai-data-engine-runs]]
+== AI Data Engine 的运行位置
 
-您可以通过 NetApp Console 在 *AI data hub > AI Data Engine* 下访问 AI Data Engine。AI Data Engine 目前以私有预览版形式提供。请联系您的 NetApp 代表以申请访问权限。您可以将 AI Data Engine 作为 AIDE Lite（单虚拟机安装）部署在您管理的 Linux 基础架构上，可以是云账户中的虚拟机，也可以是本地环境中的计算机。如果您的环境需要大规模的基于 Kubernetes 的高可用性，则可以改为部署 AIDE Enterprise。
-
-AI Data Engine 扫描 NetApp ONTAP 和 StorageGRID 系统上的数据，以及支持 NFS、SMB/CIFS 或 S3 协议的非 NetApp 系统上的数据。
+您可以通过 NetApp Console 访问 AI Data Engine，位于 *AI data hub > AI Data Engine* 下。扫描和编录服务在您提供的基础架构上运行，无论是在您的云帐户中还是在您的本地环境中。请选择 Linux VM 上的 AIDE 单节点部署，或者如果您的环境需要大规模的高可用性，请选择 Kubernetes 集群上的 AIDE 多节点部署。
 
 link:../deploy/deployment-overview.html["详细了解部署选项"]。
+
+AI Data Engine 扫描您连接的受支持数据源。有关详细信息，请参阅 link:../data-sources/connect-data-source.html["连接数据源"]。
 
 
 
@@ -62,5 +79,6 @@ link:../deploy/deployment-overview.html["详细了解部署选项"]。
 
 * link:architecture.html["AI Data Engine 架构"]
 * link:quick-start.html["快速入门"]
+* link:../mcp/learn-about-mcp.html["了解受管理的 AI 访问"]
 * link:storage-optimization-workflows.html["探索存储优化工作流程"]
 

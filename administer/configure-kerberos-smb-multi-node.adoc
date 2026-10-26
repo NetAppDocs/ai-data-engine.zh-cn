@@ -1,0 +1,641 @@
+---
+sidebar: sidebar 
+permalink: administer/configure-kerberos-smb-multi-node.html 
+keywords: kerberos, smb, cifs, multi-node, nfs export, keytab, krb5.conf, ktutil, kdc, realm, fqdn, dns, authentication, active directory, scan service account, cifs-utils 
+summary: 在多节点 AI Data Engine 部署上配置 Kerberos 身份验证，以便 AI Data Engine 可以使用扫描服务帐户和存储在共享 NFS 导出上的密钥表扫描 SMB/CIFS 共享。 
+---
+= 在多节点 AI Data Engine 部署上为 SMB/CIFS 共享配置 Kerberos
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+使用 Kerberos 身份验证从多节点 AI Data Engine（AIDE）部署中扫描 SMB/CIFS 共享，以便数据源中不存储密码。每个节点都使用相同的 Kerberos 配置，并且 AI Data Engine 会自动刷新 Kerberos 票证。
+
+如果您有单节点部署，请参阅 link:configure-kerberos-smb-single-node.html["在单节点 AI Data Engine 部署上为 SMB/CIFS 共享配置 Kerberos"]。
+
+
+
+[[before-you-begin]]
+== 开始之前
+
+.权限和访问
+* 您具有 _AI Data Engine 管理员_ 权限。
+* 您对每个节点和管理主机都具有 root 访问权限。管理主机是您挂载 NFS 导出并创建 keytab 的主机。它可以是其中一个节点。
+* 您可以从管理主机以 cluster-admin 权限 `kubectl`访问 Kubernetes 集群。如果使用 kubeconfig 文件，请将 `KUBECONFIG`环境变量设置为其路径。
+
+
+.网络和时间同步
+* 您已查看link:../deploy/aide-requirements.html#networking-requirements["网络要求"]和link:../deploy/aide-requirements.html#kerberos-ad-requirements["Kerberos 和 Active Directory 要求"]，包括时间同步和 DNS。
+* 您已验证每个节点都可以访问 TCP 端口 2049 上的 NFS 服务器、端口 88 上的 KDC、端口 445 上的文件服务器以及端口 53 上的 DNS 服务器。
+* 您已验证每个节点上的 NTP 处于活动状态，并且每个时钟都与您的域控制器同步。要检查，请运行 `timedatectl`。
+
+
+.Active Directory
+* 您在 Active Directory 中拥有一个扫描服务帐户，该帐户对您要扫描的 SMB/CIFS 共享具有读取权限。该帐户必须支持 AES256 加密。
+
+
+.要收集的信息
+* 您有下列信息：
++
+[cols="2,4,2"]
+|===
+| 个项目 | 问题描述 | 示例 
+
+
+| KDC IP 地址 | 充当 Kerberos 密钥分发中心（KDC）的域控制器的 IP 地址 | `10.0.1.50` 
+
+
+| KDC FQDN | 同一域控制器的完全限定域名（FQDN） | `dc.corp.example.com` 
+
+
+| 领域 | Active Directory 域，小写 | `corp.example.com` 
+
+
+| 领域 | Kerberos 领域，即大写的域 | `CORP.EXAMPLE.COM` 
+
+
+| 扫描用户 | 具有对共享的读取访问权限的服务帐户 | `svc-aide` 
+
+
+| 扫描密码 | 扫描用户的密码。仅在创建 keytab 时输入。 | 不适用 
+
+
+| 文件服务器FQDN | 托管共享的文件服务器的 FQDN。请勿使用 IP 地址。 | `filer.corp.example.com` 
+
+
+| 共享名称 | SMB/CIFS 共享的名称 | `sharename` 
+|===
+
+
+
+
+[[kerberos-files-that-ai-data-engine-uses]]
+[[kerberos-file-locations]]
+== AI Data Engine 使用的 Kerberos 文件
+
+您可以在保存 AI Data Engine 配置的 NFS 导出上创建以下文件。在下表中， `<export>` 是该导出的根目录。
+
+[cols="1,2"]
+|===
+| 文件 | 导出上的位置 
+
+
+| Kerberos 配置 | `<export>/kerberos/krb5.conf` 
+
+
+| Keytab | `<export>/kerberos/kerberos_refresher/datasense.keytab` 
+
+
+| 主体文件 | `<export>/kerberos/kerberos_refresher/kerberos_creds.env` 
+
+
+| 票据缓存目录 | `<export>/kerberos/kerberos_ccache` 
+|===
+
+
+[[install-the-required-packages]]
+[[install-packages]]
+== 安装所需软件包
+
+在任何没有 `cifs-utils`的节点上，对 SMB/CIFS 共享的 Kerberos 扫描都会失败。SMB/CIFS 挂载在 AI Data Engine 内部运行，但节点的操作系统会调用 `cifs-utils`组件来设置 Kerberos 会话。仅在管理主机上安装该软件包是不够的。
+
+[cols="2,1,1"]
+|===
+| 套餐 | 管理员主机 | 每个节点 
+
+
+| `krb5-user` （Ubuntu 或 Debian）或 `krb5-workstation` （RHEL、CentOS 或 Rocky Linux） | 必填项 | 不需要 
+
+
+| `cifs-utils` | 必填项 | 必填项 
+|===
+Kerberos 客户端工具提供了 `ktutil`、 `kinit`和 `klist`命令，用于创建和测试 keytab。
+
+.步骤
+. 在管理主机上，安装 Kerberos 客户端工具和 `cifs-utils`。
++
+.. 在 Ubuntu 或 Debian 上，运行以下命令。
++
+[source, cli]
+----
+apt-get update -qq
+apt-get install -y krb5-user cifs-utils
+----
+.. 在 RHEL、CentOS 或 Rocky Linux 上，运行以下命令。
++
+[source, cli]
+----
+dnf -y install krb5-workstation cifs-utils
+----
+
+
+. 在其他所有节点上，安装 `cifs-utils`。
++
+.. 在 Ubuntu 或 Debian 上，运行以下命令。
++
+[source, cli]
+----
+apt-get update -qq
+apt-get install -y cifs-utils
+----
+.. 在 RHEL、CentOS 或 Rocky Linux 上，运行以下命令。
++
+[source, cli]
+----
+dnf -y install cifs-utils
+----
+
+
+. 在每个节点上，验证安装。
++
+[source, cli]
+----
+which cifs.upcall
+----
+
+
+
+
+[[mount-the-nfs-export-on-the-admin-host]]
+[[mount-nfs-export]]
+== 在管理主机上挂载 NFS 导出
+
+从管理主机获取对共享配置导出的访问权限，以便您可以在每个节点读取它们的位置创建 Kerberos 文件。
+
+.步骤
+. 设置 AI Data Engine 运行的命名空间，并验证配置卷声明是否已绑定。默认命名空间为 `aide`。
++
+[source, cli]
+----
+export NAMESPACE="<namespace>"
+kubectl -n "${NAMESPACE}" get pvc aide-config-pvc
+----
++
+状态必须为 `Bound`。
+
+. 获取 NFS 服务器和配置卷的导出路径。您在部署 AI Data Engine 时指定了这些值。
++
+[source, cli]
+----
+kubectl get pv aide-config-pv -o jsonpath='NFS server: {.spec.nfs.server}{"\n"}Export path: {.spec.nfs.path}{"\n"}'
+----
+. 挂载导出。将  `<nfs_server>` 和  `<export_path>` 替换为上一步中的值。这些命令使用  `/mnt/aide-config` 作为挂载点。您可以使用任何空目录。
++
+[source, cli]
+----
+mkdir -p /mnt/aide-config
+mount -t nfs <nfs_server>:<export_path> /mnt/aide-config
+----
+. 创建 Kerberos 目录。
++
+[source, cli]
+----
+export AIDE_CONFIG_ROOT="/mnt/aide-config"
+mkdir -p "${AIDE_CONFIG_ROOT}/kerberos/kerberos_refresher"
+mkdir -p "${AIDE_CONFIG_ROOT}/kerberos/kerberos_ccache"
+----
+
+
+
+
+[[create-the-kerberos-files]]
+[[create-kerberos-files]]
+== 创建 Kerberos 文件
+
+为 AI Data Engine 提供获取扫描服务帐户的 Kerberos 票证所需的配置和凭据。在管理主机上执行以下步骤。
+
+.步骤
+. 设置以下命令使用的变量。将尖括号中的每个值替换为您的值，并且不要包含尖括号。以大写形式输入领域，以小写形式输入域。
++
+[source, cli]
+----
+export KDC_IP="<kdc_ip>"
+export KDC_FQDN="<kdc_fqdn>"
+export AD_DOMAIN="<domain>"
+export REALM="<REALM>"
+export SCAN_USER="<scan_user>"
+export FILE_SERVER_FQDN="<file_server_fqdn>"
+export SHARE_NAME="<share_name>"
+export KRB5_CONF_SOURCE="${AIDE_CONFIG_ROOT}/kerberos/krb5.conf"
+export KRB5_KEYTAB="${AIDE_CONFIG_ROOT}/kerberos/kerberos_refresher/datasense.keytab"
+export KRB5_CREDS="${AIDE_CONFIG_ROOT}/kerberos/kerberos_refresher/kerberos_creds.env"
+----
++
+.. 验证变量是否已设置。
++
+[source, cli]
+----
+echo "NAMESPACE=[${NAMESPACE}] AIDE_CONFIG_ROOT=[${AIDE_CONFIG_ROOT}] KDC_IP=[${KDC_IP}] REALM=[${REALM}] SCAN_USER=[${SCAN_USER}]"
+----
++
+
+NOTE: 这些变量仅存在于当前 shell 会话中。如果打开新 shell，请重新设置它们。
+
+
+
+. 在 NFS 导出上创建 Kerberos 配置文件。AI Data Engine 从导出中读取此文件。不要在节点的 `/etc/krb5.conf`中创建它。
++
+[source, cli]
+----
+tee "${KRB5_CONF_SOURCE}" >/dev/null <<EOF
+[libdefaults]
+    default_realm = ${REALM}
+    dns_lookup_realm = false
+    dns_lookup_kdc = false
+    rdns = false
+    ticket_lifetime = 24h
+    renew_lifetime = 7d
+    forwardable = true
+
+[realms]
+    ${REALM} = {
+        kdc = ${KDC_IP}:88
+        admin_server = ${KDC_IP}:749
+    }
+
+[domain_realm]
+    .${AD_DOMAIN} = ${REALM}
+    ${AD_DOMAIN} = ${REALM}
+EOF
+chmod 644 "${KRB5_CONF_SOURCE}"
+----
++
+该文件使用 KDC IP 地址，以便 Kerberos 身份验证不依赖于 DNS。
+
+. 为扫描服务帐户创建 keytab。
++
+.. 运行 `ktutil`。
+.. 在  `ktutil` 提示符处，输入以下命令。将  `<scan_user>` 和  `<REALM>` 替换为您的值。 `ktutil` 提示符不使用 shell 变量。
++
+[source, cli]
+----
+addent -password -p <scan_user>@<REALM> -k 1 -e aes256-cts-hmac-sha1-96
+----
+.. 当 `ktutil`提示输入密码时，请输入此扫描用户的密码。
+.. 在  `ktutil` 提示符处输入以下命令。
++
+[source, cli]
+----
+wkt /tmp/krb5.keytab
+quit
+----
+
+
+. 测试 keytab。 `KRB5_CONFIG` 变量将 Kerberos 工具指向导出上的文件。
++
+[source, cli]
+----
+export KRB5_CONFIG="${KRB5_CONF_SOURCE}"
+klist -kt /tmp/krb5.keytab
+kinit -kt /tmp/krb5.keytab "${SCAN_USER}@${REALM}"
+klist
+kdestroy
+----
++
+第二个 `klist`命令必须为扫描用户显示有效的票据。票据确认密钥表和与 KDC 的连接正常工作。如果 `kinit`失败，请参阅<<troubleshoot-kerberos,Kerberos 身份验证故障排除>>。
+
+. 安装密钥表，然后删除临时副本。
++
+[source, cli]
+----
+install -m 640 -g 4321 /tmp/krb5.keytab "${KRB5_KEYTAB}"
+rm -f /tmp/krb5.keytab
+----
+. 使工单缓存目录可由工单刷新器写入。
++
+[source, cli]
+----
+chown root:4321 "${AIDE_CONFIG_ROOT}/kerberos/kerberos_ccache"
+chmod 770 "${AIDE_CONFIG_ROOT}/kerberos/kerberos_ccache"
+----
++
+票据刷新程序作为组 ID 为 4321 的 root 用户运行。它必须能够读取密钥表和主体文件，并且必须能够写入票据缓存目录。
+
+. 创建主体文件。此 `KRB5_RENEW_INTERVAL_H`值为票据续订间隔（以小时为单位）。
++
+[source, cli]
+----
+tee "${KRB5_CREDS}" >/dev/null <<EOF
+KRB5_USER=${SCAN_USER}
+KRB5_REALM=${REALM}
+KRB5_RENEW_INTERVAL_H=3
+EOF
+chmod 640 "${KRB5_CREDS}"
+chgrp 4321 "${KRB5_CREDS}"
+----
+. 验证文件是否已就位。
++
+[source, cli]
+----
+ls -l "${KRB5_CONF_SOURCE}" "${KRB5_KEYTAB}" "${KRB5_CREDS}"
+----
+
+
+
+
+[[verify-name-resolution]]
+== 验证名称解析
+
+AI Data Engine 通过使用每个节点的 DNS 设置来解析文件服务器和 KDC。首先验证名称解析，仅当名称在节点上无法解析时才更改 DNS 设置。
+
+.步骤
+. 在每个节点上，验证文件服务器和 KDC 是否通过 FQDN 解析。将值替换为您的文件服务器 FQDN 和 KDC FQDN。
++
+[source, cli]
+----
+nslookup <file_server_fqdn>
+nslookup <kdc_fqdn>
+----
+. 检查结果。
++
+.. 如果两个名称都解析为每个节点上的正确 IP 地址，请继续 <<start-first-ticket-refresh,开始首次刷新工单>>。
+.. 如果名称在任何节点上都无法解析，请完成 <<fix-name-resolution,修复名称解析>>，然后返回此过程。
+
+
+
+
+
+
+[[start-the-first-ticket-refresh]]
+[[start-first-ticket-refresh]]
+== 开始首次刷新工单
+
+AI Data Engine 每三小时刷新一次扫描服务帐户的 Kerberos 票证。启动第一次刷新，以便立即扫描共享。
+
+
+NOTE: 请勿将 `kinit`条目添加到主机 crontab。AI Data Engine 自动刷新工单。
+
+.步骤
+. 在管理主机上，启动刷新作业，等待其完成，并显示其日志。
++
+[source, cli]
+----
+JOB="kerberos-refresh-$(date +%s)"
+kubectl -n "${NAMESPACE}" create job "${JOB}" --from=cronjob/ds-krb5-ticket-refresher
+kubectl -n "${NAMESPACE}" wait --for=condition=complete "job/${JOB}" --timeout=120s
+kubectl -n "${NAMESPACE}" logs "job/${JOB}"
+----
+. 确认共享票据缓存存在且具有最近的时间戳。
++
+[source, cli]
+----
+ls -l "${AIDE_CONFIG_ROOT}/kerberos/kerberos_ccache/krb5cc_shared"
+----
+
+
+.结果
+作业日志显示已为扫描用户获取票证。
+
+
+
+[[verify-the-kerberos-configuration]]
+[[verify-kerberos-configuration]]
+== 验证 Kerberos 配置
+
+在添加共享之前，请验证 AI Data Engine 可以使用 Kerberos 文件并解析名称。由于挂载服务可以在多个节点上运行，因此请对每个节点上的 pod 重复执行检查。如果打开了新 shell，请再次设置  `NAMESPACE`、 `FILE_SERVER_FQDN` 和  `SHARE_NAME` 变量。
+
+.步骤
+. 列出挂载服务 Pod 及其运行的节点。
++
+[source, cli]
+----
+kubectl -n "${NAMESPACE}" get pods -l app.kubernetes.io/name=ds-mount-server -o wide
+----
+. 对于每个 Pod，运行以下命令。将 `<pod_name>`替换为 Pod 的名称。
++
+[source, cli]
+----
+POD=<pod_name>
+kubectl -n "${NAMESPACE}" exec "${POD}" -- nslookup "${FILE_SERVER_FQDN}"
+kubectl -n "${NAMESPACE}" exec "${POD}" -- klist
+kubectl -n "${NAMESPACE}" exec "${POD}" -- cat /etc/krb5.conf
+----
+. （可选）使用 Kerberos 测试共享的挂载。
++
+[source, cli]
+----
+kubectl -n "${NAMESPACE}" exec "${POD}" -- sh -c "mount -t cifs -o sec=krb5,multiuser //${FILE_SERVER_FQDN}/${SHARE_NAME} /mnt && ls -l /mnt && umount /mnt"
+----
+
+
+.结果
+在每个节点上，文件服务器解析为正确的 IP 地址， `klist` 显示扫描用户的票证，并且 `/etc/krb5.conf` 显示 Kerberos 配置文件的内容。
+
+
+
+[[add-an-smbcifs-data-source-that-uses-kerberos]]
+== 添加使用 Kerberos 的 SMB/CIFS 数据源
+
+将共享添加为数据源并开始扫描，以便 AI Data Engine 可以开始分析其数据。
+
+.步骤
+. 从 AI Data Engine UI 中，选择 *配置*。
+. 在*已扫描系统*选项卡上，选择*添加系统*。
+. 选择*文件共享组*。
+. 输入组的名称。
+. 按 `<file_server_fqdn>/<share_name>`格式输入共享路径。将占位符替换为您的值。请勿使用 IP 地址。
+. 对于身份验证方法，选择 *Kerberos*。将用户名和密码字段留空。
+. 查看您的选择并选择*确认*。
+. 为新系统选择*激活扫描*。
+
+
+有关连接数据源的详细信息，请参阅 link:../data-sources/connect-data-source.html["将数据源连接到 AI Data Engine"]。
+
+
+
+[[fix-name-resolution]]
+== 修复名称解析
+
+仅当文件服务器或 KDC 未通过节点上的 FQDN 解析时，才完成此过程。它将 Active Directory DNS 服务器设置为每个节点上的唯一名称服务器。
+
+
+CAUTION: 使 Active Directory DNS 服务器成为每个节点上唯一的名称服务器。群集随机选择一个列出的名称服务器，因此无法解析 Active Directory 名称的名称服务器会导致间歇性故障。
+
+.步骤
+. 验证 Active Directory DNS 服务器是否也能解析外部名称。
++
+.. 运行以下命令。将 `<external_fqdn>`替换为 AI Data Engine 必须访问的域外名称。例如，使用 link:../deploy/aide-requirements.html#outbound-internet-access["出站互联网接入"] 中列出的端点。
++
+[source, cli]
+----
+nslookup <external_fqdn> "${KDC_IP}"
+----
+.. 如果命令失败，请让 Active Directory 管理员启用 DNS 转发，然后重复此步骤。
+
+
+. 在每个节点上备份 `/etc/resolv.conf`，并将 Active Directory DNS 服务器设置为唯一的名称服务器。如果在节点上打开新 shell，请再次设置 `KDC_IP`变量。
++
+[source, cli]
+----
+export KDC_IP="<kdc_ip>"
+cp /etc/resolv.conf /etc/resolv.conf.bak
+ORIG_SEARCH=$(grep '^search' /etc/resolv.conf.bak | head -1 | cut -d' ' -f2-)
+printf 'search %s\nnameserver %s\n' "${ORIG_SEARCH}" "${KDC_IP}" > /etc/resolv.conf
+----
+. 在每个节点上，防止网络管理器在重新启动后覆盖 DNS 设置。
++
+.. 在带有 NetworkManager 的 RHEL 上，运行以下命令。
++
+[source, cli]
+----
+mkdir -p /etc/NetworkManager/conf.d
+printf '[main]\ndns=none\n' > /etc/NetworkManager/conf.d/90-dns-none.conf
+systemctl reload NetworkManager
+----
+.. 在采用 systemd-resolved 的 Ubuntu 上，运行以下命令。将 `<domain>`替换为您的域。
++
+[source, cli]
+----
+export AD_DOMAIN="<domain>"
+mkdir -p /etc/systemd/resolved.conf.d
+printf '[Resolve]\nDNS=%s\nDomains=%s\n' "${KDC_IP}" "${AD_DOMAIN}" > /etc/systemd/resolved.conf.d/ad-dns.conf
+systemctl restart systemd-resolved
+----
+
+
+. 从管理主机重新启动 CoreDNS，以便 AI Data Engine 使用新的 DNS 设置。您需要为集群运行此步骤一次。CoreDNS 将对集群外部名称的查询转发到节点的 `/etc/resolv.conf`文件中的名称服务器，因此必须重新启动以使更改生效。
++
+.. 查找 CoreDNS 部署。
++
+[source, cli]
+----
+kubectl -n kube-system get deployments | grep -i coredns
+----
+.. 重新启动部署。将 `<coredns_deployment>`替换为上一个命令中的名称。
++
+[source, cli]
+----
+kubectl -n kube-system rollout restart deployment <coredns_deployment>
+kubectl -n kube-system rollout status deployment <coredns_deployment> --timeout=120s
+----
+
+
+. 再次验证名称解析。请参阅<<verify-name-resolution,验证名称解析>>。
+
+
+
+
+[[update-the-kerberos-configuration-file]]
+[[update-kerberos-configuration]]
+== 更新 Kerberos 配置文件
+
+如果在设置后替换 NFS 导出上的 `krb5.conf`，例如通过在其上复制新文件，AI Data Engine 将继续使用以前的文件，直到您重新启动受影响的服务。
+
+.步骤
+. 在管理主机上，重新启动挂载服务，并删除以前的票证刷新作业。
++
+[source, cli]
+----
+kubectl -n "${NAMESPACE}" rollout restart daemonset ds-mount-server
+kubectl -n "${NAMESPACE}" delete job -l app.kubernetes.io/name=ds-krb5-ticket-refresher --ignore-not-found
+----
+. 开始新的工单刷新。请参阅 <<start-first-ticket-refresh,开始首次刷新工单>>。
+
+
+
+
+[[troubleshoot-kerberos-authentication]]
+[[troubleshoot-kerberos]]
+== Kerberos 身份验证故障排除
+
+查找 Kerberos 故障的原因并恢复 SMB/CIFS 共享的扫描。
+
+[cols="2,3,3"]
+|===
+| 症状 | 可能的原因 | 解决方法 
+
+
+| 添加共享时出现错误 *Kerberos 不允许使用的 IP*。 | 共享路径使用 IP 地址。 | 输入共享路径作为 FQDN。 
+
+
+| 测试 keytab 时，`kinit` 失败，或者未签发票据。 | 密码或领域不正确，领域不是大写，扫描帐户不支持 AES256 加密，管理主机或节点无法在端口 88 上访问 KDC，或者节点上的时钟与 KDC 的差异超过了允许的偏差。 | 请验证密码和领域，并确认帐户支持 AES256 加密。向 KDC 开放端口 88，并确认 NTP 在每个节点上均处于活动状态。然后再次创建 keytab。 
+
+
+| 票证刷新作业失败，或未创建票证缓存。 | keytab、主体文件或 `krb5.conf`缺失或为空，或者组所有权和权限不正确。 | 验证文件是否存在于 <<kerberos-file-locations,AI Data Engine 使用的 Kerberos 文件>> 中列出的位置。验证密钥表和主体文件是否具有模式 640 和组 4321。验证票证缓存目录是否由 `root:4321`拥有，且模式为 770。 
+
+
+| 名称间歇性无法解析，或者它们在节点上可以解析，但在 AI Data Engine 中无法解析。 | 节点列出了多个名称服务器，且其中一个无法解析 Active Directory 名称，或者在更改 `/etc/resolv.conf`后未重新启动 CoreDNS。 | 删除每个节点上除 Active Directory DNS 服务器之外的所有名称服务器，并重新启动 CoreDNS。请参阅 <<fix-name-resolution,修复名称解析>>。 
+
+
+| 设置 Active Directory DNS 服务器后，外部名称无法在 AI Data Engine 中解析。 | Active Directory DNS 服务器不转发外部查询。 | 验证 `nslookup <external_fqdn> "${KDC_IP}"`是否返回结果。如果没有，请要求 Active Directory 管理员启用 DNS 转发。 
+
+
+| Kerberos 扫描在一个节点上正常工作，但在其他节点上失败。出现错误 *mount error(2)*，并且节点上的 `dmesg`显示 *failed to create a new SMB session with Kerberos*。 | `cifs-utils` 未安装在每个节点上。 | 在每个节点上安装 `cifs-utils`。要验证安装，请运行 `which cifs.upcall`。 
+
+
+| 此时将显示错误 *mount error(126)*。 | AI Data Engine 无法从 NFS 导出中读取 `krb5.conf`。 | 验证 `<export>/kerberos/krb5.conf`是否存在，以及 `+kubectl -n "${NAMESPACE}" exec <pod_name> -- cat /etc/krb5.conf+`是否显示其内容。 
+
+
+| 对 `krb5.conf`的更改不生效。 | 文件在安装后被替换，AI Data Engine 仍使用之前的文件。 | 请参阅 <<update-kerberos-configuration,更新 Kerberos 配置文件>>。 
+
+
+| 未找到  `ktutil`、 `kinit` 或  `klist` 命令。 | 管理主机上未安装 Kerberos 客户端工具。 | 安装 Kerberos 客户端工具。请参阅 <<install-packages,安装所需软件包>>。 
+
+
+| 重新启动后，节点上的 `/etc/resolv.conf`文件将还原为其以前的设置。 | 网络管理器覆盖文件。 | 防止网络管理器覆盖 DNS 设置。请参阅 <<fix-name-resolution,修复名称解析>>。 
+|===
+
+
+[[remove-the-kerberos-configuration]]
+[[remove-kerberos-configuration]]
+== 删除 Kerberos 配置
+
+如果不再使用 Kerberos 扫描 SMB/CIFS 共享，请删除数据源和 Kerberos 文件。
+
+.步骤
+. 从 AI Data Engine UI 中，删除使用 Kerberos 的 SMB/CIFS 数据源。
+. 在管理主机上，将 NFS 导出挂载到  `/mnt/aide-config`，删除 Kerberos 文件。
++
+[source, cli]
+----
+rm -f /mnt/aide-config/kerberos/kerberos_refresher/datasense.keytab
+rm -f /mnt/aide-config/kerberos/kerberos_refresher/kerberos_creds.env
+rm -f /mnt/aide-config/kerberos/krb5.conf
+rm -f /mnt/aide-config/kerberos/kerberos_ccache/krb5cc_shared
+umount /mnt/aide-config
+----
+. 如果更改了 DNS 设置，请恢复原始设置。
++
+.. 在每个节点上，还原 `/etc/resolv.conf`的备份。
++
+[source, cli]
+----
+cp /etc/resolv.conf.bak /etc/resolv.conf
+----
+.. 在已添加 NetworkManager 配置的 RHEL 节点上，将其删除。
++
+[source, cli]
+----
+rm -f /etc/NetworkManager/conf.d/90-dns-none.conf
+systemctl reload NetworkManager
+----
+.. 在添加了 systemd-resolved 配置的 Ubuntu 节点上，将其删除。
++
+[source, cli]
+----
+rm -f /etc/systemd/resolved.conf.d/ad-dns.conf
+systemctl restart systemd-resolved
+----
+.. 从管理主机重新启动 CoreDNS。将 `<coredns_deployment>`替换为 CoreDNS 部署的名称。
++
+[source, cli]
+----
+kubectl -n kube-system rollout restart deployment <coredns_deployment>
+----
+
+
+
+
+
+
+[[related-information]]
+== 相关信息
+
+* link:configure-kerberos-smb.html["AI Data Engine 中 SMB/CIFS 共享的 Kerberos 身份验证"]
+* link:configure-kerberos-smb-single-node.html["在单节点 AI Data Engine 部署上为 SMB/CIFS 共享配置 Kerberos"]
+* link:../deploy/aide-requirements.html#kerberos-ad-requirements["Kerberos 和 Active Directory 要求"]
+* link:../data-sources/connect-data-source.html["将数据源连接到 AI Data Engine"]
+* link:../data-sources/manage-data-sources.html["管理数据源"]
+

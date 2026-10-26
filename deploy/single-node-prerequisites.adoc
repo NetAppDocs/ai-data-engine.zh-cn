@@ -1,0 +1,172 @@
+---
+sidebar: sidebar 
+permalink: deploy/single-node-prerequisites.html 
+keywords: single-node, prerequisites, disk space, firewall, k3s, ports, host preparation, block storage 
+summary: 通过验证访问权限、磁盘空间、防火墙规则和操作系统软件包，为 AIDE 单节点部署准备 Linux VM。 
+---
+= AI Data Engine 单节点部署先决条件
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+对于 AI Data Engine（AIDE）单节点部署，您需要提供一个 Linux VM。安装程序将安装 k3s，为 AIDE 配置卷使用本地 hostPath 存储，并配置内核参数、主机目录和 Kubernetes 资源。在运行安装命令之前，请通过验证访问权限和工具、可用磁盘空间、防火墙规则和操作系统软件包来准备虚拟机。
+
+在运行安装命令之前，您的虚拟机必须满足以下各节中的要求。有关虚拟机大小、支持的操作系统和网络端口，请参阅link:aide-requirements.html["AIDE 要求"]。
+
+
+
+[[access-and-tools]]
+== 访问和工具
+
+* 您对目标 VM 具有 root 或 sudo 访问权限，可以运行安装程序。
+* 目标主机具有可用的 bash 4.0 或更高版本、curl 和 tar。不支持 macOS，因为它附带 bash 3.2。
+* 如果未安装 curl 或 tar，请在基于 RHEL 的发行版上使用 `dnf install curl tar`或在 Ubuntu 上使用 `apt-get install curl tar`进行安装。
+* 安装程序会自动下载并引导  `k3s`、 `helm`、 `kubectl` 和  `jq`。您无需在虚拟机上安装这些工具。安装程序始终会将自己的  `kubectl` 副本下载到  `/opt/netapp/aide/.aide-installer-tools`，并且不会将其添加到您的  `PATH` 中。
+
+
+
+
+[[storage-type]]
+== 存储类型
+
+对 AIDE 数据卷使用块存储，而不是 NFS。NFS 支持的存储可能会导致性能不佳。对于所有部署规模，首选 NVMe SSD 或其他固态存储。存储还必须满足 link:aide-requirements.html#single-node-vm-sizes["AIDE 要求"] 中适合您规模的 IOPS 和吞吐量要求。
+
+
+
+[[disk-space]]
+[[single-node-disk-space]]
+== 磁盘空间
+
+托管下表中路径的每个文件系统都需要可用空间。共享磁盘的路径共享一个可用空间池，因此将它们的最小值相加。
+
+如果单个磁盘承载所有内容，则最小可用空间为 65 GB 加上您配置的 AIDE 数据卷大小。65 GB 的固定下限不包括 `/var/run`，它通常为 `tmpfs`，并且不计入此总数：
+
+[cols="1,1"]
+|===
+| 大小 | 单个磁盘上的最小可用空间 
+
+
+| 小型 | 565 GB 
+
+
+| 中 | 2,065 GB 
+
+
+| 大型 | 6,065 GB 
+|===
+如果路径位于单独的挂载上，则每个挂载必须满足其托管路径的最低要求。如果使用  `--k3s-data-dir` 安装程序选项移动 k3s 数据目录，则 k3s 最低要求适用于新位置。
+
+[cols="2,1,1,3"]
+|===
+| 路径 | 最低 | 建议 | 目的 
+
+
+| `/var/lib/rancher/k3s` | 20 GB | 20 GB | 容器映像、containerd 快照和嵌入式数据库 
+
+
+| `/var/lib/kubelet` | 10 GB | 15 GB | Kubelet 状态、pod 临时存储和 `emptyDir`卷 
+
+
+| `/var/log` | 10 GB | 10 GB | 容器输出和 k3s 系统日志 
+
+
+| `/` | 25 GB | 50 GB | 操作系统软件包、k3s 二进制文件和安装程序工具 
+
+
+| `/var/run` | 1 GB | 2 GB | 套接字和进程 ID（通常 `tmpfs`，这不会增加单磁盘总数） 
+
+
+| `/var/lib/netapp/aide` | 小：500 GB；中：2,000 GB；大：6,000 GB | 与最小值相同 | AIDE 数据卷 
+|===
+请勿使用低于其最小值的挂载。不建议使用低于建议大小或已使用超过 85% 的挂载，因为当可用空间不足时，kubelet 可能会驱逐 pod。
+
+例如，如果 k3s 数据、日志和 AIDE 数据各自具有专用磁盘，请在这些挂载点上分别为您的配置提供至少 20 GB、10 GB 和 AIDE 数据所需的最小空间。此外，在 `/`上为操作系统和二进制文件提供至少 25 GB 的可用空间，如果 kubelet 文件系统不是 `/`，则在其上提供至少 10 GB 的可用空间。
+
+
+
+[[firewall]]
+[[single-node-firewall]]
+== 防火墙
+
+* 安装程序从 `\https://get.k3s.io`下载 k3s，并从 `\https://get.helm.sh`下载 Helm。有关所有必需的出站端点，请参见 link:aide-requirements.html#outbound-internet-access["AIDE 要求"] 中的出站 Internet 访问部分。
+* 主机至少具有 1 GbE 网络连接（对于大型部署，建议使用 10 GbE）。
+* 如果您的环境需要出站代理才能访问 AI Data Engine 端点，请参见link:configure-proxy.html["了解 AI Data Engine 的代理"]。要使用代理进行部署，请按照link:deploy-aide-single-node-proxy.html["将 AI Data Engine 部署为带代理的单节点部署"]进行操作。
+* 安装程序主机必须具有对位于 `582244788873.dkr.ecr.us-west-2.amazonaws.com`的 NetApp 容器注册表的出站访问权限，才能拉取 AIDE 容器映像和 Helm 图表。如果您限制了可以拉取映像的位置，请同时允许此注册表。有关所需的注册表端点，请参阅link:aide-requirements.html#outbound-internet-access["AIDE 要求"]。
+
+
+下表中的 k3s 端口必须在安装程序启动之前在主机上可用。如果启用了主机防火墙，则在运行安装程序之前，还必须允许这些端口以及 Pod 和服务 CIDR。否则，Pod 网络无法正常工作。这些端口在 k3s 内部，与 link:aide-requirements.html#networking-requirements["AIDE 要求"] 中的端口分开。
+
+[cols="1,1,3"]
+|===
+| 端口 | 协议 | 使用者 
+
+
+| 6443 | TCP | kubectl、operator 和集群组件的 k3s / Kubernetes API 服务器和控制平面端点 
+
+
+| 10250 | TCP | 用于 pod 日志、exec/attach 和 metrics-server 的 Kubelet API 
+
+
+| 8472 | UDP | 用于 pod 到 pod 网络的 Flannel VXLAN 
+|===
+默认 Pod CIDR 为 `10.44.0.0/16`，默认服务 CIDR 为 `10.45.0.0/16`。防火墙规则允许这些 CIDR，以便不丢弃集群内流量，包括 CoreDNS 和其他服务。如果使用 `--k3s-cluster-cidr`和 `--k3s-service-cidr` installer 选项覆盖默认值，请在以下命令中使用您的值。
+
+.RHEL、Rocky Linux、AlmaLinux 和 CentOS（firewalld）
+[source, bash]
+----
+sudo firewall-cmd --permanent --add-port=6443/tcp
+sudo firewall-cmd --permanent --add-port=10250/tcp
+sudo firewall-cmd --permanent --add-port=8472/udp
+sudo firewall-cmd --permanent --zone=trusted --add-source=10.44.0.0/16
+sudo firewall-cmd --permanent --zone=trusted --add-source=10.45.0.0/16
+sudo firewall-cmd --reload
+----
+.Ubuntu（ufw）
+[source, bash]
+----
+sudo ufw allow 6443/tcp
+sudo ufw allow 10250/tcp
+sudo ufw allow 8472/udp
+sudo ufw allow from 10.44.0.0/16
+sudo ufw allow from 10.45.0.0/16
+sudo ufw reload
+----
+与 firewalld 不同，ufw 没有可信区域。使用 `ufw allow from <cidr>`允许 pod 和服务 CIDR；没有 `--zone`参数。
+
+有关必须打开的应用程序端口，请参见 link:aide-requirements.html#networking-requirements["AIDE 要求"]。
+
+
+
+[[operating-system-packages]]
+== 操作系统包
+
+安装程序将安装下表中的软件包。如果您的环境需要，请确保您的包管理器具有适当的代理配置。
+
+[cols="3,3,3,3"]
+|===
+| 套餐 | 何时需要 | 从何而来 | 您的责任 
+
+
+| `cifs-utils` | 每个已连接的安装，除非  `cifs.upcall` 已安装。基于 Kerberos 的 CIFS/SMB 扫描所需。 | VM 自己的存储库。 | 从这些存储库提供软件包。 
+
+
+| `container-selinux`, `policycoreutils`, `libselinux-utils`, `selinux-policy-targeted` | 当主机上存在 SELinux 文件时，RHEL、Rocky Linux 或 AlmaLinux 8 或 9，即使 SELinux 被禁用。默认情况下，这些发行版包含 SELinux。这些软件包未在 Ubuntu 上使用。 | VM 自己的存储库。 | 请从这些存储库提供软件包。 
+
+
+| `k3s-selinux` | 与上一行相同的 RHEL 系列主机。 | `rpm.rancher.io`，当您使用代理时，通过 AI Data Engine 代理。如果您的存储库已提供该副本，则安装程序将使用该副本。 | 在代理服务器上允许 `rpm.rancher.io`。您不必自己提供此软件包。 
+|===
+
+NOTE: NetApp 尚未在带有 SELinux 的主机上验证 AI Data Engine。每当主机上存在 SELinux 文件时，安装程序都会下载此表中的 SELinux 软件包，即使 SELinux 已禁用也是如此。
+
+
+
+[[related-information]]
+== 相关信息
+
+* link:aide-requirements.html["AIDE 要求"]
+* link:deploy-aide-single-node.html["将 AI Data Engine 作为单节点部署"]
+* link:configure-proxy.html["了解 AI Data Engine 的代理"]
+* link:deploy-aide-single-node-proxy.html["将 AI Data Engine 部署为带代理的单节点部署"]
+

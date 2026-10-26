@@ -1,0 +1,136 @@
+---
+sidebar: sidebar 
+permalink: mcp/learn-about-mcp.html 
+keywords: governed ai access, mcp, model context protocol, ai clients, collections, entra id, claude code, claude desktop, cursor, opencode 
+summary: 受管 AI 访问允许 AI 客户端通过模型上下文协议（MCP），使用您在 NetApp Console 中控制的访问权限，搜索选定的 AI Data Engine 集合中的元数据。 
+---
+= 了解使用 AI Data Engine 的受管 AI 访问
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+受控 AI 访问允许 AI 客户端使用模型上下文协议（MCP）搜索您选择的 AI Data Engine（AIDE）集合中的元数据。您可以决定 AI 客户端可以搜索哪些 link:manage-data-collections.html#about-data-collections["集合"] 以及谁可以使用它们。AI 助手在您设置的边界内根据您编目的元数据工作。
+
+
+
+[[what-governed-ai-access-does]]
+== 受管理的 AI 访问的作用
+
+模型上下文协议（MCP）是一个开放标准，允许 AI 客户端连接到外部数据源和工具。AI Data Engine 提供了一个名为受管访问网关的 MCP 服务器，因此 AI 客户端可以查询 AI Data Engine 元数据目录，而不是直接访问您的存储系统。
+
+通过 MCP，连接的 AI 客户端可以：
+
+* 搜索集合中已启用 AI 访问的文件的元数据。
+* 列出标记、创建标记以及向这些文件添加标记或从中删除标记。如果标记不存在，请将其添加到文件中以创建它。标记操作在高级用户会话中可用，这需要 Microsoft Entra ID 应用角色和范围。请参阅link:configure-entra-id-mcp.html#create-and-assign-the-power-user-app-role["创建和分配高级用户应用角色"]。有关 AI 客户端可以使用的工具，请参阅link:mcp-tools-reference.html["用于 AI Data Engine 管理的 AI 访问的 MCP 工具"]。
+
+
+
+
+[[governed-ai-access-and-the-investigation-view]]
+== 受管理的 AI 访问和调查视图
+
+受管理的 AI 访问为您在 AI Data Engine 中执行的调查工作提供了一种基于 AI 的替代方案。您无需在 UI 的 link:../investigate/investigate-data.html["调查视图"] 中构建过滤器并选择要标记的文件，而是在 AI 客户端（例如 Claude Desktop）中提出问题或发出指令。
+
+[cols="1,2,2"]
+|===
+| 任务 | 在 AI Data Engine 中 | 通过 AI 客户端 
+
+
+| 按元数据查找文件 | 在link:../investigate/investigate-unstructured.html["调查视图"]中应用元数据筛选器。 | 要求 AI 客户端按文件名前缀、文件类型或所有者搜索集合。 
+
+
+| 查看文件详细信息 | 打开文件的详细信息面板以查看其系统、存储库、所有者和应用的标签。 | 向 AI 客户端询问结果中文件的路径、类型、大小、上次修改时间和所有者。 
+
+
+| 标记文件 | 在调查结果中选择文件，然后使用link:../investigate/take-actions.html#tag-files["标记操作"]。 | 要求 AI 客户端创建标记、将其添加到文件或从文件中删除标记。 
+|===
+这两个地方都有相同的目录元数据和标签。您可以在调查视图中或通过 AI 客户端创建、添加或删除标签。每个界面都反映了您在另一个界面中所做的更改，因此基于标签的搜索是一致的。
+
+AI 客户端仅在启用了 AI 访问的集合内工作。有关搜索选项和示例，请参阅link:connect-ai-clients-mcp.html#search-metadata["搜索元数据"]。
+
+要查看示例提示，请参阅 link:connect-ai-clients-mcp.html#sample-prompts["连接 AI 客户端"]。
+
+
+
+[[how-governed-ai-access-works]]
+== 受管理的人工智能访问如何运作
+
+您可以在 Microsoft Entra ID 和 NetApp Console 中配置受管 AI 访问。这些任务在 AI Data Engine 管理员和 Microsoft Entra ID 管理员之间分配，他们可能是同一个人：
+
+. AI Data Engine 管理员：link:prepare-mcp-host.html["准备 MCP 主机"]通过运行 ingress 脚本。使用在 Microsoft Entra ID 中验证的域上的 AIDE 集群主机名。
+. Entra ID 管理员：link:configure-entra-id-mcp.html["配置 Microsoft Entra ID"]通过为每个 AI Data Engine 实例注册一个专用应用程序，定义应用程序 ID URI 和 `power_users`作用域，创建和分配高级用户应用程序角色，并为您的 AI 客户端添加重定向 URI。
+. AI Data Engine 管理员：link:connect-entra-id-aide-mcp.html["将 Microsoft Entra ID 设置为身份提供程序"] 在 AI Data Engine 中。
+. 可选：从所选卷创建数据集合。默认情况下，*所有文件*集合存在，并包括每个扫描的文件。
+. 在 *MCP 设置* 中启用与 MCP 的连接，并确认 MCP 服务器正在运行。默认情况下，此连接处于禁用状态。
+. 通过选择身份提供程序和用户范围来配置 MCP 的每个集合。您包含的范围定义了 AI 客户端可以搜索的内容。
+. 使用您在 NetApp Console 中生成的 MCP 服务器 URL 或特定于客户端的代码段连接 AI 客户端。
+
+
+配置完成后，用户使用其 Entra ID 身份登录到 AI 客户端。然后，客户端只能搜索允许用户的 Entra ID 作用域访问的集合。
+
+仅在集合级别授予访问权限。您无法授予对单个文件或目录的访问权限。
+
+
+
+[[how-ai-clients-sign-in]]
+== AI 客户端如何登录
+
+Microsoft Entra ID 对用户进行身份验证。AI Data Engine MCP 服务器从不颁发令牌，也不保存机密。它仅验证您的 Entra ID 租户颁发的令牌。
+
+当用户连接 AI 客户端时，会发生以下情况：
+
+. AI 客户端在没有令牌的情况下将其第一个请求发送到 `/mcp/tools`处的 MCP 服务器。服务器以 `401 Unauthorized`响应，并指向其 OAuth 元数据。
+. AI 客户端读取元数据以了解 Entra ID 颁发者和支持的范围。
+. 浏览器打开 Entra ID 登录页面。用户登录并同意后，Entra ID 将重定向到您注册的回调 URI。
+. Entra ID 为您的应用程序颁发 v2.0 令牌。令牌受众是应用程序（客户端）ID， `scp` 声明为  `power_users`，并且  `roles` 声明包含  `AIDEPowerUsers`。
+. MCP 服务器会在每次请求时根据您的 Entra ID 租户验证令牌签名、颁发者、受众和到期时间。
+
+
+要了解令牌要求，请参阅 link:configure-entra-id-mcp.html#token-expectations["令牌预期"]。
+
+
+
+[[validated-ai-clients]]
+== 经过验证的 AI 客户端
+
+NetApp 已使用以下 AI 客户端测试并验证受管理的 AI 访问设置：
+
+* Claude Code
+* Claude Desktop
+* 光标
+* OpenCode
+
+
+NetApp 尚未测试其他 MCP 客户端。如果您能将它们配置为连接，它们可能会起作用，但尚未经过验证。
+
+
+
+[[what-isnt-available-through-mcp]]
+== MCP无法提供的内容
+
+受管理的 AI 访问仅限于集合内的元数据搜索和标记操作。通过 MCP，AI 客户端无法：
+
+* 检索文件内容。
+* 添加、删除或修改文件。
+* 更改数据源配置。
+
+
+要查看完整的限制列表，请参阅 link:../release-notes/known-limitations.html["已知限制"]。
+
+
+
+[[related-information]]
+== 相关信息
+
+* link:manage-data-collections.html["管理数据收集"]
+* link:maintain-mcp-setup.html["维护 MCP 设置"]
+* link:quick-start-mcp.html["使用 AI Data Engine 进行受管 AI 访问的快速入门"]
+* link:prepare-mcp-host.html["准备 MCP 主机"]
+* link:configure-entra-id-mcp.html["为受管 AI 访问配置 Microsoft Entra ID"]
+* link:connect-entra-id-aide-mcp.html["将 AI Data Engine 连接到 Microsoft Entra ID"]
+* link:connect-ai-clients-mcp.html["将 AI 客户端连接到 AI Data Engine MCP 服务器"]
+* link:mcp-tools-reference.html["用于 AI Data Engine 管理的 AI 访问的 MCP 工具"]
+* link:../release-notes/known-limitations.html["已知限制"]
+

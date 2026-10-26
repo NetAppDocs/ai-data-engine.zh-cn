@@ -1,0 +1,180 @@
+---
+sidebar: sidebar 
+permalink: mcp/maintain-mcp-setup.html 
+keywords: mcp, governed ai access, maintain, update, edit collection, identity provider, user scopes, mcp settings, aide cluster host name, mcp host name, enable connection to mcp, validate access 
+summary: 随着需求的变化，检查并更新您的 MCP 集合、身份提供程序、访问范围和服务器设置，然后验证 AI 客户端的访问权限。 
+---
+= 维护您的 AI Data Engine 管理的 AI 访问设置
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+通过查看和更新您的模型上下文协议（MCP）集合、身份提供程序、访问范围和服务器设置，以及验证来自您的 AI 客户端的访问，使 AI Data Engine（AIDE）中受管控的 AI 访问符合您的要求。
+
+
+
+[[before-you-begin]]
+== 开始之前
+
+* 您已配置 MCP 集合并连接了 AI 客户端。请参阅 link:quick-start-mcp.html["使用 AI Data Engine 进行受管 AI 访问的快速入门"]。
+* 您具有 *AI Data Engine 管理员* 角色。
+
+
+更改不会立即生效。如果更改 Microsoft Entra ID 应用角色或作用域，则用户只有在其 AI 客户端获得新的访问令牌后才会收到更新后的访问权限，这可能需要大约一个小时。用户可以重新登录以更快地获取新令牌。如果将数据添加到集合，则只有在 AI Data Engine 扫描并编制索引后，文件才可搜索。
+
+
+
+[[review-mcp-server-and-collection-status]]
+== 查看 MCP 服务器和收集状态
+
+查看 MCP 服务器和您的 AI 客户端使用的集合的状态，并解决任何配置警告。
+
+.步骤
+. 在 NetApp Console 中，转到 *AI 数据中心* > *AI Data Engine* > *配置* > *MCP 集合*。
+. 请查看 MCP 服务器状态：
++
+** *正在运行*：MCP 服务器正在运行。当*启用与 MCP 的连接*开启时，AI 客户端可以连接。
+** *已降级*：MCP 服务器正在运行，但缺少先决条件或先决条件不正常，例如没有配置身份提供程序或元数据目录的响应缓慢。AI 客户端可能无法对集合进行身份验证或检索。
+** *离线*：MCP 服务器已停止、禁用或无法访问。AI 客户端无法连接。如果与 MCP 的连接已关闭，请参阅 <<enable-or-disable-the-connection-to-mcp,启用或禁用与 MCP 的连接>>。
+
+
+. 在集合列表中，查看您的 AI 客户端使用的每个集合的状态。AI 客户端可以使用状态为*已启用*的集合。如果仍在扫描集合中的卷，请等待索引完成，然后再搜索新文件。
+. 解决任何配置警告：
++
+** 如果缺少身份提供程序，请将其添加到*配置* > *身份提供程序*下。请参阅link:connect-entra-id-aide-mcp.html#set-up-an-identity-provider["设置身份提供程序"]。确认身份提供程序的*连接状态*为*已连接*。
+** 如果集合显示 *Ready to configure*，请打开其 *Actions* 菜单，选择 *Configure for MCP*，然后选择身份提供程序和用户范围。请参阅 link:manage-data-collections.html#configure-a-collection-for-mcp["为 MCP 配置集合"]。
+** 如果集合中的卷显示扫描错误，请参阅 link:../data-sources/manage-data-sources.html#view-scan-status-and-details["查看扫描状态和详细信息"]。
+
+
+
+
+
+
+[[edit-a-data-collection]]
+== 编辑数据收集
+
+更新 MCP 集合的名称、描述或数据资源。
+
+.步骤
+. 在 NetApp Console 中，转到 *AI 数据中心* > *AI Data Engine* > *配置* > *MCP 集合*。
+. 打开集合的*操作*菜单并选择*编辑*。
+. 根据需要更新名称或描述。
+. 选择或清除数据资源以更新集合。
+. 选择*保存 MCP 集合*。
+
+
+您不能编辑、重命名或删除 *所有文件* 集合。您可以为 MCP 配置它。请参阅 <<update-identity-providers-or-user-scopes-for-a-collection,更新集合的身份提供程序或用户范围>>。
+
+
+
+[[update-an-identity-provider]]
+== 更新身份提供程序
+
+在提供程序配置更改时更新身份提供程序。
+
+.步骤
+. 在 NetApp Console 中，转到 *AI 数据中心* > *AI Data Engine* > *配置* > *身份提供程序*。
+. 打开身份提供程序进行编辑。
+. 根据需要更新租户 ID、应用程序（客户端）ID 或名称。
+. 选择 *保存*。
+
+
+如果需要管理员访问权限，请要求管理员更新身份提供程序。
+
+
+
+[[update-the-identity-providers-or-user-scopes-for-a-collection]]
+[[update-identity-providers-or-user-scopes-for-a-collection]]
+== 更新集合的身份提供程序或用户范围
+
+更改哪些身份提供程序授权访问集合，或者它们包含哪些用户范围，然后复制更新的连接详细信息。
+
+.开始之前
+如果您需要的身份提供程序未列出，请先将其连接到*身份提供程序*下。请参阅 link:connect-entra-id-aide-mcp.html#set-up-an-identity-provider["设置身份提供程序"]。
+
+.步骤
+. 在 NetApp Console 中，转到 *AI 数据中心* > *AI Data Engine* > *配置* > *MCP 集合*。
+. 打开集合的*操作*菜单并选择*为 MCP 配置*。
+. 选择授权访问集合的身份提供程序。
+. 对于每个选定的身份提供程序，请查看*要包括的用户范围*。保留*所有用户范围*，或选择特定范围并选择*添加范围*。
+. 选择*生成 MCP 代码段*。
+. 复制更新的 *MCP 服务器 URL* 或 AI 客户端的配置代码段，然后选择 *关闭*。
+
+
+.结果
+集合使用您选择的身份提供程序和用户范围。如果 MCP 服务器 URL 或配置代码段已更改，请更新每个受影响的 AI 客户端。请参阅 <<update-ai-client-connections-and-validate-access,更新 AI 客户端连接，验证访问权限>>。
+
+有关此任务的详细信息，请参阅 link:manage-data-collections.html#configure-a-collection-for-mcp["为 MCP 配置集合"]。
+
+
+
+[[enable-or-disable-the-connection-to-mcp]]
+== 启用或禁用与 MCP 的连接
+
+启用 *Enable connection to MCP* 以允许 AI 客户端连接到您的 MCP 集合。默认情况下，连接处于禁用状态。在设置 MCP 服务器之后以及为 AI 客户端生成 MCP 代码段之前，请将其打开。如果您稍后将其关闭，AI 客户端将保持被阻止状态，直到您重新将其打开。
+
+.步骤
+. 在 NetApp Console 中，转到 *AI 数据中心* > *AI Data Engine* > *配置* > *MCP 集合*。
+. 选择 *MCP 设置*。
+. 展开 *MCP 服务器连接*。
+. 使用*启用与 MCP 的连接*切换开关可打开或关闭连接。
++
+
+CAUTION: 禁用 MCP 服务器连接会阻止 AI 客户端对所有 MCP 集合的所有请求，无论集合设置如何。已连接的 AI 客户端将在其下一个请求时失去访问权限。仅当您打算暂停整个服务器的访问时，才禁用该连接。
+
+. 打开连接后，请确认 MCP 服务器的状态为*正在运行*。请参阅<<review-mcp-server-and-collection-status,查看 MCP 服务器和收集状态>>。
+
+
+
+
+[[review-mcp-server-settings]]
+== 查看 MCP 服务器设置
+
+查看 AI 客户端是否可以连接到 MCP 服务器，并查看 AIDE 集群主机名。
+
+.步骤
+. 在 NetApp Console 中，转到 *AI 数据中心* > *AI Data Engine* > *配置* > *MCP 集合*。
+. 选择 *MCP 设置*。
+. 在 *MCP 服务器连接* 下，查看 *启用与 MCP 的连接*。要打开或关闭连接，请参阅<<enable-or-disable-the-connection-to-mcp,启用或禁用与 MCP 的连接>>。
+. 在 *MCP 主机名* 下，查看 AIDE 集群主机名。如果需要更改，请输入更新后的主机名并选择 *配置*。
++
+
+CAUTION: 更改 AIDE 群集主机名会更改 MCP 服务器 URL。在您更新其连接设置之前，使用以前 URL 的 AI 客户端无法连接。新的主机名必须位于您的 Entra ID 租户中已验证的域中。由于应用程序 ID URI 和作用域是基于主机名构建的，因此您还必须在 Entra ID 中更新它们。请参阅 <<update-ai-client-connections-and-validate-access,更新 AI 客户端连接，验证访问权限>>。
+
++
+
+NOTE: 使用 HTTPS 保护 MCP 服务器需要 SSL/TLS 证书。NetApp Console 不管理该证书。Ingress 脚本设置证书和 AIDE 集群主机名。主机名必须位于您的 Entra ID 租户中已验证的域上。请参阅 link:prepare-mcp-host.html["准备 MCP 主机"]。
+
+. 选择*Close*。
+
+
+
+
+[[update-ai-client-connections-and-validate-access]]
+== 更新 AI 客户端连接，验证访问权限
+
+更改集合、身份提供程序、用户范围或服务器设置后，请确认您的 AI 客户端仍然可以连接，并且访问权限与您预期的权限相匹配。
+
+.步骤
+. 如果 MCP 服务器 URL 或生成的配置代码段发生更改，请更新每个受影响的 AI 客户端中的连接设置。请参阅 link:connect-ai-clients-mcp.html["连接 AI 客户端"]。
+. 在每个受影响的 AI 客户端中，请确认客户端可以连接并进行身份验证。
+. 运行代表性搜索请求。
+. 确认预期的集合内容是可访问的，并且访问权限与预期的权限匹配。
+
+
+.结果
+您的 MCP 设置反映了您的更改，受影响的 AI 客户端可以连接，并且访问权限与您的预期权限相匹配。
+
+
+
+[[related-information]]
+== 相关信息
+
+* link:manage-data-collections.html["管理数据收集"]
+* link:configure-entra-id-mcp.html["为受管 AI 访问配置 Microsoft Entra ID"]
+* link:connect-entra-id-aide-mcp.html["将 AI Data Engine 连接到 Microsoft Entra ID"]
+* link:connect-ai-clients-mcp.html["将 AI 客户端连接到 AI Data Engine MCP 服务器"]
+* link:../release-notes/known-limitations.html["已知限制"]
+

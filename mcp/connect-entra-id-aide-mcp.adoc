@@ -1,0 +1,132 @@
+---
+sidebar: sidebar 
+permalink: mcp/connect-entra-id-aide-mcp.html 
+keywords: mcp, governed ai access, microsoft entra id, identity provider, collections, verify configuration, netapp console, aide administrator 
+summary: 作为 AI Data Engine 管理员，在 NetApp Console 中将 Microsoft Entra ID 作为身份提供程序连接到 AI Data Engine，为 MCP 配置集合，并验证您的受管 AI 访问配置。 
+---
+= 将 AI Data Engine 连接到 Microsoft Entra ID 以进行受管 AI 访问
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+将 Microsoft Entra ID 作为身份提供程序连接到 AI Data Engine （AIDE），以便您可以对用户进行身份验证，并控制他们可以通过模型上下文协议（MCP）使用的集合。作为 AI Data Engine 管理员，您可以设置身份提供程序，为 MCP 配置集合，并在 NetApp Console 中验证您的配置。
+
+受管理的 AI 访问使用 Entra ID 对用户进行身份验证，并且您为每个集合包含的范围决定了用户可以通过 MCP 使用哪些集合。
+
+
+
+[[before-you-begin]]
+== 开始之前
+
+* 您必须具有 _AI Data Engine administrator_ 角色。
+* AI Data Engine 已部署并已扫描至少一个数据源。请参阅 link:../data-sources/connect-data-source.html["连接数据源"]。
+* AIDE 群集主机名设置在已在 Entra ID 租户中验证的已注册 DNS 域上。请参阅 link:prepare-mcp-host.html["准备 MCP 主机"]。
+* Microsoft Entra ID 管理员已为此 AI Data Engine 实例注册了 AI Data Engine 应用程序，并为您提供了目录（租户）ID 和应用程序（客户端）ID。请参阅 link:configure-entra-id-mcp.html["为受管 AI 访问配置 Microsoft Entra ID"]。
+
+
+
+
+[[set-up-an-identity-provider]]
+== 设置身份提供程序
+
+将 Microsoft Entra ID 连接为标识提供程序（IdP），以对数据集合中的数据资源进行身份验证和授权访问。
+
+.开始之前
+* 您必须具有 _AI Data Engine administrator_ 角色。
+* 您拥有在此 AI Data Engine 实例的 Microsoft Entra ID 中注册的 AI Data Engine 应用程序的租户 ID 和应用程序（客户端）ID。
+
+
+.步骤
+. 在 NetApp Console 中，转到 *AI 数据中心* > *AI Data Engine*。
+. 选择*配置* > *身份提供者*。
+. 选择*添加身份提供程序*。
++
+此时将打开*添加身份提供程序*面板。
+
+. 从*选择身份提供程序*中，选择 *Microsoft EntraID*。
+. 在 *Entra 租户 ID* 中，输入您的 Entra ID 租户的目录（租户）ID。
+. 在 *应用程序（客户端）ID* 中，输入 AI Data Engine 应用程序的应用程序（客户端）ID。
++
+
+IMPORTANT: 输入应用程序（客户端）ID，这是一个 GUID。请勿输入应用程序 ID URI。令牌通过其 GUID 识别 AI Data Engine 应用程序，因此 URI 会导致登录失败。
+
++
+使用 Microsoft Entra ID 配置中的标识符。AI Data Engine 检查两个值的格式并确认租户存在。如果出现*无效身份*消息，请验证并更正这些值，然后重试。
+
+. 选择*添加身份提供程序*。
+
+
+设置完成后，AI Data Engine 将显示确认消息*身份提供程序已成功创建。*该提供程序将显示在*身份提供程序*列表中。在继续之前，请确认其*连接状态*为*已连接*。
+
+在 AI 客户端中使用与客户端 ID 相同的应用程序（客户端）ID。
+
+对身份提供程序和集合设置的更改可能不会立即生效，因为 NetApp Console 会将其异步应用到 MCP 服务器。
+
+添加身份提供程序不会自动将其与数据收集关联。在配置收集时选择身份提供程序，以便 AI 应用程序可以通过身份验证和授权访问其资源。请参阅 <<configure-collections-for-mcp,为 MCP 配置集合>>。只有在没有收集使用身份提供程序时，才能将其删除。要进行编辑，请参阅 link:maintain-mcp-setup.html#update-an-identity-provider["更新身份提供程序"]。
+
+
+
+[[configure-collections-for-mcp]]
+== 为 MCP 配置集合
+
+设置身份提供程序并创建集合后，在 NetApp Console 中为 MCP 配置集合。选择可以访问集合的身份提供程序和用户范围，然后复制 MCP 服务器 URL 或 AI 客户端的特定于客户端的配置代码段。请参阅 link:manage-data-collections.html#configure-a-collection-for-mcp["为 MCP 配置集合"]。
+
+
+
+[[verify-your-configuration]]
+== 验证您的配置
+
+在用户连接之前，请确认以下各项均正确无误。应用程序 ID URI、作用域、租户 ID 和客户端 ID 必须在 Entra ID、NetApp Console 和您的 AI 客户端中完全匹配。
+
+*AIDE 集群主机*
+
+* AIDE 群集主机名位于已在 Entra ID 中验证的域中。
+* 主机名从用户计算机解析。
+* 主机提供客户端计算机信任的证书。
+* MCP 服务器的已知端点返回预期响应。请参阅 link:prepare-mcp-host.html#verify-the-host["验证主机"]。
+
+
+*Microsoft Entra ID*
+
+* 已为此 AI Data Engine 实例注册了专用应用程序。
+* 应用程序 ID URI 为 `\https://<host>/mcp/tools`。
+*  `power_users` 作用域存在，并且  `requestedAccessTokenVersion` 在清单中设置为  `2`。
+* 每个 AI 客户端都注册了重定向 URI，并且允许公共客户端流。
+* 已将 `AIDEPowerUsers`应用角色分配给您的用户。
+
+
+*NetApp Console*
+
+* Entra ID 身份提供程序具有租户 ID 和应用程序（客户端）ID，其连接状态为*已连接*。
+* *启用与 MCP 的连接*在 *MCP 集合* > *MCP 设置* > *MCP 服务器连接* 下已开启。
+* MCP 服务器的状态为*正在运行*。
+* 使用标识提供程序和 `power_users`作用域为 MCP 配置集合。
+* 您生成了 MCP 代码段。
+
+
+*AI 客户端*
+
+* 您已将代码段添加到 AI 客户端。
+* 客户端 ID 是应用程序（客户端）ID。
+* 作用域为应用程序 ID URI 加上 `/power_users`。
+* 登录一次后，将列出 AI Data Engine 工具。
+
+
+.下一步
+link:manage-data-collections.html["管理数据收集"] 和 link:connect-ai-clients-mcp.html["连接 AI 客户端"]。
+
+
+
+[[related-information]]
+== 相关信息
+
+* link:learn-about-mcp.html["了解受管理的 AI 访问"]
+* link:prepare-mcp-host.html["准备 MCP 主机"]
+* link:configure-entra-id-mcp.html["为受管 AI 访问配置 Microsoft Entra ID"]
+* link:manage-data-collections.html["管理数据收集"]
+* link:connect-ai-clients-mcp.html["将 AI 客户端连接到 AI Data Engine MCP 服务器"]
+* link:maintain-mcp-setup.html["维护 MCP 设置"]
+* link:../release-notes/known-limitations.html["已知限制"]
+

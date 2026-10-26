@@ -11,7 +11,7 @@ summary: 在部署 AI Data Engine 之前，请查看基础架构和网络要求�
 
 
 [role="lead"]
-在部署 AI Data Engine 之前，请查看您环境中的网络、虚拟机大小和操作系统要求。
+在部署 AI Data Engine（AIDE）之前，请查看您的环境对网络、Kubernetes、规模和操作系统的要求。对于单节点部署，您只需提供一个 Linux 虚拟机，AI Data Engine 会自动配置其他所有内容。对于多节点部署，请自带 Kubernetes 集群。
 
 
 
@@ -25,107 +25,203 @@ summary: 在部署 AI Data Engine 之前，请查看基础架构和网络要求�
 | 连接 | 端口 | 协议 | 方向 | 目的 
 
 
-| Console Agent 到 NetApp Console | 443 | TCP | 出站 | HTTPS：与 NetApp Console 的连接 
+| Console agent 到 NetApp Console | 443 | TCP | 出站 | HTTPS：与 NetApp Console 的连接 
 
 
 | 控制台代理到 ONTAP | 443 | TCP | 出站 | HTTPS：ONTAP 集群发现 
 
 
-| 控制台代理到 AI Data Engine | 80, 443, 8080, 9000 | TCP | 双向 | 控制台代理和 AI Data Engine 之间的通信 
+| 控制台代理到 AI Data Engine | 80, 443, 8080, 9000 | TCP | 双向 | Console 代理与 AI Data Engine 之间的通信 
+
+
+| AI 客户端到 MCP 服务器 | 443 | TCP | 入站 | HTTPS：AI 客户端从您的企业网络或 VPN 访问 AIDE 集群主机名。AI 客户端连接到端口 443 上的主机名。它们不连接到内部服务端口。 
 
 
 | AI Data Engine 到 ONTAP （NFS） | 111, 2049 | TCP/UDP | 到存储 | NFS 数据源访问 
 
 
-| AI Data Engine 到 ONTAP（SMB/CIFS） | 139, 445 | TCP/UDP | 到存储 | SMB/CIFS 数据源访问 
+| AI Data Engine 到 ONTAP （SMB） | 139, 445 | TCP/UDP | 到存储 | SMB 数据源访问 
 
 
-| AI Data Engine 至 Active Directory | 389、636、3268、3269 | TCP/UDP | 出站 | LDAP (389)、LDAPS (636)和全局目录 (3268、3269)，用于用户身份验证和 SMB/CIFS 扫描。端口 389 同时使用 TCP 和 UDP；所有其他端口仅使用 TCP。 
+| 集群节点到 NFS 服务器（多节点配置卷） | 2049 | TCP | 出站 | 对包含 AI Data Engine 配置的导出的 NFS 访问。仅适用于多节点部署。如果使用 Kerberos，管理主机也会装载此导出。 
 
 
-| AI Data Engine 到 NetApp 服务/容器注册表 | 443 | TCP | 出站 | HTTPS：工件下载和容器映像拉取（AWS S3 和 ECR） 
+| AI Data Engine 至 Active Directory | 389、636、3268、3269 | TCP（UDP 也适用于 389） | 出站 | LDAP（389）、LDAPS（636）和全局编录（3268、3269）用于用户身份验证、SMB/CIFS 扫描，以及将 NFS 用户和组 ID 映射到 Active Directory 名称。端口 389 同时使用 TCP 和 UDP；所有其他端口仅使用 TCP。 
+
+
+| AI Data Engine 到 Kerberos KDC（Active Directory 域控制器） | 88 | TCP/UDP | 出站 | SMB/CIFS 数据源的 Kerberos 身份验证。仅当您使用 Kerberos 时才需要。请参阅 <<kerberos-ad-requirements,Kerberos 和 Active Directory 要求>>。 
+
+
+| AI Data Engine 到 DNS 服务器 | 53 | TCP/UDP | 出站 | 使用 Kerberos 时文件服务器和 KDC 的名称解析 
+
+
+| AI Data Engine 到 NetApp 服务、容器注册表和 CDN | 443 | TCP | 出站 | HTTPS：从 CDN 下载安装程序脚本，从 ECR 拉取容器映像和 Helm 图表，从 S3 下载组件目录 
 |===
 
 
 [[outbound-internet-access]]
 === 出站互联网接入
 
-对于在线安装，必须能够从 AI Data Engine 主机访问以下端点：
+对于在线安装，必须能够访问以下端点。如果某行指明了条件，则仅在该情况下才需要此端点。
 
-[cols="2,2,1"]
+[cols="3,3,2,1"]
 |===
-| 端点 | 目的 | 范围 
+| 端点 | 目的 | 发起人 | 部署类型 
 
 
-| `\https://api.console.netapp.com` | NetApp Console 通信 | 两者 
+| `\https://582244788873.dkr.ecr.us-west-2.amazonaws.com` | NetApp 容器注册表（AIDE 容器镜像和 Helm 图表） | 容器运行时和安装程序 | 两者 
 
 
-| `\https://netapp-cloud-account.auth0.com` | 集中用户身份验证 | 两者 
+| `\https://582244788873.dkr-ecr.us-west-2.on.aws` | NetApp 容器注册表（双栈/虚拟私有云（VPC）端点访问） | 容器运行时和安装程序 | 两者 
 
 
-| `\https://auth0.com` | 身份验证服务 | 两者 
+| `\https://api.ecr.us-west-2.amazonaws.com` | AWS ECR API （身份验证和图像清单检索） | 容器运行时和安装程序 | 两者 
 
 
-| `\https://582244788873.dkr.ecr.us-west-2.amazonaws.com` | NetApp 容器注册表（AIDE 容器镜像） | 两者 
+| `\https://ecr.us-west-2.amazonaws.com` | AWS ECR 注册表凭据刷新 | AI Data Engine | 两者 
 
 
-| `\https://582244788873.dkr-ecr.us-west-2.on.aws` | NetApp 容器注册表（双栈/虚拟私有云（VPC）端点访问） | 两者 
+| `\https://prod-us-west-2-starport-layer-bucket.s3.us-west-2.amazonaws.com` | AWS S3 （ECR 容器映像层存储） | 容器运行时 | 两者 
 
 
-| `\https://api.ecr.us-west-2.amazonaws.com` | AWS ECR API （身份验证和图像清单检索） | 两者 
+| `\https://prod-us-west-2-starport-layer-bucket.s3.amazonaws.com` | AWS S3 （ECR 容器映像层存储） | 容器运行时 | 两者 
 
 
-| `\https://prod-us-west-2-starport-layer-bucket.s3.us-west-2.amazonaws.com` | AWS S3 （ECR 容器映像层存储） | 两者 
+| `\https://s3.us-west-2.amazonaws.com` | AWS S3（组件版本目录） | 安装程序和 AI Data Engine | 两者 
 
 
-| `\https://prod-us-west-2-starport-layer-bucket.s3.amazonaws.com` | AWS S3 （ECR 容器映像层存储） | 两者 
+| `\https://s3.amazonaws.com` | AWS S3（组件版本目录） | 安装程序和 AI Data Engine | 两者 
 
 
-| `\https://s3.us-west-2.amazonaws.com` | AWS S3 （安装程序包装器脚本、Helm 图表和组件版本目录） | 两者 
+| `\https://sts.us-west-2.amazonaws.com` | AWS STS （注册表和 S3 访问的临时凭据交换） | AI Data Engine | 两者 
 
 
-| `\https://s3.amazonaws.com` | AWS S3 （安装程序包装器脚本、Helm 图表和组件版本目录） | 两者 
+| `\https://aide-version-policy.s3.us-west-2.amazonaws.com` | AI Data Engine operator：版本策略 | AI Data Engine | 两者 
 
 
-| `\https://sts.us-west-2.amazonaws.com` | AWS STS （注册表和 S3 访问的临时凭据交换） | 两者 
+| `\https://api.bluexp.netapp.com` | NetApp Console 注册 | 安装程序 | 两者 
 
 
-| `\https://support.compliance.api.bluexp.netapp.com` | 软件映像、清单和模板；日志和指标流 | 两者 
+| `\https://netapp-cloud-account.auth0.com` | NetApp Console 身份验证 | AI Data Engine | 两者 
 
 
-| `\https://dseasb33srnrn.cloudfront.net` | CloudFront CDN 用于软件分发 | 两者 
+| `\https://api.workloads.netapp.com` | FSx 和 NetApp 工作负载发现 | AI Data Engine | 两者 
 
 
-| `\http://packages.ubuntu.com` | Ubuntu 必备软件包 | 仅精简版（Ubuntu） 
+| `\https://api.gcp.workloads.netapp.com` | Google Cloud NetApp Volumes 发现 | AI Data Engine | 两者 
 
 
-| `\http://archive.ubuntu.com` | Ubuntu 软件包归档 | 仅精简版（Ubuntu） 
+| `\https://checkip.amazonaws.com` | 运行状况监视器使用它在运行状况仪表板上显示公共 IP 地址。即使没有它，AI Data Engine 也能正常工作。 | AI Data Engine | 两者 
 
 
-| `\http://security.ubuntu.com` | Ubuntu 安全软件包归档 | 仅精简版（Ubuntu） 
+| `\https://api.ipify.org` | 获取运行状况仪表板上显示的公共 IP 地址的回退方法。即使没有它，AI Data Engine 也能正常工作。 | AI Data Engine | 两者 
 
 
-| `\https://get.k3s.io` | k3s runtime download （安装程序启动） | 仅限精简版 
+| `\https://icanhazip.com` | 获取运行状况仪表板上显示的公共 IP 地址的回退方法。即使没有它，AI Data Engine 也能正常工作。 | AI Data Engine | 两者 
 
 
-| `\https://get.helm.sh` | Helm 下载（安装程序启动） | 仅限精简版 
+| `\https://ipinfo.io` | 获取运行状况仪表板上显示的公共 IP 地址的回退方法。即使没有它，AI Data Engine 也能正常工作。 | AI Data Engine | 两者 
+
+
+| `\https://hub.docker.com` | 代理连接测试，仅在使用出站代理时使用。失败的测试不会阻止安装或运行时。此端点独立于为 k3s 系统映像提供服务的 Docker Hub 端点。 | AI Data Engine | 两者 
+
+
+| `\https://cognito-idp.us-east-1.amazonaws.com` | 代理连接测试，仅在使用出站代理时使用。失败的测试不会阻止安装或运行时。 | AI Data Engine | 两者 
+
+
+| `\https://cognito-identity.us-east-1.amazonaws.com` | AWS Cognito 访问，用于将产品使用情况指标从 AI Data Engine 实例发送到 NetApp。也用于代理连接测试。 | AI Data Engine | 两者 
+
+
+| `\https://support.compliance.api.bluexp.netapp.com` | 日志和指标流式传输 | AI Data Engine | 两者 
+
+
+| `\https://login.microsoftonline.com` | 仅当您使用受管理的 AI 访问（MCP）时才需要。Microsoft Entra ID 租户发现和签名密钥检索。 | AI Data Engine | 两者 
+
+
+| `\https://d13jb5dapseb36.cloudfront.net` | 用于安装程序脚本的 CloudFront CDN | 安装程序 | 两者 
+
+
+| `\https://get.helm.sh` | Helm 下载 | 安装程序 | 两者 
+
+
+| `\https://dl.k8s.io` | kubectl download | 安装程序 | 两者 
+
+
+| `\https://github.com` | jq 下载，以及单节点部署的 k3s 二进制下载 | 安装程序 | 两者 
+
+
+| `\https://release-assets.githubusercontent.com` | GitHub 下载重定向 | 安装程序 | 两者 
+
+
+| `\https://get.k3s.io` | k3s 运行时下载 | 安装程序 | 仅单个节点 
+
+
+| `\https://rpm.rancher.io` | k3s SELinux 策略包 (`k3s-selinux`），在 RHEL、Rocky Linux 或 AlmaLinux 8 或 9 上，当 SELinux 文件存在于主机上时，即使 SELinux 已禁用。如果您的存储库提供副本，安装程序将使用该副本。 | 安装程序 | 仅单节点（RHEL 系列） 
+
+
+| `\https://auth.docker.io` | k3s 系统镜像的 Docker Hub 认证 | 容器运行时 | 仅单个节点 
+
+
+| `\https://registry-1.docker.io` | k3s 系统镜像的 Docker Hub 注册表 | 容器运行时 | 仅单个节点 
+
+
+| `\https://production.cloudfront.docker.com` | k3s 系统镜像的 Docker Hub 镜像层存储 | 容器运行时 | 仅单个节点 
 |===
-AI Data Engine 还依赖于 NetApp Console 进行集中式身份验证和控制台服务。有关 Console 和 Console 代理连接所需的端点，请参阅 link:https://docs.netapp.com/us-en/console-setup-admin/reference-networking-saas-console.html["NetApp Console 的网络访问要求"^]。
+无论是直接连接到互联网还是通过代理，此表中的端点都是相同的。
+
+如果使用代理，请使用列出的确切主机名在端口 443 上允许 HTTPS 的每个端点 (`CONNECT`），不使用通配符或前导点。
+
+按主机名允许托管安装程序下载的 `d13jb5dapseb36.cloudfront.net`。其 IP 地址与其他站点共享并经常更改，因此基于 IP 地址的规则会失效。
+
+对于多节点部署，集群节点进行容器运行时连接。如果来自 NetApp Console 的多节点安装命令指定了不同的  `--registry` 值，则允许使用该注册表主机名而不是表中的注册表主机名。
+
+请参见link:configure-proxy.html["了解 AI Data Engine 的代理"]。若要使用代理部署，请参见link:deploy-aide-single-node-proxy.html["将 AI Data Engine 部署为带代理的单节点部署"]或link:deploy-aide-multi-node-proxy.html["将 AI Data Engine 部署为带代理的多节点部署"]。
+
+
+NOTE: 如果您的环境需要，请验证您的包管理器是否具有适当的代理配置。
+
+AI Data Engine 还依赖 NetApp Console 提供集中式身份验证和控制台服务。诸如 `\https://api.bluexp.netapp.com`和 `\https://netapp-cloud-account.auth0.com`之类的端点列在link:https://docs.netapp.com/us-en/console-setup-admin/reference-networking-saas-console.html#endpoints-contacted-by-netapp-console-and-console-agents["NetApp Console 的网络访问要求"^]中。
 
 在开始部署之前，请先验证 AI Data Engine 主机是否能正常解析这些端点的 DNS。
 
 
 
-[[aide-lite-requirements]]
-== AIDE Lite 要求
+[[supported-kubernetes-versions]]
+[[supported-kubernetes]]
+== 支持的 Kubernetes 版本
+
+AI Data Engine 仅支持此表中列出的发行版和版本。
+
+[cols="1,1,1,2"]
+|===
+| 部署 | Kubernetes 发行版 | 支持的版本 | 提供者 
+
+
+| AIDE 单节点 | k3s | v1.35 | 安装程序自动配置 k3s。无需执行操作。 
+
+
+| AIDE 多节点 | RKE2 | v1.34 至 v1.36（建议使用 v1.36.x） | 您提供集群，该集群可以共享或专用。 
+
+
+| AIDE 多节点 | OpenShift | OpenShift 4.22.16（Kubernetes v1.35.8） | 您提供集群，该集群可以共享或专用。 
+
+
+| AIDE 多节点 | Azure Kubernetes 服务（AKS） | v1.34 至 v1.36 | 您提供集群，该集群可以共享或专用。 
+|===
+
+
+[[aide-single-node-deployment-requirements]]
+== AIDE 单节点部署要求
+
+您提供 Linux VM，AI Data Engine 会自动配置其他所有内容，包括 k3s。您无需设置或管理 Kubernetes。有关主机准备、磁盘空间和防火墙要求，请参见 link:single-node-prerequisites.html["AIDE 单节点部署先决条件"]。
 
 
 
 [[vm-sizing]]
-[[lite-vm-sizes]]
+[[single-node-vm-sizes]]
 === VM 规模估算
 
-这些大小是建议的基线配置，针对三到四天的初始扫描窗口进行了优化，而不是硬性限制。有关这些数字的驱动因素以及如何超越这些数字，请参阅 <<flexible-sizing-lite,弹性规格调整准则>>。
+这些大小是建议的基线配置，针对三到四天的初始扫描窗口进行了优化，而不是硬性限制。有关这些数字的驱动因素以及如何超越这些数字，请参阅 <<flexible-sizing-single-node,弹性规格调整准则>>。
 
 [cols="1,1,1,1,1,1,1,1"]
 |===
@@ -144,12 +240,15 @@ AI Data Engine 还依赖于 NetApp Console 进行集中式身份验证和控制�
 NOTE: 建议对所有部署规模使用 NVMe SSD 或其他固态存储。此表中的磁盘值仅反映 AIDE 数据卷存储。如果操作系统、k3s 运行时和 AIDE 数据均共享单个磁盘，请在所选规模的磁盘值基础上额外增加约 65 GB。例如，单个磁盘上的小型部署总共需要约 565 GB。
 
 
+NOTE: 对单节点部署上的 AIDE 数据卷使用块存储，而不是 NFS。NFS 支持的存储可能会导致性能不佳。
+
+
 
 [[flexible-sizing-guidelines]]
-[[flexible-sizing-lite]]
+[[flexible-sizing-single-node]]
 === 弹性规格调整准则
 
-<<lite-vm-sizes,小型、中型和大型配置>> 是三到四天初始扫描窗口的推荐基线，而不是软件强制执行的硬性限制。
+<<single-node-vm-sizes,小型、中型和大型配置>> 是三到四天初始扫描窗口的推荐基线，而不是软件强制执行的硬性限制。
 
 规模估算建议的依据::
 +
@@ -161,29 +260,25 @@ NOTE: 建议对所有部署规模使用 NVMe SSD 或其他固态存储。此表�
 
 
 --
-如果容量规划不足会发生什么::
+如果您配置的规模过小或超出了部署规模，会发生什么::
 +
 --
-低于建议大小的配置不会阻止安装或导致服务失败。系统保持运行并继续扫描，但您可能会遇到以下情况：
+每个配置都针对特定的文件数量和扫描速率进行了调整。如果您的环境超出了配置支持的范围，则可能会出现以下情况：
 
 * *扩展的初始目录持续时间*：减少计算量会降低每天扫描的对象数。例如，以 30 亿个对象为目标但以较小规模进行配置的部署，可能需要远超三到四天目标时间的时间。
 * *降低持续摄取吞吐量*：在持续负载下，新文件事件和增量扫描更新的处理速度会变慢。
-* *存储容量风险*：相对于总对象数而言，存储规模过小可能会使元数据索引趋近容量阈值。通常可以通过扩展存储容量来解决此问题，而无需完全重新部署。
+* *停滞的扫描*：AI Data Engine 组件根据您部署的大小进行配置。当环境显著超过该大小时，扫描可能会停滞，而不仅仅是减慢速度。要检查不正常的工作负载和资源限制，请参阅 link:../administer/monitor-deployment-health.html["监控部署运行状况并调查问题"]。
+* *存储容量风险*：相对于对象总数而言，存储规模过小可能会将元数据索引推向容量阈值。请联系 NetApp 支持人员以规划存储扩展。
 
 
 --
-在需要更多容量时进行扩展::
+扩展超出建议的大小::
 +
 --
-AIDE Lite 在单个虚拟机上运行，因此扩展是垂直的：
-
-* 增加主机虚拟机上的 vCPU、内存或存储。
-* 不需要重新配置或重新安装集群。
-+
-
-NOTE: AIDE Lite 不支持高可用性或横向扩展。如果您的环境持续超过 30 亿个文件，或者您需要高可用性和容错，请改为部署 link:deploy-enterprise.html["AIDE 企业版"]。
+AI Data Engine 组件根据您部署的大小进行配置，因此向主机虚拟机添加 vCPU、内存或存储不会自动增加容量。如果所需的文件数或性能超出部署的大小，请联系 NetApp 支持部门以重新调整大小。
 
 
+NOTE: 单节点部署不支持高可用性或水平横向扩展。如果您的环境始终超过 30 亿个文件，或者您需要高可用性和容错，请改为部署 link:deploy-aide-multi-node.html["AIDE 多节点部署"]。
 
 --
 
@@ -205,41 +300,45 @@ NOTE: AIDE Lite 不支持高可用性或横向扩展。如果您的环境持续�
 |===
 
 
-[[additional-prerequisites]]
-=== 其他先决条件
+[[aide-multi-node-deployment-requirements]]
+== AIDE 多节点部署要求
 
-* 您对目标 VM 具有 root 或 sudo 访问权限，可以运行安装程序。
-* 最少 1 GbE 网络连接（大型部署为 10 GbE）。
-* 目标主机必须具有可用的 bash 4.0 或更高版本、curl 和 tar。
-* 安装程序会自动下载和引导 `k3s`、 `helm`、 `kubectl`和 `jq`。不需要在目标虚拟机上预安装这些工具。
-* 在安装程序启动之前，必须在主机上释放端口 6443 (TCP)、10250 (TCP) 和 8472 (UDP)。如果 RHEL 上的主机防火墙(`firewalld`或 Ubuntu 上的 `ufw`）处于活动状态，请在运行安装程序之前允许这些端口以及 k3s pod CIDR(`10.44.0.0/16`）和服务 CIDR(`10.45.0.0/16`）。有关所需命令，请参阅操作系统防火墙文档。
-* 在强制模式下运行 SELinux 的 RHEL 系统上，安装程序会自动配置所需的 SELinux 策略包。无需手动配置 SELinux。
+您可以自带 Kubernetes 集群，该集群可以与其他工作负载共享，也可以专用于 AI Data Engine。安装程序会将 AI Data Engine 部署到您现有的 Kubernetes 集群上，并且不会对其进行配置或管理。有关集群、存储和安装程序主机的要求，请参阅 link:multi-node-prerequisites.html["AIDE 多节点部署先决条件"]。
+
+
+NOTE: 对于所有多节点部署，建议使用 NVMe 或高性能 SSD 存储。
 
 
 
+[[linux-kernel-and-nfs-nconnect-support]]
+[[multi-node-requirements]]
+=== Linux 内核和 NFS nconnect 支持
 
-[[aide-enterprise-requirements]]
-== AIDE Enterprise 要求
+建议将 Linux 内核 5.3 或更高版本用于 `nconnect` NFS 挂载选项，这提供了共享 AIDE 配置卷所需的吞吐量。以下发行版本支持 `nconnect`并满足内核建议；RHEL 和 CentOS 8.3 使用 Red Hat 内核向后移植。
 
-* 您在运行安装程序的计算机上具有 cluster-admin 权限的 kubectl 访问权限。
-* 您对运行 install 命令的计算机具有 Sudo （或 root）权限。
-* 已在目标集群上安装 RKE2 v1.34 或更高版本（建议使用 v1.36.x）。
-* 安装程序主机将通过  `--tools-dir` 自动下载并引导  `helm`、 `kubectl` 和  `jq`。不需要在管理机器上预装这些工具。
-* 集群上有一个已配置的 StorageClass（默认名称 `aide-sc`），用于 AIDE 的有状态支持服务。
-* 至少具有一个导出路径的 NFS 服务器可用，用于 AIDE 配置数据卷和共享索引快照。
-* 集群上已存在目标 Kubernetes 命名空间（默认 `aide`）；安装程序不会创建它。
+[cols="2,1,2"]
+|===
+| 分布 | 内核版本 | `nconnect` 支持 
 
 
+| RHEL / CentOS 8.3+ | 4.18 （反向移植） | 是 
 
-NOTE: 对于所有企业节点部署，建议使用 NVMe 或高性能 SSD 存储。
 
+| RHEL / CentOS 9.x | 5.14 | 是 
+
+
+| Ubuntu 20.04 | 5.4 | 是 
+
+
+| Ubuntu 22.04 | 5.15 | 是 
+|===
 
 
 [[node-sizing]]
-[[enterprise-vm-sizes]]
+[[multi-node-sizes]]
 === 节点大小调整
 
-这些大小是建议的基线集群配置，针对大约三天的初始扫描窗口进行了优化，而不是硬容量限制。AIDE Enterprise 通过横向扩展支持超过 60 亿个文件的环境。有关详细信息，请参阅 <<flexible-sizing-enterprise,弹性规格调整准则>>。
+这些大小是推荐的基线集群配置，针对三到四天的初始扫描窗口进行了优化，而不是硬容量限制。超过 60 亿个文件的环境需要与 NetApp 合作进行自定义规模估算。有关详细信息，请参阅 <<flexible-sizing-multi-node,弹性规格调整准则>>。
 
 [cols="1,1,1,1,1,1,1,1,1"]
 |===
@@ -257,56 +356,121 @@ NOTE: 对于所有企业节点部署，建议使用 NVMe 或高性能 SSD 存储
 
 
 [[flexible-sizing-guidelines]]
-[[flexible-sizing-enterprise]]
+[[flexible-sizing-multi-node]]
 === 弹性规格调整准则
 
-<<enterprise-vm-sizes,小型、中型和大型配置>> 是针对大约三天初始扫描窗口的推荐基线集群配置，而非软件强制执行的硬容量上限。AIDE Enterprise 通过跨集群节点的水平横向扩展，支持超过 30 亿个文件的环境。
+<<multi-node-sizes,小型、中型和大型配置>> 是推荐的三到四天初始扫描窗口的基线集群配置，而不是由软件强制执行的硬容量上限。超过 60 亿个文件的环境需要与 NetApp 进行自定义规模估算。
 
 规模估算建议的依据::
 +
 --
 * *文件和目录总数*：对象总数是存储和计算要求的主要驱动因素。较大的环境需要额外的集群节点来分配处理负载并保持性能。
-* *高可用性复制*：默认情况下，企业部署启用跨节点的数据复制，以实现容错。与同等单节点部署相比，复制增加了总存储和内存需求。
+* *高可用性复制*：多节点部署默认启用跨节点的数据复制，以实现容错。与同等的单节点部署相比，复制增加了总存储和内存需求。
 * *节点计数和工作负载分布*：处理吞吐量和总目录容量随集群中的节点数量扩展。额外节点可在整个集群中分布索引工作负载和存储容量。
 * *所需的扫描吞吐量*：集群范围内的 CPU 和内存分配决定了每日扫描速率以及初始目录完成的速度。
 * *每节点存储性能*：强烈建议在每个节点上使用高性能存储，总集群容量随节点数量成比例扩展。
 
 
 --
-如果容量规划不足会发生什么::
+如果您配置的规模过小或超出了部署规模，会发生什么::
 +
 --
-低于建议大小的配置不会阻止安装或导致硬故障。实际影响包括：
+每个配置都针对特定的文件数量和扫描速率进行了调整。如果您的环境超出了配置支持的范围，则可能会出现以下情况：
 
 * *扩展的初始目录持续时间*：节点数量减少或每节点资源降低会降低吞吐量，从而按比例延长初始目录窗口。
-* *峰值负载下的处理延迟增加*：集群内存不足可能会导致高容量摄取期间的处理延迟增加。正在进行的操作不会中断，但持续的吞吐量会降低。
-* *存储容量风险*：目标对象计数的集群存储不足可能会将元数据索引推向容量阈值。您可以通过扩展现有节点上的存储（无中断）或添加专用存储节点来解决此问题。
+* *峰值负载下的处理延迟增加*：集群内存不足可能会导致高容量摄取期间的处理延迟增加。
+* *停滞的扫描*：AI Data Engine 组件根据您部署的大小进行配置。当环境显著超过该大小时，扫描可能会停滞，而不仅仅是减慢速度。要检查不正常的工作负载和资源限制，请参阅 link:../administer/monitor-deployment-health.html["监控部署运行状况并调查问题"]。
+* *存储容量风险*：目标对象计数的集群存储不足可能会将元数据索引推向容量阈值。请联系 NetApp 支持部门以规划存储扩展。
 
 
 --
-在需要更多容量时进行扩展::
+扩展超出建议的大小::
 +
 --
-AIDE Enterprise 支持横向扩展，无需重新部署：
-
-* 添加工作节点以增加可用于扫描处理和事件摄取的 CPU 和内存。
-* 添加专用存储节点以增加总目录容量。这是将环境扩展到超出最大预定义部署大小的主要方法。
-* 通过向集群添加更多节点，可扩展超过 60 亿个文件。请联系您的 NetApp 代表，获取自定义规模的节点大小调整指南。
-+
-
-NOTE: 向现有 Enterprise 集群添加节点不会中断正在进行的扫描操作，但请在低活动时段内协调完成此更改。
+不支持对现有多节点集群进行水平扩展。添加工作节点或专用存储节点不会自动增加扫描处理、事件摄取或目录容量。如果您的环境超出了部署的规模，或者您需要更多的扫描处理或事件摄取容量，请联系 NetApp 支持部门或您的 NetApp 代表来规划更改。
 
 
+NOTE: 要扩展超过 60 亿个文件，请联系您的 NetApp 代表以获取节点规模调整指导和自定义扩展。
 
 --
 
+
+
+
+[[kerberos-and-active-directory-requirements]]
+[[kerberos-ad-requirements]]
+== Kerberos 和 Active Directory 要求
+
+在使用 Kerberos 身份验证扫描 SMB/CIFS 共享或将 NFS 用户和组 ID 映射到 Active Directory 名称之前，请先查看这些要求。时间同步、DNS 和主机包要求仅适用于 Kerberos。AIDE 是 Kerberos 客户端：它向您现有的 Kerberos 密钥分发中心（KDC）进行身份验证，并且不充当 Kerberos 服务器。
+
+
+
+[[time-synchronization]]
+=== 时间同步
+
+当 AIDE 节点和 KDC 上的时钟相差超过允许的时钟偏差时，Kerberos 身份验证将失败。默认情况下，Active Directory 允许的最大差异为五分钟。
+
+请验证以下信息：
+
+* 网络时间协议（NTP）在所有 AIDE 节点上均处于活动状态。
+* AIDE 节点使用与域控制器同步的时间源。
+
+
+
+
+[[dns]]
+=== DNS
+
+满足以下 DNS 要求：
+
+* 每个 AIDE 节点都可以通过完全限定的域名（FQDN）解析文件服务器和 KDC。
+* 如果将节点配置为使用 Active Directory DNS 服务器，则该服务器还必须解析外部名称。否则，AIDE 无法访问 <<outbound-internet-access,出站互联网接入>> 中列出的端点。
+* 如果更改多节点部署上的 DNS 设置，请将 Active Directory DNS 服务器配置为每个节点上的唯一名称服务器。集群中的名称解析会随机选择一个列出的名称服务器，因此无法解析 Active Directory 名称的名称服务器会导致间歇性故障。
+
+
+要更改 DNS 设置，请参阅 link:../administer/configure-kerberos-smb-single-node.html#fix-name-resolution["在单节点部署上为 SMB/CIFS 共享配置 Kerberos"] 或 link:../administer/configure-kerberos-smb-multi-node.html#fix-name-resolution["为多节点部署上的 SMB/CIFS 共享配置 Kerberos"] 中的“修复名称解析”。
+
+
+
+[[host-packages]]
+=== 主机包
+
+[cols="1,3"]
+|===
+| 部署 | 所需软件包 
+
+
+| 单节点 | Kerberos 客户端工具：Ubuntu 上的 `krb5-user` 或 RHEL 上的 `krb5-workstation`。安装程序会自动安装 `cifs-utils` 以支持 Kerberos 身份验证的 SMB 访问。 
+
+
+| 多节点 | `cifs-utils` 在每个节点上，以及在您创建和测试 keytab 的主机上的 Kerberos 客户端工具和 NFS 客户端。 
+|===
+仅在基于 Kerberos 的 SMB/CIFS 扫描时，每个 AIDE 节点才需要  `cifs-utils`。单节点安装程序会安装它。在多节点部署中，您需要在每个节点上安装它。如果节点上缺少  `cifs-utils`，则对 SMB/CIFS 共享的 Kerberos 扫描将失败。
+
+
+
+[[active-directory-attributes-for-nfs]]
+=== NFS 的 Active Directory 属性
+
+若要将 NFS 用户和组 ID 解析为 Active Directory 名称，必须填充 `uidNumber`和 `gidNumber`属性，并在 AIDE 查询时将其复制到全局目录。请参阅link:../administer/configure-ad-nfs.html["配置 NFS 的 Active Directory 身份映射"]。
+
+
+
+[[active-version-and-support-contact]]
+== 活动版本和支持联系人
+
+要查找 AI Data Engine 的活动版本和 NetApp 支持联系信息，请转到 *配置* > *关于 AIDE*。
 
 
 
 [[related-information]]
 == 相关信息
 
+* link:../administer/configure-kerberos-smb.html["AI Data Engine 中 SMB/CIFS 共享的 Kerberos 身份验证"]
+* link:../administer/configure-ad-nfs.html["配置 NFS 的 Active Directory 身份映射"]
 * link:deployment-overview.html["AIDE 部署概述"]
-* link:deploy-aide-lite.html["部署 AI Data Engine — Lite"]
-* link:deploy-enterprise.html["部署 AI Data Engine — Enterprise"]
+* link:single-node-prerequisites.html["AIDE 单节点部署先决条件"]
+* link:multi-node-prerequisites.html["AIDE 多节点部署先决条件"]
+* link:deploy-aide-single-node.html["将 AI Data Engine 作为单节点部署"]
+* link:deploy-aide-multi-node.html["将 AI Data Engine 部署为多节点部署"]
 

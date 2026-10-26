@@ -1,0 +1,139 @@
+---
+sidebar: sidebar 
+permalink: deploy/configure-proxy.html 
+keywords: proxy, outbound proxy, forward proxy, HTTPS proxy, proxy certificate, proxy authentication, install, proxy host, proxy port, allowlist, CONNECT, installer download, container runtime 
+summary: 了解 AI Data Engine 如何使用正向代理，以及它支持哪些代理类型和参数。 
+---
+= 了解 AI Data Engine 的代理
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+如果您的 AI Data Engine（AIDE）主机或集群无法直接访问互联网，请配置正向代理，以便安装程序和 AI Data Engine 可以下载组件、拉取容器映像并向 NetApp Console 注册。单节点和多节点部署的代理选项是相同的。准备和运行安装的步骤各不相同，因此每种部署类型都有自己的工作流程。
+
+代理设置仅适用于 k3s 运行时和 AI Data Engine，而不适用于主机系统。
+
+
+
+[[deploy-ai-data-engine-with-a-proxy]]
+== 使用代理部署 AI Data Engine
+
+每种部署类型都有自己的主题，其中包含从准备环境到运行安装程序的完整过程。
+
+* link:deploy-aide-single-node-proxy.html["将 AI Data Engine 部署为带代理的单节点部署"]：安装程序为 k3s 运行时和 AI Data Engine（包括其信任存储）配置代理。
+* link:deploy-aide-multi-node-proxy.html["将 AI Data Engine 部署为带代理的多节点部署"]：在运行安装程序之前，请在每个节点上配置容器运行时代理和 CA 证书信任。
+
+
+
+
+[[what-goes-through-the-proxy]]
+== 通过代理进行的操作
+
+只有发往互联网的流量才会使用代理。所有 AI Data Engine 互联网目的地都在端口 443 上使用 HTTPS，因此您的代理必须允许 `CONNECT`访问 link:aide-requirements.html#outbound-internet-access["出站互联网接入"] 中每个端点的 443 端口。
+
+您网络上的流量直接连接，并且必须保持可访问，无需代理：
+
+* Console 代理 (`--cm-host`）
+* NFS、CIFS/SMB、ONTAP 和 StorageGRID 数据源
+* Active Directory 和 LDAP
+* Kubernetes API 服务器和集群内部网络
+
+
+
+
+[[supported-proxy-configurations]]
+== 支持的代理配置
+
+[cols="2,3,2"]
+|===
+| 配置 | 问题描述 | 身份验证 
+
+
+| 无代理 | 直接连接到互联网；不使用代理。 | 无 
+
+
+| HTTP 正向代理 | AI Data Engine 通过 HTTP 连接到代理，并使用 `CONNECT`通过隧道连接 HTTPS 目的地。 | 无，或 HTTP 基本身份验证（用户名和密码） 
+
+
+| HTTPS 正向代理 | AI Data Engine 通过 TLS 连接到代理。如果专用证书颁发机构（CA）对代理证书进行了签名，您需要提供 CA 证书。 | 无，或 HTTP 基本身份验证（用户名和密码） 
+|===
+您可以通过主机名或 IPv4 地址来寻址代理。
+
+
+IMPORTANT: AI Data Engine 支持使用 HTTP `CONNECT` 隧道连接的标准转发代理，包括 HTTPS 目的地。如果您的代理检查 TLS 流量，请将 link:aide-requirements.html#outbound-internet-access["出站互联网接入"] 中的端点免于检查，包括安装程序下载主机。不支持 TLS 检查代理和其他一些代理功能。请参阅 link:../release-notes/known-limitations.html["已知限制"]。
+
+安装程序为每个互联网目的地和每个 AI Data Engine 组件使用一个代理。代理设置在安装过程中进行设置。
+
+
+
+[[proxy-configuration-parameters]]
+[[proxy-parameters]]
+== 代理配置参数
+
+[cols="2,1,3"]
+|===
+| 参数 | 默认 | 问题描述 
+
+
+| `--proxy-host <host[:port]>` | 无 | 转发代理的主机名或 IPv4 地址，不带 `http://`或 `https://`。启用代理配置。接受内联端口(`host:port`）。 `--proxy-host`中的端口优先于 `--proxy-port`。 
+
+
+| `--proxy-port <port>` | `80` 用于 HTTP， `443` 用于 HTTPS | 代理侦听的端口。如果端口已包含在 `--proxy-host`中，则忽略。 
+
+
+| `--proxy-scheme <http|https>` | `https` | 用于连接到代理服务器本身的协议。这不是代理到达的目的地的方案。大多数正向代理监听纯 HTTP，因此请为它们传递 `--proxy-scheme http`。 
+
+
+| `--proxy-ca-cert <path>` | 无 | 包含签署代理证书的 CA 证书的 PEM 文件或 `.crt`和 `.pem`文件的平面目录的路径。安装程序读取目录而不递归到子目录中，并将文件合并到一个捆绑包中。对于证书由私有 CA 签名的 HTTPS 代理是必需的。不与 HTTP 代理一起使用。 
+
+
+| `--proxy-user <user>` | 无 | 基本身份验证的用户名。使用 HTTP 代理时，安装程序会警告凭据以未加密形式传输到代理。需要密码，通过 `--proxy-password-file`提供或在提示符处输入。 
+
+
+| `--proxy-password-file <path>` | 无 | 指向仅包含代理密码的本地文件的路径，其权限设置为 `0600`或 `0400`。如果省略此项，安装程序将提示输入密码（隐藏输入）。 
+
+
+| `--proxy-type <r>` | `r` | 代理类型。 `r` 是常规正向代理，并且是默认设置。请勿更改。不支持 TLS 检查代理。 
+
+
+| `--no-proxy` | — | 显式禁用代理配置并跳过代理提示。仅在主机可以直接访问互联网时使用。 
+|===
+
+NOTE: 安装程序不接受 `--proxy-password`或 `PROXY_PASSWORD`环境变量。请改用 `--proxy-password-file`或交互式提示符。
+
+
+
+[[the-installer-download]]
+== 安装程序下载
+
+从 NetApp Console 复制的 install 命令从内容交付网络（CDN）下载安装程序，然后一步运行。下载不使用代理。如果目标主机仅通过代理访问互联网，则可自行下载安装程序，并从提取的安装程序中运行 install 命令。部署主题描述了这些步骤。
+
+
+
+[[proxy-verification]]
+== 代理验证
+
+在安装程序下载任何内容之前，它会从安装程序主机运行检查。检查确认代理响应，代理接受您的凭据，并且代理证书对您选择的方案有效。如果检查失败，安装程序将停止并指出原因，例如错误的端口、错误的方案或被拒绝的密码（HTTP 407）。
+
+对于多节点部署，检查仅涵盖代理。它不测试集群节点是否可以到达代理。
+
+
+
+[[change-proxy-settings-after-installation]]
+== 安装后更改代理设置
+
+代理设置在安装过程中进行配置。安装程序不会在已安装的集群上再次运行。若要在安装后更改代理主机、端口、凭据或 CA 证书，请联系 NetApp 支持人员。
+
+
+
+[[related-information]]
+== 相关信息
+
+* link:aide-requirements.html["AIDE 要求"]
+* link:single-node-prerequisites.html["AIDE 单节点部署先决条件"]
+* link:multi-node-prerequisites.html["AIDE 多节点部署先决条件"]
+* link:deploy-aide-single-node-proxy.html["将 AI Data Engine 部署为带代理的单节点部署"]
+* link:deploy-aide-multi-node-proxy.html["将 AI Data Engine 部署为带代理的多节点部署"]
+

@@ -1,0 +1,83 @@
+---
+sidebar: sidebar 
+permalink: deploy/deploy-aide-multi-node.html 
+keywords: deploy, install, multi-node, multi node, wizard, NetApp Console, deployment wizard, kubernetes, RKE2, OpenShift, AKS 
+summary: 使用部署向导从 NetApp Console 将 AIDE 部署为多节点部署。 
+---
+= 将 AI Data Engine 部署为多节点部署
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+使用部署向导从 NetApp Console 将 AI Data Engine （AIDE）部署为多节点部署。该向导将引导您选择安装位置，选择配置大小，并对 Kubernetes 集群运行安装命令。
+
+
+IMPORTANT: 如果您的集群节点或安装程序主机仅通过出站代理访问互联网，请改为使用 link:deploy-aide-multi-node-proxy.html["将 AI Data Engine 部署为带代理的多节点部署"]。
+
+.开始之前
+*权限和访问*
+
+* 您在 NetApp Console 中拥有_组织管理员_或更高权限。
+* 您有一个对目标集群具有 cluster-admin 访问权限的 kubeconfig。如果 `kubectl`不在您的 `PATH`中，安装程序会将其下载到 tools 目录。
+
+
+*Kubernetes 集群*
+
+* 您的 Kubernetes 集群满足 link:multi-node-prerequisites.html["AIDE 多节点部署先决条件"] 和 link:aide-requirements.html["AIDE 要求"] 中所述的多节点先决条件。
+* 在运行 install 命令之前，集群上已存在 `aide`命名空间。
+* 调度 AI Data Engine 工作负载的节点具有 link:multi-node-prerequisites.html#node-labels["节点标签"] 中所述的节点标签。
+* 集群上有一个已配置的 StorageClass（默认名称： `aide-sc`），用于 AIDE 的有状态支持服务。
+
+
+*存储和 NetApp Console*
+
+* 具有导出路径的 NFS 服务器可从集群访问，可用于 AIDE 配置卷。
+* 一个 NetApp Console 代理 https://docs.netapp.com/us-en/console-setup-admin/concept-agent-install-options.html#agent-console-deploy["已部署"^]，并且可从集群节点访问。运行安装命令需要 Console 代理 IP。
+
+
+
+NOTE: 仅在首次安装 AIDE 时使用安装程序。请勿使用它来升级 AIDE。安装后，AIDE 操作员负责管理升级。有关升级的信息，请联系 NetApp 支持部门。
+
+.步骤
+. 在 NetApp Console 中，导航到 *AI data hub* > *AI Data Engine*。
++
+此时将显示 AI Data Engine 登录页面。
+
+. 选择*部署 AI Data Engine*。
+. 选择*多节点*部署选项，然后选择*下一步*。
+. 选择您的配置大小：
++
+** *Small*：建议用于最多约 10 亿个文件的环境。
+** *中等（默认）*：建议用于最多包含约 30 亿个文件的环境。
+** *Large*：建议用于最多约 60 亿个文件的环境。
++
+这些规模是推荐的基准，而不是硬性限制。对于超过 60 亿个文件的环境，AIDE 多节点部署需要与 NetApp 一起进行自定义规模调整；有关详细信息，请参见 link:aide-requirements.html#flexible-sizing-multi-node["灵活调整大小准则"]。
+
+
+
+. 将向导中显示的安装命令复制到编辑器。
++
+向导将使用您选择的配置大小生成安装命令。
+
+. 从可以到达 Kubernetes 集群的主机运行 install 命令。
++
+如果安装程序询问是否配置出站代理，请输入 `n`。
+
++
+
+NOTE: 安装大约需要 30 分钟才能完成。可能会发生超时和重试，这是正常的。
+
+. 回答安装程序的确认提示以继续安装。
++
+** 安装程序显示 kubeconfig 选择的 Kubernetes 集群，包括上下文、集群名称和 API 服务器。仅当这是您要使用的集群时，才回答“是”。如果是错误的集群，请停止安装程序，选择正确的 kubeconfig 上下文，然后再次运行安装程序。
+** 安装程序要求您确认多节点部署的先决条件是否已完成。回答“是”以继续。
+** 安装程序检测到运行 AI Data Engine NGINX ingress 的节点的 IP 地址，并要求您进行确认。按 Enter 键以保留显示的地址，或键入其他地址。使用可以从群集外部访问的地址。如果检测到的地址是内部群集地址，请改为键入可访问的地址。请勿输入 Console 代理地址。
+
+
+. 监控进度屏幕，直到成功屏幕出现并确认 AIDE 安装已完成。
+
+
+.结果
+您的 AI Data Engine 多节点部署已部署并连接到 NetApp Console。您现在可以 link:../data-sources/connect-data-source.html["连接数据源"] 开始扫描。

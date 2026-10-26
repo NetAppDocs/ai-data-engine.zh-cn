@@ -2,7 +2,7 @@
 sidebar: sidebar 
 permalink: release-notes/known-limitations.html 
 keywords: known limitations, limitations, restrictions, AI Data Engine 
-summary: 已知限制列出了此版本 AI Data Engine 中不支持的功能。 
+summary: 已知限制指出了 AI Data Engine 中不支持的功能。 
 ---
 = AI Data Engine 中的已知限制
 :allow-uri-read: 
@@ -11,14 +11,30 @@ summary: 已知限制列出了此版本 AI Data Engine 中不支持的功能。
 
 
 [role="lead"]
-已知限制用于识别此版本的 AI Data Engine 中不支持的功能，或无法正确互操作的功能。在部署或使用产品之前，请查看这些限制。
+已知限制是指 AI Data Engine （AIDE） 不支持的功能，或不能正确互操作的功能。在部署或使用产品之前，请查看这些限制。
 
 
 
 [[deployment]]
 == 部署
 
-Lite 和 Enterprise 部署是独立的:: AIDE Lite 和 AIDE Enterprise 是独立的部署模式。目前不支持将现有部署从一种模式迁移到另一种模式。
+单节点和多节点部署相互独立:: AIDE 单节点部署和 AIDE 多节点部署是独立的部署类型。没有受支持的迁移路径可将现有部署从一种类型迁移到另一种类型。
+代理支持有限:: 您可以使用正向代理部署 AI Data Engine，但不支持以下代理功能：
++
+--
+* TLS 检查代理，使用自定义证书颁发机构对 HTTPS 流量进行解密和重新签名。
+* 对代理进行 NTLM、Kerberos 或客户端证书身份验证。不使用身份验证或使用基本身份验证。
+* SOCKS 代理。
+* 代理自动配置（PAC 文件或 WPAD）。直接向安装程序提供代理主机和端口。
+* 不同目的地的不同代理。一个代理承载所有 AI Data Engine 互联网流量。
+* IPv6 地址作为代理地址。请改用主机名；主机名可以解析为 IPv6。
+* 具有气隙安装的代理。安装程序拒绝气隙安装上的代理选项。
++
+有关受支持的代理配置，请参见 link:../deploy/configure-proxy.html["了解 AI Data Engine 的代理"]。
+
+
+
+--
 
 
 
@@ -26,7 +42,7 @@ Lite 和 Enterprise 部署是独立的:: AIDE Lite 和 AIDE Enterprise 是独立
 [[policies-and-actions]]
 == 策略和操作
 
-策略触发的操作受到限制:: 创建策略时，可用的自动操作仅限于永久删除和电子邮件通知。来自策略的自动存档和标记操作在此版本中不可用。您可以创建无需执行任何操作的策略，以随着时间的推移监控数据状况。
+策略触发的操作受到限制:: 创建策略时，可用的自动操作仅限于永久删除和电子邮件通知。策略中的自动归档和标记操作不可用。您可以创建不执行任何操作的策略，以随时间推移监控数据状况。
 
 
 
@@ -34,7 +50,16 @@ Lite 和 Enterprise 部署是独立的:: AIDE Lite 和 AIDE Enterprise 是独立
 [[tags]]
 == 标记
 
-无法删除或重命名标签:: 此版本中不提供标记管理。创建标记后，它仍可在系统中使用。您可以将标记应用于项目并将其从项目中删除，但不能删除标记定义本身或更正包含拼写错误的标记名称。
+无法删除或重命名标签:: 创建标记后，它仍可在系统中使用。您可以将标记应用于项目并将其从项目中删除，但不能删除标记定义本身、重命名它或更正包含拼写错误的标记名称。标记名称区分大小写，因此 `Finance`和 `finance`是不同的标记。
+
+
+
+
+[[governed-ai-access-mcp]]
+== 受管 AI 访问（MCP）
+
+MCP 搜索筛选器有限:: AI 客户端只能按名称前缀、文件类型和所有者搜索文件。如果您按大小、日期或文件夹请求文件，AI 客户端必须对结果进行分页，答案可能不完整。
+MCP 标签操作有限:: AI 客户端无法列出具有标记的文件，并且一次只能在一个文件上添加或删除标记。
 
 
 
@@ -45,4 +70,5 @@ Lite 和 Enterprise 部署是独立的:: AIDE Lite 和 AIDE Enterprise 是独立
 * link:whats-new.html["新增功能"]
 * link:../deploy/deployment-overview.html["部署概述"]
 * link:../investigate/take-actions.html["对您的数据采取行动"]
+* link:../mcp/learn-about-mcp.html["了解受管理的 AI 访问"]
 

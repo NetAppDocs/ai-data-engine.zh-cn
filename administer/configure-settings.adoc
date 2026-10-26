@@ -1,67 +1,98 @@
 ---
 sidebar: sidebar 
 permalink: administer/configure-settings.html 
-keywords: cold threshold, stale threshold, configuration, settings, data classification, cold data, stale data 
-summary: 配置AI Data Engine用于在整个环境中将数据分类为冷数据或过时数据的时间阈值。 
+keywords: general settings, cold data, stale data, data classification, thresholds, permission scanning, Active Directory, LDAP, NFS identity mapping, access risk, configuration 
+summary: 定义 AI Data Engine 将哪些文件分类为冷数据或过时数据，打开权限扫描，并连接 Active Directory 以识别存储优化机会和访问风险。 
 ---
-= 在 AI Data Engine 中配置冷数据和过期数据阈值
+= 在 AI Data Engine 中配置数据分类阈值和访问扫描
 :allow-uri-read: 
 :icons: font
 :imagesdir: ../media/
 
 
 [role="lead"]
-AI Data Engine 根据您定义的时间阈值将文件分类为冷文件或过时文件。这些阈值会影响仪表板摘要中显示的数据、在"调查"中应用冷筛选器或过时筛选器时显示的文件以及策略所针对的文件。设置与您组织的数据分类和保留实践相匹配的阈值，并帮助您确定您认为需要监控的重要数据。
+冷阈值和陈旧阈值可帮助您找到可以使用 AI Data Engine （AIDE）进行优化的存储。权限扫描和 Active Directory 集成可帮助您查找和了解访问风险。将它们设置为与贵组织的数据分类、保留和访问策略相匹配。
+
+
+
+[[before-you-begin]]
+== 开始之前
+
+您必须具有 _AI Data Engine administrator_ 角色。
 
 
 
 [[what-is-cold-and-stale-data]]
 == 什么是冷数据和过时数据？
 
-冷数据:: 在配置的冷数据阈值内未被访问的文件。冷数据是您的组织可用于识别能够根据保留策略和业务策略进行优化的存储的关键指标。
-陈旧数据:: 在配置的陈旧数据阈值内未被访问或修改的文件。过期数据包括偶尔访问但最近未修改的文件，您的组织可以根据您的策略监控或管理这些文件。
+冷数据:: 未在冷数据阈值内访问的文件。冷数据是一项关键指标，您的组织可以使用它来识别可根据您的保留和业务策略进行优化的存储。
+陈旧数据:: 在陈旧数据阈值内未修改的文件。陈旧数据可帮助您的组织识别最近未更改的文件，您可以根据策略监控或管理这些文件。
 
+
+这些阈值会影响仪表板摘要、在“调查”中应用冷筛选器或过时筛选器时显示的文件以及策略所针对的文件。选择阈值，以反映数据在组织进行评估之前可以不使用或保持不变的时间。较短的阈值将更多数据分类为冷数据或过时数据，较长的阈值将结果缩小到非活动时间最长的数据。
 
 
 NOTE: 默认阈值是作为起点提供的产品默认值。它们不代表法律、合规或行业标准的保留期限。设置反映组织特定政策和要求的阈值。
 
-对任一阈值的更改将在下一个扫描周期完成后生效。
+下次扫描周期完成后，对冷阈值和陈旧阈值的更改将生效。
 
 
 
-[[configure-the-cold-data-threshold]]
-== 配置冷数据阈值
+[[set-the-cold-data-threshold]]
+== 设置冷数据阈值
 
-.开始之前
-* 您必须具有 _AI Data Engine administrator_ 角色。
-
+确定文件在多长时间未被访问后，您的组织才会评估是否对其进行归档、删除或监控。您还可以按文件大小限制分类，并将特定文件类型或路径排除在外。
 
 .步骤
-. 从 AI Data Engine UI 中，选择 *配置*。
-. 选择*设置*。
-. 选择 *Cold data definition* 对应的 *Edit*。
-. 将文件属性设置为 *Last Accessed* 或 *Last Modified*。
-. 设置时间阈值。默认值为一年。
+. 从 AI Data Engine UI 中，选择*配置* > *常规设置*。
+. 展开*冷数据定义*，如果已禁用，则启用冷数据分类。
+. 在*基于年龄*下，选择确定年龄的时间戳：*上次访问*以识别最近未使用的文件，或*上次修改*以识别最近未更改的文件。
+. 设置 *冷数据期限阈值*。默认值为一年。
+. 设置 *最小文件大小（MiB）* 和 *最大文件大小上限（MiB）*，将重点放在对您重要的文件上。
+. 可选：要将特定文件排除在此分类之外，请输入*排除文件类型*和*排除路径*。输入文件和完整路径，并用逗号分隔多个条目。
 . 选择 *保存*。
 
 
 
 
-[[configure-the-stale-data-threshold]]
-== 配置陈旧数据阈值
+[[set-the-stale-data-threshold]]
+== 设置陈旧数据阈值
 
-.开始之前
-* 您必须具有 _AI Data Engine administrator_ 角色。
-
+确定在您的组织根据其数据生命周期策略审核文件之前，文件可以保持未更改状态多长时间。您还可以按文件大小限制分类，并将特定的文件类型或路径排除在外。
 
 .步骤
-. 从 AI Data Engine UI 中，选择 *配置*。
-. 选择*设置*。
-. 选择 *Stale data definition* 的 *Edit*。
-. 将文件属性设置为 *Last Accessed* 或 *Last Modified*。
-. 设置时间阈值。默认值为三年。
+. 从 AI Data Engine UI 中，选择*配置* > *常规设置*。
+. 展开*陈旧数据定义*，如果已禁用陈旧数据分类，则启用陈旧数据分类。
+. 在*基于年龄*下，选择决定年龄的时间戳：*上次修改*或*上次访问*。
+. 设置*陈旧年龄阈值*。默认值为三年。
+. 设置 *最小文件大小（MiB）* 和 *最大文件大小上限（MiB）*，将重点放在对您重要的文件上。
+. 可选：要将特定文件排除在此分类之外，请输入*排除文件类型*和*排除路径*。输入文件和完整路径，并用逗号分隔多个条目。
 . 选择 *保存*。
 
+
+
+
+[[find-access-risks-with-permission-scanning]]
+== 通过权限扫描查找访问风险
+
+当您需要查找向超出策略允许范围的人员开放的文件和文件夹时，请启用权限扫描。要查看结果，请参阅link:../investigate/investigate-directories.html["调查目录"]。
+
+.步骤
+. 从 AI Data Engine UI 中，选择*配置* > *常规设置*。
+. 展开*权限扫描*，然后打开切换开关。
++
+要停止扫描权限，请关闭切换开关。
+
+
+
+
+
+[[show-user-and-group-names-with-active-directory]]
+== 使用 Active Directory 显示用户和组名称
+
+当您在查看数据时，如果需要查看用户名和权限而不是数字 ID，请将 AI Data Engine 连接到 Active Directory。如果您的环境使用 NFS，您还可以将数字用户 ID（UID）和组 ID（GID）映射到目录用户和组。
+
+要了解先决条件和步骤，请参阅 link:configure-ad-nfs.html["配置 NFS 的 Active Directory 身份映射"]。
 
 
 
@@ -69,6 +100,10 @@ NOTE: 默认阈值是作为起点提供的产品默认值。它们不代表法�
 == 相关信息
 
 * link:../investigate/understand-dashboard.html["了解 AI Data Engine 仪表板"]
+* link:../investigate/investigate-directories.html["调查目录"]
+* link:../investigate/investigate-unstructured.html["调查非结构化数据"]
 * link:../get-started/storage-optimization-workflows.html["探索存储优化工作流程"]
+* link:../deploy/aide-requirements.html["AIDE 要求"]
 * link:manage-users-roles.html["管理用户和角色"]
+* link:configure-ad-nfs.html["配置 NFS 的 Active Directory 身份映射"]
 

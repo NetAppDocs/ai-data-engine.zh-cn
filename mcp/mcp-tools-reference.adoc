@@ -1,0 +1,81 @@
+---
+sidebar: sidebar 
+permalink: mcp/mcp-tools-reference.html 
+keywords: mcp, governed ai access, tools, get_collection, search, list_tags, create_tag, tag_document, power users, tags 
+summary: 查看 AI 客户端可以通过 AI Data Engine MCP 服务器使用的工具、所需的访问权限以及搜索和标记的行为方式。 
+---
+= 用于 AI Data Engine 管理的 AI 访问的 MCP 工具
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+连接的 AI 客户端可以通过 AI Data Engine (AIDE) 的 Model Context Protocol (MCP) 服务器使用一组工具，以搜索和标记集合中的文件。使用此信息来了解每种工具的作用以及工具所需的访问权限。
+
+
+
+[[access-requirements]]
+== 访问要求
+
+AI 客户端在高级用户会话中使用这些工具。只有在以下两种情况都成立时，用户才会获得高级用户会话：
+
+* 此用户在 Microsoft Entra ID 中拥有 `AIDEPowerUsers`应用角色。
+* AI 客户端请求 `power_users`范围。
+
+
+请参阅 link:configure-entra-id-mcp.html#create-and-assign-the-power-user-app-role["创建和分配高级用户应用角色"]。
+
+连接仅限于 MCP 服务器 URL 中的集合。要使用其他集合，请使用该集合的连接详细信息。
+
+
+
+[[tools]]
+== 工具
+
+[cols="1,3"]
+|===
+| 工具 | 问题描述 
+
+
+| `get_collection` | 返回您的连接受限的集合。 
+
+
+| `search` | 使用分页按名称前缀、文件类型或所有者搜索集合中的文件元数据。在高级用户会话中，搜索不会按文件级别权限进行筛选，并返回集合中匹配的每个文件。结果包括每个文件的名称、路径、类型、大小、上次修改时间和所有者。 
+
+
+| `list_tags` | 列出为租户定义的标记，以及具有每个标记的文件数量。 
+
+
+| `create_tag` | 为您的租户创建标签并返回其 ID 和名称。 
+
+
+| `tag_document` | 向文件添加标记或从文件中删除标记。如果标记不存在，工具将首先创建它。AI 客户端一次处理一个文件。 
+|===
+
+
+[[how-tags-work]]
+== 标签的工作原理
+
+* 标签适用于整个 AI Data Engine，而不仅仅是一个集合。您通过 AI 客户端创建或应用的标签也可在调查视图中使用。
+* 拼写错误的标签名称会创建一个新标签。标签名称区分大小写，因此 `Finance`和 `finance`是不同的标签。
+* 创建标签后，您无法删除或重命名标签。有关标签名称的限制，请参阅link:../release-notes/known-limitations.html["已知限制"]。
+* AI 客户端无法列出具有标记的文件。
+
+
+
+
+[[what-ai-clients-cant-do]]
+== AI 客户端无法做到的事情
+
+AI 客户端无法检索文件内容、添加文件、删除文件、修改文件、更改数据源或创建集合。
+
+
+
+[[related-information]]
+== 相关信息
+
+* link:connect-ai-clients-mcp.html["将 AI 客户端连接到 AI Data Engine MCP 服务器"]
+* link:learn-about-mcp.html["了解受管理的 AI 访问"]
+* link:../release-notes/known-limitations.html["已知限制"]
+

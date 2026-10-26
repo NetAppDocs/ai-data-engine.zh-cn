@@ -1,0 +1,201 @@
+---
+sidebar: sidebar 
+permalink: mcp/configure-entra-id-mcp.html 
+keywords: mcp, governed ai access, microsoft entra id, entra, app registration, application per aide instance, scopes, app roles, redirect uri, authentication, token, entra administrator 
+summary: 作为 Microsoft Entra ID 管理员，请在 Microsoft Entra ID 中为每个 AI Data Engine 实例注册专用应用程序，定义应用程序 ID URI 和支持的范围，创建和分配应用程序角色，并为您的 AI 客户端添加重定向 URI。 
+---
+= 为 AI Data Engine 管理的 AI 访问配置 Microsoft Entra ID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+AI Data Engine （AIDE） 中的受管 AI 访问使用 Microsoft Entra ID 对用户进行身份验证。作为 Microsoft Entra ID 管理员，您需要在 Microsoft Entra admin center 中注册 AI Data Engine，定义范围和应用程序角色，并为您的 AI 客户端添加重定向 URI，以便用户可以登录并使用其授权的集合。
+
+完成后，将记录的值提供给 AI Data Engine 管理员，该管理员将在 NetApp Console 中将 AI Data Engine 连接到 Entra ID。请参阅link:connect-entra-id-aide-mcp.html["将 AI Data Engine 连接到 Microsoft Entra ID"]。
+
+
+
+[[before-you-begin]]
+== 开始之前
+
+* 您有一个 Microsoft Entra ID 租户和一个允许您在该租户中注册应用程序并授予许可的角色，例如应用程序管理员或云应用程序管理员。
+* 您拥有 AI Data Engine 管理员在 link:prepare-mcp-host.html["准备 MCP 主机"] 中设置的 AIDE 集群主机名。主机名必须位于您的 Entra ID 租户中已验证的注册 DNS 域中。
+
+
+
+
+[[how-mcp-access-works]]
+== MCP 访问的工作原理
+
+AI Data Engine 不颁发令牌，也不持有密钥。它验证 AI 客户端提供的 Entra ID 访问令牌。当用户连接 AI 客户端时，用户使用 Microsoft Entra ID 登录，并且 Entra ID 为 AI Data Engine 应用程序颁发访问令牌。AI Data Engine 根据您的 Entra ID 租户检查令牌，并允许客户端仅使用授予范围匹配的集合。
+
+您可以为每个 AI Data Engine 实例在 Entra ID 中注册一个专用应用程序。如果您有多个 AI Data Engine 安装，请为每个安装注册一个单独的应用程序，因为应用程序 ID URI 是根据该实例的主机名构建的。该应用程序定义应用程序 ID URI、作用域和应用角色，其应用程序（客户端）ID 是 AI Data Engine 管理员在 NetApp Console 中输入以及用户在其 AI 客户端中输入的客户端 ID。
+
+Microsoft Entra ID 是 AIDE 管控的 AI 访问支持的唯一身份提供程序。
+
+NetApp Console 不会创建或更改 Entra ID 应用注册。您可以在 Microsoft Entra 管理中心手动完成本主题中的所有 Entra ID 任务。
+
+
+
+[[register-the-ai-data-engine-application-and-define-its-scope]]
+[[register-the-ai-data-engine-application]]
+== 注册 AI Data Engine 应用程序并定义其范围
+
+为 AI Data Engine 实例注册专用应用程序，设置其应用程序 ID URI，并定义 `power_users`范围。为每个 AI Data Engine 实例完成一次此任务。如果有多个实例，请为每个实例注册一个单独的应用程序，并使用标识该实例的名称。
+
+AI Data Engine 识别 `power_users`委派的范围。您可以在 Entra ID 中的应用程序注册上定义该范围。该范围未映射到 NetApp Console 角色，并且范围名称必须完全匹配，包括复数形式。
+
+ `power_users` 作用域请求高级用户会话。高级用户会话可以搜索您授予该作用域访问权限的集合中的文件元数据，列出标记，创建标记，以及向文件添加标记或从文件中删除标记。仅当用户同时拥有 `AIDEPowerUsers`应用角色时，AI Data Engine 才会授予高级用户会话。请参阅 <<create-and-assign-the-power-user-app-role,创建和分配高级用户应用角色>>。
+
+AI 客户端请求的完整范围值是应用程序 ID URI 加上 `/power_users`: `\https://<host>/mcp/tools/power_users`。AI 客户端必须请求此确切值。
+
+
+NOTE: Microsoft 可能会更改 Microsoft Entra ID UI，因此这些步骤可能与您看到的不同。基本配置保持不变。
+
+.步骤
+. 在 Microsoft Entra 管理中心，转到*应用注册*并选择*新注册*。
+. 输入名称，例如 `NetApp AI Data Engine MCP - <instance>`，选择*仅限单个租户*，然后选择*注册*。使用专用于此 AI Data Engine 实例的应用程序。
+. 在 *概述* 页面上，记录 *应用程序（客户端）ID* 和 *目录（租户）ID*。AI Data Engine 管理员在 NetApp Console 中输入这两个值，用户在其 AI 客户端中输入应用程序（客户端）ID 作为客户端 ID。
+. 打开 *清单*，设置 `requestedAccessTokenVersion`为 `2`，然后保存。AI Data Engine 仅接受 v2.0 访问令牌。
+. 打开 *公开 API*，然后选择 *应用程序 ID URI* 旁边的 *添加*。输入 `\https://<host>/mcp/tools`，其中 `<host>`是您在link:prepare-mcp-host.html["准备 MCP 主机"]中设置的 AIDE 集群主机名，然后保存。记录此 URI；AI 客户端使用它来构建其请求的作用域。
++
+必须在您的 Entra ID 租户中验证主机名的域。Entra ID 仅接受已验证域上的应用程序 ID URI。
+
++
+
+NOTE: 如果 Entra ID 拒绝 URI 并显示错误 `Failed to add identifier URI`，请确保将 `requestedAccessTokenVersion`设置为 `2`，并且已在您的租户中验证该域，然后重试。
+
+. 在*公开 API*中，选择*添加作用域*并添加 `power_users`作用域：
++
+** *谁可以同意*：*管理员和用户*，或*仅限管理员*以限制同意
+** *管理员同意显示名称*： `Access AIDE as a Power User`
+** *管理员同意说明*： `Allows the app to access NetApp AI Data Engine as a power user on behalf of the signed-in user.`
+** *用户同意显示名称*和*用户同意描述*：如果您选择*管理员和用户*，请输入用户在同意时看到的文本。
+** *状态*：*已启用*
+** 选择*添加范围*。
+
+
+. 可选：要跳过用户的同意提示，请在*授权客户端应用程序*下选择*添加客户端应用程序*，输入此应用程序的应用程序（客户端）ID，选择 `power_users`范围，然后选择*添加应用程序*。
+
+
+
+
+[[create-and-assign-the-power-user-app-role]]
+== 创建和分配高级用户应用角色
+
+在 AI Data Engine 应用程序上创建 power-user 应用角色，并将其分配给使用受管 AI 访问权限的用户或组。应用角色名称必须完全匹配，包括复数形式。
+
+.步骤
+. 打开*应用角色*并选择*创建应用角色*：
++
+** *显示名称*： `AIDE Power Users`
+** *允许的成员类型*：*用户/组*
+** *值*： `AIDEPowerUsers`
+** *说明*： `Grants power-user sessions in AI Data Engine.`
+** 选择*是否要启用此应用角色？*，然后选择*应用*。
+
+
+. 转到 *Entra ID* > *企业应用程序* > *所有应用程序*，打开 AI Data Engine 应用程序，然后选择 *用户和组* > *添加用户/组*。选择使用受管理的 AI 访问权限的用户或组，选择 `AIDE Power Users`角色，然后选择 *分配*。
+
+
+若要将应用角色分配给组而不是单个用户，您的租户需要 Microsoft Entra ID P1 或 P2。对组的分配不适用于嵌套组的成员。
+
+
+IMPORTANT: 需要分配应用角色，而不仅仅是定义它。未持有应用角色的用户无法获得高级用户会话。
+
+.超级用户会话的工作原理
+只有在以下两种情况都成立时，用户才会获得高级用户会话：
+
+* 用户拥有 `AIDEPowerUsers`应用角色。
+* AI 客户端请求 `power_users`范围。
+
+
+如果客户端为不具备该角色的用户发出请求 `power_users`，AI Data Engine 不会为该用户启动高级用户会话。
+
+
+
+[[add-redirect-uris-for-your-ai-clients]]
+[[add-redirect-uris-for-ai-clients]]
+== 为您的 AI 客户端添加重定向 URI
+
+将您的 AI 客户端使用的重定向 URI 添加到 AI Data Engine 应用程序，并允许公共客户端流。AI 客户端使用 AI Data Engine 应用程序的应用程序（客户端）ID 登录。它们使用 PKCE，因此您无需创建客户端密钥。
+
+.步骤
+. 在 Microsoft Entra 管理中心中，打开 AI Data Engine 应用程序并转到*身份验证*。
+. 选择 *添加平台* > *移动和桌面应用程序*，并为您使用的 AI 客户端添加重定向 URI。为客户端使用的每个回调添加一个 URI：
++
+[cols="1,2"]
+|===
+| 客户端 | 重定向 URI 
+
+
+| Claude Desktop | `\http://localhost:6491/oauth/callback` 
+
+
+| Claude Code | `\http://localhost:8080/callback` 
+
+
+| 光标 | `\http://localhost:8787/callback` 
+
+
+| OpenCode | `\http://127.0.0.1:19876/callback` 
+|===
+. 可选：如果用户也从 Web 上的 Cursor 或从 Cursor Agents 登录，请选择 *添加平台* > *Web*，然后添加 `\https://www.cursor.com/agents/mcp/oauth/callback`。
+. 在*设置*选项卡上，将*允许公共客户端流*设置为*是*，然后保存。
+. 在 *API 权限* 下，添加 Microsoft Graph 委派权限 `offline_access`，以便客户端可以刷新令牌，而无需要求用户重新登录。
+. 如果您的租户需要管理员同意，请选择*授予管理员同意*。
+
+
+如果登录失败并出现错误 `AADSTS50011`，则未注册 AI 客户端的回调 URI。该错误显示了要添加的确切 URI。将其添加到*移动和桌面应用程序*下，并在客户端配置中使用与此处注册相同的端口。
+
+
+
+[[token-expectations]]
+== 令牌预期
+
+AI 客户端必须在每个请求的 `Authorization: Bearer`标头中发送 Entra ID 访问令牌。AI Data Engine 在每次请求时都会验证该令牌。仅当满足以下所有条件时，它才会接受令牌：
+
+* 签名有效，并且令牌是由您的 Entra ID 租户（颁发者）颁发的 v2.0 令牌。
+* 其受众(`aud`）与 AI Data Engine 的应用程序（客户端）ID 相匹配。
+* 它尚未过期。Entra ID 访问令牌通常持续约一小时。请求 `offline_access`的客户端可以刷新令牌，而无需要求用户重新登录。
+
+
+超级用户会话的令牌在其 `scp`声明中包含 `power_users`范围，在其 `roles`声明中包含 `AIDEPowerUsers`应用角色。
+
+如果令牌丢失、过期或无效，AI Data Engine 将返回 `401 Unauthorized`。登录后的 `401`响应通常意味着 Entra ID 颁发了 v1 令牌，或者 AI Data Engine 中的租户 ID 或应用程序（客户端）ID 与您的 Entra ID 应用程序不匹配。确认 `requestedAccessTokenVersion`已设置为 `2`，并且 NetApp Console 中的身份提供程序值匹配。
+
+如果 AI Data Engine 无法验证用户的身份或范围，则不会从集合中返回任何数据。
+
+您无需在 Entra ID 中配置可选声明，AI Data Engine 即可接受令牌。
+
+
+
+[[give-the-values-to-the-ai-data-engine-administrator]]
+[[give-values-to-the-aide-administrator]]
+== 将值提供给 AI Data Engine 管理员
+
+为 AI Data Engine 管理员提供以下值。管理员需要使用这些值将 AI Data Engine 连接到 Entra ID，并为 MCP 配置集合：
+
+* 目录（租户）ID
+* 应用程序（客户端）ID
+* 应用程序 ID URI， `\https://<host>/mcp/tools`
+* 全范围值， `\https://<host>/mcp/tools/power_users`
+
+
+.下一步
+AI Data Engine 管理员 link:connect-entra-id-aide-mcp.html["将 AI Data Engine 连接到 Microsoft Entra ID"]。
+
+
+
+[[related-information]]
+== 相关信息
+
+* link:connect-entra-id-aide-mcp.html["将 AI Data Engine 连接到 Microsoft Entra ID"]
+* link:learn-about-mcp.html["了解受管理的 AI 访问"]
+* link:prepare-mcp-host.html["准备 MCP 主机"]
+* link:connect-ai-clients-mcp.html["将 AI 客户端连接到 AI Data Engine MCP 服务器"]
+* link:mcp-tools-reference.html["用于 AI Data Engine 管理的 AI 访问的 MCP 工具"]
+* link:../release-notes/known-limitations.html["已知限制"]
+

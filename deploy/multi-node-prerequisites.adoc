@@ -1,0 +1,371 @@
+---
+sidebar: sidebar 
+permalink: deploy/multi-node-prerequisites.html 
+keywords: multi-node, prerequisites, RKE2, OpenShift, AKS, kubernetes, cluster, NFS, StorageClass, namespace, kubectl, installer host 
+summary: 准备您的 Kubernetes 集群、安装程序主机、节点、NFS 服务器和存储，以便在 RKE2、OpenShift 或 AKS 上进行 AIDE 多节点部署。 
+---
+= AI Data Engine 多节点部署先决条件
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+对于 AI Data Engine（AIDE）多节点部署，您需要自带 Kubernetes 集群。安装程序会将 AI Data Engine 部署到您现有的集群上，而不会对其进行配置或管理。在运行安装命令之前，请准备好集群、节点、存储和安装程序主机。
+
+在运行 install 命令之前，您的环境必须满足以下各节中的要求。有关节点大小、支持的 Kubernetes 版本和网络端口，请参阅link:aide-requirements.html["AIDE 要求"]。
+
+
+
+[[installer-host]]
+== 安装程序主机
+
+安装程序主机是一台轻量级的管理计算机。它不运行 AI Data Engine 工作负载。它必须是一台 Linux 计算机，具有 bash 以及对 Kubernetes API 服务器的网络访问权限。不支持 macOS。在此页面上运行 shell 命令之前，请切换到 bash。
+
+* 您有目标集群的有效 kubeconfig。请使用 `--kubeconfig`选项或 `KUBECONFIG`环境变量指定它。如果您不提供，安装程序将提示您提供。当前上下文必须指向您要部署的集群。要检查或更改它，请运行 `kubectl config current-context`或 `kubectl config use-context <name>`。
+* kubeconfig 用户在目标集群上具有 cluster-admin 或同等权限。用户至少可以执行以下操作：
++
+** 读取命名空间、StorageClasses 和节点。
+** 应用自定义资源。
+** 创建 PersistentVolumes、PersistentVolumeClaims、机密、ConfigMaps、部署、服务、StatefulSets、DaemonSets、CronJobs 和作业。
+** 创建和更新 CustomResourceDefinitions。安装程序将安装 `aidecomponents`、 `aideservices`和 `aideoperators`定义。
+** 创建 ClusterRoles 和 ClusterRoleBindings。
+** 在 `aide` 命名空间中创建 ServiceAccounts、角色和 RoleBindings。
+
+
+* 安装程序主机运行 Linux，具有 bash 4.0 或更高版本、curl 和 tar。
+* 安装程序会自动将 `helm`、 `kubectl`和 `jq`下载到工具目录中。如果 `kubectl`已在您的 `PATH`上，则安装程序会使用该副本，而不会下载副本。您无需预先安装任何这些工具。安装程序不会将它们添加到您的 `PATH`中。
+* 默认的工具目录是 `/opt/netapp/aide/.aide-installer-tools`。安装程序还会在那里写入安装日志。如果默认目录是可写的，则可以省略  `--tools-dir` 选项。
++
+** 如果默认目录不可写，并且您从终端运行安装程序，则安装程序会要求提供另一个目录。按 Enter 键以使用 `$HOME/.cache/netapp/aide`。
+** 如果默认目录不可写，并且安装程序没有终端，则安装将停止。使用 `--tools-dir`选项指定您拥有的目录，例如 `--tools-dir "$HOME/.aide-installer-tools"`。
+
+
+* 您作为具有集群访问权限的用户运行安装程序。
+
+
+Managed-cluster kubeconfigs 通过 exec 凭据插件进行身份验证，该插件读取当前用户的云 CLI 登录信息。以具有该登录名的用户身份运行安装程序。有关特定于 AKS 的指南，请参阅 <<aks-requirements,AKS 要求>>。
+
+在启动时，安装程序会运行 `kubectl config current-context`和 `kubectl cluster-info`，如果任一命令失败，则会停止。请先以与安装程序相同的用户身份和相同的权限运行这些命令。安装程序还会要求您确认已完成以下各节中的节点、NFS 和集群准备工作。
+
+
+
+[[kubernetes-cluster]]
+== Kubernetes 集群
+
+* 您提供一个运行 RKE2、OpenShift 或 Azure Kubernetes Service (AKS) 并满足 link:aide-requirements.html#supported-kubernetes["支持的 Kubernetes 版本"] 的 Kubernetes 集群。
+* AI Data Engine 组件在您标记的节点上运行。请参阅<<node-labels,节点标签>>。这些节点上的其他工作负载不能使用主机端口 80 和 443。
+* 集群至少有三个节点具有足够的可分配容量用于您的配置。请参阅 link:aide-requirements.html#multi-node-sizes["节点大小调整"]。
+* 每个节点都有对 NetApp 容器注册表的出站网络访问权限。请参阅link:aide-requirements.html#outbound-internet-access["出站互联网接入"]。如果限制了可以提取镜像的位置，请允许访问 NetApp 注册表。
+* 如果您的环境需要出站代理，请参见link:configure-proxy.html["了解 AI Data Engine 的代理"]。要使用代理进行部署，包括在每个节点上配置容器运行时代理和 CA 证书信任，请遵循link:deploy-aide-multi-node-proxy.html["将 AI Data Engine 部署为带代理的多节点部署"]。
+
+
+
+
+[[node-preparation]]
+== 节点准备
+
+在调度 AI Data Engine 工作负载的每个节点上完成这些步骤。
+
+
+
+[[kernel-version]]
+=== 内核版本
+
+对于 `nconnect` NFS 挂载选项，建议使用 Linux 内核 5.3 或更高版本，这样可以提供共享配置卷所需的吞吐量。有关符合此建议的发行版和版本，请参阅 link:aide-requirements.html#multi-node-requirements["AIDE 要求"] 中的 Linux 内核指南。要检查内核版本，请运行 `uname -r`。
+
+
+
+[[kernel-parameters]]
+=== 内核参数
+
+. 检查  `net.core.somaxconn` 的值：
++
+[source, bash]
+----
+sysctl net.core.somaxconn
+----
++
+如果值为 511 或更高，则无需采取操作。如果该值较低，请在继续操作之前联系 NetApp 支持人员。
+
+. 将以下行添加到 `/etc/sysctl.conf`：
++
+[source, ini]
+----
+vm.max_map_count=262144
+fs.inotify.max_user_instances=1280
+sunrpc.min_resvport=1000
+----
++
+如果节点已经具有更高的 `vm.max_map_count`或 `fs.inotify.max_user_instances`值，请保留较高的值。始终设置 `sunrpc.min_resvport=1000`。
+
+. 加载 `sunrpc`模块，使其持久化，并应用设置：
++
+[source, bash]
+----
+sudo modprobe sunrpc
+echo "sunrpc" | sudo tee /etc/modules-load.d/aide-sunrpc.conf
+sudo sysctl -p
+----
+. 验证每个节点上的设置：
++
+[source, bash]
+----
+lsmod | grep sunrpc
+cat /etc/modules-load.d/aide-sunrpc.conf
+sysctl vm.max_map_count sunrpc.min_resvport
+----
++
+必须加载 `sunrpc`模块，文件必须包含 `sunrpc`， `vm.max_map_count`必须至少为 262144，并且 `sunrpc.min_resvport`必须为 1000。如果 `sysctl -p`针对某个键报告 `cannot stat /proc/sys/...`，请加载该设置的内核模块，例如 `sudo modprobe sunrpc`，然后再次运行 `sudo sysctl -p`。
+
+
+
+
+
+[[host-directories]]
+=== 主机目录
+
+创建以下目录并设置其所有权和权限：
+
+[source, bash]
+----
+sudo mkdir -p /var/lib/netapp/aide /var/lib/netapp/aide/filebeat /var/lib/netapp/aide/elasticsearch /var/log/netapp/aide
+sudo chown 4321:4321 /var/lib/netapp/aide /var/lib/netapp/aide/filebeat /var/lib/netapp/aide/elasticsearch /var/log/netapp/aide
+sudo chmod 775 /var/lib/netapp/aide /var/lib/netapp/aide/filebeat /var/lib/netapp/aide/elasticsearch /var/log/netapp/aide
+----
+
+
+[[kerberos-cifssmb-support-optional]]
+=== Kerberos CIFS/SMB 支持（可选）
+
+仅在每个调度 AI Data Engine 工作负载的节点上，基于 Kerberos 的 CIFS/SMB 扫描才需要  `cifs-utils` 软件包。如果您使用仅限 NTLM 的 CIFS 或不扫描 SMB 共享，请跳过此步骤。
+
+.RHEL
+[source, bash]
+----
+sudo dnf install -y cifs-utils
+----
+.Ubuntu
+[source, bash]
+----
+sudo apt-get update
+sudo apt-get install -y cifs-utils
+----
+
+
+[[nfs-server]]
+== NFS 服务器
+
+AI Data Engine 配置卷由 NFS 支持。运行安装程序之前，您必须提供 NFS 服务器和导出。没有它们，安装无法继续。运行 install 命令时，请使用 `--nfs-server <host>`指定 NFS 服务器主机名或 IP 地址，并使用 `--nfs-data-share <path>`指定导出路径。
+
+有关部署规模和存储性能要求，请参见 link:aide-requirements.html#multi-node-sizes["节点大小调整"]。
+
+[cols="1,2"]
+|===
+| 需求 | 值 
+
+
+| 导出访问权限 | 读/写，可从所有 Kubernetes 节点 IP 地址访问 
+
+
+| 所有者 | UID:GID 4321:4321 
+
+
+| 权限模式 | 0770 
+
+
+| Squash | 请勿将 UID 4321 重新映射到其他用户。UID 4321 必须保留对已挂载导出的写入权限。 
+|===
+要准备导出，请在 NFS 服务器上，或者在已挂载该导出的任何主机上运行以下命令：
+
+[source, bash]
+----
+sudo mkdir -p <nfs-data-share>
+sudo chown 4321:4321 <nfs-data-share>
+sudo chmod 0770 <nfs-data-share>
+----
+安装程序在首次安装时在导出下创建所需的子目录。
+
+
+
+[[cluster-configuration]]
+== 集群配置
+
+
+
+[[namespace]]
+=== 命名空间
+
+运行安装程序之前， `aide` Kubernetes 命名空间必须存在。安装程序不会创建它。AI Data Engine 仅支持 `aide` 命名空间。
+
+[source, bash]
+----
+kubectl create namespace aide
+----
+
+
+[[node-labels]]
+=== 节点标签
+
+AI Data Engine 通过使用节点标签来调度其组件。将以下标签应用于调度 AI Data Engine 工作负载的节点。每个标签必须至少存在于三个节点上。某些配置大小使用更多节点，因此请将标签应用于调度工作负载的每个节点。将 `<node-name>`替换为每个节点的名称。
+
+安装程序不应用或检查这些标签。运行安装程序之前，必须标记节点。如果缺少标签，AI Data Engine pod 稍后将保持 `Pending`状态。
+
+以下命令将所有标签应用于一个节点：
+
+[source, bash]
+----
+kubectl label node <node-name> \
+  3rdparty-aide-nginx=true 3rdparty-aide-postgres=true \
+  3rdparty-aide-rabbitmq=true 3rdparty-aide-redis=true \
+  3rdparty-aide-es=true 3rdparty-aide-kafka=true \
+  3rdparty-aide-logstash=true 3rdparty-aide-filebeat=true \
+  3rdparty-aide-k8s-event-exporter=true 3rdparty-aide-telegraf=true \
+  microservices-aide=true --overwrite
+----
+
+
+[[taints-and-tolerations]]
+[[taints-tolerations]]
+=== 污点和容忍度
+
+此步骤为可选步骤。仅当 AI Data Engine 与其他工作负载共享集群时才完成此操作。
+
+在共享集群中，通常会为 AI Data Engine 保留节点。对这些节点应用 Kubernetes 污点，以避免其他工作负载占用它们。您在 <<node-labels,节点标签>> 中应用的标签可将 AI Data Engine Pod 保留在这些节点上。每个 AI Data Engine 工作负载都包含对以下污点的内置容忍度，因此其 Pod 可以在带污点的节点上进行调度：
+
+[source, text]
+----
+netapp.com/aide=true:NoSchedule
+----
+如果您不使用污点，则容忍度不起作用，您无需进行任何更改。
+
+[cols="2,1,2,3"]
+|===
+| 部署 | 标记节点 | AI Data Engine 节点上的污点 | 结果 
+
+
+| 专用集群 | 是 | 不需要 | 内置的容忍度无效。 
+
+
+| 共享集群中的专用节点 | 是 | `netapp.com/aide=true:NoSchedule` | AI Data Engine Pod 仅在这些节点上运行，其他工作负载则不在这些节点上运行。 
+|===
+
+NOTE: 如果节点具有 AI Data Engine Pod 无法容忍的污点，则 Pod 将保持  `Pending` 状态。
+
+. 对于共享集群，请对您为 AI Data Engine 保留的每个节点设置污点。将 `<node-name>`替换为节点名称：
++
+[source, bash]
+----
+kubectl taint node <node-name> netapp.com/aide=true:NoSchedule
+----
++
+非 AI Data Engine Pod 无法在节点上调度。AI Data Engine Pod 可以容忍该污点。
+
+. 如果节点具有其他污点，请将  `--extra-toleration` 参数添加到安装命令的末尾，即最后一个现有参数之后。对每个额外的污点重复此参数。
++
+** 要匹配键和值，请使用 `--extra-toleration KEY=VALUE:EFFECT`。
+** 要仅匹配键，请使用 `--extra-toleration KEY:EFFECT`。
++
+`EFFECT` 为  `NoSchedule`、 `PreferNoSchedule` 或  `NoExecute`。如果指定了无效的效果，安装程序将停止。安装程序会将额外的容忍度应用于每个 AI Data Engine 组件。
+
++
+例如，如果节点也带有污点 `dedicated=redis:NoSchedule`，则添加以下参数：
+
++
+[source, bash]
+----
+--extra-toleration dedicated=redis:NoSchedule
+----
+
+
+
+
+
+
+[[ingress-ports]]
+=== 入口端口
+
+AI Data Engine 在具有 `3rdparty-aide-nginx=true`标签的节点上部署使用主机端口 TCP 80 和 443 的 Ingress 控制器。没有其他 Kubernetes 工作负载可以在这些节点上声明这些端口。删除或禁用其他 Ingress 控制器（例如 Traefik），将其调度到其他节点，或将其配置为不使用主机端口 80 和 443。
+
+要检查现有的 Kubernetes 主机端口声明，请运行：
+
+[source, bash]
+----
+kubectl get pods -A -o json | jq -r '
+  .items[] | . as $pod
+  | .spec.containers[]?.ports[]?
+  | select(.hostPort == 80 or .hostPort == 443)
+  | "\($pod.spec.nodeName // "-")  \($pod.metadata.namespace)/\($pod.metadata.name)  hostPort=\(.hostPort)"
+'
+----
+
+
+[[storageclass]]
+=== StorageClass
+
+集群中必须存在用于有状态组件（Elasticsearch、Kafka、PostgreSQL、RabbitMQ 和 Redis）的 StorageClass，并且它必须满足 link:aide-requirements.html#multi-node-sizes["节点大小调整"] 中的 IOPS 和吞吐量要求。使用  `--storage-class <name>` 将其名称传递给安装程序。默认名称为  `aide-sc`。如果指定的 StorageClass 不存在，安装程序将停止并列出可用的 StorageClasses。
+
+使用块存储，例如 NVMe 或 iSCSI。共享存储性能较差。
+
+StorageClass 独立于 NFS 配置卷。
+
+在托管的 Kubernetes 平台上，由 StorageClass 配置的磁盘类型必须可附加到工作节点实例类型。安装程序无法提前验证此兼容性。如果磁盘和节点类型不兼容，则 Pod 可以调度，但在部署期间卷附加失败。
+
+
+
+[[cloud-specific-requirements]]
+== 特定于云的要求
+
+
+
+[[aks]]
+[[aks-requirements]]
+=== AKS
+
+除了上述要求之外，AKS 集群还必须满足下列要求。
+
+节点 VM 大小必须支持 StorageClass 配置的磁盘类型。Azure 高级磁盘 (`Premium_LRS`、 `Premium_ZRS` 和 `PremiumV2_LRS`）仅附加到支持高级版的 VM 大小，这些大小的 SKU 中包含 `s`，例如 `Standard_D16s_v5`。如果 VM 大小不支持配置的磁盘，则会调度 pod，但卷附加会失败并显示 `FailedAttachVolume`错误。
+
+为 AIDE 节点池使用支持高级功能的虚拟机大小，因为 AIDE 有状态组件需要高 IOPS 和吞吐量。或者，使用带有当前虚拟机大小支持的磁盘 SKU 的 StorageClass。内置 `managed-csi`配置 `StandardSSD_LRS`。 `managed-csi-premium`配置 `Premium_LRS`。
+
+要检查 StorageClass 调配的磁盘类型以及节点的 VM 大小，请运行以下命令：
+
+[source, bash]
+----
+kubectl get sc <name> -o jsonpath='{.provisioner}{"  "}{.parameters}{"\n"}'
+kubectl get nodes -o custom-columns=NAME:.metadata.name,VMSIZE:.metadata.labels.node\.kubernetes\.io/instance-type
+----
+以下示例使用 Premium SSD v2 (`PremiumV2_LRS`），并演示如何独立设置 IOPS 和吞吐量。Premium SSD v2 需要具有高级功能的虚拟机大小和 `cachingMode: None`。将 `diskIOPSReadWrite`和 `diskMBpsReadWrite`设置为link:aide-requirements.html#multi-node-sizes["节点大小调整"]中适合您大小的值。此示例使用 Small 部署值：
+
+[source, yaml]
+----
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: aide-sc
+provisioner: disk.csi.azure.com
+allowVolumeExpansion: true
+volumeBindingMode: WaitForFirstConsumer
+reclaimPolicy: Retain
+parameters:
+  skuName: PremiumV2_LRS
+  cachingMode: None
+  diskIOPSReadWrite: "8000"
+  diskMBpsReadWrite: "1000"
+----
+将清单另存为 `aide-sc.yaml`，并通过运行 `kubectl apply -f aide-sc.yaml`来应用它。然后在运行 install 命令时指定 `--storage-class aide-sc`。
+
+* 以运行安装程序的用户身份运行 `az login`。AKS kubeconfig 文件使用当前用户的 Azure CLI 登录进行身份验证。指定您拥有的工具目录。
+* 如果 AKS 集群是私有的，安装程序主机必须通过虚拟网络、对等网络或 VPN 访问 API 服务器。从安装程序主机运行 `kubectl cluster-info`以验证访问权限。
+
+
+
+
+[[related-information]]
+== 相关信息
+
+* link:aide-requirements.html["AIDE 要求"]
+* link:deploy-aide-multi-node.html["将 AI Data Engine 部署为多节点部署"]
+* link:configure-proxy.html["了解 AI Data Engine 的代理"]
+* link:deploy-aide-multi-node-proxy.html["将 AI Data Engine 部署为带代理的多节点部署"]
+

@@ -1,8 +1,8 @@
 ---
 sidebar: sidebar 
 permalink: get-started/quick-start.html 
-keywords: quick start, deploy, connect, investigate, policies 
-summary: 通过部署服务、连接存储系统并开始您的第一次调查，让 AI Data Engine 启动并运行。 
+keywords: quick start, deploy, connect, investigate, policies, governed ai access, mcp 
+summary: 通过部署服务、连接数据源并开始首次调查，让 AI Data Engine 启动并运行。（可选）为 AI 客户端设置受监管的 AI 访问权限。 
 ---
 = AI Data Engine 快速入门
 :allow-uri-read: 
@@ -11,24 +11,28 @@ summary: 通过部署服务、连接存储系统并开始您的第一次调查�
 
 
 [role="lead"]
-通过部署服务、连接存储系统并开始您的第一次调查，让 AI Data Engine 启动并运行。
+通过部署服务、连接数据源并开始首次调查，启动并运行 AI Data Engine （AIDE）。您还可以让 AI 客户端通过受管理的 AI 访问来搜索您的元数据。
 
-.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-1.png["一个"] 查看要求
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-1.png["一个"] link:../deploy/aide-requirements.html["查看要求并选择部署类型"]
 [role="quick-margin-para"]
-查看link:../deploy/aide-requirements.html["AIDE 要求"]和link:../deploy/deployment-overview.html["了解部署模式"]，以确定是否安装 AIDE Lite 或 AIDE Enterprise。AI Data Engine 可在 NetApp Console 中进行私有预览。请联系您的 NetApp 代表以请求访问权限，以便部署 AI Data Engine。
+查看要求，并link:../deploy/deployment-overview.html["了解部署类型"]决定是安装 AIDE 单节点还是多节点部署。
 
-.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-2.png["两个"] 部署 AI Data Engine
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-2.png["两个"] link:../deploy/deployment-overview.html["部署 AI Data Engine"]
 [role="quick-margin-para"]
-从 NetApp Console 部署 link:../deploy/deploy-aide-lite.html["AIDE Lite"] 或 link:../deploy/deploy-enterprise.html["AIDE 企业版"]。设置页面将引导您选择安装位置和配置大小，并运行安装命令。
+从 NetApp Console 部署 link:../deploy/deploy-aide-single-node.html["AIDE 单节点部署"] 或 link:../deploy/deploy-aide-multi-node.html["AIDE 多节点部署"]。设置页面将引导您选择安装位置和配置大小，并运行安装命令。如果您的主机或集群仅通过代理访问 Internet，请改为 link:../deploy/configure-proxy.html["使用代理部署"]。
 
-.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-3.png["三"] 连接数据源
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-3.png["三"] link:../data-sources/connect-data-source.html["连接数据源"]
 [role="quick-margin-para"]
-link:../data-sources/connect-data-source.html["连接数据源"] 开始扫描。AI Data Engine 对您指定的存储系统中的文件系统元数据进行编目。
+连接数据源以开始扫描。AI Data Engine 会对您连接的数据源的元数据进行编目。
 
-.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-4.png["四个"] 浏览您的数据
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-4.png["四个"] link:../investigate/understand-dashboard.html["浏览您的数据"]
 [role="quick-margin-para"]
-打开 link:../investigate/understand-dashboard.html["信息板"] 以查看存储优化见解，或转至 link:../investigate/investigate-data.html["调查"] 直接搜索和筛选您的元数据。
+打开仪表板以查看存储优化见解，或转至 link:../investigate/investigate-data.html["调查"] 直接搜索和筛选您的元数据。
 
-.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-5.png["五"] 创建策略
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-5.png["五"] link:../policies/create-policy.html["创建策略"]
 [role="quick-margin-para"]
-link:../policies/create-policy.html["将调查筛选器保存为策略"] 以监控一段时间内符合相同标准的文件。您可以配置策略以发送通知、永久删除匹配文件或跟踪结果。
+将调查筛选器保存为策略，以监控一段时间内符合相同条件的文件。您可以配置策略以发送通知、永久删除匹配文件或跟踪结果。
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-6.png["六"] link:../mcp/quick-start-mcp.html["可选：设置受管理的 AI 访问权限"]
+[role="quick-margin-para"]
+让 AI 客户端搜索您选择的集合中的元数据。高级用户可以搜索元数据并使用数据执行操作。

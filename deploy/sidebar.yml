@@ -5,8 +5,22 @@ entries:
 - title: 了解 AIDE 部署
   url: "/deploy/deployment-overview.html"
 - title: AIDE 要求
-  url: "/deploy/aide-requirements.html"
-- title: 部署 AIDE Lite
-  url: "/deploy/deploy-aide-lite.html"
-- title: 部署 AIDE Enterprise
-  url: "/deploy/deploy-enterprise.html"
+  entries:
+  - title: AIDE 部署要求
+    url: "/deploy/aide-requirements.html"
+  - title: AIDE 单节点部署先决条件
+    url: "/deploy/single-node-prerequisites.html"
+  - title: AIDE 多节点部署先决条件
+    url: "/deploy/multi-node-prerequisites.html"
+- title: 将 AIDE 作为单节点部署
+  url: "/deploy/deploy-aide-single-node.html"
+- title: 将 AIDE 部署为多节点部署
+  url: "/deploy/deploy-aide-multi-node.html"
+- title: 使用代理部署 AIDE
+  entries:
+  - title: 了解 AIDE 的代理
+    url: "/deploy/configure-proxy.html"
+  - title: 使用代理将 AIDE 部署为单节点部署
+    url: "/deploy/deploy-aide-single-node-proxy.html"
+  - title: 将 AIDE 部署为带代理的多节点部署
+    url: "/deploy/deploy-aide-multi-node-proxy.html"

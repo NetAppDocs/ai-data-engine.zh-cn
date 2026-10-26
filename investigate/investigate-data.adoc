@@ -27,7 +27,7 @@ summary: 使用调查视图可以浏览连接系统上的基于文件的存储�
 | 选项卡 | 请在需要时使用 | 更多信息 
 
 
-| *非结构化* | 在 NFS 和 SMB/CIFS 卷上查找冷数据、过时数据或基于文件的重复数据 | link:investigate-unstructured.html["调查非结构化数据"] 
+| *非结构化* | 跨 NFS 和 SMB 卷查找基于文件的冷数据、过时数据或重复数据 | link:investigate-unstructured.html["调查非结构化数据"] 
 
 
 | *结构化* | 识别占用存储空间的超大或未使用的数据库表 | link:investigate-structured.html["调查结构化数据"] 
@@ -45,6 +45,5 @@ summary: 使用调查视图可以浏览连接系统上的基于文件的存储�
 * link:investigate-unstructured.html["调查非结构化数据"]
 * link:investigate-structured.html["调查结构化数据"]
 * link:investigate-directories.html["调查目录"]
-* link:use-filters.html["使用筛选器"]
 * link:take-actions.html["对您的数据采取行动"]
 

@@ -1,0 +1,45 @@
+---
+sidebar: sidebar 
+permalink: mcp/quick-start-mcp.html 
+keywords: quick start, mcp, governed ai access, identity provider, data collection, ai client, entra id 
+summary: 通过准备 Microsoft Entra ID、将其连接到 AI Data Engine、为 MCP 配置数据收集以及连接并验证 AI 客户端，使用 AI Data Engine 设置受管控的 AI 访问。 
+---
+= 使用 AI Data Engine 进行受管 AI 访问的快速入门
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+使用 AI Data Engine（AIDE）设置受管理的 AI 访问，以便 AI 客户端可以通过模型上下文协议（MCP）搜索数据收集并标记文件。准备 MCP 主机和 Microsoft Entra ID，为 MCP 配置数据收集，并连接 AI 客户端。
+
+此快速入门假设您已经 link:../data-sources/connect-data-source.html["已连接数据源"]，并且 AI Data Engine 已对其进行了扫描和索引。MCP 服务器与 AI Data Engine 一起部署。您需要一个在您的 Microsoft Entra ID 租户中验证过的已注册 DNS 域。您使用的 AIDE 集群主机名必须在该域中。您还需要在 Microsoft Entra ID 中注册应用程序和授予同意的权限，或者需要 Entra ID 管理员为您完成 Entra ID 步骤。
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-1.png["一个"] link:prepare-mcp-host.html["准备 MCP 主机"]
+[role="quick-margin-para"]
+在下载 AI Data Engine 安装程序的系统中，运行 link:prepare-mcp-host.html#run-the-ingress-script["ingress 脚本"] 以设置证书和 AIDE 群集主机名。主机名必须在您的 Entra ID 租户中验证的域上。然后 link:prepare-mcp-host.html#verify-the-host["验证主机"]。
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-2.png["两个"] link:configure-entra-id-mcp.html["配置 Microsoft Entra ID（Entra ID 管理员）"]
+[role="quick-margin-para"]
+在 Microsoft Entra 管理中心，link:configure-entra-id-mcp.html#register-the-ai-data-engine-application["注册应用程序"] 为此 AI Data Engine 实例，并定义其应用程序 ID URI 和范围。然后 link:configure-entra-id-mcp.html#create-and-assign-the-power-user-app-role["创建高级用户应用角色"] 并将其分配给您的用户，并为您的 AI 客户端 link:configure-entra-id-mcp.html#add-redirect-uris-for-ai-clients["添加重定向 URI"]。记录租户 ID 和应用程序（客户端）ID。
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-3.png["三"] link:connect-entra-id-aide-mcp.html#set-up-an-identity-provider["将 Entra ID 连接到 AI Data Engine（AI Data Engine 管理员）"]
+[role="quick-margin-para"]
+在 NetApp Console 中，使用租户 ID 和应用程序（客户端）ID 在 AI Data Engine 中将 Microsoft Entra ID 添加为身份提供程序。确认提供程序已连接。
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-4.png["四个"] link:manage-data-collections.html#create-a-data-collection["可选：创建数据收集"]
+[role="quick-margin-para"]
+默认情况下，*所有文件* 集合存在，并包含每个扫描的文件。在 NetApp Console 中，创建更多集合，以便通过 MCP 服务器向 AI 客户端提供特定卷。
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-5.png["五"] link:manage-data-collections.html#configure-a-collection-for-mcp["为 MCP 配置集合"]
+[role="quick-margin-para"]
+在 NetApp Console 中，link:maintain-mcp-setup.html#enable-or-disable-the-connection-to-mcp["启用与 MCP 的连接"] 并确认 MCP 服务器正在运行。默认情况下，此连接处于禁用状态。然后，通过选择身份提供程序和高级用户范围为 MCP 配置集合，并为您的 AI 客户端生成 MCP 代码段。
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-6.png["六"] link:connect-ai-clients-mcp.html["连接 AI 客户端并验证连接"]
+[role="quick-margin-para"]
+在您的 AI 客户端中，添加代码段并使用 Microsoft Entra ID 登录。如果 AI 客户端无法连接，请确保link:maintain-mcp-setup.html#enable-or-disable-the-connection-to-mcp["*启用与 MCP 的连接*"]已打开。确认 AI Data Engine 工具可用，然后link:connect-ai-clients-mcp.html#sample-prompts["尝试示例提示"]。
+
+您在 Entra ID、NetApp Console 和 AI 客户端中输入的值必须完全匹配。要查看完整的清单，请参阅link:connect-entra-id-aide-mcp.html#verify-your-configuration["验证您的配置"]。
+
+.下一步
+link:maintain-mcp-setup.html["更新集合、身份提供程序、可以访问集合的作用域或 MCP 服务器设置"]。请查看link:mcp-tools-reference.html["用于 AI Data Engine 管理的 AI 访问的 MCP 工具"]和link:../release-notes/known-limitations.html["已知限制"]。

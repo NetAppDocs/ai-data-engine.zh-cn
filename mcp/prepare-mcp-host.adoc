@@ -1,0 +1,179 @@
+---
+sidebar: sidebar 
+permalink: mcp/prepare-mcp-host.html 
+keywords: mcp, governed ai access, ingress script, kubernetes ingress rule, mcp host, aide cluster host name, host name, verified domain, certificate, dns, entra id, 401 
+summary: 运行 ingress 脚本以设置 AI 客户端用于访问 AI Data Engine MCP 服务器的 AIDE 集群主机名和证书，并确保该主机名位于您的 Microsoft Entra ID 租户中已验证的域中。 
+---
+= 准备 MCP 主机以用于 AI Data Engine 管理的 AI 访问
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+设置 AI Data Engine（AIDE）集群主机名和证书，供 AI 客户端用于访问 AI Data Engine MCP 服务器。在配置 Microsoft Entra ID 之前完成此任务，因为 Entra ID 中的 Application ID URI 是基于 AIDE 集群主机名构建的。
+
+在此任务中，您运行脚本以设置域和证书，确保客户端计算机可以访问主机，然后验证主机。
+
+
+NOTE: Microsoft 可能会更改 Microsoft Entra ID UI，因此步骤和路径可能与您看到的不同。基本配置保持不变。
+
+
+
+[[before-you-begin]]
+== 开始之前
+
+* AI Data Engine 已部署。MCP 服务器与 AI Data Engine 一起部署，因此您无需单独安装。
+* 您可以访问 AI Data Engine 运行的集群。
+* 您有一个已在 Microsoft Entra ID 租户中验证的已注册 DNS 域名。AIDE 群集主机名必须在此域上。请参阅 <<verified-domain-requirement,已验证域要求>>。
+
+
+
+
+[[verified-domain-requirement]]
+== 已验证域要求
+
+AIDE 群集主机名必须位于贵公司 Microsoft Entra ID 租户中已验证的注册 DNS 域上。ingress 脚本设置的主机名将成为应用程序 ID URI 中的 `<host>`，因此在注册应用程序之前必须验证该域。
+
+AI Data Engine 使用 `\https://<host>/mcp/tools`作为您在 Microsoft Entra ID 中注册的应用程序的应用程序 ID URI。Microsoft Entra ID 仅在应用程序 ID URI 位于经过验证的域上时才接受该 URI。无法使用未经验证的域上的主机，例如 `.cluster.local`主机名。
+
+要检查哪些域已验证，请在 Microsoft Entra 管理中心中，转到 *Entra ID* > *域名*。
+
+
+
+[[run-the-ingress-script]]
+== 运行 ingress 脚本
+
+ingress 脚本设置以下项目，以便 AI 客户端可以从集群外部访问 MCP 服务器：
+
+* 证书
+* 集群主机名
+* 将集群主机名的流量路由到 MCP 服务器的 Kubernetes ingress 规则
+
+
+.步骤
+. 在您下载 AI Data Engine 安装程序的系统上，打开安装程序的脚本文件夹： `/tmp/installer/runbook/ingress-manager-scripts/scripts/`。ingress 脚本将作为安装程序的一部分下载。如果缺少文件夹，请参阅<<restore-the-ingress-script,还原 ingress 脚本>>。
+. 运行 ingress 脚本：
++
+[source, bash]
+----
+./ingress-manager.sh
+----
+. 记录脚本设置的主机名。您在应用程序 ID URI、作用域和 AI 客户端配置中将此主机名用作 `<host>`。
+
+
+
+NOTE: 脚本设置的主机名是 AIDE 集群的主机名。脚本完成后，您还可以在 AI Data Engine UI 中看到主机名。转到 *配置* > *MCP 集合* > *MCP 设置*，并查看 *MCP 主机名*。
+
+如果脚本创建自签名证书，则运行 AI 客户端的每台计算机都必须信任该证书。请参阅 <<make-the-host-reachable,使主机可从客户端计算机访问>>。
+
+
+
+[[restore-the-ingress-script]]
+=== 还原 ingress 脚本
+
+默认情况下，安装程序文件夹位于临时目录中。系统重新启动时，您的操作系统可能会删除临时目录。如果系统上不再有 scripts 文件夹，请再次下载并解压缩安装程序，然后运行脚本。
+
+.步骤
+. 在运行脚本的系统上，下载并解压缩安装程序：
++
+[source, bash]
+----
+curl -fsSL https://d13jb5dapseb36.cloudfront.net/aide/latest/aide-installer.tar.gz | tar -xzf - -C /tmp
+----
+. 打开 scripts 文件夹并运行 ingress 脚本：
++
+[source, bash]
+----
+cd /tmp/installer/runbook/ingress-manager-scripts/scripts/
+./ingress-manager.sh
+----
+
+
+要在重启后保留脚本，请将安装程序解压到重启时不会被清除的目录中。将 `/tmp`命令中和 `tar`命令中的 `cd`替换为该目录。
+
+
+
+[[make-the-host-reachable-from-client-machines]]
+[[make-the-host-reachable]]
+== 使主机可从客户端计算机访问
+
+运行 AI 客户端的每台机器都必须能够执行以下操作：
+
+* 通过 DNS 解析主机名。
+* 从您的企业网络或通过 VPN，通过 HTTPS 在端口 443 上访问主机。
+* 信任主机提供的证书。如果证书是自签名的，请将其作为受信任的证书安装在每台客户端计算机上。
+* 访问 Microsoft Entra ID 登录 (`login.microsoftonline.com`）。
+
+
+
+
+[[verify-the-host]]
+== 验证主机
+
+确认 MCP 服务器对 AIDE 集群主机名作出响应。MCP 服务器在一个众所周知的端点上发布元数据。该响应确认主机名、域和 MCP 服务器设置正确。
+
+.步骤
+. 从客户端计算机请求 MCP 服务器的已知端点。将 `<host>`替换为 AIDE 集群主机名：
++
+[source, bash]
+----
+curl -sk https://<host>/.well-known/oauth-protected-resource/mcp/tools
+----
+. 确认响应类似于以下示例。此示例显示了主机名 `aide-cluster.contoso.com`的命令和响应。
++
+[listing]
+----
+curl -sk https://aide-cluster.contoso.com/.well-known/oauth-protected-resource/mcp/tools | python3 -m json.tool
+{
+    "resource": "https://aide-cluster.contoso.com/mcp/tools",
+    "authorization_servers": [
+        "https://login.microsoftonline.com/7f3e2a91-4b6c-4d58-9a0e-2c81d5f6b347/v2.0"
+    ],
+    "scopes_supported": [
+        "https://aide-cluster.contoso.com/mcp/tools/power_users"
+    ],
+    "bearer_methods_supported": [
+        "header"
+    ],
+    "resource_name": "NetApp AI Data Engine MCP Server"
+}
+----
++
+在响应中，检查以下内容：
+
++
+** `resource` 是 `\https://<host>/mcp/tools`，如 `"resource": "https://aide-cluster.contoso.com/mcp/tools"`。这是您在 Microsoft Entra ID 中注册的应用程序 ID URI。
+** `authorization_servers` 指向您的 Microsoft Entra ID 租户，如 `https://login.microsoftonline.com/7f3e2a91-4b6c-4d58-9a0e-2c81d5f6b347/v2.0`中所示。
+** `scopes_supported` 包含主机名上的  `power_users` 作用域，如  `https://aide-cluster.contoso.com/mcp/tools/power_users` 所示。
+** `resource_name` 是 `NetApp AI Data Engine MCP Server`。
+
+
+. 可选：如需额外检查，请在无令牌的情况下请求 `\https://<host>/mcp/tools`：
++
+[source, bash]
+----
+curl -i https://<host>/mcp/tools
+----
++
+预期响应为  `401 Unauthorized`。由于此请求不会跳过证书验证，因此它也确认客户端计算机信任该证书。
+
+
+
+
+IMPORTANT: 仅 `401`响应并不能证明配置有效。如果之前配置了另一个入口，即使 MCP 服务器没有响应，它也可以返回 `401`。使用众所周知的端点响应来验证主机。
+
+.下一步
+link:configure-entra-id-mcp.html["配置 Microsoft Entra ID"]。
+
+
+
+[[related-information]]
+== 相关信息
+
+* link:quick-start-mcp.html["使用 AI Data Engine 进行受管 AI 访问的快速入门"]
+* link:configure-entra-id-mcp.html["为受管 AI 访问配置 Microsoft Entra ID"]
+* link:connect-entra-id-aide-mcp.html["将 AI Data Engine 连接到 Microsoft Entra ID"]
+* link:maintain-mcp-setup.html#review-mcp-server-settings["查看 MCP 服务器设置"]
+* link:../deploy/aide-requirements.html#networking-requirements["网络要求"]
+

@@ -1,8 +1,8 @@
 ---
 sidebar: sidebar 
 permalink: data-sources/connect-data-source.html 
-keywords: connect, data source, storage system, scanned systems, configuration, scan, NFS, CIFS, StorageGRID, database, file shares, console agent, scope, content intelligence, activate 
-summary: 通过完成数据源启用向导将存储系统连接到 AI Data Engine，然后激活扫描以开始元数据收集。 
+keywords: connect, data source, storage system, add system, scan, NFS, CIFS, SMB, StorageGRID, database, file shares, console agent, scope, activate, Kerberos 
+summary: 将数据源连接到 AI Data Engine 并配置要扫描的数据资源。 
 ---
 = 将数据源连接到 AI Data Engine
 :allow-uri-read: 
@@ -11,70 +11,137 @@ summary: 通过完成数据源启用向导将存储系统连接到 AI Data Engin
 
 
 [role="lead"]
-AI Data Engine 扫描您的存储系统以收集和分析元数据。要添加数据源，请完成引导向导。该向导会收集源类型的连接详细信息、扫描范围和设置。添加系统后，激活扫描以开始元数据收集。
+连接您希望 AI Data Engine（AIDE）分析的数据源，并选择要扫描的数据资源。AI Data Engine 扫描连接的数据源以收集元数据，连接过程取决于源类型。
 
-.开始之前
-* 您必须具有 _AI Data Engine administrator_ 权限才能在 AI Data Engine 中连接和配置数据源。
-* 在将存储系统添加到 AI Data Engine 之前，请先使用 Console Agent 在 NetApp Console 中发现这些系统。这适用于所有受支持的存储类型，包括本地 ONTAP 集群、Cloud Volumes ONTAP、Amazon FSx for NetApp ONTAP、Google Cloud NetApp Volumes 和 Azure NetApp Files。对于本地 ONTAP 集群，请参阅 NetApp Console 文档中的 link:https://docs.netapp.com/us-en/storage-management-ontap-onprem/task-discovering-ontap.html["发现本地 ONTAP 集群"]。直接发现不会启用 AI Data Engine 等数据服务。
+
+
+[[before-you-begin]]
+== 开始之前
+
+* 您必须具有 _AI Data Engine 管理员_ 权限才能连接和配置数据源。
+* 对于通过 NetApp Console 发现连接的系统，在将其添加到 AI Data Engine 之前，请使用 Console 代理在 NetApp Console 中发现存储系统。这适用于所有受支持的存储类型，包括本地 ONTAP 集群、Cloud Volumes ONTAP、Amazon FSx for NetApp ONTAP、Google Cloud NetApp Volumes 和 Azure NetApp Files。对于本地 ONTAP 集群，请参阅 NetApp Console 文档中的 link:https://docs.netapp.com/us-en/storage-management-ontap-onprem/task-discovering-ontap.html["发现本地 ONTAP 集群"]。直接发现不会启用 AI Data Engine 等数据服务。
 * 验证 AI Data Engine 访问数据源所需的网络连接是否已开放。请参阅 link:../deploy/aide-requirements.html["AI Data Engine 要求"]。
+* 要使用 Kerberos 身份验证扫描 SMB/CIFS 共享，请先完成 link:../administer/configure-kerberos-smb.html["AI Data Engine 中 SMB/CIFS 共享的 Kerberos 身份验证"] 中针对您的部署类型的过程。
 
 
 
 
 [[add-a-data-source]]
+[[add-data-source]]
 == 添加数据源
 
-.步骤
-. 从 AI Data Engine UI 中，选择 *配置*。
-. 在*已扫描系统*选项卡上，选择*添加系统*。
-. 选择源类型：
-+
-[cols="1,2"]
-|===
-| 源类型 | 问题描述 
-
-
-| *文件共享组* | 从云或本地添加 NFS 或 SMB/CIFS 文件共享作为命名组。 
-
-
-| *数据库* | 添加数据库服务器以扫描所选架构。 
-
-
-| *StorageGRID* | 使用 S3 协议从 NetApp StorageGRID 扫描数据。 
-|===
-. 输入源类型的连接详细信息：
-+
-[cols="1,3"]
-|===
-| 源类型 | 必填详细信息 
-
-
-| *文件共享组* | 共享组的名称，然后是共享主机和路径详细信息。 
-
-
-| *数据库* | 数据库类型、主机、端口和身份验证凭据。 
-
-
-| *StorageGRID* | 系统名称、S3 端点 URL 以及 S3 访问密钥和私密密钥。 
-|===
-. 查看您的选择，然后选择 *Confirm* 以添加数据源。
+将您的数据导入 AI Data Engine 以便进行分析。在 *数据源* 页面上使用 *添加系统* 来连接文件共享组、数据库服务器或 StorageGRID 系统。添加数据源后，配置扫描以指定 AI Data Engine 扫描其哪些资源以收集元数据。请参阅 <<configure-scanning>>。
 
 
 
+[[add-a-file-shares-group]]
+[[add-file-shares-group]]
+=== 添加文件共享组
 
-[[activate-scanning]]
-== 激活扫描
+将 NFS 或 SMB 共享作为一个命名系统引入 AI Data Engine，以便您可以将它们一起管理。创建组，添加共享，然后配置要扫描的共享。
 
-配置数据源后，扫描不会自动开始。您必须激活每个系统的扫描。
+[[add-file-shares-group-prerequisites]]
+.开始之前
+* 确定组的名称以及每个共享的主机和路径。
+* 验证 AI Data Engine 部署是否可以访问共享服务器。
+* 对于 NFS，配置 AI Data Engine 所需的导出访问权限。
+* 对于 SMB，准备读取共享所需的身份验证方法和访问权限。
+
 
 .步骤
-. 从 AI Data Engine UI 中，选择 *配置*。
-. 在*扫描的系统*选项卡上，找到要扫描的系统。
-. 选择*激活扫描*。
+. 在 AI Data Engine 用户界面中，选择*数据源*。
+. 选择*添加系统*，然后选择*添加文件共享组*。
+. 输入组的名称并继续。
+. 选择要添加的共享协议。
+. 输入要添加的共享并提交。
++
 
+NOTE: 对于使用 Kerberos 身份验证的 SMB/CIFS 共享，请输入共享路径，格式为 FQDN 后跟共享名称，例如 `filer.corp.example.com/sharename`，并将凭据留空。请参阅link:../administer/configure-kerberos-smb.html["AI Data Engine 中 SMB/CIFS 共享的 Kerberos 身份验证"]。
+
+. 查看每个共享的结果。请解决所有失败的共享，然后重新添加。
+. 为组配置扫描。请参见 <<configure-scanning>>。
+
+
+
+
+[[add-a-database-server]]
+[[add-database]]
+=== 添加数据库服务器
+
+将数据库服务器中的数据引入 AI Data Engine，以便对其进行扫描。连接数据库服务器，然后选择要扫描的架构。
+
+.开始之前
+* 了解数据库类型、服务器主机名或 IP 地址、端口和扫描帐户凭据。
+* 验证帐户是否可以读取要扫描的架构和表。
+* 验证 AI Data Engine 能否访问数据库服务器。
+
+
+.步骤
+. 在 AI Data Engine 用户界面中，选择*数据源*。
+. 选择*添加系统*，然后选择*添加数据库服务器*。
+. 选择数据库类型并输入连接详细信息。
+. 提交连接详细信息。
+. 为数据库服务器配置扫描。请参阅<<configure-scanning>>。
+
+
+
+
+[[add-storagegrid]]
+=== 添加 StorageGRID
+
+通过其 S3 端点将 StorageGRID 对象数据引入 AI Data Engine，以便您可以对其进行扫描。连接 StorageGRID，然后选择要扫描的存储桶。
+
+.开始之前
+* 准备系统名称、StorageGRID S3 端点 URL 以及 S3 访问密钥和机密密钥。
+* 验证 AI Data Engine 可以到达端点。
+
+
+.步骤
+. 在 AI Data Engine 用户界面中，选择*数据源*。
+. 选择 *Add system*，然后选择 *Add StorageGRID*。
+. 输入系统名称、S3 端点 URL、访问密钥和密钥。
+. 提交连接详细信息。
+. 配置 StorageGRID 系统的扫描。请参见 <<configure-scanning>>。
+
+
+
+
+[[configure-scanning]]
+== 配置扫描
+
+连接系统后，选择 AI Data Engine 扫描的系统数据资源，以便元数据收集涵盖您需要分析的数据。选择以下方法之一：
+
+* 在*数据源*页面上启用整个系统的自动扫描。AI Data Engine 扫描系统中所有现有和未来的资源。
+* 在系统的*查看详细信息*页面上启用对单个卷、共享、存储桶或架构的扫描。
+
+
+.步骤
+* 启用系统自动扫描：
++
+.. 在 AI Data Engine 用户界面中，选择*数据源*。
+.. 找到系统并切换自动扫描开关以启用自动扫描。
++
+
+NOTE: 要管理单个资源的扫描，必须关闭自动扫描。
+
+
+
+* 启用对单个资源的扫描：
++
+.. 在 AI Data Engine 用户界面中，选择*数据源*。
+.. 找到系统并选择*查看详细信息*。
+.. 在数据资源列表中，启用要包含的卷、共享、存储桶或架构的扫描。
+.. 返回*数据源*，找到系统，然后选择*激活扫描*。
+
+
+
+
+要了解更多资源级别的过程，请参阅 link:manage-data-sources.html["管理数据源"]。
 
 .结果
-"已扫描的系统"选项卡中的系统状态将更新，以显示扫描正在运行。要监控扫描进度并验证 AI Data Engine 是否正在索引数据资源，请参阅link:manage-data-sources.html["管理数据源"]和link:monitor-scanning-health.html["监控扫描运行状况"]。
+*数据源*页面上的系统状态更新，以显示扫描正在运行。此页面显示每个资源的扫描状态。
+
+如果扫描意外停止或暂停，请参阅 link:../administer/monitor-deployment-health.html["监控部署运行状况并调查问题"]。
 
 
 
@@ -83,6 +150,7 @@ AI Data Engine 扫描您的存储系统以收集和分析元数据。要添加�
 
 * link:manage-data-sources.html["管理数据源"]
 * link:../deploy/aide-requirements.html["AI Data Engine 要求"]
+* link:../administer/configure-kerberos-smb.html["AI Data Engine 中 SMB/CIFS 共享的 Kerberos 身份验证"]
 * link:../investigate/understand-dashboard.html["从仪表板评估存储利用率"]
-* link:monitor-scanning-health.html["监控扫描运行状况"]
+* link:../administer/monitor-deployment-health.html["监控部署运行状况并调查问题"]
 

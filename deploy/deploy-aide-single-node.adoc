@@ -1,0 +1,66 @@
+---
+sidebar: sidebar 
+permalink: deploy/deploy-aide-single-node.html 
+keywords: deploy, install, single-node, single node, wizard, NetApp Console, deployment wizard, onboarding 
+summary: 使用部署向导从 NetApp Console 将 AIDE 部署为单节点部署。 
+---
+= 将 AI Data Engine 作为单节点部署
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+使用部署向导从 NetApp Console 将 AI Data Engine （AIDE）部署为单节点部署。该向导将引导您选择安装位置、选择配置大小以及在目标主机上运行安装命令。
+
+
+IMPORTANT: 如果目标主机仅通过出站代理访问互联网，请改用link:deploy-aide-single-node-proxy.html["将 AI Data Engine 部署为带代理的单节点部署"]。
+
+.开始之前
+* 您在 NetApp Console 中拥有_组织管理员_或更高权限。
+* 您在目标主机上具有运行 install 命令的 sudo 或 root 权限。
+* 您的环境符合link:single-node-prerequisites.html["AIDE 单节点部署先决条件"]和link:aide-requirements.html["AIDE 要求"]中所述的所有先决条件。
+* 一个 NetApp Console 代理 https://docs.netapp.com/us-en/console-setup-admin/concept-agent-install-options.html#agent-console-deploy["已部署"^]，且可从 AI Data Engine 主机访问。要运行 install 命令，需要 Console 代理 IP。
+
+
+
+NOTE: 仅在首次安装 AIDE 时使用安装程序。请勿使用它来升级 AIDE。安装后，AIDE 操作员负责管理升级。有关升级的信息，请联系 NetApp 支持部门。
+
+.步骤
+. 在 NetApp Console 中，导航到 *AI data hub* > *AI Data Engine*。
++
+此时将显示 AI Data Engine 登录页面。
+
+. 选择*部署 AI Data Engine*。
+. 选择*单节点*部署选项，然后选择*下一步*。
+. 选择您的配置大小：
++
+** *Small*：建议用于最多包含约 2 亿个文件的环境。
+** *中等（默认）*：建议用于最多约 10 亿个文件的环境。
+** *Large*：建议用于最多包含约 30 亿个文件的环境。
++
+这些大小是推荐的基线，而非硬性限制。如果您的环境不在这些范围内，请参阅 link:aide-requirements.html#flexible-sizing-single-node["灵活调整大小准则"]。
+
+
+
+. 将向导中显示的安装命令复制到编辑器。
++
+向导将使用您选择的配置大小生成安装命令。
+
+. 在目标主机上运行 install 命令。
++
+如果安装程序询问是否配置出站代理，请输入 `n`。
+
++
+
+NOTE: 安装大约需要 45 分钟才能完成。超时和重试是正常的。
+
+. 回答安装程序的确认提示以继续安装。
++
+安装程序检测到运行 AI Data Engine NGINX ingress 的节点的 IP 地址，并要求您进行确认。按 Enter 键以保留显示的地址，或键入其他地址。使用可以从虚拟机外部访问的地址。请勿输入 Console 代理地址。
+
+. 监控进度屏幕，直到成功屏幕出现并确认 AIDE 安装已完成。
+
+
+.结果
+AI Data Engine 已部署并连接到 NetApp Console。您现在可以 link:../data-sources/connect-data-source.html["连接数据源"] 以开始扫描。

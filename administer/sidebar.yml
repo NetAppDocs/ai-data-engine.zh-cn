@@ -4,5 +4,15 @@ title: 管理
 entries:
 - title: 管理用户和角色
   url: "/administer/manage-users-roles.html"
-- title: 配置数据阈值
+- title: 配置数据分类阈值和访问扫描
   url: "/administer/configure-settings.html"
+- title: 用于 SMB/CIFS 共享的 Kerberos
+  url: "/administer/configure-kerberos-smb.html"
+- title: 在单个节点上配置 Kerberos
+  url: "/administer/configure-kerberos-smb-single-node.html"
+- title: 在多个节点上配置 Kerberos
+  url: "/administer/configure-kerberos-smb-multi-node.html"
+- title: 配置 NFS 的 Active Directory 身份映射
+  url: "/administer/configure-ad-nfs.html"
+- title: 监控部署运行状况
+  url: "/administer/monitor-deployment-health.html"

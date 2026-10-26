@@ -1,0 +1,306 @@
+---
+sidebar: sidebar 
+permalink: deploy/deploy-aide-single-node-proxy.html 
+keywords: deploy, install, single-node, single node, proxy, outbound proxy, forward proxy, wizard, NetApp Console, installer download, proxy password file, proxy CA certificate 
+summary: 当目标主机仅通过出站代理访问互联网时，从 NetApp Console 将 AIDE 部署为单节点部署。 
+---
+= 将 AI Data Engine 部署为带代理的单节点部署
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+当目标主机仅通过出站代理访问互联网时，从 NetApp Console 将 AI Data Engine（AIDE）部署为单节点部署。此过程包括单节点部署的每个步骤以及代理步骤。如果目标主机可以直接访问互联网，请改用 link:deploy-aide-single-node.html["将 AI Data Engine 作为单节点部署"]。
+
+有关支持的代理类型和完整的参数参考，请参见link:configure-proxy.html["了解 AI Data Engine 的代理"]。有关要在代理上允许的端点，请参见link:aide-requirements.html#outbound-internet-access["出站互联网接入"]。
+
+
+
+[[before-you-begin]]
+== 开始之前
+
+.权限和访问
+* 您在 NetApp Console 中拥有_组织管理员_或更高权限。
+* 您在目标主机上具有运行 install 命令的 sudo 或 root 权限。
+
+
+.环境
+* 您的环境符合link:single-node-prerequisites.html["AIDE 单节点部署先决条件"]和link:aide-requirements.html["AIDE 要求"]中所述的所有先决条件。
+* 目标主机上的操作系统存储库提供 link:single-node-prerequisites.html#operating-system-packages["操作系统包"] 中列出的软件包。如果您的环境需要，请验证您的包管理器是否具有适当的代理配置。
+
+
+.NetApp Console
+* 一个 NetApp Console 代理 https://docs.netapp.com/us-en/console-setup-admin/concept-agent-install-options.html#agent-console-deploy["已部署"^]，且可从 AI Data Engine 主机访问。要运行 install 命令，需要 Console 代理 IP。
+
+
+.代理
+* 您已配置代理以允许 link:aide-requirements.html#outbound-internet-access["出站互联网接入"] 中的端点。
+* 您知道代理主机、端口和方案(`http`或 `https`）。如果代理需要身份验证，您也知道用户名和密码。
+* 如果使用带有私有签名证书的 HTTPS 代理，则目标主机上的 CA 证书为 PEM 文件或  `.crt` 与  `.pem` 文件的平面目录。
+
+
+
+NOTE: 仅在首次安装 AIDE 时使用安装程序。请勿使用它来升级 AIDE。安装后，AIDE 操作员负责管理升级。有关升级的信息，请联系 NetApp 支持部门。
+
+
+
+[[what-the-installer-configures]]
+== 安装程序配置的内容
+
+在单节点部署中，AI Data Engine 拥有其安装所在的虚拟机。安装程序为代理配置 k3s 运行时和 AI Data Engine。它不会更改主机的代理配置，例如操作系统包管理器。安装程序执行以下操作：
+
+* 通过代理下载 k3s 安装脚本和二进制文件。它不会为 k3s 或 kubelet 提供系统范围的代理。
+* 配置 k3s 容器运行时以通过代理拉取镜像。
+* 将您随 `--proxy-ca-cert`提供的 CA 证书添加到 AI Data Engine 信任存储区。
+
+
+您无需配置 k3s 容器运行时或信任存储。
+
+
+
+[[copy-the-install-command]]
+== 复制 install 命令
+
+. 在 NetApp Console 中，导航到 *AI data hub* > *AI Data Engine*。
++
+此时将显示 AI Data Engine 登录页面。
+
+. 选择*部署 AI Data Engine*。
+. 选择*单节点*部署选项，然后选择*下一步*。
+. 选择您的配置大小：
++
+** *Small*：建议用于最多包含约 2 亿个文件的环境。
+** *中等（默认）*：建议用于最多约 10 亿个文件的环境。
+** *Large*：建议用于最多包含约 30 亿个文件的环境。
++
+这些大小是推荐的基线，而非硬性限制。如果您的环境不在这些范围内，请参阅 link:aide-requirements.html#flexible-sizing-single-node["灵活调整大小准则"]。
+
++
+向导将使用您选择的配置大小生成安装命令。您无需编辑命令即可设置大小。
+
+
+
+. 将向导中显示的安装命令复制到编辑器。
++
+install 命令从 `d13jb5dapseb36.cloudfront.net`下载安装程序并一步启动。该下载不使用代理。
+
++
+** 如果目标主机可以直接访问 `d13jb5dapseb36.cloudfront.net`，请跳过下一节并继续<<create-password-file-single-node,创建代理密码文件>>。按复制的方式运行 install 命令。安装程序将提示您输入代理设置。要改为在命令行上提供它们，请参见<<command-line-flags-single-node,使用命令行标志进行非交互式安装>>。
+** 如果目标主机仅通过代理访问互联网，则命令会在下载时停止。请先完成下一部分。
+
+
+
+
+
+
+[[download-the-installer-through-the-proxy]]
+[[download-installer-single-node]]
+== 通过代理下载安装程序
+
+请自行下载安装程序，然后从 `sudo ./install-lite.sh`开始运行 install 命令。
+
+. 将安装程序获取到目标主机上。使用您的环境允许的任何方法，然后将文件放在目标主机上。
++
+要通过代理从目标主机下载安装程序，请执行以下操作：
+
++
+[source, bash]
+----
+mkdir -p ~/aide && cd ~/aide
+curl -fsSL -x http://PROXY_HOST:PROXY_PORT \
+  https://d13jb5dapseb36.cloudfront.net/aide/latest/aide-installer.tar.gz -o aide-installer.tar.gz
+----
++
+如果代理需要用户名，请将 `--proxy-user USER`添加到 `curl`命令中。如果省略密码， `curl`会提示您输入密码，因此密码不会保存在 shell 历史记录中。
+
++
+** 如果您的代理侦听 HTTPS，请在 `-x`地址中使用 `https://`。
+** 如果您的代理使用私有签名的证书，请添加 `--proxy-cacert CA_FILE`，或者先将 CA 证书添加到目标主机信任存储中。
+** 如果您使用 HTTPS 代理和早于 8.3 的 `curl`版本，则下载可能会暂停约一分钟。Ubuntu 22.04 包含此类版本。等待其完成。
++
+或者，从其他设备下载 `\https://d13jb5dapseb36.cloudfront.net/aide/latest/aide-installer.tar.gz`，然后使用 `scp`或您常用的文件传输方法将其复制到目标主机。
+
+
+
+. 解压安装程序，并切换到安装程序文件夹：
++
+[source, bash]
+----
+tar -xzf aide-installer.tar.gz
+cd installer
+----
++
+从此安装程序文件夹内运行以下每个命令。文件夹中的  `version.txt` 文件显示安装程序内部版本。
+
+. 准备从 NetApp Console 复制的 install 命令。它以 `sudo bash -c '`开头，下载安装程序，然后使用您的参数运行 `./install-lite.sh`。因为您已经下载了安装程序：
++
+** 删除 `./install-lite.sh`之前的所有内容，以便命令以 `./install-lite.sh`开头。
+** 删除末尾的单引号(`'`）。
+** 在前面添加 `sudo`，因此命令以 `sudo ./install-lite.sh`开头。安装程序必须以 root 身份运行，删除 `bash -c`包装程序将删除提供它的 `sudo`。
+** 如果命令包含 `--no-proxy`，请将其删除。
++
+剩下的命令如下所示：
+
++
+[source, bash]
+----
+sudo ./install-lite.sh --account-id <account-id> --organization-id <organization-id> --agent-id <agent-id> --env <environment> --user-token <user-token> --cm-host <console-agent-ip> --catalog-endpoint <catalog-endpoint> --flavor <small|medium|large>
+----
++
+保持  `./install-lite.sh` 后面的每个参数与您复制的命令中显示的完全相同。安装程序将提示您输入代理设置。请参阅 <<interactive-setup-single-node,交互式引导设置>>。
+
+
+
+
+
+
+
+[[create-a-proxy-password-file]]
+[[create-password-file-single-node]]
+== 创建代理密码文件
+
+如果您的代理需要身份验证，并且您希望在不被提示的情况下提供密码（例如在自动部署中），请在运行安装程序之前创建密码文件。否则，请跳过此部分。安装程序会以隐藏输入的方式提示输入密码。
+
+此文件仅包含密码。按原样输入密码，无需对特殊字符进行百分号编码。
+
+以 root 身份运行以下命令。单节点安装命令使用 `sudo`运行，因此它可以读取 `/root`下的文件。
+
+[source, bash]
+----
+umask 077
+read -rs -p 'Proxy password: ' P && printf '%s' "$P" > /root/.aide-proxy-password; unset P; echo
+chmod 600 /root/.aide-proxy-password
+----
+安装完成后删除此文件。
+
+
+
+[[supply-the-proxy-settings]]
+== 提供代理服务器设置
+
+安装程序将提示您输入代理设置。运行从 NetApp Console 复制的 install 命令，并回答提示。有关必须在没有提示的情况下运行的自动部署，请参见 <<command-line-flags-single-node,使用命令行标志进行非交互式安装>>。
+
+
+
+[[use-the-interactive-guided-setup]]
+[[interactive-setup-single-node]]
+=== 使用交互式引导设置
+
+当您在没有 `--proxy-host`或 `--no-proxy`的终端中运行 install 命令时，安装程序会询问以下问题。如果将值作为参数传递，则安装程序不会再次请求它。
+
+[cols="2,3"]
+|===
+| 提示 | 要输入的内容 
+
+
+| `Configure outbound proxy? (y/N)` | 输入 `y`。 
+
+
+| 代理主机或 IP | 请输入代理主机名或 IPv4 地址，也可以使用端口 (`host:port`）。 
+
+
+| 代理方案(`https`或 `http`） | 输入您的代理侦听的协议。默认值为 `https`。 
+
+
+| 代理端口 | 输入代理端口。HTTPS 的默认值为 `443`，HTTP 的默认值为 `80`。 
+
+
+| 代理类型 | 按 Enter 接受默认值。 
+
+
+| 代理自身证书的 CA 证书（仅限 HTTPS，可选） | 输入 CA 文件或目录的路径。如果公共 CA 签署了代理证书，请按 Enter 键。 
+
+
+| 代理是否需要用户名和密码？（y/N） | 如果是，请输入用户名，然后输入两次密码。安装程序不会回显密码。 
+|===
+如果没有终端，安装程序将永远不会提示。传递 `--proxy-host`以使用代理，如果代理需要密码，则传递 `--proxy-password-file`。
+
+
+
+[[use-command-line-flags-for-setup]]
+[[command-line-flags-single-node]]
+=== 使用命令行标志进行设置
+
+对于必须在没有提示的情况下运行的自动部署或其他非交互式部署，请使用命令行标志。这些标志是可选的。安装程序会提示您输入未提供的任何代理信息。
+
+将代理参数添加到 install 命令末尾，在最后一个现有参数之后。
+
+* 如果运行从 NetApp Console 复制的 install 命令，请在引号内、右引号之前添加参数。
+* 如果您下载了安装程序并缩短了命令，请将参数添加到缩短后的命令末尾。
+
+
+如果命令包含 `--no-proxy`，请将其删除。保留 install 命令中的所有其他参数。有关每个参数的说明和默认值，请参见link:configure-proxy.html#proxy-parameters["代理配置参数"]。以下示例仅显示代理参数。
+
+.具有用户名和密码的 HTTP 代理
+[source, bash]
+----
+--proxy-host proxy.example.com \
+--proxy-port 3128 \
+--proxy-scheme http \
+--proxy-user svc-aide \
+--proxy-password-file /root/.aide-proxy-password
+----
+.具有私有签名证书且无身份验证的 HTTPS 代理
+[source, bash]
+----
+--proxy-host proxy.example.com \
+--proxy-port 8443 \
+--proxy-scheme https \
+--proxy-ca-cert /root/proxy-ca.pem
+----
+* 如果您的代理不需要身份验证，请省略 `--proxy-user`和 `--proxy-password-file`。
+* 如果指定  `--proxy-user` 而不指定  `--proxy-password-file`，则在从终端运行安装程序时，它会提示您输入密码。
+
+
+
+CAUTION: 使用 HTTP 代理时，代理用户名和密码将以明文形式发送。当代理需要身份验证时，请使用 HTTPS 代理。
+
+
+
+[[run-the-installation]]
+== 运行安装
+
+. 在目标主机上运行 install 命令。如果已下载安装程序，请从安装程序文件夹中运行命令。
++
+在安装程序下载任何内容之前，它会从目标主机检查代理是否响应、代理是否接受您的凭据，以及代理证书对于您选择的方案是否有效。如果检查失败，安装程序将停止并指出原因。
+
++
+
+NOTE: 安装大约需要 45 分钟才能完成。可能会发生超时和重试，这是正常的。
+
+. 如果未传递所有代理参数，请应答代理提示。请参阅 <<interactive-setup-single-node,交互式引导设置>>。
+. 回答安装程序的确认提示以继续安装。
++
+安装程序检测到运行 AI Data Engine NGINX ingress 的节点的 IP 地址，并要求您进行确认。按 Enter 键以保留显示的地址，或键入其他地址。使用可以从虚拟机外部访问的地址。请勿输入 Console 代理地址。
+
+. 监控进度屏幕，直到成功屏幕出现并确认 AIDE 安装已完成。
+
+
+.结果
+AI Data Engine 已部署并连接到 NetApp Console。您现在可以 link:../data-sources/connect-data-source.html["连接数据源"] 以开始扫描。
+
+
+
+[[check-the-proxy-after-installation]]
+[[check-proxy-single-node]]
+== 安装后检查代理
+
+AI Data Engine operator 记录其使用的代理。日志中从不包含密码。安装程序将自己的  `kubectl` 副本下载到  `/opt/netapp/aide/.aide-installer-tools`，并且不会将其添加到您的  `PATH` 中。k3s kubeconfig 只能由 root 读取。要检查代理，请在目标主机上运行以下命令：
+
+[source, bash]
+----
+sudo /opt/netapp/aide/.aide-installer-tools/kubectl --kubeconfig /etc/rancher/k3s/k3s.yaml -n aide logs deploy/aide-operator -c chart-fetcher | grep -m1 'proxy enabled'
+----
+该行显示代理端点、身份验证是否已启用以及 CA 证书是否已挂载。
+
+
+
+[[related-information]]
+== 相关信息
+
+* link:configure-proxy.html["了解 AI Data Engine 的代理"]
+* link:single-node-prerequisites.html["AIDE 单节点部署先决条件"]
+* link:aide-requirements.html["AIDE 要求"]
+* link:deploy-aide-single-node.html["将 AI Data Engine 作为单节点部署"]
+

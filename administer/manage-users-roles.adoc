@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: administer/manage-users-roles.html 
-keywords: roles, users, permissions, AI data engine administrator, AI data engine viewer 
+keywords: roles, users, permissions, ai data engine administrator, ai data engine viewer 
 summary: 通过为每个用户分配管理员或查看者角色来控制访问权限。了解这两种角色及其权限。 
 ---
 = 在 AI Data Engine 中管理用户和角色
@@ -11,7 +11,7 @@ summary: 通过为每个用户分配管理员或查看者角色来控制访问�
 
 
 [role="lead"]
-通过为用户分配管理员或查看者角色，控制每个用户可以在 AI Data Engine 中查看和执行的内容。在您的团队开始使用 AI Data Engine 之前，为每个用户分配与其所需访问级别相匹配的角色。
+通过为其分配管理员或查看者角色，控制每个用户可以在 AI Data Engine（AIDE）中查看和执行的操作。在您的团队开始使用 AI Data Engine 之前，请为每个用户分配与其所需访问级别相匹配的角色。
 
 您可以通过 NetApp Console 组织设置分配角色。AI Data Engine 支持两个角色。
 
@@ -74,8 +74,18 @@ AI Data Engine 查看器角色提供对 AI Data Engine 的有限访问权限。�
 | 操作：存档、复制、删除 | 是 | - 
 
 
+| 操作：清除重复项 | 是 | - 
+
+
 | 管理业务标签 | 是 | 是 
 |===
+
+
+[[roles-and-governed-ai-access]]
+== 角色和受管理的 AI 访问
+
+NetApp Console 角色控制谁可以在 AI Data Engine 中配置受管理的 AI 访问。它们不控制 AI 客户端用户可以搜索哪些集合。您授予每个集合的 Microsoft Entra ID 范围控制该访问权限。有关详细信息，请参阅 link:../mcp/configure-entra-id-mcp.html["为受管 AI 访问配置 Microsoft Entra ID"]。
+
 
 
 [[assign-a-role-to-a-user]]
@@ -92,7 +102,7 @@ AI Data Engine 查看器角色提供对 AI Data Engine 的有限访问权限。�
 
 
 . 选择组织、文件夹或项目，然后选择*数据服务*类别。
-. 分配 *AI Data Engine 管理员* 或 *AI Data Engine 查看器* 角色。
+. 分配 *AI Data Engine 管理员* 或 *AI Data Engine 查看者* 角色。
 . 保存更改。
 
 
@@ -105,4 +115,5 @@ AI Data Engine 查看器角色提供对 AI Data Engine 的有限访问权限。�
 
 * link:../investigate/take-actions.html["对您的数据采取行动"]
 * link:../policies/create-policy.html["创建策略"]
+* link:../mcp/manage-data-collections.html["管理数据收集"]
 

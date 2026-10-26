@@ -1,0 +1,149 @@
+---
+sidebar: sidebar 
+permalink: administer/configure-ad-nfs.html 
+keywords: active directory, nfs, uidNumber, gidNumber, global catalog, identity mapping, file owner, ldap, general settings 
+summary: 为 NFS 用户 ID 和组 ID 配置 Active Directory 映射。AI Data Engine 使用已解析的用户身份来显示 NFS 数据的文件所有者名称。 
+---
+= 在 AI Data Engine 中为 NFS 配置 Active Directory 身份映射
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+通过名称而不是数字 ID 来识别 NFS 文件的所有者。AI Data Engine (AIDE) 可以将 NFS 文件中的数字用户 ID (UID) 和组 ID (GID) 映射到 Active Directory 标识，并使用解析的用户标识来显示文件所有者名称。
+
+此映射不会对 AI Data Engine 到 NFS 存储进行身份验证。它将 AI Data Engine 在扫描期间找到的 ID 转换为 Active Directory 名称。
+
+
+
+[[before-you-begin]]
+== 开始之前
+
+.权限和访问
+* 您具有 _AI Data Engine 管理员_ 权限。
+
+
+.AI Data Engine 配置
+* 您有从 AI Data Engine 到您的 Active Directory 域控制器的 link:../deploy/aide-requirements.html#networking-requirements["已打开所需的端口"]。
+* 您有 link:configure-settings.html#find-access-risks-with-permission-scanning["已开启权限扫描"]。
+
+
+.Active Directory
+* 您有一个 Active Directory 帐户，AI Data Engine 可以使用该帐户查询用户和组属性。您在 AI Data Engine 中输入其用户名和密码。
+* 您拥有 Active Directory 域名以及 DNS 服务器的 IP 地址或 LDAP 服务器的 IP 地址和端口。
+* 您知道您的目录是否需要安全的 LDAP 连接。
+* 如果 AI Data Engine 查询全局编录，并且尚未将属性复制到全局编录，则您或您的 Active Directory 管理员具有 _Schema Admins_ 角色来进行架构更改。
+
+
+
+
+[[prepare-active-directory]]
+== 准备 Active Directory
+
+将 Active Directory 中的 UID 和 GID 属性与 NFS 存储中使用的数字 ID 匹配，以便 AI Data Engine 可以解析文件所有者。
+
+AI Data Engine 读取以下 Active Directory 属性：
+
+[cols="1,2,1"]
+|===
+| 属性 | 目的 | 必填项 
+
+
+| `uidNumber` | 用户的数字 UID。它必须与用户在 NFS 存储上的 UID 匹配。 | 是 
+
+
+| `gidNumber` | 组的数字 GID。它必须与组在 NFS 存储上的 GID 匹配。 | 是 
+
+
+| `mail` | 文件所有者的电子邮件地址。如果未设置此属性，所有者的电子邮件地址将显示为*不可用*。 | 否 
+|===
+在您希望 AI Data Engine 解析的用户上填充 `uidNumber`，并在组上填充 `gidNumber`。
+
+
+NOTE: 在组对象上设置 `gidNumber`。用户对象上的 `gidNumber`标识该用户的主要组。它不是 AI Data Engine 用于此查找的组属性。
+
+.步骤
+. 请验证要解析的每个用户都有一个 `uidNumber`值，并且每个组都有一个 `gidNumber`值。每个 UID 在用户之间必须是唯一的，并且每个 GID 在组之间必须是唯一的。用户和组可以具有相同的数值。
+. 如果 AI Data Engine 查询全局目录，并且属性尚未复制到该目录，则将 `uidNumber`和 `gidNumber`属性复制到该目录。此复制是整个林的一次性更改。您必须是 _Schema Admins_ 组的成员。
++
+.. 在域控制器上，打开 Active Directory 架构管理单元。
+.. 打开  `uidNumber` 属性的属性。
+.. 选择*将此属性复制到全局目录*。
+.. 对  `gidNumber` 属性重复此操作。
+
+
+
+
+
+CAUTION: 如果 AI Data Engine 查询全局目录，则身份查找不会返回未复制到全局目录的属性。对应的 ID 仍未解析。
+
+
+
+[[enable-active-directory-for-nfs]]
+== 为 NFS 启用 Active Directory
+
+将 AI Data Engine 连接到包含匹配 UID 和 GID 属性的 Active Directory 域，然后启用身份映射，以便扫描的 NFS 文件可以显示已解析的所有者名称。
+
+.步骤
+. 从 AI Data Engine UI 中，选择 *配置*。
+. 选择*常规设置*。
+. 在页面上，找到 *Active Directory* 并选择 *已启用*。
+. 输入 Active Directory 域的连接详细信息。选择 *DNS 服务器 IP 地址* 选项或 *LDAP 服务器 IP 地址* 选项。
++
+
+NOTE: 您在此处输入的凭据用于目录集成。它们独立于您为 SMB 归档目标提供的凭据。请参阅 link:../investigate/take-actions.html["对您的数据采取行动"]。
+
++
+[cols="1,3"]
+|===
+| 字段 | 问题描述 
+
+
+| *用户名* | AI Data Engine 用于查询用户和组属性的 Active Directory 帐户。以 `domain\user`或 `user@domain`的格式输入名称。 
+
+
+| *密码* | 帐户的密码。 
+
+
+| *DNS 服务器 IP 地址* | 解析 Active Directory 域的 DNS 服务器的 IP 地址。例如， `10.0.1.50`。选择此选项而不是 *LDAP 服务器 IP 地址*。 
+
+
+| *域名* | Active Directory 域的完全限定名称。例如， `corp.example.com`。此字段对于 DNS 和 LDAP 选项都是必需的。 
+
+
+| *LDAP 服务器 IP 地址* | 作为域控制器的 LDAP 服务器的 IP 地址。例如， `10.0.1.50`。选择此选项而不是 *DNS 服务器 IP 地址*。 
+
+
+| *LDAP 服务器端口* | LDAP 服务器的端口。默认值为 `389`。 
+
+
+| *LDAP 安全连接* | 选择此选项可通过安全连接连接到 LDAP 服务器。它可与 DNS 和 LDAP 选项一起使用。 
+|===
+. （可选）打开 *启用 NFS 身份映射*。
++
+启用 NFS 身份映射允许 AIDE 将数字 NFS 文件所有者 ID 解析为 Active Directory 所有者名称。仅当 Active Directory 包含您的 NFS 环境使用的 Unix UID/GID 属性时，才启用此选项。
+
++
+.. 输入 *UID 编号属性* 和 *GID 编号属性*，例如 `uidNumber`和 `gidNumber`。启用 NFS 身份映射时，这两个字段均为必填字段。所有者信息在后台解析。
+
+
+. 保存更改。
+
+
+.结果
+AI Data Engine 使用 Active Directory 来解析其扫描的 NFS 文件的所有者。
+
+AI Data Engine 异步解析身份。在 Active Directory 中启用映射或更新属性后，所有者名称可能不会立即显示。
+
+要检查结果，请在link:../investigate/investigate-unstructured.html["调查"]视图中打开文件详细信息，并验证文件所有者是否显示 Active Directory 用户名。
+
+
+
+[[related-information]]
+== 相关信息
+
+* link:../deploy/aide-requirements.html["AI Data Engine 要求"]
+* link:configure-kerberos-smb.html["AI Data Engine 中 SMB/CIFS 共享的 Kerberos 身份验证"]
+* link:configure-settings.html["配置数据分类阈值"]
+
