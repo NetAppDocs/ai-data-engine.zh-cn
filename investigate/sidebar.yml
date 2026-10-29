@@ -14,3 +14,5 @@ entries:
   url: "/investigate/investigate-directories.html"
 - title: 对数据采取操作
   url: "/investigate/take-actions.html"
+- title: 探索存储优化工作流程
+  url: "/investigate/storage-optimization-workflows.html"

@@ -13,6 +13,8 @@ summary: 定义 AI Data Engine 将哪些文件分类为冷数据或过时数据�
 [role="lead"]
 冷阈值和陈旧阈值可帮助您找到可以使用 AI Data Engine （AIDE）进行优化的存储。权限扫描和 Active Directory 集成可帮助您查找和了解访问风险。将它们设置为与贵组织的数据分类、保留和访问策略相匹配。
 
+image::aide_mo_ga_configuration_page.png[AI Data Engine 常规设置]
+
 
 
 [[before-you-begin]]
@@ -102,8 +104,7 @@ NOTE: 默认阈值是作为起点提供的产品默认值。它们不代表法�
 * link:../investigate/understand-dashboard.html["了解 AI Data Engine 仪表板"]
 * link:../investigate/investigate-directories.html["调查目录"]
 * link:../investigate/investigate-unstructured.html["调查非结构化数据"]
-* link:../get-started/storage-optimization-workflows.html["探索存储优化工作流程"]
-* link:../deploy/aide-requirements.html["AIDE 要求"]
+* link:../investigate/storage-optimization-workflows.html["探索存储优化工作流程"]
 * link:manage-users-roles.html["管理用户和角色"]
 * link:configure-ad-nfs.html["配置 NFS 的 Active Directory 身份映射"]
 

@@ -15,7 +15,7 @@ summary: 通过部署服务、连接数据源并开始首次调查，让 AI Data
 
 .image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-1.png["一个"] link:../deploy/aide-requirements.html["查看要求并选择部署类型"]
 [role="quick-margin-para"]
-查看要求，并link:../deploy/deployment-overview.html["了解部署类型"]决定是安装 AIDE 单节点还是多节点部署。
+查看要求和link:../deploy/deployment-overview.html["了解部署类型"]，以决定是安装 AIDE 单节点部署还是多节点部署。
 
 .image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-2.png["两个"] link:../deploy/deployment-overview.html["部署 AI Data Engine"]
 [role="quick-margin-para"]

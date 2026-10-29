@@ -107,6 +107,6 @@ summary: 使用元数据筛选器跨 NFS 和 SMB 卷查找文件并将其分类�
 * link:take-actions.html["对您的数据采取行动"]
 * link:../policies/create-policy.html["创建策略"]
 * link:../administer/configure-settings.html["配置数据分类阈值和访问扫描"]
-* link:../get-started/storage-optimization-workflows.html["探索存储优化工作流程"]
+* link:storage-optimization-workflows.html["探索存储优化工作流程"]
 * link:understand-dashboard.html["从仪表板评估存储利用率"]
 

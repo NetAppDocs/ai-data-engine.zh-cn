@@ -11,14 +11,14 @@ summary: 将数据源连接到 AI Data Engine 并配置要扫描的数据资源�
 
 
 [role="lead"]
-连接您希望 AI Data Engine（AIDE）分析的数据源，并选择要扫描的数据资源。AI Data Engine 扫描连接的数据源以收集元数据，连接过程取决于源类型。
+连接您希望 AI Data Engine（AIDE）分析的数据源，并选择要扫描的数据资源。AI Data Engine 扫描连接的数据源以收集元数据，连接过程取决于源类型。您可以在 NetApp Console 中完成这些任务。
 
 
 
 [[before-you-begin]]
 == 开始之前
 
-* 您必须具有 _AI Data Engine 管理员_ 权限才能连接和配置数据源。
+* 要连接和配置数据源，您必须在 NetApp Console 中具有 _AI Data Engine 管理员_ 角色。
 * 对于通过 NetApp Console 发现连接的系统，在将其添加到 AI Data Engine 之前，请使用 Console 代理在 NetApp Console 中发现存储系统。这适用于所有受支持的存储类型，包括本地 ONTAP 集群、Cloud Volumes ONTAP、Amazon FSx for NetApp ONTAP、Google Cloud NetApp Volumes 和 Azure NetApp Files。对于本地 ONTAP 集群，请参阅 NetApp Console 文档中的 link:https://docs.netapp.com/us-en/storage-management-ontap-onprem/task-discovering-ontap.html["发现本地 ONTAP 集群"]。直接发现不会启用 AI Data Engine 等数据服务。
 * 验证 AI Data Engine 访问数据源所需的网络连接是否已开放。请参阅 link:../deploy/aide-requirements.html["AI Data Engine 要求"]。
 * 要使用 Kerberos 身份验证扫描 SMB/CIFS 共享，请先完成 link:../administer/configure-kerberos-smb.html["AI Data Engine 中 SMB/CIFS 共享的 Kerberos 身份验证"] 中针对您的部署类型的过程。

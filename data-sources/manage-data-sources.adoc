@@ -20,12 +20,14 @@ summary: 监控扫描状态并管理连接的数据源，包括暂停扫描、�
 
 检查扫描状态以查看扫描进度并确定需要注意的资源。查看系统级进度和资源级详细信息，以区分仍在运行的扫描与暂停或有错误的扫描。
 
+image::aide_mo_ga_data_sources_page.png[AI Data Engine 数据源和扫描状态]
+
 如果扫描意外停止或暂停，请检查部署运行状况。请参阅 link:../administer/monitor-deployment-health.html["监控部署运行状况并调查问题"]。
 
 .步骤
 . 在 AI Data Engine 用户界面中，选择*数据源*。
 . 找到要查看的系统。
-. 选择系统行并打开详细信息视图。
+. 在系统行中选择*查看详细信息*。
 +
 详细信息视图显示：
 
@@ -50,7 +52,8 @@ summary: 监控扫描状态并管理连接的数据源，包括暂停扫描、�
 .步骤
 . 在 AI Data Engine 用户界面中，选择*数据源*。
 . 找到要暂停的系统。
-. 选择系统行以打开详细信息视图。
+. 在系统行中选择*查看详细信息*。
+. 选择数据资源旁边的操作菜单。
 . 选择 *暂停*。
 
 
@@ -64,7 +67,8 @@ summary: 监控扫描状态并管理连接的数据源，包括暂停扫描、�
 .步骤
 . 在 AI Data Engine 用户界面中，选择*数据源*。
 . 找到暂停的系统。
-. 选择系统行以打开详细信息视图。
+. 在系统行中选择*查看详细信息*。
+. 选择数据资源旁边的操作菜单。
 . 选择*Resume*。
 
 
@@ -79,7 +83,7 @@ summary: 监控扫描状态并管理连接的数据源，包括暂停扫描、�
 . 在 AI Data Engine 用户界面中，选择*数据源*。
 . 找到要扫描的系统。
 . 选择系统旁边的操作菜单。
-. 选择 *Scan all volumes*（在共享和存储桶的操作菜单中有一个等效选项）。
+. 选择*扫描所有卷*（在操作菜单中有一个等效的选项，用于共享、存储桶或架构）。
 
 
 
@@ -109,7 +113,7 @@ NOTE: 如果共享使用 Kerberos 身份验证，AI Data Engine 会使用 keytab
 .步骤
 . 在 AI Data Engine 用户界面中，选择*数据源*。
 . 找到 SMB 系统。
-. 选择系统行以打开详细信息视图。
+. 在系统行中选择*查看详细信息*。
 . 选择 *Edit CIFS credentials*。
 . 输入更新后的用户名和密码，然后选择*Save*。
 
@@ -124,7 +128,7 @@ NOTE: 如果共享使用 Kerberos 身份验证，AI Data Engine 会使用 keytab
 .步骤
 . 在 AI Data Engine 用户界面中，选择*数据源*。
 . 找到系统。
-. 选择系统行以打开详细信息视图。
+. 在系统行中选择*查看详细信息*。
 . 选择 *Enable access to DP volumes* 或 *Disable access to DP volumes*。
 
 
@@ -145,16 +149,16 @@ NOTE: 如果共享使用 Kerberos 身份验证，AI Data Engine 会使用 keytab
 
 
 
-[[deactivate-ai-data-engine-for-a-system]]
-== 停用系统的 AI Data Engine
+[[remove-ai-data-engine-for-a-system]]
+== 删除系统的 AI Data Engine
 
-当您不再需要 AI Data Engine 扫描某个系统时，请将其从主动扫描覆盖范围中移除。停用系统会停止所有扫描并保留其配置。要再次包含该系统，请在系统行上选择*激活扫描*。
+当您不再需要 AI Data Engine 扫描某个系统时，请将其从主动扫描覆盖范围中移除。停用系统会停止所有扫描并保留其配置。要再次添加系统，请选择系统行上的*激活扫描*。
 
 .步骤
 . 在 AI Data Engine 用户界面中，选择*数据源*。
 . 找到要停用的系统。
 . 选择系统旁边的操作菜单。
-. 选择*停用 AI Data Engine*。
+. 选择*移除系统*。
 
 
 

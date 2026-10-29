@@ -94,7 +94,8 @@ NetApp Console 角色控制谁可以在 AI Data Engine 中配置受管理的 AI 
 您可以在 NetApp Console 中分配角色，而不是在 AI Data Engine 本身中分配角色。
 
 .步骤
-. 从 NetApp Console，转到 *成员*。
+. 在 NetApp Console 中，选择 *管理 > 身份和访问*。
+. 转至 *成员*。
 . 执行以下操作之一：
 +
 ** 要添加新用户，请选择*添加用户*并输入用户的电子邮件地址。
@@ -102,8 +103,8 @@ NetApp Console 角色控制谁可以在 AI Data Engine 中配置受管理的 AI 
 
 
 . 选择组织、文件夹或项目，然后选择*数据服务*类别。
-. 分配 *AI Data Engine 管理员* 或 *AI Data Engine 查看者* 角色。
-. 保存更改。
+. 分配 *AI Data Engine 管理员* 或 *AI Data Engine 查看器* 角色。
+. 添加新角色。
 
 
 用户收到一封电子邮件邀请，接受后即可访问 AI Data Engine。

@@ -125,12 +125,9 @@ NetApp 尚未测试其他 MCP 客户端。如果您能将它们配置为连接�
 == 相关信息
 
 * link:manage-data-collections.html["管理数据收集"]
-* link:maintain-mcp-setup.html["维护 MCP 设置"]
 * link:quick-start-mcp.html["使用 AI Data Engine 进行受管 AI 访问的快速入门"]
 * link:prepare-mcp-host.html["准备 MCP 主机"]
 * link:configure-entra-id-mcp.html["为受管 AI 访问配置 Microsoft Entra ID"]
-* link:connect-entra-id-aide-mcp.html["将 AI Data Engine 连接到 Microsoft Entra ID"]
 * link:connect-ai-clients-mcp.html["将 AI 客户端连接到 AI Data Engine MCP 服务器"]
 * link:mcp-tools-reference.html["用于 AI Data Engine 管理的 AI 访问的 MCP 工具"]
-* link:../release-notes/known-limitations.html["已知限制"]
 

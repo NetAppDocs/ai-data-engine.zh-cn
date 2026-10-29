@@ -357,7 +357,5 @@ TIP: 搜索筛选条件包括文件名前缀、文件类型和所有者。如果
 * link:prepare-mcp-host.html["准备 MCP 主机"]
 * link:manage-data-collections.html["管理数据收集"]
 * link:maintain-mcp-setup.html["维护 MCP 设置"]
-* link:configure-entra-id-mcp.html["为受管 AI 访问配置 Microsoft Entra ID"]
-* link:connect-entra-id-aide-mcp.html["将 AI Data Engine 连接到 Microsoft Entra ID"]
 * link:../release-notes/known-limitations.html["已知限制"]
 

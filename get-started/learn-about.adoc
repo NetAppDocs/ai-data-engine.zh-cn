@@ -80,5 +80,5 @@ AI Data Engine 扫描您连接的受支持数据源。有关详细信息，请�
 * link:architecture.html["AI Data Engine 架构"]
 * link:quick-start.html["快速入门"]
 * link:../mcp/learn-about-mcp.html["了解受管理的 AI 访问"]
-* link:storage-optimization-workflows.html["探索存储优化工作流程"]
+* link:../investigate/storage-optimization-workflows.html["探索存储优化工作流程"]
 

@@ -16,8 +16,6 @@ indexpage:
       url: "/get-started/architecture.html"
     - title: 快速入门
       url: "/get-started/quick-start.html"
-    - title: 探索存储优化工作流程
-      url: "/get-started/storage-optimization-workflows.html"
     - title: 新增功能
       url: "/whats-new.html"
     - title: 已知限制
@@ -46,6 +44,8 @@ indexpage:
       url: "/investigate/investigate-data.html"
     - title: 对数据采取操作
       url: "/investigate/take-actions.html"
+    - title: 探索存储优化工作流程
+      url: "/investigate/storage-optimization-workflows.html"
   - title: 策略和操作
     links:
     - title: 创建策略

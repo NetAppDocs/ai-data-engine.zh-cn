@@ -127,6 +127,5 @@ link:manage-data-collections.html["管理数据收集"] 和 link:connect-ai-clie
 * link:configure-entra-id-mcp.html["为受管 AI 访问配置 Microsoft Entra ID"]
 * link:manage-data-collections.html["管理数据收集"]
 * link:connect-ai-clients-mcp.html["将 AI 客户端连接到 AI Data Engine MCP 服务器"]
-* link:maintain-mcp-setup.html["维护 MCP 设置"]
 * link:../release-notes/known-limitations.html["已知限制"]
 

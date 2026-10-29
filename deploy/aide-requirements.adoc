@@ -471,6 +471,4 @@ NOTE: 要扩展超过 60 亿个文件，请联系您的 NetApp 代表以获取�
 * link:deployment-overview.html["AIDE 部署概述"]
 * link:single-node-prerequisites.html["AIDE 单节点部署先决条件"]
 * link:multi-node-prerequisites.html["AIDE 多节点部署先决条件"]
-* link:deploy-aide-single-node.html["将 AI Data Engine 作为单节点部署"]
-* link:deploy-aide-multi-node.html["将 AI Data Engine 部署为多节点部署"]
 
