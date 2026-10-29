@@ -67,7 +67,7 @@ MCP 标签操作有限:: AI 客户端无法列出具有标记的文件，并且�
 [[related-information]]
 == 相关信息
 
-* link:whats-new.html["新增功能"]
+* link:../whats-new.html["新增功能"]
 * link:../deploy/deployment-overview.html["部署概述"]
 * link:../investigate/take-actions.html["对您的数据采取行动"]
 * link:../mcp/learn-about-mcp.html["了解受管理的 AI 访问"]
