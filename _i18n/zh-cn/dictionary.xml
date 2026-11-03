@@ -148,7 +148,6 @@
   <block id="2660064e68655415da2628c2ae2f7592" category="cell">小型</block>
   <block id="c74d97b01eae257e44aa9d5bade97baf" category="cell">16</block>
   <block id="7fffe4f81cc10365684f8c3ef5dfc752" category="cell">64 GB</block>
-  <block id="47a5e6e39f64ff5d5dfb25da1aa3f3f2" category="cell">500 GB</block>
   <block id="b7bc1c544eac128f494cbef4dde51844" category="cell">8,000</block>
   <block id="253904cf11e154c1467da791e2916dff" category="cell">1,000 MB/s</block>
   <block id="542a51a19678b099661225e50ca14113" category="cell">1 GbE</block>
@@ -156,19 +155,16 @@
   <block id="87f8a6ab85c9ced3702b4ea641ad4bb5" category="cell">中</block>
   <block id="6364d3f0f495b6ab9dcf8d3b5c6e0b01" category="cell">32</block>
   <block id="da41e52384d87f5c6c3e5e945da60a14" category="cell">128 GB</block>
-  <block id="4399cdb8f35c7f54994fbd6ad16ae51d" category="cell">2 TB</block>
   <block id="29ca150c07f43a7c676ecb487e3b8100" category="cell">12,000</block>
   <block id="37b2db17d6593a3788376bf9bb6c1535" category="cell">1,500 MB/s</block>
   <block id="8452946a913c5da5d0753b575bc8e7b6" category="cell">10 亿</block>
   <block id="3a69b34ce86dacb205936a8094f6c743" category="cell">大型</block>
   <block id="26657d5ff9020d2abefe558796b99584" category="cell">96</block>
   <block id="a10c56d6d6012a90b60e77f2248ee70f" category="cell">192 GB</block>
-  <block id="ab4bf7c1be6270d2b6e2a29d2048d9ba" category="cell">6 TB</block>
   <block id="5fd87da18bd5a2e29a0cc852c332a1ba" category="cell">16,000</block>
   <block id="97fcefbae965abf290381c16b678b7ec" category="cell">2,000 MB/s</block>
   <block id="f813d4c41b3987dfffdcc0cea30c64cf" category="cell">10 GbE</block>
   <block id="68c08a4d5037c95bc8fba88bfb68be34" category="cell">30亿</block>
-  <block id="8d13605af92cc217c85c4ad45d6f7c6e" category="admonition">建议对所有部署规模使用 NVMe SSD 或其他固态存储。此表中的磁盘值仅反映 AIDE 数据卷存储。如果操作系统、k3s 运行时和 AIDE 数据均共享单个磁盘，请在所选规模的磁盘值基础上额外增加约 65 GB。例如，单个磁盘上的小型部署总共需要约 565 GB。</block>
   <block id="f8a25fbf01ad745086d3090cb86949e9" category="inline-xref">小型、中型和大型配置</block>
   <block id="5616873f83786e41d208235efcb21dfa" category="list-text">规模估算建议的依据</block>
   <block id="b3175af68c1f955a338904f52f52c31b" category="list-text">*文件和目录总数*：要编目的对象总数是计算和存储需求的主要驱动因素。对象数量越多，所需的内存、CPU 和存储也越多。</block>
@@ -1085,7 +1081,6 @@
   <block id="62fb94264e63c99b6666c69cf2336fee" category="inline-link-macro">AIDE 单节点部署先决条件</block>
   <block id="a6dbd43ac79f857e6acf2b98ffe1bdb5" category="paragraph">您提供 Linux VM，AI Data Engine 会自动配置其他所有内容，包括 k3s。您无需设置或管理 Kubernetes。有关主机准备、磁盘空间和防火墙要求，请参见 <block ref="30378152137780b1343abd950399cc99" category="inline-link-macro-rx"></block>。</block>
   <block id="082e9f9f9eac49431c9dd52aa65a3016" category="paragraph">这些大小是建议的基线配置，针对三到四天的初始扫描窗口进行了优化，而不是硬性限制。有关这些数字的驱动因素以及如何超越这些数字，请参阅 <block ref="d9273ec958faaa17b85637984eec7c24" category="inline-xref-macro-rx"></block>。</block>
-  <block id="2ef570b365e646b9e4e14ea0f70de151" category="admonition">对单节点部署上的 AIDE 数据卷使用块存储，而不是 NFS。NFS 支持的存储可能会导致性能不佳。</block>
   <block id="8e03e3677d8c961349ada429230ab481" category="paragraph"><block ref="cbc71e6481fe1bee8d9b47676272cf81" category="inline-xref-macro-rx"></block> 是三到四天初始扫描窗口的推荐基线，而不是软件强制执行的硬性限制。</block>
   <block id="d87d6d74f181d103fcb7638f69d559ab" category="list-text">如果您配置的规模过小或超出了部署规模，会发生什么</block>
   <block id="fec4f790c8dff202a3bad5623025c173" category="paragraph">每个配置都针对特定的文件数量和扫描速率进行了调整。如果您的环境超出了配置支持的范围，则可能会出现以下情况：</block>
@@ -1390,7 +1385,6 @@
   <block id="3a28817f02c31eee865bf9435ed27b5b" category="cell">16 至 96 vCPU，64 至 192 GB RAM</block>
   <block id="e2b4c11471f615af6e4bd33fc57291a3" category="cell">32 至 64 vCPU，每个节点 128 至 256 GB RAM</block>
   <block id="8c4aa541ee911e8d80451ef8cc304806" category="cell">存储</block>
-  <block id="a4e62e78fb44c7bcc4cab6197e7df01e" category="cell">500 GB 至 6 TB SSD 块存储、8,000 至 16,000 IOPS、1,000 至 2,000 MB/s 吞吐量</block>
   <block id="70ff3d7c57709db6606f29447ca330d4" category="cell">4 至 24 TB 总集群容量，每个节点 8,000 至 16,000 IOPS，每个节点 1,000 至 2,000 MB/s 吞吐量</block>
   <block id="23316bfbb81577bbaa968ba437e38525" category="cell">1 GbE（大型推荐 10 GbE）</block>
   <block id="f89a3dbc6da2210d010dec2e800d1634" category="cell">1 到 10 GbE</block>
@@ -2455,4 +2449,11 @@
   <block id="ce1ff4929e931e0a9e296c5119ebe35f" category="paragraph">模型上下文协议（MCP）是一个开放标准，允许 AI 客户端连接到外部数据源和工具。AI Data Engine 提供了一个名为受管访问网关的 MCP 服务器，因此 AI 客户端可以查询 AI Data Engine 元数据目录，而不是直接访问您的存储系统。</block>
   <block id="b3f8a213ee90b07430fa6544a953258e" category="list-text">*发送电子邮件通知*：向您指定的收件人发送电子邮件通知，并允许您配置通知间隔。</block>
   <block id="0fc062c582fefae15df8a053a39add04" category="list-text">选择操作*发送电子邮件通知*，选择通知间隔，然后输入收件人电子邮件地址。</block>
+  <block id="93350292e2f2688c52973eee60d86c4d" category="cell">565 GB ^1^</block>
+  <block id="911b65193cfad86c49e96387ab377b25" category="cell">2,065 GB ^1^</block>
+  <block id="cc4e0bff936f020bbb53095ddd630797" category="cell">6,065 GB ^1^</block>
+  <block id="d69ec7ac138731ff864db968b49d9267" category="inline-link-macro">单节点先决条件中的磁盘空间</block>
+  <block id="98671823854fbaa022d36d4b45c170b1" category="paragraph">^1^ 磁盘值是操作系统、k3s 运行时和 AIDE 数据共享单个磁盘时所需的最小可用空间。它包括操作系统、k3s、kubelet 和日志的 65 GB，加上 AIDE 数据卷（小型为 500 GB，中型为 2,000 GB，大型为 6,000 GB）。如果这些组件位于单独的磁盘上，请参阅 <block ref="c8a768aed5d15586e7b257318c3f6542" category="inline-link-macro-rx"></block>。</block>
+  <block id="1d35cbf08d110ca820c6fb072aa6eaad" category="admonition">建议对所有部署规模使用 NVMe SSD 或其他固态存储。对单节点部署上的 AIDE 数据卷使用块存储，而不是 NFS。NFS 支持的存储可能会导致性能不佳。</block>
+  <block id="3921920d773e0773220648a61f30aadd" category="cell">565 GB 至 6,065 GB SSD 块存储、8,000 至 16,000 IOPS、1,000 至 2,000 MB/s 吞吐量</block>
 </blocks>
