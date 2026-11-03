@@ -41,6 +41,7 @@ summary: 当您的集群和安装程序主机仅通过出站代理访问互联�
 * 您已配置代理以允许 link:aide-requirements.html#outbound-internet-access["出站互联网接入"] 中的端点。
 * 您知道代理主机、端口和方案(`http`或 `https`）。如果代理需要身份验证，您也知道用户名和密码。
 * 如果您使用带有私有签名证书的 HTTPS 代理，则在安装程序主机上应具有作为 PEM 文件的 CA 证书，或者是包含 `.crt`和 `.pem`文件的平面目录。
+* 如果使用 TLS 检查代理，则在安装程序主机上具有相同格式的检查 CA 证书。安装程序需要它。
 
 
 
@@ -68,6 +69,7 @@ NOTE: 仅在首次安装 AIDE 时使用安装程序。请勿使用它来升级 A
 * 节点必须通过代理访问 link:aide-requirements.html#outbound-internet-access["出站互联网接入"] 中列出的 NetApp 容器注册表主机和映像层存储桶。
 * 将集群内部地址和节点地址排除在代理之外。
 * 如果使用带有私有签名证书的 HTTPS 代理，则节点还必须信任代理 CA 证书。
+* 如果使用 TLS 检查代理，则每个节点上的受信任 CA 证书必须包含代理的检查 CA 证书。
 
 
 这些步骤取决于您的 Kubernetes 发行版。请参见您的发行版文档。
@@ -220,10 +222,10 @@ chmod 600 $HOME/.aide-proxy-password
 | 代理端口 | 输入代理端口。HTTPS 的默认值为 `443`，HTTP 的默认值为 `80`。 
 
 
-| 代理类型 | 按 Enter 接受默认值。 
+| 代理类型 | 输入 `r`以使用常规正向代理，或输入 `t`以使用 TLS 检查代理。按 Enter 接受默认值 `r`。 
 
 
-| 代理自身证书的 CA 证书（仅限 HTTPS，可选） | 输入 CA 文件或目录的路径。如果公共 CA 签署了代理证书，请按 Enter 键。 
+| 代理自身证书的 CA 证书（仅限 HTTPS，可选） | 输入 CA 文件或目录的路径。如果公共 CA 签署了代理证书，请按 Enter。对于 TLS 检查代理，请输入检查 CA 证书的路径。此为必填项。 
 
 
 | 代理是否需要用户名和密码？（y/N） | 如果是，请输入用户名，然后输入两次密码。安装程序不会回显密码。 
@@ -262,6 +264,15 @@ chmod 600 $HOME/.aide-proxy-password
 --proxy-port 8443 \
 --proxy-scheme https \
 --proxy-ca-cert $HOME/proxy-ca.pem
+----
+.TLS 检验代理
+[source, bash]
+----
+--proxy-host proxy.example.com \
+--proxy-port 3128 \
+--proxy-scheme http \
+--proxy-type t \
+--proxy-ca-cert $HOME/inspection-ca.pem
 ----
 * 如果您的代理不需要身份验证，请省略 `--proxy-user`和 `--proxy-password-file`。
 * 如果指定  `--proxy-user` 而不指定  `--proxy-password-file`，则在从终端运行安装程序时，它会提示您输入密码。

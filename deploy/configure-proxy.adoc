@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: deploy/configure-proxy.html 
-keywords: proxy, outbound proxy, forward proxy, HTTPS proxy, proxy certificate, proxy authentication, install, proxy host, proxy port, allowlist, CONNECT, installer download, container runtime 
+keywords: proxy, outbound proxy, forward proxy, HTTPS proxy, TLS inspection, TLS-inspecting proxy, proxy certificate, proxy authentication, install, proxy host, proxy port, allowlist, CONNECT, installer download, container runtime 
 summary: 了解 AI Data Engine 如何使用正向代理，以及它支持哪些代理类型和参数。 
 ---
 = 了解 AI Data Engine 的代理
@@ -13,7 +13,7 @@ summary: 了解 AI Data Engine 如何使用正向代理，以及它支持哪些�
 [role="lead"]
 如果您的 AI Data Engine（AIDE）主机或集群无法直接访问互联网，请配置正向代理，以便安装程序和 AI Data Engine 可以下载组件、拉取容器映像并向 NetApp Console 注册。单节点和多节点部署的代理选项是相同的。准备和运行安装的步骤各不相同，因此每种部署类型都有自己的工作流程。
 
-代理设置仅适用于 k3s 运行时和 AI Data Engine，而不适用于主机系统。
+安装程序不会为主机上的其他软件配置代理，例如包管理器。对于单节点部署，安装程序会为 k3s 和 AI Data Engine 配置代理，并将您随 `--proxy-ca-cert`提供的 CA 证书添加到主机信任存储中。对于多节点部署，安装程序仅配置 AI Data Engine 工作负载。您需要在每个节点上配置容器运行时代理和证书信任。
 
 
 
@@ -22,7 +22,7 @@ summary: 了解 AI Data Engine 如何使用正向代理，以及它支持哪些�
 
 每种部署类型都有自己的主题，其中包含从准备环境到运行安装程序的完整过程。
 
-* link:deploy-aide-single-node-proxy.html["将 AI Data Engine 部署为带代理的单节点部署"]：安装程序为 k3s 运行时和 AI Data Engine（包括其信任存储）配置代理。
+* link:deploy-aide-single-node-proxy.html["将 AI Data Engine 部署为带代理的单节点部署"]：安装程序为 k3s 运行时和 AI Data Engine 配置代理，并将您提供的 CA 证书添加到信任存储区。
 * link:deploy-aide-multi-node-proxy.html["将 AI Data Engine 部署为带代理的多节点部署"]：在运行安装程序之前，请在每个节点上配置容器运行时代理和 CA 证书信任。
 
 
@@ -58,11 +58,35 @@ summary: 了解 AI Data Engine 如何使用正向代理，以及它支持哪些�
 
 
 | HTTPS 正向代理 | AI Data Engine 通过 TLS 连接到代理。如果专用证书颁发机构（CA）对代理证书进行了签名，您需要提供 CA 证书。 | 无，或 HTTP 基本身份验证（用户名和密码） 
+
+
+| TLS 检验代理 | 代理解密 HTTPS 流量，并使用其自己的检查 CA 重新签名每个目的地的证书。设置 `--proxy-type t`并使用 `--proxy-ca-cert`提供检查 CA 证书。代理可以侦听 HTTP 或 HTTPS。 | 无，或 HTTP 基本身份验证（用户名和密码） 
 |===
 您可以通过主机名或 IPv4 地址来寻址代理。
 
 
-IMPORTANT: AI Data Engine 支持使用 HTTP `CONNECT` 隧道连接的标准转发代理，包括 HTTPS 目的地。如果您的代理检查 TLS 流量，请将 link:aide-requirements.html#outbound-internet-access["出站互联网接入"] 中的端点免于检查，包括安装程序下载主机。不支持 TLS 检查代理和其他一些代理功能。请参阅 link:../release-notes/known-limitations.html["已知限制"]。
+
+[[supported-proxy-types]]
+== 支持的代理类型
+
+AI Data Engine 支持两种代理类型。使用 `--proxy-type`设置类型。
+
+[cols="2,3,3"]
+|===
+|  | 常规正向代理 (`r`） | TLS 检查代理 (`t`） 
+
+
+| 如何处理 HTTPS 流量 | 通过 HTTP `CONNECT` 建立隧道连接，并且不会更改目标证书。 | 解密 HTTPS 流量并使用代理的检查 CA 对每个目标的证书进行重新签名。 
+
+
+| `--proxy-ca-cert` | 仅当代理本身使用 HTTPS 且其证书由私有 CA 签名时才需要。 | 必需。提供代理用于检查的 CA 证书。如果省略它，则安装程序会在建立任何网络连接之前拒绝该命令。 
+
+
+| `--proxy-type` | `r` (默认) | `t` 
+|===
+TLS 检查代理与 HTTPS 代理不同。HTTPS 代理是您通过 TLS 连接的代理(`--proxy-scheme https`）。TLS 检查代理是重新签名您通过其到达的目标的证书的代理。TLS 检查代理可以使用任一方案。
+
+某些其他代理功能不受支持。请参阅link:../release-notes/known-limitations.html["已知限制"]。
 
 安装程序为每个互联网目的地和每个 AI Data Engine 组件使用一个代理。代理设置在安装过程中进行设置。
 
@@ -86,7 +110,17 @@ IMPORTANT: AI Data Engine 支持使用 HTTP `CONNECT` 隧道连接的标准转�
 | `--proxy-scheme <http|https>` | `https` | 用于连接到代理服务器本身的协议。这不是代理到达的目的地的方案。大多数正向代理监听纯 HTTP，因此请为它们传递 `--proxy-scheme http`。 
 
 
-| `--proxy-ca-cert <path>` | 无 | 包含签署代理证书的 CA 证书的 PEM 文件或 `.crt`和 `.pem`文件的平面目录的路径。安装程序读取目录而不递归到子目录中，并将文件合并到一个捆绑包中。对于证书由私有 CA 签名的 HTTPS 代理是必需的。不与 HTTP 代理一起使用。 
+| `--proxy-ca-cert <path>` | 无  a| 
+包含代理的 CA 证书的 PEM 文件或 `.crt`和 `.pem`文件的扁平目录的路径。安装程序读取目录而不递归到子目录，并将文件合并到一个捆绑包中。
+
+在以下情况下需要执行此操作：
+
+* 您使用证书由专用 CA 签名的 HTTPS 代理。提供已签署代理证书的 CA 证书。
+* 您使用 TLS 检查代理(`--proxy-type t`）。提供代理用于检查的 CA 证书。
+
+
+请勿为通过 HTTP 连接的常规代理 (`--proxy-type r`）指定它 (`--proxy-scheme http`）。没有要验证的代理证书，因此安装程序不使用 CA 证书。
+
 
 
 | `--proxy-user <user>` | 无 | 基本身份验证的用户名。使用 HTTP 代理时，安装程序会警告凭据以未加密形式传输到代理。需要密码，通过 `--proxy-password-file`提供或在提示符处输入。 
@@ -95,7 +129,7 @@ IMPORTANT: AI Data Engine 支持使用 HTTP `CONNECT` 隧道连接的标准转�
 | `--proxy-password-file <path>` | 无 | 指向仅包含代理密码的本地文件的路径，其权限设置为 `0600`或 `0400`。如果省略此项，安装程序将提示输入密码（隐藏输入）。 
 
 
-| `--proxy-type <r>` | `r` | 代理类型。 `r` 是常规正向代理，并且是默认设置。请勿更改。不支持 TLS 检查代理。 
+| `--proxy-type <r|t>` | `r` | 代理类型。 `r` 是常规正向代理，并且是默认设置。 `t` 是 TLS 检查代理，它会对每个目标的证书进行重新签名。使用  `t` 时，您还必须指定  `--proxy-ca-cert`。 
 
 
 | `--no-proxy` | — | 显式禁用代理配置并跳过代理提示。仅在主机可以直接访问互联网时使用。 

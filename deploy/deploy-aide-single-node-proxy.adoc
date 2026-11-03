@@ -38,6 +38,7 @@ summary: 当目标主机仅通过出站代理访问互联网时，从 NetApp Con
 * 您已配置代理以允许 link:aide-requirements.html#outbound-internet-access["出站互联网接入"] 中的端点。
 * 您知道代理主机、端口和方案(`http`或 `https`）。如果代理需要身份验证，您也知道用户名和密码。
 * 如果使用带有私有签名证书的 HTTPS 代理，则目标主机上的 CA 证书为 PEM 文件或  `.crt` 与  `.pem` 文件的平面目录。
+* 如果您使用 TLS 检查代理，则目标主机上必须具有相同格式的检查 CA 证书。安装程序需要它。
 
 
 
@@ -48,14 +49,14 @@ NOTE: 仅在首次安装 AIDE 时使用安装程序。请勿使用它来升级 A
 [[what-the-installer-configures]]
 == 安装程序配置的内容
 
-在单节点部署中，AI Data Engine 拥有其安装所在的虚拟机。安装程序为代理配置 k3s 运行时和 AI Data Engine。它不会更改主机的代理配置，例如操作系统包管理器。安装程序执行以下操作：
+在单节点部署中，AI Data Engine 拥有其安装所在的虚拟机。安装程序为代理配置 k3s 运行时和 AI Data Engine。它不会更改主机上其他软件的代理配置，例如操作系统包管理器。安装程序执行以下操作：
 
 * 通过代理下载 k3s 安装脚本和二进制文件。它不会为 k3s 或 kubelet 提供系统范围的代理。
 * 配置 k3s 容器运行时以通过代理拉取镜像。
-* 将您随 `--proxy-ca-cert`提供的 CA 证书添加到 AI Data Engine 信任存储区。
+* 将您通过 `--proxy-ca-cert`提供的 CA 证书添加到主机信任存储区和 AI Data Engine 信任存储区。
 
 
-您无需配置 k3s 容器运行时或信任存储。
+您无需配置 k3s 容器运行时。您只需提供 CA 证书，安装程序会将其添加到信任存储中。
 
 
 
@@ -206,10 +207,10 @@ chmod 600 /root/.aide-proxy-password
 | 代理端口 | 输入代理端口。HTTPS 的默认值为 `443`，HTTP 的默认值为 `80`。 
 
 
-| 代理类型 | 按 Enter 接受默认值。 
+| 代理类型 | 输入 `r`以使用常规正向代理，或输入 `t`以使用 TLS 检查代理。按 Enter 接受默认值 `r`。 
 
 
-| 代理自身证书的 CA 证书（仅限 HTTPS，可选） | 输入 CA 文件或目录的路径。如果公共 CA 签署了代理证书，请按 Enter 键。 
+| 代理自身证书的 CA 证书（仅限 HTTPS，可选） | 输入 CA 文件或目录的路径。如果公共 CA 签署了代理证书，请按 Enter。对于 TLS 检查代理，请输入所需检查 CA 证书的路径。 
 
 
 | 代理是否需要用户名和密码？（y/N） | 如果是，请输入用户名，然后输入两次密码。安装程序不会回显密码。 
@@ -248,6 +249,15 @@ chmod 600 /root/.aide-proxy-password
 --proxy-port 8443 \
 --proxy-scheme https \
 --proxy-ca-cert /root/proxy-ca.pem
+----
+.TLS 检验代理
+[source, bash]
+----
+--proxy-host proxy.example.com \
+--proxy-port 3128 \
+--proxy-scheme http \
+--proxy-type t \
+--proxy-ca-cert /root/inspection-ca.pem
 ----
 * 如果您的代理不需要身份验证，请省略 `--proxy-user`和 `--proxy-password-file`。
 * 如果指定  `--proxy-user` 而不指定  `--proxy-password-file`，则在从终端运行安装程序时，它会提示您输入密码。

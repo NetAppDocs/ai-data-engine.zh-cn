@@ -1147,10 +1147,8 @@
   <block id="98509669cc354c861e6c7661cc161069" category="list-text"><block ref="98509669cc354c861e6c7661cc161069" category="inline-link-macro-rx"></block></block>
   <block id="1598742fce8900b14c0cd03e69a01644" category="summary">了解 AI Data Engine 如何使用正向代理，以及它支持哪些代理类型和参数。</block>
   <block id="3e5314002910d539e92ed78ea8abc789" category="paragraph">如果您的 AI Data Engine（AIDE）主机或集群无法直接访问互联网，请配置正向代理，以便安装程序和 AI Data Engine 可以下载组件、拉取容器映像并向 NetApp Console 注册。单节点和多节点部署的代理选项是相同的。准备和运行安装的步骤各不相同，因此每种部署类型都有自己的工作流程。</block>
-  <block id="af97a4bacfa4ded3c41e9efa538743d1" category="paragraph">代理设置仅适用于 k3s 运行时和 AI Data Engine，而不适用于主机系统。</block>
   <block id="6f7cd77eaad188a6b387a169e7569fc7" category="section-title">使用代理部署 AI Data Engine</block>
   <block id="7322a3c6bf9a2af41db494888dfa9b6c" category="paragraph">每种部署类型都有自己的主题，其中包含从准备环境到运行安装程序的完整过程。</block>
-  <block id="c7294ac469c2e1e9a4131f8e51bf2ef7" category="list-text"><block ref="ccec8670a70586616e2f400b9a8d6e6b" category="inline-link-macro-rx"></block>：安装程序为 k3s 运行时和 AI Data Engine（包括其信任存储）配置代理。</block>
   <block id="7a12200081e8857c8dddc145994b912c" category="list-text"><block ref="ef145446df74d22db1d779d7113de6b9" category="inline-link-macro-rx"></block>：在运行安装程序之前，请在每个节点上配置容器运行时代理和 CA 证书信任。</block>
   <block id="2daeca707a22e570c8f47045b73453d4" category="section-title">通过代理进行的操作</block>
   <block id="f3cba6803ac590d85336324a71f1ad90" category="paragraph">只有发往互联网的流量才会使用代理。所有 AI Data Engine 互联网目的地都在端口 443 上使用 HTTPS，因此您的代理必须允许<block ref="b57e2519e26151feacdbe52076bc39ec" prefix=" " category="inline-code"></block>访问 <block ref="b1911f18a48de94498f0696cb6766b69" category="inline-link-macro-rx"></block> 中每个端点的 443 端口。</block>
@@ -1171,7 +1169,6 @@
   <block id="24bda19203c7a74c5355710bc4f99b5f" category="cell">HTTPS 正向代理</block>
   <block id="3657a7ab011941f667df5f1b6c8e43cc" category="cell">AI Data Engine 通过 TLS 连接到代理。如果专用证书颁发机构（CA）对代理证书进行了签名，您需要提供 CA 证书。</block>
   <block id="1ee5d712c35e40af828d79df894722a3" category="paragraph">您可以通过主机名或 IPv4 地址来寻址代理。</block>
-  <block id="beb26d80c143cee1e1b8e6150675854d" category="admonition">AI Data Engine 支持使用 HTTP<block ref="b57e2519e26151feacdbe52076bc39ec" prefix=" " category="inline-code"></block> 隧道连接的标准转发代理，包括 HTTPS 目的地。如果您的代理检查 TLS 流量，请将 <block ref="b1911f18a48de94498f0696cb6766b69" category="inline-link-macro-rx"></block> 中的端点免于检查，包括安装程序下载主机。不支持 TLS 检查代理和其他一些代理功能。请参阅 <block ref="58ddb149ad752e78b7ddd185699b6c95" category="inline-link-macro-rx"></block>。</block>
   <block id="c4d19b27c40448f8c016a7d298a0d69a" category="paragraph">安装程序为每个互联网目的地和每个 AI Data Engine 组件使用一个代理。代理设置在安装过程中进行设置。</block>
   <block id="14d160ea2caf676ea81454554cb0597b" category="section-title">代理配置参数</block>
   <block id="83f499a540b1323009c200d6f8cc9396" category="cell">参数</block>
@@ -1185,14 +1182,11 @@
   <block id="0b003c45e2bea82dff19436ed2914393" category="cell"><block ref="5e056c500a1c4b6a7110b50d807bade5" prefix="" category="inline-code"></block></block>
   <block id="60594edf54c705d73fcc049d59b64cf2" category="cell">用于连接到代理服务器本身的协议。这不是代理到达的目的地的方案。大多数正向代理监听纯 HTTP，因此请为它们传递<block ref="45836f2c7d4b92a8de49a1447b646272" prefix=" " category="inline-code"></block>。</block>
   <block id="255f701581e1f7239a6020087914d2dd" category="cell"><block ref="205783bdc3e6cf12d0c4d2ab78b4ac72" prefix="" category="inline-code"></block></block>
-  <block id="9ee0b4a40d5a080aa84d411aee7e79f3" category="cell">包含签署代理证书的 CA 证书的 PEM 文件或<block ref="af5cc73b319c31cbd55a816803ea580b" prefix=" " category="inline-code"></block>和<block ref="bdf46f9562b038d0163af0feba0b1dfa" prefix=" " category="inline-code"></block>文件的平面目录的路径。安装程序读取目录而不递归到子目录中，并将文件合并到一个捆绑包中。对于证书由私有 CA 签名的 HTTPS 代理是必需的。不与 HTTP 代理一起使用。</block>
   <block id="60b66d2b8c195fbda550b179e0dc950e" category="cell"><block ref="f3222f04ed2b5e8e447aa6aa96da6f5c" prefix="" category="inline-code"></block></block>
   <block id="bf88f1397b51e232a3af828dfd72b85c" category="cell">基本身份验证的用户名。使用 HTTP 代理时，安装程序会警告凭据以未加密形式传输到代理。需要密码，通过<block ref="250836a485914dcc4804e333f099295f" prefix=" " category="inline-code"></block>提供或在提示符处输入。</block>
   <block id="020648b18db827946f4e473c1b4d9705" category="cell"><block ref="c7457778ef8131d4fe75568461972745" prefix="" category="inline-code"></block></block>
   <block id="2496495242a71cf24c68c2f8bccf9f04" category="cell">指向仅包含代理密码的本地文件的路径，其权限设置为<block ref="bf8eba0d2a296e4e801f774cf5deb67f" prefix=" " category="inline-code"></block>或<block ref="5be2d627851c6f0046e27d5f826187f3" prefix=" " category="inline-code"></block>。如果省略此项，安装程序将提示输入密码（隐藏输入）。</block>
-  <block id="03209c3f8782a372acffaca0a196313a" category="cell"><block ref="5e003efaf043a045df9c53e46029caae" prefix="" category="inline-code"></block></block>
   <block id="9c1f056e905e057f5ae08ff48164bf96" category="cell"><block ref="4b43b0aee35624cd95b910189b3dc231" prefix="" category="inline-code"></block></block>
-  <block id="4be79ef20da68efb667b4066e941d821" category="cell">代理类型。<block ref="4b43b0aee35624cd95b910189b3dc231" prefix=" " category="inline-code"></block> 是常规正向代理，并且是默认设置。请勿更改。不支持 TLS 检查代理。</block>
   <block id="ceb4950c046e2f8d31950f411dd935e5" category="cell"><block ref="8d05e05aeb0daf51ba7874c62b83c3a6" prefix="" category="inline-code"></block></block>
   <block id="26aeabd0c99c77002e55825fbcd435af" category="cell">—</block>
   <block id="60c5a48404eaa97f00561eb7bcfc1341" category="cell">显式禁用代理配置并跳过代理提示。仅在主机可以直接访问互联网时使用。</block>
@@ -1280,9 +1274,7 @@
   <block id="5acd6741c085febfabbdda04dcdc1392" category="cell">代理端口</block>
   <block id="75459356f94e91dcd4731dbbf9ad9277" category="cell">输入代理端口。HTTPS 的默认值为<block ref="13f3cf8c531952d72e5847c4183e6910" prefix=" " category="inline-code"></block>，HTTP 的默认值为<block ref="f033ab37c30201f73f142449d037028d" prefix=" " category="inline-code"></block>。</block>
   <block id="6002ddee82a6ecc6c108726ab4c5dd05" category="cell">代理类型</block>
-  <block id="e50b083d4e725ce845eec79b65a54be1" category="cell">按 Enter 接受默认值。</block>
   <block id="c1a068f5104d9231c3558e9116bbbc0d" category="cell">代理自身证书的 CA 证书（仅限 HTTPS，可选）</block>
-  <block id="88cd60aca20f00c4b8aab336c0af03f4" category="cell">输入 CA 文件或目录的路径。如果公共 CA 签署了代理证书，请按 Enter 键。</block>
   <block id="60a4c9b4963e5bcfc6ee7bc6c8069fae" category="cell">代理是否需要用户名和密码？（y/N）</block>
   <block id="829870d24f95f697f603f23c8a6bcc0a" category="cell">如果是，请输入用户名，然后输入两次密码。安装程序不会回显密码。</block>
   <block id="b08a4fb761f691d596508577dc794413" category="paragraph">如果没有终端，安装程序将永远不会提示。传递<block ref="54dd7f3e346adb464e5de1d233e648ed" prefix=" " category="inline-code"></block>以使用代理，如果代理需要密码，则传递<block ref="250836a485914dcc4804e333f099295f" prefix=" " category="inline-code"></block>。</block>
@@ -1332,11 +1324,8 @@
   <block id="1bacceaa91a57388b9ed045c03c43fa2" category="list-text">一个 NetApp Console 代理<block ref="b73290be3504f0507d7e45d060da298b" category="inline-link-rx"></block>，且可从 AI Data Engine 主机访问。要运行 install 命令，需要 Console 代理 IP。</block>
   <block id="5912aac2785ea31ae3bf0282f0a13597" category="list-text">如果使用带有私有签名证书的 HTTPS 代理，则目标主机上的 CA 证书为 PEM 文件或 <block ref="af5cc73b319c31cbd55a816803ea580b" prefix=" " category="inline-code"></block> 与 <block ref="bdf46f9562b038d0163af0feba0b1dfa" prefix=" " category="inline-code"></block> 文件的平面目录。</block>
   <block id="8e1f18c748fa012e612fd5f1386c47ff" category="section-title">安装程序配置的内容</block>
-  <block id="f222ffb4588e92bfc9553560eac18926" category="paragraph">在单节点部署中，AI Data Engine 拥有其安装所在的虚拟机。安装程序为代理配置 k3s 运行时和 AI Data Engine。它不会更改主机的代理配置，例如操作系统包管理器。安装程序执行以下操作：</block>
   <block id="7856a835e8d09124a503abb8036672d3" category="list-text">通过代理下载 k3s 安装脚本和二进制文件。它不会为 k3s 或 kubelet 提供系统范围的代理。</block>
   <block id="72a224172b1db007fcde0c6da1951d87" category="list-text">配置 k3s 容器运行时以通过代理拉取镜像。</block>
-  <block id="7c3bfc4a90551ce1b0377f9db38f7f12" category="list-text">将您随<block ref="3086e18244fb07bf2f7a956dfdfd74cc" prefix=" " category="inline-code"></block>提供的 CA 证书添加到 AI Data Engine 信任存储区。</block>
-  <block id="fd40bb249f5bf50c93b41c10bda7fcd9" category="paragraph">您无需配置 k3s 容器运行时或信任存储。</block>
   <block id="bdc5e9c5a884de175883a0ed1970e37c" category="list-text">选择*单节点*部署选项，然后选择*下一步*。</block>
   <block id="2f1cebdaa3de9995dd0df659a6447129" category="paragraph">这些大小是推荐的基线，而非硬性限制。如果您的环境不在这些范围内，请参阅 <block ref="2769087076130f615443f3397060b973" category="inline-link-macro-rx"></block>。</block>
   <block id="8cd9496324785564cae2525192958efa" category="list-text">如果目标主机可以直接访问<block ref="4c4f879555eebdc55d06ba6971793b7e" prefix=" " category="inline-code"></block>，请跳过下一节并继续<block ref="805405ea7a299a3bb10e480e909d5b90" category="inline-xref-macro-rx"></block>。按复制的方式运行 install 命令。安装程序将提示您输入代理设置。要改为在命令行上提供它们，请参见<block ref="b88a244599bed3d787766802e7d4ae51" category="inline-xref-macro-rx"></block>。</block>
@@ -2333,7 +2322,6 @@
   <block id="810fe52eb9ffd675e4217ebb58843e5f" category="list-text">AIDE 单节点部署和 AIDE 多节点部署是独立的部署类型。没有受支持的迁移路径可将现有部署从一种类型迁移到另一种类型。</block>
   <block id="18747618de9278a3847d1ed7ff4c7c6d" category="list-text">代理支持有限</block>
   <block id="e3d1854208949c896c93cbf435878026" category="list-text">您可以使用正向代理部署 AI Data Engine，但不支持以下代理功能：</block>
-  <block id="57630f1bf0ef359abf343f64b08a1653" category="list-text">TLS 检查代理，使用自定义证书颁发机构对 HTTPS 流量进行解密和重新签名。</block>
   <block id="a237f9e3a7cc67af6cf56d55514506c2" category="list-text">对代理进行 NTLM、Kerberos 或客户端证书身份验证。不使用身份验证或使用基本身份验证。</block>
   <block id="d950775c1e7a3518c8b69dc6889e1158" category="list-text">SOCKS 代理。</block>
   <block id="517e612e22b7ee4c14d15237052b7639" category="list-text">代理自动配置（PAC 文件或 WPAD）。直接向安装程序提供代理主机和端口。</block>
@@ -2456,4 +2444,39 @@
   <block id="98671823854fbaa022d36d4b45c170b1" category="paragraph">^1^ 磁盘值是操作系统、k3s 运行时和 AIDE 数据共享单个磁盘时所需的最小可用空间。它包括操作系统、k3s、kubelet 和日志的 65 GB，加上 AIDE 数据卷（小型为 500 GB，中型为 2,000 GB，大型为 6,000 GB）。如果这些组件位于单独的磁盘上，请参阅 <block ref="c8a768aed5d15586e7b257318c3f6542" category="inline-link-macro-rx"></block>。</block>
   <block id="1d35cbf08d110ca820c6fb072aa6eaad" category="admonition">建议对所有部署规模使用 NVMe SSD 或其他固态存储。对单节点部署上的 AIDE 数据卷使用块存储，而不是 NFS。NFS 支持的存储可能会导致性能不佳。</block>
   <block id="3921920d773e0773220648a61f30aadd" category="cell">565 GB 至 6,065 GB SSD 块存储、8,000 至 16,000 IOPS、1,000 至 2,000 MB/s 吞吐量</block>
+  <block id="7962d0283243054797f035f798af892a" category="paragraph">安装程序不会为主机上的其他软件配置代理，例如包管理器。对于单节点部署，安装程序会为 k3s 和 AI Data Engine 配置代理，并将您随<block ref="3086e18244fb07bf2f7a956dfdfd74cc" prefix=" " category="inline-code"></block>提供的 CA 证书添加到主机信任存储中。对于多节点部署，安装程序仅配置 AI Data Engine 工作负载。您需要在每个节点上配置容器运行时代理和证书信任。</block>
+  <block id="f53f51af966afb66677b63ef0249270e" category="list-text"><block ref="ccec8670a70586616e2f400b9a8d6e6b" category="inline-link-macro-rx"></block>：安装程序为 k3s 运行时和 AI Data Engine 配置代理，并将您提供的 CA 证书添加到信任存储区。</block>
+  <block id="de629515b6bb1ab6cfa6e705b986f81a" category="cell">TLS 检验代理</block>
+  <block id="76982df8043770089103253e967e73cc" category="cell">代理解密 HTTPS 流量，并使用其自己的检查 CA 重新签名每个目的地的证书。设置<block ref="ed7063afc504c3ab9bf2cdb9fa41948a" prefix=" " category="inline-code"></block>并使用<block ref="3086e18244fb07bf2f7a956dfdfd74cc" prefix=" " category="inline-code"></block>提供检查 CA 证书。代理可以侦听 HTTP 或 HTTPS。</block>
+  <block id="82d133e3955da110c3499b64d8a67f61" category="section-title">支持的代理类型</block>
+  <block id="e104c6dfc2107e143b34f0f811178d16" category="paragraph">AI Data Engine 支持两种代理类型。使用<block ref="02d0886e4f7807fa318def1929a0ecf3" prefix=" " category="inline-code"></block>设置类型。</block>
+  <block id="71f18f0c056be604d58ed59195a34b0b" category="cell">常规正向代理 <block ref="4b43b0aee35624cd95b910189b3dc231" prefix="(" category="inline-code"></block>）</block>
+  <block id="3a7241eabbb6f080ce19700b6a51ca39" category="cell">TLS 检查代理 <block ref="e358efa489f58062f10dd7316b65649e" prefix="(" category="inline-code"></block>）</block>
+  <block id="08a202d3972bf063bfd3f5e5ffc3c471" category="cell">如何处理 HTTPS 流量</block>
+  <block id="b0b1fe75899bccbfc6c4d775b4246d4a" category="cell">通过 HTTP<block ref="b57e2519e26151feacdbe52076bc39ec" prefix=" " category="inline-code"></block> 建立隧道连接，并且不会更改目标证书。</block>
+  <block id="c4da7b26a861bc6f7e44834192bfed3b" category="cell">解密 HTTPS 流量并使用代理的检查 CA 对每个目标的证书进行重新签名。</block>
+  <block id="d13a02a67659b7f2f59707ef9bbcb83a" category="cell"><block ref="3086e18244fb07bf2f7a956dfdfd74cc" prefix="" category="inline-code"></block></block>
+  <block id="b34794176d2ed638374b6ee488eea756" category="cell">仅当代理本身使用 HTTPS 且其证书由私有 CA 签名时才需要。</block>
+  <block id="534b86cf14efcf1059c1d8de5a7f80a6" category="cell">必需。提供代理用于检查的 CA 证书。如果省略它，则安装程序会在建立任何网络连接之前拒绝该命令。</block>
+  <block id="44648f58df6a9a10d54a5a170f4a9147" category="cell"><block ref="02d0886e4f7807fa318def1929a0ecf3" prefix="" category="inline-code"></block></block>
+  <block id="ba99042234469ee37d4bfb4570179be6" category="cell"><block ref="4b43b0aee35624cd95b910189b3dc231" prefix="" category="inline-code"></block> (默认)</block>
+  <block id="6992fc08222b867c8f115f436fb365ee" category="cell"><block ref="e358efa489f58062f10dd7316b65649e" prefix="" category="inline-code"></block></block>
+  <block id="3b03ec25f2778dcc4f75f980bc8bbca0" category="paragraph">TLS 检查代理与 HTTPS 代理不同。HTTPS 代理是您通过 TLS 连接的代理<block ref="79d80343646ba2d0bf56e35b1b72255c" prefix="(" category="inline-code"></block>）。TLS 检查代理是重新签名您通过其到达的目标的证书的代理。TLS 检查代理可以使用任一方案。</block>
+  <block id="606830774a3b364da3998888397a1613" category="paragraph">某些其他代理功能不受支持。请参阅<block ref="58ddb149ad752e78b7ddd185699b6c95" category="inline-link-macro-rx"></block>。</block>
+  <block id="817778d45a5e740a9e0a535b1a3232fe" category="paragraph">包含代理的 CA 证书的 PEM 文件或<block ref="af5cc73b319c31cbd55a816803ea580b" prefix=" " category="inline-code"></block>和<block ref="bdf46f9562b038d0163af0feba0b1dfa" prefix=" " category="inline-code"></block>文件的扁平目录的路径。安装程序读取目录而不递归到子目录，并将文件合并到一个捆绑包中。</block>
+  <block id="40f30cb48d2b972b5e7d0308683e460f" category="paragraph">在以下情况下需要执行此操作：</block>
+  <block id="3bf06875c31f7c156e84090ccfcf69dd" category="list-text">您使用证书由专用 CA 签名的 HTTPS 代理。提供已签署代理证书的 CA 证书。</block>
+  <block id="360b4834ac3fa863bc3b5076881e193f" category="list-text">您使用 TLS 检查代理<block ref="ed7063afc504c3ab9bf2cdb9fa41948a" prefix="(" category="inline-code"></block>）。提供代理用于检查的 CA 证书。</block>
+  <block id="fd85e4471e251560cb4e45ddf1024c20" category="paragraph">请勿为通过 HTTP 连接的常规代理 <block ref="08ac9f97a1d4929e3bc7059b15086f44" prefix="(" category="inline-code"></block>）指定它 <block ref="45836f2c7d4b92a8de49a1447b646272" prefix="(" category="inline-code"></block>）。没有要验证的代理证书，因此安装程序不使用 CA 证书。</block>
+  <block id="08a5ba5f7fd9e3e11ac7a749a42a613a" category="cell"><block ref="02df1149f6a4954f64200915d438a578" prefix="" category="inline-code"></block></block>
+  <block id="8caf8340ca46ee72b12c4489f845c878" category="cell">代理类型。<block ref="4b43b0aee35624cd95b910189b3dc231" prefix=" " category="inline-code"></block> 是常规正向代理，并且是默认设置。<block ref="e358efa489f58062f10dd7316b65649e" prefix=" " category="inline-code"></block> 是 TLS 检查代理，它会对每个目标的证书进行重新签名。使用 <block ref="e358efa489f58062f10dd7316b65649e" prefix=" " category="inline-code"></block> 时，您还必须指定 <block ref="3086e18244fb07bf2f7a956dfdfd74cc" prefix=" " category="inline-code"></block>。</block>
+  <block id="b650b45b8376441ba76e3f9960be42f2" category="list-text">如果使用 TLS 检查代理，则在安装程序主机上具有相同格式的检查 CA 证书。安装程序需要它。</block>
+  <block id="8969c61017402acb56f24f26a3c07a2f" category="list-text">如果使用 TLS 检查代理，则每个节点上的受信任 CA 证书必须包含代理的检查 CA 证书。</block>
+  <block id="dbd69538e605e4a7a76ded30cf71cf72" category="cell">输入<block ref="4b43b0aee35624cd95b910189b3dc231" prefix=" " category="inline-code"></block>以使用常规正向代理，或输入<block ref="e358efa489f58062f10dd7316b65649e" prefix=" " category="inline-code"></block>以使用 TLS 检查代理。按 Enter 接受默认值<block ref="4b43b0aee35624cd95b910189b3dc231" prefix=" " category="inline-code"></block>。</block>
+  <block id="aec0ec89539d6a7c23a5905b8b278445" category="cell">输入 CA 文件或目录的路径。如果公共 CA 签署了代理证书，请按 Enter。对于 TLS 检查代理，请输入检查 CA 证书的路径。此为必填项。</block>
+  <block id="20133107aeb82fdaac271225d32fc731" category="list-text">如果您使用 TLS 检查代理，则目标主机上必须具有相同格式的检查 CA 证书。安装程序需要它。</block>
+  <block id="3fb703c2f9ba948053e001a180e6619d" category="paragraph">在单节点部署中，AI Data Engine 拥有其安装所在的虚拟机。安装程序为代理配置 k3s 运行时和 AI Data Engine。它不会更改主机上其他软件的代理配置，例如操作系统包管理器。安装程序执行以下操作：</block>
+  <block id="ff61beab28830a32f42017a97238b2a8" category="list-text">将您通过<block ref="3086e18244fb07bf2f7a956dfdfd74cc" prefix=" " category="inline-code"></block>提供的 CA 证书添加到主机信任存储区和 AI Data Engine 信任存储区。</block>
+  <block id="eb200568aee5a705049690b7da595dc2" category="paragraph">您无需配置 k3s 容器运行时。您只需提供 CA 证书，安装程序会将其添加到信任存储中。</block>
+  <block id="a7e20f61a117c0d692a550f65168769c" category="cell">输入 CA 文件或目录的路径。如果公共 CA 签署了代理证书，请按 Enter。对于 TLS 检查代理，请输入所需检查 CA 证书的路径。</block>
 </blocks>
